@@ -7,69 +7,133 @@ using TMPro;
 
 public class StageSelectManager : MonoBehaviour
 {
-    int cursor = 0;
-    int prevCursor = 0;
+    int stageCursor = 0;
+    int settingCursor = 0;
+
+    int prevStageCursor = 0;
+    int prevSettingCursor = 0;
+
     int stageNum = 3;
+    int settingNum = 3;
 
     [SerializeField] GameObject stage1Go;
     [SerializeField] GameObject stage2Go;
     [SerializeField] GameObject stage3Go;
+
+    [SerializeField] GameObject spinSettingGo;
+
+    [SerializeField] GameObject practiceRoomGo;
+    [SerializeField] GameObject shopGo;
+    [SerializeField] GameObject InventoryGo;
+
     List<GameObject> stages = new List<GameObject>();
+    List<GameObject> settings = new List<GameObject>();
 
     [SerializeField] TMP_Text testText;
 
     Color selectColor = new Color(0f, 1f, 0f);
     Color normalColor = new Color(1f, 1f, 1f);
 
+    bool isStage = true;
+
     private void Start()
     {
         stages.Add(stage1Go);
         stages.Add(stage2Go);
         stages.Add(stage3Go);
+
+        settings.Add(practiceRoomGo);
+        settings.Add(shopGo);
+        settings.Add(InventoryGo);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            Debug.Log("오른쪽");
-            cursor++;
-            SelectStage();
+            if(isStage == true)
+            {
+                stageCursor++;
+                SelectStage();
+            }
+            else
+            {
+                settingCursor++;
+                SelectSetting();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            Debug.Log("왼쪽");
-            cursor--;
-            SelectStage();
+            if (isStage == true)
+            {
+                stageCursor--;
+                SelectStage();
+            }
+            else
+            {
+                settingCursor--;
+                SelectSetting();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            MoveStage();
+            if (isStage == true)
+            {
+                MoveStage();
+            }
+            else
+            {
+                MoveSetting();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            isStage = !isStage;
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            isStage = !isStage;
         }
     }
 
-    // 커서가 위치한 버튼에 외곽선 표시
     void SelectStage()
     {
-        cursor += stageNum;
-        cursor %= stageNum;
+        stageCursor += stageNum;
+        stageCursor %= stageNum;
 
-        stages[prevCursor].GetComponent<Image>().color = normalColor;
-        stages[cursor].GetComponent<Image>().color = selectColor;
+        stages[prevStageCursor].GetComponent<Image>().color = normalColor;
+        stages[stageCursor].GetComponent<Image>().color = selectColor;
 
-        prevCursor = cursor;
-        Debug.Log("현재 스테이지 인덱스: " + cursor);
+        prevStageCursor = stageCursor;
+        Debug.Log("현재 스테이지 인덱스: " + stageCursor);
     }
 
-    // 해당 스테이지로 이동
+    void SelectSetting()
+    {
+        settingCursor += settingNum;
+        settingCursor %= settingNum;
+
+        settings[prevSettingCursor].GetComponent<Image>().color = normalColor;
+        settings[settingCursor].GetComponent<Image>().color = selectColor;
+
+        prevSettingCursor = settingCursor;
+        Debug.Log("현재 설정 인덱스: " + settingCursor);
+    }
+
     void MoveStage()
     {
-        EventSystem.current.SetSelectedGameObject(stages[cursor]);
+        EventSystem.current.SetSelectedGameObject(stages[stageCursor]);
     }
 
-    // 임시
+    void MoveSetting()
+    {
+        EventSystem.current.SetSelectedGameObject(settings[settingCursor]);
+    }
+
     public void LoadStage1Scene()
     {
         testText.text = "Load Stage 1";
@@ -83,5 +147,20 @@ public class StageSelectManager : MonoBehaviour
     public void LoadStage3Scene()
     {
         testText.text = "Load Stage 3";
+    }
+
+    public void LoadPractice()
+    {
+        testText.text = "Practice Room";
+    }
+
+    public void LoadShop()
+    {
+        testText.text = "Shop";
+    }
+
+    public void LoadInventory()
+    {
+        testText.text = "Inventory";
     }
 }
