@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private const float MINIMUM_JUMP = 12.0f;
     [SerializeField]
-    private bool characterID;               //True : Maru, False : Nabi
-    private int cLife;                      //Character Health
+    private bool characterID;                       //True : Maru, False : Nabi
+    private int cLife;                              //Character Health
     [Range(0, 10)]
-    public float cSpeed = 5.0f;             //Character Speed
+    public float cSpeed = 6.0f;                     //Character Speed
     [Range(0, 10)]
-    public float cJumpPower = 0.1f;         //Jump Power
+    public float cJumpPower = 0.03f;                //Jump Power
     [SerializeField]
-    private float cMaxJumpPower = 10.0f;    //Maximum Jump Force
-    private float cCurrentJumpPower = 0;    //Current Jump Key Input Time
+    private float cMaxJumpPower = 17.0f;            //Maximum Jump Force
+    private float cMiniJumpPower = MINIMUM_JUMP;    //Minimum Jump Force
     private Rigidbody2D rigidBody;
     private SpriteRenderer spriteRenderer;
-    private bool isJumping = false;         //Jumping State (Double Jump X)
+    private bool isJumping = false;                 //Jumping State (Double Jump X)
     /*public GameObject bullet;
     public Transform pos;*/
 
@@ -32,17 +33,17 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.R) && !isJumping)
             {
-                if (cCurrentJumpPower <= cMaxJumpPower)
+                if (cMiniJumpPower <= cMaxJumpPower)
                 {
-                    cCurrentJumpPower += cJumpPower;
+                    cMiniJumpPower += cJumpPower;
                 }
             }
 
             if (Input.GetKeyUp(KeyCode.R))
             {
-                rigidBody.AddForce(new Vector3(0, cCurrentJumpPower, 0), ForceMode2D.Impulse);
+                rigidBody.AddForce(new Vector3(0, cMiniJumpPower, 0), ForceMode2D.Impulse);
                 isJumping = true;
-                cCurrentJumpPower = 0;
+                cMiniJumpPower = MINIMUM_JUMP;
             }
         }
 
@@ -50,17 +51,17 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Comma) && !isJumping)
             {
-                if (cCurrentJumpPower <= cMaxJumpPower)
+                if (cMiniJumpPower <= cMaxJumpPower)
                 {
-                    cCurrentJumpPower += cJumpPower;
+                    cMiniJumpPower += cJumpPower;
                 }
             }
 
             if (Input.GetKeyUp(KeyCode.Comma))
             {
-                rigidBody.AddForce(new Vector3(0, cCurrentJumpPower, 0), ForceMode2D.Impulse);
+                rigidBody.AddForce(new Vector3(0, cMiniJumpPower, 0), ForceMode2D.Impulse);
                 isJumping = true;
-                cCurrentJumpPower = 0;
+                cMiniJumpPower = MINIMUM_JUMP;
             }
         }
     }
