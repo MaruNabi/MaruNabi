@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyUp(KeyCode.R))
+            if (Input.GetKeyUp(KeyCode.R) && !isJumping)
             {
                 rigidBody.AddForce(new Vector3(0, cMiniJumpPower, 0), ForceMode2D.Impulse);
                 isJumping = true;
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyUp(KeyCode.Comma))
+            if (Input.GetKeyUp(KeyCode.Comma) && !isJumping)
             {
                 rigidBody.AddForce(new Vector3(0, cMiniJumpPower, 0), ForceMode2D.Impulse);
                 isJumping = true;
