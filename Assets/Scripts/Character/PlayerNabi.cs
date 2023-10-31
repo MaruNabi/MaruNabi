@@ -20,6 +20,7 @@ public class PlayerNabi : MonoBehaviour
     public Transform bulletPosition;                //Bullet Instantiate Position
     public float coolTime;
     private float curTime;
+    private bool isLock = false;                    //Lock
 
     void Start()
     {
@@ -29,19 +30,34 @@ public class PlayerNabi : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Comma) && !isJumping)
+        if (!isLock)
         {
-            if (cMiniJumpPower <= cMaxJumpPower)
+            if (Input.GetKey(KeyCode.Comma) && !isJumping)
             {
-                cMiniJumpPower += cJumpPower;
+                if (cMiniJumpPower <= cMaxJumpPower)
+                {
+                    cMiniJumpPower += cJumpPower;
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.Comma) && !isJumping)
+            {
+                rigidBody.AddForce(new Vector3(0, cMiniJumpPower, 0), ForceMode2D.Impulse);
+                isJumping = true;
+                cMiniJumpPower = MINIMUM_JUMP;
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Comma) && !isJumping)
+        if (Input.GetKeyDown(KeyCode.Slash))
         {
-            rigidBody.AddForce(new Vector3(0, cMiniJumpPower, 0), ForceMode2D.Impulse);
-            isJumping = true;
-            cMiniJumpPower = MINIMUM_JUMP;
+            isLock = true;
+            Debug.Log("Locked");
+        }
+        
+        else if (Input.GetKeyUp(KeyCode.Slash))
+        {
+            isLock = false;
+            Debug.Log("Unlocked");
         }
 
         if (curTime <= 0)
@@ -59,18 +75,38 @@ public class PlayerNabi : MonoBehaviour
     {
         float moveHorizontal = 0.0f;
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (!isLock)
         {
-            moveHorizontal = -1.0f;
-            //spriteRenderer.flipX = false;
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                moveHorizontal = -1.0f;
+                //spriteRenderer.flipX = false;
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
 
-        if (Input.GetKey(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                moveHorizontal = 1.0f;
+                //spriteRenderer.flipX = true;
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+        }
+        
+        else if(isLock)
         {
-            moveHorizontal = 1.0f;
-            //spriteRenderer.flipX = true;
-            transform.rotation = Quaternion.Euler(0, 180, 0);
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                moveHorizontal = 0.0f;
+                //spriteRenderer.flipX = false;
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                moveHorizontal = 0.0f;
+                //spriteRenderer.flipX = true;
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
         }
 
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, 0.0f);

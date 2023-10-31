@@ -28,7 +28,9 @@ public class Bullet : MonoBehaviour
             Debug.Log(ray.collider.tag);
             DestroyBullet();
         }
-        //transform.Translate(transform.right * speed * Time.deltaTime);
+
+        Debug.Log(transform.rotation.y);
+
         if (transform.rotation.y == 0)
         {
             bulletRigidbody.velocity = new Vector2(-speed, 0);
