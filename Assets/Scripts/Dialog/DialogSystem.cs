@@ -44,9 +44,16 @@ public class DialogSystem : MonoBehaviour
 
     public void DialogNextButtonClicked()
     {
-        this.dialogDataIndex++;
+        if (this.dialogDataIndex + 1 >= this.dialogData[this.dataIndex].Count)
+        {
+            Debug.Log("End~"); // 대화 끝난 이후 로직 추가
+        }
+        else
+        {
+            this.dialogDataIndex++;
 
-        this.SetDialogUI(this.dataIndex, this.dialogDataIndex);
+            this.SetDialogUI(this.dataIndex, this.dialogDataIndex);
+        }
     }
 
     private void SetDialogUI(int dataIndex, int index)
@@ -57,5 +64,4 @@ public class DialogSystem : MonoBehaviour
 
         dialogUIInfo.contentText.text = this.dialogData[dataIndex][index].content;
     }
-
 }
