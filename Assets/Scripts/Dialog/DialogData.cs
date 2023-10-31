@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogData : MonoBehaviour
+public class DialogData
 {
     [SerializeField] public string talkerName { get; private set; }
 
