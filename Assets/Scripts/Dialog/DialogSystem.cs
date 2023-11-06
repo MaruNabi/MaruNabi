@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DialogSystem : MonoBehaviour
@@ -70,6 +71,8 @@ public class DialogSystem : MonoBehaviour
 
             this.SetDialogUI(this.dataIndex, this.dialogDataIndex);
         }
+
+
     }
 
     private void SetDialogUI(int dataIndex, int index)
@@ -84,6 +87,28 @@ public class DialogSystem : MonoBehaviour
 
         selectedUIInfo.talkerNameText.text = this.dialogData[dataIndex][index].talkerName;
 
-        selectedUIInfo.contentText.text = this.dialogData[dataIndex][index].content;
+        selectedUIInfo.contentText.text = " ";
+
+        string text = this.dialogData[dataIndex][index].content;
+        TMP_Text targetText = selectedUIInfo.contentText;
+        StartCoroutine(textPrint(text, targetText));
+    }
+
+    private float delay = 0.1f;
+
+    IEnumerator textPrint(string text, TMP_Text targetText)
+    {
+        int count = 0;
+        int length = text.Length;
+        while (count != length)
+        {
+            if (count < length)
+            {
+                targetText.text += text[count].ToString();
+                count++;
+            }
+
+            yield return new WaitForSeconds(delay);
+        }
     }
 }
