@@ -4,111 +4,63 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private const float MINIMUM_JUMP = 12.0f;
+    protected const float MINIMUM_JUMP = 12.0f;
+    protected bool characterID;                       //True : Maru, False : Nabi
+    protected string characterName;
+    protected int cLife;                              //Character Health
     [SerializeField]
-    private bool characterID;                       //True : Maru, False : Nabi
-    private int cLife;                              //Character Health
     [Range(0, 10)]
-    public float cSpeed = 6.0f;                     //Character Speed
-    [Range(0, 10)]
-    public float cJumpPower = 0.03f;                //Jump Power
+    protected float cSpeed = 6.0f;                     //Character Speed
+    protected float ultimateGauge = 0.0f;
     [SerializeField]
-    private float cMaxJumpPower = 17.0f;            //Maximum Jump Force
-    private float cMiniJumpPower = MINIMUM_JUMP;    //Minimum Jump Force
-    private Rigidbody2D rigidBody;
-    private SpriteRenderer spriteRenderer;
-    private bool isJumping = false;                 //Jumping State (Double Jump X)
-    /*public GameObject bullet;
-    public Transform pos;*/
+    [Range(0, 10)]
+    protected float cJumpPower = 0.03f;                //Jump Power
+    [SerializeField]
+    protected float cMaxJumpPower = 17.0f;            //Maximum Jump Force
+    protected float cMiniJumpPower = MINIMUM_JUMP;    //Minimum Jump Force
+    protected float reviveTime = 0.0f;
+    protected Rigidbody2D rigidBody;
+    protected SpriteRenderer spriteRenderer;
+    protected bool isJumping = false;                 //Jumping State (Double Jump X)
+    protected float moveHorizontal = 0.0f;
 
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        
     }
 
-    void Update() //Jump Key Code가 달라서 함수로 분할하지 않음
+    void Update()
     {
-        if (characterID) //Maru Jump
-        {
-            if (Input.GetKey(KeyCode.R) && !isJumping)
-            {
-                if (cMiniJumpPower <= cMaxJumpPower)
-                {
-                    cMiniJumpPower += cJumpPower;
-                }
-            }
-
-            if (Input.GetKeyUp(KeyCode.R) && !isJumping)
-            {
-                rigidBody.AddForce(new Vector3(0, cMiniJumpPower, 0), ForceMode2D.Impulse);
-                isJumping = true;
-                cMiniJumpPower = MINIMUM_JUMP;
-            }
-        }
-
-        if (!characterID) //Nabi Jump
-        {
-            if (Input.GetKey(KeyCode.Comma) && !isJumping)
-            {
-                if (cMiniJumpPower <= cMaxJumpPower)
-                {
-                    cMiniJumpPower += cJumpPower;
-                }
-            }
-
-            if (Input.GetKeyUp(KeyCode.Comma) && !isJumping)
-            {
-                rigidBody.AddForce(new Vector3(0, cMiniJumpPower, 0), ForceMode2D.Impulse);
-                isJumping = true;
-                cMiniJumpPower = MINIMUM_JUMP;
-            }
-        }
+        
     }
-    void FixedUpdate() //Movement Key Code가 달라서 함수로 분할하지 않음, 후에 추가할 가능성 있음
+
+    protected float Charging(float minimumCharging, float maximumCharging, float addCharging)
     {
-        float moveHorizontal = 0.0f;
-
-        if (characterID) //Maru Movement
+        if (minimumCharging < maximumCharging)
         {
-            if (Input.GetKey(KeyCode.A))
-            {
-                moveHorizontal = -1.0f;
-                spriteRenderer.flipX = false;
-            }
-
-            if (Input.GetKey(KeyCode.D))
-            {
-                moveHorizontal = 1.0f;
-                spriteRenderer.flipX = true;
-            }
+            minimumCharging += addCharging;
         }
 
-        if (!characterID) //Nabi Movement
-        {
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                moveHorizontal = -1.0f;
-                spriteRenderer.flipX = false;
-            }
+        return minimumCharging;
+    }
 
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                moveHorizontal = 1.0f;
-                spriteRenderer.flipX = true;
-            }
-        }
+    protected void PlayerJump(float jumpPower)
+    {
+        rigidBody.AddForce(new Vector3(0, jumpPower, 0), ForceMode2D.Impulse);
+        isJumping = true;
+        cMiniJumpPower = MINIMUM_JUMP;
+    }
 
+    protected virtual void PlayerMove()
+    {
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, 0.0f);
 
         if (movement.magnitude > 1)
             movement.Normalize();
-        //1 기준 move
 
         movement *= cSpeed;
 
         Vector3 velocityYOnly = new Vector3(0.0f, rigidBody.velocity.y, 0.0f);
-        //중력 및 점프를 위한 velocityYOnly Vector
 
         rigidBody.velocity = movement + velocityYOnly;
     }
