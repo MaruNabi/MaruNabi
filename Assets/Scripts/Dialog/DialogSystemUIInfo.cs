@@ -9,4 +9,6 @@ public class DialogSystemUIInfo : MonoBehaviour
     public TMP_Text talkerNameText;
 
     public TMP_Text contentText;
+
+    public Image characterImage;
 }

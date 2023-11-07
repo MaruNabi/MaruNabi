@@ -1,9 +1,9 @@
-name,content
-nabi,nyang
-nabi,nya nya~
-nabi,hello
-nabi,hihihi
-nabi,my name is
-nabi ,nabichandesu
-nabi,bridge is good
-nabi ,my TOEIC score is a secret
+talker,name,content
+1,nabi,nyang
+1,nabi,nya nya~
+0,maru,hello
+1,nabi,hihihi
+1,nabi,my name is
+0,maru,nabichandesu
+0,maru,bridge is good
+1,nabi ,my TOEIC score is a secret
