@@ -3,9 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DialogSystem : MonoBehaviour
 {
+    [SerializeField]
+    private DialogTestManager dialogTestManager;
+
     [Header("Dialog UI")]
 
     [SerializeField]
@@ -19,7 +23,6 @@ public class DialogSystem : MonoBehaviour
     [SerializeField]
     private Color activeCharacterColor;
 
-
     [SerializeField]
     private DialogSystemUIInfo character;
 
@@ -32,9 +35,23 @@ public class DialogSystem : MonoBehaviour
 
     private int dialogDataIndex = 0;
 
+    private bool isTalking = false;
+
+    private TMP_Text targetTextBox;
+
+    private string currentDialog;
+
+    private Coroutine typingTextCoroutine;
+
+    private float typingSpeed = 0.1f;
+
+    public UnityEvent onDialogEnd;
+
     void Start()
     {
         this.InitializeDialogScriptData();
+
+        this.isTalking = true;
 
         this.SetDialogUI(this.dataIndex, this.dialogDataIndex);
     }
@@ -60,10 +77,35 @@ public class DialogSystem : MonoBehaviour
 
     public void DialogNextButtonClicked()
     {
+        if(this.isTalking == true)
+        {
+            this.StopTextCoroutine();
+            this.isTalking = false;
+        }
+        else if(isTalking == false)
+        {
+            this.isTalking = true;
+            this.NextDialogLoad();
+        }
+    }
+
+    private void NextDialogLoad()
+    {
         if (this.dialogDataIndex + 1 >= this.dialogData[this.dataIndex].Count)
         {
-            Debug.Log("End~"); // 대화 끝난 이후 로직 추가
-            return;
+            Debug.Log("End~");
+
+            StartCoroutine(dialogTestManager.CutScene());
+
+            onDialogEnd?.Invoke();
+
+            if (this.dataIndex + 1 < this.dialogData.Count)
+            {
+                this.dataIndex++;
+                this.dialogDataIndex = 0;
+
+                this.SetDialogUI(this.dataIndex, this.dialogDataIndex);
+            }
         }
         else
         {
@@ -71,8 +113,6 @@ public class DialogSystem : MonoBehaviour
 
             this.SetDialogUI(this.dataIndex, this.dialogDataIndex);
         }
-
-
     }
 
     private void SetDialogUI(int dataIndex, int index)
@@ -87,16 +127,23 @@ public class DialogSystem : MonoBehaviour
 
         selectedUIInfo.talkerNameText.text = this.dialogData[dataIndex][index].talkerName;
 
-        selectedUIInfo.contentText.text = " ";
+        selectedUIInfo.contentText.text = "";
 
-        string text = this.dialogData[dataIndex][index].content;
-        TMP_Text targetText = selectedUIInfo.contentText;
-        StartCoroutine(textPrint(text, targetText));
+        this.currentDialog = this.dialogData[dataIndex][index].content;
+        this.targetTextBox = selectedUIInfo.contentText;
+        this.typingTextCoroutine = StartCoroutine(typingText(currentDialog, targetTextBox));
     }
 
-    private float delay = 0.1f;
+    private void StopTextCoroutine()
+    {
+        if (this.typingTextCoroutine != null)
+        {
+            StopCoroutine(this.typingTextCoroutine);
+            this.targetTextBox.text = currentDialog;
+        }
+    }
 
-    IEnumerator textPrint(string text, TMP_Text targetText)
+    IEnumerator typingText(string text, TMP_Text targetText)
     {
         int count = 0;
         int length = text.Length;
@@ -108,7 +155,9 @@ public class DialogSystem : MonoBehaviour
                 count++;
             }
 
-            yield return new WaitForSeconds(delay);
+            yield return new WaitForSeconds(typingSpeed);
         }
+
+        this.isTalking = false;
     }
 }
