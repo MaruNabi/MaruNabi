@@ -19,7 +19,6 @@ public class DialogSystem : MonoBehaviour
     [SerializeField]
     private Color activeCharacterColor;
 
-
     [SerializeField]
     private DialogSystemUIInfo character;
 
@@ -32,10 +31,20 @@ public class DialogSystem : MonoBehaviour
 
     private int dialogDataIndex = 0;
 
+    private bool isTalking = false;
+
+    private TMP_Text targetTextBox;
+
+    private string currentDialog;
+
+    private Coroutine typingTextCoroutine;
+
+    private float typingSpeed = 0.1f;
+
     void Start()
     {
         this.InitializeDialogScriptData();
-
+        this.isTalking = true;
         this.SetDialogUI(this.dataIndex, this.dialogDataIndex);
     }
 
@@ -60,9 +69,23 @@ public class DialogSystem : MonoBehaviour
 
     public void DialogNextButtonClicked()
     {
-        StopTextCoroutine();
+        if(this.isTalking == true)
+        {
+            this.StopTextCoroutine();
+            this.isTalking = false;
+        }
+        else if(isTalking == false)
+        {
+            this.isTalking = true;
+            this.NextDialogLoad();
+        }
+    }
+
+    private void NextDialogLoad()
+    {
         if (this.dialogDataIndex + 1 >= this.dialogData[this.dataIndex].Count)
         {
+            this.isTalking = false;
             Debug.Log("End~"); // 대화 끝난 이후 로직 추가
             return;
         }
@@ -72,8 +95,6 @@ public class DialogSystem : MonoBehaviour
 
             this.SetDialogUI(this.dataIndex, this.dialogDataIndex);
         }
-
-
     }
 
     private void SetDialogUI(int dataIndex, int index)
@@ -88,24 +109,23 @@ public class DialogSystem : MonoBehaviour
 
         selectedUIInfo.talkerNameText.text = this.dialogData[dataIndex][index].talkerName;
 
-        selectedUIInfo.contentText.text = " ";
+        selectedUIInfo.contentText.text = "";
 
-        string text = this.dialogData[dataIndex][index].content;
-        TMP_Text targetText = selectedUIInfo.contentText;
-        coroutine = StartCoroutine(textPrint(text, targetText));
+        this.currentDialog = this.dialogData[dataIndex][index].content;
+        this.targetTextBox = selectedUIInfo.contentText;
+        this.typingTextCoroutine = StartCoroutine(typingText(currentDialog, targetTextBox));
     }
-    Coroutine coroutine;
-    private float delay = 0.1f;
 
     private void StopTextCoroutine()
     {
-        if (coroutine != null)
+        if (typingTextCoroutine != null)
         {
-            StopCoroutine(coroutine);
+            StopCoroutine(typingTextCoroutine);
+            targetTextBox.text = currentDialog;
         }
     }
 
-    IEnumerator textPrint(string text, TMP_Text targetText)
+    IEnumerator typingText(string text, TMP_Text targetText)
     {
         int count = 0;
         int length = text.Length;
@@ -117,7 +137,9 @@ public class DialogSystem : MonoBehaviour
                 count++;
             }
 
-            yield return new WaitForSeconds(delay);
+            yield return new WaitForSeconds(typingSpeed);
         }
+
+        this.isTalking = false;
     }
 }
