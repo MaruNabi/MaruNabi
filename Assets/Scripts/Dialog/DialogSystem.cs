@@ -60,6 +60,7 @@ public class DialogSystem : MonoBehaviour
 
     public void DialogNextButtonClicked()
     {
+        StopTextCoroutine();
         if (this.dialogDataIndex + 1 >= this.dialogData[this.dataIndex].Count)
         {
             Debug.Log("End~"); // 대화 끝난 이후 로직 추가
@@ -91,10 +92,18 @@ public class DialogSystem : MonoBehaviour
 
         string text = this.dialogData[dataIndex][index].content;
         TMP_Text targetText = selectedUIInfo.contentText;
-        StartCoroutine(textPrint(text, targetText));
+        coroutine = StartCoroutine(textPrint(text, targetText));
     }
-
+    Coroutine coroutine;
     private float delay = 0.1f;
+
+    private void StopTextCoroutine()
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
+    }
 
     IEnumerator textPrint(string text, TMP_Text targetText)
     {
