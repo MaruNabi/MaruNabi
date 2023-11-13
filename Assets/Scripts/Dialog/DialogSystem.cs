@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class DialogSystem : MonoBehaviour
 {
+    [SerializeField]
+    private DialogTestManager dialogTestManager;
+
     [Header("Dialog UI")]
 
     [SerializeField]
@@ -41,10 +44,14 @@ public class DialogSystem : MonoBehaviour
 
     private float typingSpeed = 0.1f;
 
+    private bool isCutScene = false;
+
     void Start()
     {
         this.InitializeDialogScriptData();
+
         this.isTalking = true;
+
         this.SetDialogUI(this.dataIndex, this.dialogDataIndex);
     }
 
@@ -85,9 +92,17 @@ public class DialogSystem : MonoBehaviour
     {
         if (this.dialogDataIndex + 1 >= this.dialogData[this.dataIndex].Count)
         {
-            this.isTalking = false;
-            Debug.Log("End~"); // 대화 끝난 이후 로직 추가
-            return;
+            Debug.Log("End~");
+
+            StartCoroutine(dialogTestManager.CutScene());
+
+            if (this.dataIndex + 1 < this.dialogData.Count)
+            {
+                this.dataIndex++;
+                this.dialogDataIndex = 0;
+
+                this.SetDialogUI(this.dataIndex, this.dialogDataIndex);
+            }
         }
         else
         {
@@ -118,10 +133,10 @@ public class DialogSystem : MonoBehaviour
 
     private void StopTextCoroutine()
     {
-        if (typingTextCoroutine != null)
+        if (this.typingTextCoroutine != null)
         {
-            StopCoroutine(typingTextCoroutine);
-            targetTextBox.text = currentDialog;
+            StopCoroutine(this.typingTextCoroutine);
+            this.targetTextBox.text = currentDialog;
         }
     }
 
