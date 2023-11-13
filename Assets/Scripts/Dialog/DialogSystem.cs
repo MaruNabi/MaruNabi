@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DialogSystem : MonoBehaviour
 {
@@ -44,7 +45,7 @@ public class DialogSystem : MonoBehaviour
 
     private float typingSpeed = 0.1f;
 
-    private bool isCutScene = false;
+    public UnityEvent onDialogEnd;
 
     void Start()
     {
@@ -95,6 +96,8 @@ public class DialogSystem : MonoBehaviour
             Debug.Log("End~");
 
             StartCoroutine(dialogTestManager.CutScene());
+
+            onDialogEnd?.Invoke();
 
             if (this.dataIndex + 1 < this.dialogData.Count)
             {

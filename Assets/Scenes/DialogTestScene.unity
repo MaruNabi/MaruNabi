@@ -1363,6 +1363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogSystem: {fileID: 1581510754}
+  sceneController: {fileID: 1721290032}
   CutSceneGo: {fileID: 453083770}
 --- !u!4 &1245438985
 Transform:
@@ -1722,6 +1723,9 @@ MonoBehaviour:
   TextAssets:
   - {fileID: 4900000, guid: df5a175fac3abd5409892a574b17280b, type: 3}
   - {fileID: 4900000, guid: 9698e750757dfcd42bd48cb154c3a0cf, type: 3}
+  onDialogEnd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1581510755
 Transform:
   m_ObjectHideFlags: 0

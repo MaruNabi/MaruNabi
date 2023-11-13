@@ -8,9 +8,22 @@ public class DialogTestManager : MonoBehaviour
     private DialogSystem dialogSystem;
 
     [SerializeField]
+    private SceneController sceneController;
+
+    [SerializeField]
     private GameObject CutSceneGo;
 
     private bool isFirstCut = false;
+
+    private void Awake()
+    {
+        dialogSystem.onDialogEnd.AddListener(this.LoadRunScene);
+    }
+
+    private void OnDestroy()
+    {
+        dialogSystem.onDialogEnd.RemoveListener(this.LoadRunScene);
+    }
 
     void Update()
     {
@@ -27,7 +40,16 @@ public class DialogTestManager : MonoBehaviour
             CutSceneGo.SetActive(true);
             yield return new WaitForSeconds(5f);
             CutSceneGo.SetActive(false);
+
             isFirstCut = true;
+        }
+    }
+
+    private void LoadRunScene()
+    {
+        if(isFirstCut == true)
+        {
+            sceneController.LoadTestScene();
         }
     }
 }
