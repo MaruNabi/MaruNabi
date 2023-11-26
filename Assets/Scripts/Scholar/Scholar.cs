@@ -6,6 +6,11 @@ public class Scholar : LivingEntity
 {
     private ScholarStateMachine scholarStateMachine;
 
+    public Scholar(GameObject obj, Transform trans)
+    {
+        base.CreateObject(obj, trans);
+    }
+
     private void Awake()
     {
         this.scholarStateMachine = this.gameObject.AddComponent<ScholarStateMachine>();
@@ -20,4 +25,5 @@ public class Scholar : LivingEntity
     {
         
     }
+
 }

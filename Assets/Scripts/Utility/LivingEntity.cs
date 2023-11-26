@@ -6,6 +6,7 @@ public class LivingEntity : MonoBehaviour, IDamageable
     public float startingHP = 100f;
     public float HP { get; protected set; }
     public bool dead { get; protected set; }
+
     public event Action onDeath;
 
     protected virtual void OnEnable()
@@ -36,5 +37,12 @@ public class LivingEntity : MonoBehaviour, IDamageable
     {
         if (onDeath != null) onDeath();
         dead = true;
+    }
+
+    protected GameObject CreateObject(GameObject obj, Transform trans)
+    {
+        var newObj = GameObject.Instantiate(obj);
+        newObj.transform.SetParent(trans);
+        return newObj;
     }
 }
