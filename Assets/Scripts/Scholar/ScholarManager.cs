@@ -10,18 +10,60 @@ public class ScholarManager : MonoBehaviour
     [SerializeField]
     private Transform[] scholarTransformArr = new Transform[6];
 
-    private Scholar scholar;
+    private GameObject[] scholars = new GameObject[6];
+
+    private int mouseIdx;
+
     private void Awake()
     {
         
     }
     void Start()
     {
-        scholar = new Scholar(scholarPrefab, scholarTransformArr[0]);
+        this.RandomScholars();
     }
 
     void Update()
     {
         
+    }
+
+    private int GetRandomIdx()
+    {
+        int idx = Random.Range(0, 5);
+
+        return idx;
+    }
+
+    private void RandomScholars()
+    {
+        this.mouseIdx = GetRandomIdx();
+
+        for(int i = 0; i < 6; i++)
+        {
+            if(i == this.mouseIdx)
+            {
+                Debug.Log("mouse : " + i);
+
+                scholars[i] = CreateScholar(i, false);
+
+                scholars[i].AddComponent<Scholar>(); // TO DO : mouse·Î º¯°æ
+            }
+            else
+            {
+                scholars[i] = CreateScholar(i, true);
+            }
+        }
+    }
+
+    private GameObject CreateScholar(int idx, bool isScholar)
+    {
+        GameObject go = GameObject.Instantiate(scholarPrefab);
+        go.transform.position = scholarTransformArr[idx].position;
+
+        if(isScholar == true)
+            go.AddComponent<Scholar>();
+
+        return go;
     }
 }

@@ -38,11 +38,4 @@ public class LivingEntity : MonoBehaviour, IDamageable
         if (onDeath != null) onDeath();
         dead = true;
     }
-
-    protected GameObject CreateObject(GameObject obj, Transform trans)
-    {
-        var newObj = GameObject.Instantiate(obj);
-        newObj.transform.SetParent(trans);
-        return newObj;
-    }
 }
