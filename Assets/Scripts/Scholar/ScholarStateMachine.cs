@@ -15,12 +15,14 @@ public class ScholarStateMachine : StateMachine<ScholarStateMachine>
     {
         base.states = new Dictionary<string, State<ScholarStateMachine>>{
             {"Idle",new ScholarIdle(this)},
-            
+            {"Appearance",new ScholarAppearance(this)},
+
         };
     }
 
     public void Initialize(string stateName, Scholar scholar)
     {
+        Debug.Log(stateName);
         base.Initialize(stateName);
         this.scholar = scholar;
     }
