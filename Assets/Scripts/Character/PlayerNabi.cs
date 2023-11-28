@@ -17,27 +17,30 @@ public class PlayerNabi : Player
         cLife = 3;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        ultimateGauge = 0.0f;
+        maxUltimateGauge = 5.0f;
     }
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Comma) && !isJumping && !isLock)
+        if (Input.GetKey(KeyCode.UpArrow) && !isJumping && !isLock)
         {
             cMiniJumpPower = Charging(cMiniJumpPower, cMaxJumpPower, cJumpPower);
         }
 
-        if (Input.GetKeyUp(KeyCode.Comma) && !isJumping && !isLock)
+        if (Input.GetKeyUp(KeyCode.UpArrow) && !isJumping && !isLock)
         {
             PlayerJump(cMiniJumpPower);
         }
 
-        if (Input.GetKeyDown(KeyCode.Slash))
+        if (Input.GetKeyDown(KeyCode.RightShift))
         {
             isLock = true;
             Debug.Log("Locked");
         }
         
-        else if (Input.GetKeyUp(KeyCode.Slash))
+        else if (Input.GetKeyUp(KeyCode.RightShift))
         {
             isLock = false;
             Debug.Log("Unlocked");
@@ -45,7 +48,7 @@ public class PlayerNabi : Player
 
         if (curTime <= 0)
         {
-            if (Input.GetKey(KeyCode.Period))
+            if (Input.GetKey(KeyCode.RightBracket))
             {
                 Instantiate(bulletPrefab, bulletPosition.position, transform.rotation);
             }
