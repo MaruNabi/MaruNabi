@@ -8,19 +8,19 @@ public partial class Scholar : LivingEntity
 {
     private SpriteRenderer scholarSpriteRenderer;
 
-    private Color FadeColor;
+    private Color fadeColor;
 
     public IEnumerator AppearanceCoroutine()
     {
-        FadeColor = scholarSpriteRenderer.color;
-        FadeColor.a = 0f;
-        scholarSpriteRenderer.color = FadeColor;
+        this.fadeColor = scholarSpriteRenderer.color;
+        this.fadeColor.a = 0f;
+        scholarSpriteRenderer.color = this.fadeColor;
 
-        while (FadeColor.a <= 1f)
+        while (this.fadeColor.a <= 1f)
         {
-            FadeColor = scholarSpriteRenderer.color;
-            FadeColor.a += 0.15f;
-            scholarSpriteRenderer.color = FadeColor;
+            this.fadeColor = scholarSpriteRenderer.color;
+            this.fadeColor.a += 0.15f;
+            scholarSpriteRenderer.color = this.fadeColor;
             
             yield return new WaitForSeconds(0.1f);
         }

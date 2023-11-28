@@ -28,7 +28,14 @@ public class ScholarManager : MonoBehaviour
 
     void Update()
     {
-        
+
+    }
+
+    public Vector3 RandomAttack()
+    {
+        int idx = Random.Range(0, 5);
+
+        return scholarTransformArr[idx].position;
     }
 
     private int GetRandomIdx()
@@ -72,7 +79,7 @@ public class ScholarManager : MonoBehaviour
         return scholarGO;
     }
 
-    private Color FadeColor;
+    private Color fadeColor;
 
     private IEnumerator CloudEffect(Vector3 cloudPosition)
     {
@@ -83,11 +90,11 @@ public class ScholarManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.3f);
 
-        while (FadeColor.a >= 0f)
+        while (this.fadeColor.a >= 0f)
         {
-            FadeColor = cloudSpriteRenderer.color;
-            FadeColor.a -= 0.2f;
-            cloudSpriteRenderer.color = FadeColor;
+            this.fadeColor = cloudSpriteRenderer.color;
+            this.fadeColor.a -= 0.2f;
+            cloudSpriteRenderer.color = this.fadeColor;
 
             yield return new WaitForSeconds(0.1f);
         }
