@@ -6,7 +6,7 @@ public class ScholarAppearance : ScholarState
 {
     private float elapsedTime = 0f;
 
-    private float escapeTime = 3f;
+    private float escapeTime = 1f;
     public ScholarAppearance(ScholarStateMachine stateMachine) : base(stateMachine)
     {
     }

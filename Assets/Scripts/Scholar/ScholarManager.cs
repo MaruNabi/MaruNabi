@@ -8,6 +8,9 @@ public class ScholarManager : MonoBehaviour
     private GameObject scholarPrefab;
 
     [SerializeField]
+    private GameObject cloudPrefab;
+
+    [SerializeField]
     private Transform[] scholarTransformArr = new Transform[6];
 
     private GameObject[] scholars = new GameObject[6];
@@ -58,12 +61,37 @@ public class ScholarManager : MonoBehaviour
 
     private GameObject CreateScholar(int idx, bool isScholar)
     {
-        GameObject go = GameObject.Instantiate(scholarPrefab);
-        go.transform.position = scholarTransformArr[idx].position;
+        GameObject scholarGO = GameObject.Instantiate(scholarPrefab);
+        scholarGO.transform.position = scholarTransformArr[idx].position;
 
-        if(isScholar == true)
-            go.AddComponent<Scholar>();
+        StartCoroutine(CloudEffect(scholarTransformArr[idx].position));
 
-        return go;
+        if (isScholar == true)
+            scholarGO.AddComponent<Scholar>();
+
+        return scholarGO;
+    }
+
+    private Color FadeColor;
+
+    private IEnumerator CloudEffect(Vector3 cloudPosition)
+    {
+        GameObject cloud = GameObject.Instantiate(cloudPrefab);
+        cloud.transform.position = cloudPosition;
+
+        SpriteRenderer cloudSpriteRenderer = cloud.GetComponent<SpriteRenderer>();
+
+        yield return new WaitForSeconds(0.3f);
+
+        while (FadeColor.a >= 0f)
+        {
+            FadeColor = cloudSpriteRenderer.color;
+            FadeColor.a -= 0.2f;
+            cloudSpriteRenderer.color = FadeColor;
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        Destroy(cloud);
     }
 }

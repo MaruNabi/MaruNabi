@@ -10,8 +10,6 @@ public partial class Scholar : LivingEntity
 
     private Color FadeColor;
 
-    private float fadeSpeed = 1.0f;
-
     public IEnumerator AppearanceCoroutine()
     {
         FadeColor = scholarSpriteRenderer.color;
@@ -21,7 +19,7 @@ public partial class Scholar : LivingEntity
         while (FadeColor.a <= 1f)
         {
             FadeColor = scholarSpriteRenderer.color;
-            FadeColor.a += 0.1f;
+            FadeColor.a += 0.15f;
             scholarSpriteRenderer.color = FadeColor;
             
             yield return new WaitForSeconds(0.1f);

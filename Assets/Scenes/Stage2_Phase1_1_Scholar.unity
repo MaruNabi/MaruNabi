@@ -1491,6 +1491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scholarPrefab: {fileID: 7982912662092355897, guid: 01f3283e653ee4641bbd1dad48a1f88a, type: 3}
+  cloudPrefab: {fileID: 2774766041835606012, guid: bfa849ce3190e784e9a650bce6b864f3, type: 3}
   scholarTransformArr:
   - {fileID: 1351598506}
   - {fileID: 1891312046}
