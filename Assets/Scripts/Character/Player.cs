@@ -11,7 +11,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     [Range(0, 10)]
     protected float cSpeed = 6.0f;                     //Character Speed
-    protected float ultimateGauge = 0.0f;
+    public static float ultimateGauge;
+    protected float maxUltimateGauge;
     [SerializeField]
     [Range(0, 10)]
     protected float cJumpPower = 0.03f;                //Jump Power
@@ -23,16 +24,6 @@ public class Player : MonoBehaviour
     protected SpriteRenderer spriteRenderer;
     protected bool isJumping = false;                 //Jumping State (Double Jump X)
     protected float moveHorizontal = 0.0f;
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 
     protected float Charging(float minimumCharging, float maximumCharging, float addCharging)
     {
