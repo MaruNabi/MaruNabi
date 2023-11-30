@@ -19,6 +19,9 @@ public class DialogSystem : MonoBehaviour
     private DialogSystemUIInfo nabiCharacter;
 
     [SerializeField]
+    private DialogSystemUIInfo godCharacter;
+
+    [SerializeField]
     private Color unActiveCharacterColor;
     [SerializeField]
     private Color activeCharacterColor;
@@ -117,13 +120,35 @@ public class DialogSystem : MonoBehaviour
 
     private void SetDialogUI(int dataIndex, int index)
     {
-        // 0 maru, 1 nabi
-        DialogSystemUIInfo selectedUIInfo = this.dialogData[dataIndex][index].activeTalker == 0 ? this.maruCharacter : this.nabiCharacter;
-        DialogSystemUIInfo opponentUIInfo = this.dialogData[dataIndex][index].activeTalker == 0 ? this.nabiCharacter : this.maruCharacter;
+        DialogSystemUIInfo selectedUIInfo = this.maruCharacter;
+        DialogSystemUIInfo opponentUIInfo1 = this.maruCharacter;
+        DialogSystemUIInfo opponentUIInfo2 = this.maruCharacter;
+
+        // 0 maru, 1 nabi, 2 god
+        int selectedIdx = this.dialogData[dataIndex][index].activeTalker;
+        if(selectedIdx == 0) 
+        {
+            selectedUIInfo = this.maruCharacter;
+            opponentUIInfo1 = this.nabiCharacter;
+            opponentUIInfo2 = this.godCharacter;
+        }
+        else if(selectedIdx == 1)
+        {
+            selectedUIInfo = this.nabiCharacter;
+            opponentUIInfo1 = this.maruCharacter;
+            opponentUIInfo2 = this.godCharacter;
+        }
+        else if(selectedIdx == 2)
+        {
+            selectedUIInfo = this.godCharacter;
+            opponentUIInfo1 = this.maruCharacter;
+            opponentUIInfo2 = this.nabiCharacter;
+        }
 
         selectedUIInfo.characterImage.color = this.activeCharacterColor;
 
-        opponentUIInfo.characterImage.color = this.unActiveCharacterColor;
+        opponentUIInfo1.characterImage.color = this.unActiveCharacterColor;
+        opponentUIInfo2.characterImage.color = this.unActiveCharacterColor;
 
         selectedUIInfo.talkerNameText.text = this.dialogData[dataIndex][index].talkerName;
 
