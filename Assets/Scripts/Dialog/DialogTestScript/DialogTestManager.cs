@@ -47,9 +47,6 @@ public class DialogTestManager : MonoBehaviour
 
     private void LoadRunScene()
     {
-        if(isFirstCut == true)
-        {
-            sceneController.LoadTestScene();
-        }
+        sceneController.LoadTestScene();
     }
 }
