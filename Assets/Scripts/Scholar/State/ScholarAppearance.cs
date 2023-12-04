@@ -15,8 +15,6 @@ public class ScholarAppearance : ScholarState
     {
         base.OnEnter();
         this.stateMachine.StartCoroutine(this.stateMachine.Scholar.AppearanceCoroutine());
-
-        this.stateMachine.StartCoroutine(this.stateMachine.Scholar.scholarManager.CloudEffect());
     }
     public override void OnUpdate()
     {

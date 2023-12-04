@@ -18,8 +18,6 @@ public class ScholarManager : MonoBehaviour
 
     private int mouseIdx;
 
-    private int cloudIdx;
-
     private void Awake()
     {
     }
@@ -73,7 +71,7 @@ public class ScholarManager : MonoBehaviour
         GameObject scholarGO = GameObject.Instantiate(scholarPrefab);
         scholarGO.transform.position = scholarTransformArr[idx].position;
 
-        this.cloudIdx = idx;
+        StartCoroutine(CloudEffect(scholarTransformArr[idx].position));
 
         if (isScholar == true)
             scholarGO.AddComponent<Scholar>();
@@ -83,10 +81,8 @@ public class ScholarManager : MonoBehaviour
 
     private Color fadeColor;
 
-    public IEnumerator CloudEffect()
+    public IEnumerator CloudEffect(Vector3 cloudPosition)
     {
-        Vector3 cloudPosition;
-        cloudPosition = scholarTransformArr[this.cloudIdx].position;
         GameObject cloud = GameObject.Instantiate(cloudPrefab);
         cloud.transform.position = cloudPosition;
 
