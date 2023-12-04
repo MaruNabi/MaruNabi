@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ScholarManager : MonoBehaviour
 {
@@ -17,13 +18,14 @@ public class ScholarManager : MonoBehaviour
 
     private int mouseIdx;
 
+    private int cloudIdx;
+
     private void Awake()
     {
-        
     }
     void Start()
     {
-        this.RandomScholars();
+        this.RandomScholars(); 
     }
 
     void Update()
@@ -71,7 +73,7 @@ public class ScholarManager : MonoBehaviour
         GameObject scholarGO = GameObject.Instantiate(scholarPrefab);
         scholarGO.transform.position = scholarTransformArr[idx].position;
 
-        StartCoroutine(CloudEffect(scholarTransformArr[idx].position));
+        this.cloudIdx = idx;
 
         if (isScholar == true)
             scholarGO.AddComponent<Scholar>();
@@ -81,8 +83,10 @@ public class ScholarManager : MonoBehaviour
 
     private Color fadeColor;
 
-    private IEnumerator CloudEffect(Vector3 cloudPosition)
+    public IEnumerator CloudEffect()
     {
+        Vector3 cloudPosition;
+        cloudPosition = scholarTransformArr[this.cloudIdx].position;
         GameObject cloud = GameObject.Instantiate(cloudPrefab);
         cloud.transform.position = cloudPosition;
 
