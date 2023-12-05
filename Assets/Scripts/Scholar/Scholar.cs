@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEditor.VersionControl.Asset;
 
 public partial class Scholar : LivingEntity
 {
@@ -22,9 +24,15 @@ public partial class Scholar : LivingEntity
 
     void Update()
     {
-        
+
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
 
-
+        if (collision.gameObject.tag == "Bullet")
+        {
+            Debug.Log("≈¡");
+        }
+    }
 }
