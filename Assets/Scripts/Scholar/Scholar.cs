@@ -29,10 +29,10 @@ public partial class Scholar : LivingEntity
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (collision.gameObject.tag == "Bullet")
         {
             Debug.Log("≈¡");
+            StartCoroutine(BeHitEffect());
         }
     }
 }
