@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class LivingEntity : MonoBehaviour, IDamageable
+public class LivingEntity : MonoBehaviour
 {
     public float startingHP = 100f;
     public float HP { get; protected set; }
@@ -15,7 +15,7 @@ public class LivingEntity : MonoBehaviour, IDamageable
         HP = startingHP;
     }
 
-    public virtual void OnDamage(float damage, Vector3 hitPoint, Vector3 hitNormal)
+    public virtual void OnDamage(float damage)
     {
         HP -= damage;
         if (HP <= 0 && !dead)

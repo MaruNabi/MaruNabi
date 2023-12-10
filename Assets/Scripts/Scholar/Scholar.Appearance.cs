@@ -25,10 +25,10 @@ public partial class Scholar : LivingEntity
         while (this.fadeColor.a <= 1f)
         {
             this.fadeColor = scholarSpriteRenderer.color;
-            this.fadeColor.a += 0.15f;
+            this.fadeColor.a += 0.05f;
             scholarSpriteRenderer.color = this.fadeColor;
             
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 
