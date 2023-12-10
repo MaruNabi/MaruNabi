@@ -40,19 +40,7 @@ public partial class Scholar : LivingEntity
 
         this.scholarSpriteRenderer.color = this.BehitColor;
 
-        transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-
-        yield return new WaitForSeconds(0.1f);
-
-        transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
-
-        yield return new WaitForSeconds(0.1f);
-
-        transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-
-        yield return new WaitForSeconds(0.1f);
-
-        transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        yield return new WaitForSeconds(0.3f);
 
         this.BehitColor.a = this.normal;
 
