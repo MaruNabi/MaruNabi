@@ -10,6 +10,8 @@ public partial class Scholar : LivingEntity
 {
     private ScholarStateMachine scholarStateMachine;
 
+    private ScholarManager scholarManager;
+
     private void Awake()
     {
         this.scholarStateMachine = this.gameObject.AddComponent<ScholarStateMachine>();
@@ -19,6 +21,10 @@ public partial class Scholar : LivingEntity
         Transform scholarCanvas = transform.GetChild(0);
         Transform textMeshProTransform = scholarCanvas.GetChild(0);
         this.hpTextBox = textMeshProTransform.GetComponent<TextMeshProUGUI>();
+
+        this.startingHP = 999999999;
+
+        this.scholarManager = transform.parent.GetComponent<ScholarManager>();
     }
 
     private GameObject GetChild(int v)
@@ -32,7 +38,7 @@ public partial class Scholar : LivingEntity
         this.scholarStateMachine.Initialize("Appearance", this);
 
         Debug.Log(HP);
-        this.hpTextBox.text = HP.ToString("F1");
+        this.hpTextBox.text = HP.ToString();
     }
 
     void Update()

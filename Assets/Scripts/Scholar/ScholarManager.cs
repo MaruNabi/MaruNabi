@@ -18,8 +18,11 @@ public class ScholarManager : MonoBehaviour
 
     private int mouseIdx;
 
+    private bool isScholarBehit;
+
     private void Awake()
     {
+        isScholarBehit = false;
     }
     void Start()
     {
@@ -29,6 +32,16 @@ public class ScholarManager : MonoBehaviour
     void Update()
     {
 
+    } 
+
+    public void SchloarBehit()
+    {
+        this.isScholarBehit = true;
+    }
+
+    public bool GetIsSchloarBehit()
+    {
+        return this.isScholarBehit;
     }
 
     public Vector3 RandomAttack()
@@ -68,7 +81,7 @@ public class ScholarManager : MonoBehaviour
 
     private GameObject CreateScholar(int idx, bool isScholar)
     {
-        GameObject scholarGO = GameObject.Instantiate(scholarPrefab);
+        GameObject scholarGO = GameObject.Instantiate(scholarPrefab, transform);
         scholarGO.transform.position = scholarTransformArr[idx].position;
 
         StartCoroutine(CloudEffect(scholarTransformArr[idx].position));

@@ -10,7 +10,6 @@ public partial class Scholar : LivingEntity
 
     private Color fadeColor;
 
-    private float transparentAlpha;
     private float transparent = 0.5f;
     private float normal = 1.0f;
 

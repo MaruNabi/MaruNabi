@@ -6,7 +6,7 @@ public class ScholarIdle : ScholarState
 {
     private float elapsedTime = 0f;
 
-    private float escapeTime = 1f;
+    private float escapeTime = 5f;
     public ScholarIdle(ScholarStateMachine stateMachine) : base(stateMachine)
     {
     }
@@ -23,7 +23,7 @@ public class ScholarIdle : ScholarState
 
         if (this.elapsedTime >= this.escapeTime)
         {
-            // this.stateMachine.SetState("Move");
+            Debug.Log("부채 타임");
         }
     }
     public override void OnExit()

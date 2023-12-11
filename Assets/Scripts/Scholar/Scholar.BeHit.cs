@@ -11,10 +11,11 @@ public partial class Scholar : LivingEntity
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            Debug.Log("≈¡");
-            OnDamage(30);
+            scholarManager.SchloarBehit();
+            OnDamage(123456789);
             Debug.Log(HP);
-            this.hpTextBox.text = HP.ToString("F1");
+            this.hpTextBox.text = HP.ToString();
+
             StartCoroutine(BeHitEffect());
         }
     }
