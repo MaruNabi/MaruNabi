@@ -10,7 +10,7 @@ public partial class Scholar : LivingEntity
 {
     private ScholarStateMachine scholarStateMachine;
 
-    private ScholarManager scholarManager;
+    public ScholarManager scholarManager;
 
     private void Awake()
     {

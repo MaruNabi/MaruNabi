@@ -7,6 +7,8 @@ public class ScholarIdle : ScholarState
     private float elapsedTime = 0f;
 
     private float escapeTime = 5f;
+
+    private bool isBehit;
     public ScholarIdle(ScholarStateMachine stateMachine) : base(stateMachine)
     {
     }
@@ -24,6 +26,11 @@ public class ScholarIdle : ScholarState
         if (this.elapsedTime >= this.escapeTime)
         {
             Debug.Log("부채 타임");
+            this.isBehit = this.stateMachine.Scholar.scholarManager.GetIsSchloarBehit();
+            if(this.isBehit == true)
+            {
+                this.stateMachine.SetState("Fan");
+            }
         }
     }
     public override void OnExit()

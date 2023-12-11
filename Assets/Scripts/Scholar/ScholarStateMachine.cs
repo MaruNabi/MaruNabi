@@ -16,7 +16,7 @@ public class ScholarStateMachine : StateMachine<ScholarStateMachine>
         base.states = new Dictionary<string, State<ScholarStateMachine>>{
             {"Idle",new ScholarIdle(this)},
             {"Appearance",new ScholarAppearance(this)},
-
+            {"Fan",new ScholarFan(this)},
         };
     }
 
