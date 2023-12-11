@@ -25,6 +25,8 @@ public class Bullet : MonoBehaviour
     protected void SetBullet()
     {
         bulletRigidbody = GetComponent<Rigidbody2D>();
+        bulletRigidbody.gravityScale = 0;
+        bulletRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         Invoke("DestroyBullet", 2);
     }
 
