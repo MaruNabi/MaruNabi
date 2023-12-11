@@ -6,6 +6,7 @@ public class AttackCharm : Bullet
 {
     private Transform enemy;
     float turn = 5.0f;
+    bool isLookRight = true;
 
     void Start()
     {
@@ -13,7 +14,15 @@ public class AttackCharm : Bullet
 
         enemy = GameObject.FindGameObjectWithTag("Enemy").transform;
 
-        Debug.Log(transform.rotation);
+        if (transform.rotation == Quaternion.Euler(0, 0, 0))
+        {
+            isLookRight = false;
+            transform.rotation = Quaternion.Euler(0, 0, -180);
+        }
+        else
+        {
+            isLookRight = true;
+        }
     }
 
     void Update()
@@ -44,7 +53,6 @@ public class AttackCharm : Bullet
         bulletRigidbody.velocity = moveDir;*/
 
         Vector3 bulletDirection = (enemy.position - transform.position).normalized;
-        //bulletRigidbody.AddForce(bulletDirection, ForceMode2D.Impulse);
 
         bulletRigidbody.velocity = transform.right * speed;
 
@@ -61,5 +69,5 @@ public class AttackCharm : Bullet
         bulletRigidbody.velocity = new Vector2(vx, vy);*/
 
         //transform.position += direction * speed * Time.deltaTime;
-    } 
+    }
 }
