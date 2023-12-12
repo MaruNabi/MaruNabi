@@ -23,7 +23,7 @@ public class ScholarStateMachine : StateMachine<ScholarStateMachine>
     public void Initialize(string stateName, Scholar scholar)
     {
         Debug.Log(stateName);
-        base.Initialize(stateName);
         this.scholar = scholar;
+        base.Initialize(stateName);
     }
 }

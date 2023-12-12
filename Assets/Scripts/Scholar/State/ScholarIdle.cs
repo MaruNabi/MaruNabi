@@ -16,10 +16,17 @@ public class ScholarIdle : ScholarState
     public override void OnEnter()
     {
         base.OnEnter();
+
+        this.stateMachine.Scholar.IsIdle = true;
     }
     public override void OnUpdate()
     {
         base.OnUpdate();
+
+        if (this.stateMachine.Scholar == null)
+        {
+            Debug.Log("언제 널이 아닌건데?");
+        }
 
         this.elapsedTime += Time.deltaTime;
 
@@ -38,5 +45,6 @@ public class ScholarIdle : ScholarState
         base.OnExit();
 
         this.elapsedTime = 0f;
+        this.stateMachine.Scholar.IsIdle = false;
     }
 }

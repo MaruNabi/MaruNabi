@@ -7,16 +7,27 @@ public partial class Scholar : LivingEntity
 {
     private TMP_Text hpTextBox;
 
+    public bool isIdle = false;
+
+    public bool IsIdle
+    {
+        get { return isIdle; }
+        set { isIdle = value; }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            scholarManager.SchloarBehit();
-            OnDamage(123456789);
-            Debug.Log(HP);
-            this.hpTextBox.text = HP.ToString();
+            if(this.IsIdle == true)
+            {
+                scholarManager.SchloarBehit();
+                OnDamage(523456789);
 
-            StartCoroutine(BeHitEffect());
+                this.hpTextBox.text = HP.ToString();
+
+                StartCoroutine(BeHitEffect());
+            }
         }
     }
 }

@@ -37,5 +37,6 @@ public class LivingEntity : MonoBehaviour
     {
         if (onDeath != null) onDeath();
         dead = true;
+        Destroy(gameObject);
     }
 }
