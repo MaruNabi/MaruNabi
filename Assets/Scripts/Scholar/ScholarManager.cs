@@ -15,6 +15,9 @@ public class ScholarManager : MonoBehaviour
     public GameObject fanPrefab;
 
     [SerializeField]
+    private GameObject player;
+
+    [SerializeField]
     private Transform[] scholarTransformArr = new Transform[6];
 
     private GameObject[] scholars = new GameObject[6];
@@ -45,6 +48,11 @@ public class ScholarManager : MonoBehaviour
     public bool GetIsSchloarBehit()
     {
         return this.isScholarBehit;
+    }
+
+    public GameObject GetPlayer()
+    {
+        return this.player;
     }
 
     public Vector3 RandomAttack()
