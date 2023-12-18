@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     protected float maxUltimateGauge;
     [SerializeField]
     [Range(0, 10)]
-    protected float cJumpPower = 0.03f;                //Jump Power
+    protected float cJumpPower = 0.03f;                //Incremental Jump Force
     [SerializeField]
     protected float cMaxJumpPower = 17.0f;            //Maximum Jump Force
     protected float cMiniJumpPower = MINIMUM_JUMP;    //Minimum Jump Force
@@ -24,8 +24,9 @@ public class Player : MonoBehaviour
     protected SpriteRenderer spriteRenderer;
     protected bool isJumping = false;                 //Jumping State (Double Jump X)
     protected float moveHorizontal = 0.0f;
+    protected Animator playerAnimation;
 
-    protected float Charging(float minimumCharging, float maximumCharging, float addCharging)
+    protected float Charging(float minimumCharging, float maximumCharging, float addCharging) //minimum, maximum, incremental
     {
         if (minimumCharging < maximumCharging)
         {
@@ -39,7 +40,11 @@ public class Player : MonoBehaviour
     {
         rigidBody.AddForce(new Vector3(0, jumpPower, 0), ForceMode2D.Impulse);
         isJumping = true;
-        cMiniJumpPower = MINIMUM_JUMP;
+    }
+
+    protected void PlayerJumping(float jumpPower)
+    {
+        rigidBody.AddForce(new Vector3(0, jumpPower, 0), ForceMode2D.Impulse);
     }
 
     protected virtual void PlayerMove()
@@ -59,6 +64,9 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
+        {
             isJumping = false;
+            cMiniJumpPower = MINIMUM_JUMP;
+        }
     }
 }
