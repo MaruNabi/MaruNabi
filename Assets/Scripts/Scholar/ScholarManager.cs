@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ScholarManager : MonoBehaviour
 {
@@ -10,6 +11,12 @@ public class ScholarManager : MonoBehaviour
     [SerializeField]
     private GameObject cloudPrefab;
 
+    [SerializeField] 
+    public GameObject fanPrefab;
+
+    [SerializeField]
+    private GameObject player;
+
     [SerializeField]
     private Transform[] scholarTransformArr = new Transform[6];
 
@@ -17,18 +24,35 @@ public class ScholarManager : MonoBehaviour
 
     private int mouseIdx;
 
+    private bool isScholarBehit;
+
     private void Awake()
     {
-        
+        isScholarBehit = false;
     }
     void Start()
     {
-        this.RandomScholars();
+        this.RandomScholars(); 
     }
 
     void Update()
     {
 
+    } 
+
+    public void SchloarBehit()
+    {
+        this.isScholarBehit = true;
+    }
+
+    public bool GetIsSchloarBehit()
+    {
+        return this.isScholarBehit;
+    }
+
+    public GameObject GetPlayer()
+    {
+        return this.player;
     }
 
     public Vector3 RandomAttack()
@@ -68,7 +92,7 @@ public class ScholarManager : MonoBehaviour
 
     private GameObject CreateScholar(int idx, bool isScholar)
     {
-        GameObject scholarGO = GameObject.Instantiate(scholarPrefab);
+        GameObject scholarGO = GameObject.Instantiate(scholarPrefab, transform);
         scholarGO.transform.position = scholarTransformArr[idx].position;
 
         StartCoroutine(CloudEffect(scholarTransformArr[idx].position));
@@ -81,7 +105,7 @@ public class ScholarManager : MonoBehaviour
 
     private Color fadeColor;
 
-    private IEnumerator CloudEffect(Vector3 cloudPosition)
+    public IEnumerator CloudEffect(Vector3 cloudPosition)
     {
         GameObject cloud = GameObject.Instantiate(cloudPrefab);
         cloud.transform.position = cloudPosition;
@@ -100,5 +124,18 @@ public class ScholarManager : MonoBehaviour
         }
 
         Destroy(cloud);
+    }
+
+    public GameObject MakeFan(Vector3 fanPosition)
+    {
+        GameObject fan = GameObject.Instantiate(fanPrefab);
+        fan.transform.position = fanPosition;
+
+        return fan;
+    }
+
+    public void DestroyFan(GameObject fan)
+    {
+        Destroy(fan);
     }
 }

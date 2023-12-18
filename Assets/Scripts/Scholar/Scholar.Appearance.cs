@@ -10,6 +10,11 @@ public partial class Scholar : LivingEntity
 
     private Color fadeColor;
 
+    private float transparent = 0.5f;
+    private float normal = 1.0f;
+
+    private Color BehitColor;
+
     public IEnumerator AppearanceCoroutine()
     {
         this.fadeColor = scholarSpriteRenderer.color;
@@ -19,10 +24,25 @@ public partial class Scholar : LivingEntity
         while (this.fadeColor.a <= 1f)
         {
             this.fadeColor = scholarSpriteRenderer.color;
-            this.fadeColor.a += 0.15f;
+            this.fadeColor.a += 0.05f;
             scholarSpriteRenderer.color = this.fadeColor;
             
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
         }
+    }
+
+    private IEnumerator BeHitEffect()
+    {
+        this.BehitColor = this.scholarSpriteRenderer.color;
+
+        this.BehitColor.a = this.transparent;
+
+        this.scholarSpriteRenderer.color = this.BehitColor;
+
+        yield return new WaitForSeconds(0.3f);
+
+        this.BehitColor.a = this.normal;
+
+        this.scholarSpriteRenderer.color = this.BehitColor;
     }
 }
