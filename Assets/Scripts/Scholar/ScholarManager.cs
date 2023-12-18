@@ -11,6 +11,9 @@ public class ScholarManager : MonoBehaviour
     [SerializeField]
     private GameObject cloudPrefab;
 
+    [SerializeField] 
+    public GameObject fanPrefab;
+
     [SerializeField]
     private Transform[] scholarTransformArr = new Transform[6];
 
@@ -113,5 +116,18 @@ public class ScholarManager : MonoBehaviour
         }
 
         Destroy(cloud);
+    }
+
+    public GameObject MakeFan(Vector3 fanPosition)
+    {
+        GameObject fan = GameObject.Instantiate(fanPrefab);
+        fan.transform.position = fanPosition;
+
+        return fan;
+    }
+
+    public void DestroyFan(GameObject fan)
+    {
+        Destroy(fan);
     }
 }

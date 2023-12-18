@@ -37,7 +37,6 @@ public partial class Scholar : LivingEntity
         this.scholarStateMachine.Initialize("Idle", this);
         this.scholarStateMachine.Initialize("Appearance", this);
 
-        Debug.Log(HP);
         this.hpTextBox.text = HP.ToString();
     }
 

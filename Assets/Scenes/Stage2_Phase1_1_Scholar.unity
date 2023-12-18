@@ -446,7 +446,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 4409084ffd4ef1f4ab7dc3680fc03c67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -800,7 +800,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ce91886562ced2344b085db1e49ad0a6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2040,6 +2040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scholarPrefab: {fileID: 8878078845135146718, guid: 01f3283e653ee4641bbd1dad48a1f88a, type: 3}
   cloudPrefab: {fileID: 2774766041835606012, guid: bfa849ce3190e784e9a650bce6b864f3, type: 3}
+  fanPrefab: {fileID: 444426551954482774, guid: dbff4382214158b4dab5fbab62d458c4, type: 3}
   scholarTransformArr:
   - {fileID: 1351598506}
   - {fileID: 1891312046}
