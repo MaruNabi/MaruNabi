@@ -11,21 +11,35 @@ public class PlayerMaru : Player
         cLife = 3;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerAnimation = GetComponent<Animator>();
 
         ultimateGauge = 0.0f;
         maxUltimateGauge = 3.0f;
     }
 
     void Update()
-    {
-        if (Input.GetKey(KeyCode.W) && !isJumping)
-        {
-            cMiniJumpPower = Charging(cMiniJumpPower, cMaxJumpPower, cJumpPower);
-        }
-
-        if (Input.GetKeyUp(KeyCode.W) && !isJumping)
+    {   
+        if (Input.GetKeyDown(KeyCode.W) && !isJumping)
         {
             PlayerJump(cMiniJumpPower);
+        }
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            if (cMiniJumpPower < cMaxJumpPower)
+            {
+                PlayerJumping(cJumpPower);
+                cMiniJumpPower += cJumpPower;
+            }
+        }
+
+        if (rigidBody.velocity.normalized.x == 0)
+        {
+            playerAnimation.SetBool("isRunning", false);
+        }
+        else
+        {
+            playerAnimation.SetBool("isRunning", true);
         }
     }
 
