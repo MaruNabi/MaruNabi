@@ -30,6 +30,7 @@ public class PlayerMaru : Player
             {
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
+                Debug.Log(cMiniJumpPower);
             }
         }
 
@@ -40,6 +41,22 @@ public class PlayerMaru : Player
         else
         {
             playerAnimation.SetBool("isRunning", true);
+        }
+
+        if (rigidBody.velocity.normalized.y > 0)
+        {
+            playerAnimation.SetBool("isUp", true);
+            playerAnimation.SetBool("isDown", false);
+        }
+        else if (rigidBody.velocity.normalized.y < 0)
+        {
+            playerAnimation.SetBool("isUp", false);
+            playerAnimation.SetBool("isDown", true);
+        }
+        else
+        {
+            playerAnimation.SetBool("isUp", false);
+            playerAnimation.SetBool("isDown", false);
         }
     }
 
