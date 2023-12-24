@@ -23,18 +23,17 @@ public class ScholarIdle : ScholarState
     {
         base.OnUpdate();
 
-        if (this.stateMachine.Scholar == null)
-        {
-            Debug.Log("언제 널이 아닌건데?");
-        }
-
+        Debug.Log("idle 시간: " + elapsedTime);
         this.elapsedTime += Time.deltaTime;
 
         if (this.elapsedTime >= this.escapeTime)
         {
-            Debug.Log("부채 타임");
+            Debug.Log("idle 시간 달성");
+
             this.isBehit = this.stateMachine.Scholar.scholarManager.GetIsSchloarBehit();
-            if(this.isBehit == true)
+            Debug.Log("is Behit : " + this.isBehit);
+
+            if (this.isBehit == true)
             {
                 this.stateMachine.SetState("Fan");
             }

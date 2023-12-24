@@ -21,8 +21,12 @@ public partial class Scholar : LivingEntity
         {
             if(this.IsIdle == true)
             {
-                scholarManager.SchloarBehit();
+                Debug.Log("총알 맞았다!!");
+
+                scholarManager.SetSchloarBehit(true);
                 OnDamage(523456789);
+
+                Debug.Log("비히트?? " + scholarManager.GetIsSchloarBehit());
 
                 this.hpTextBox.text = HP.ToString();
 
