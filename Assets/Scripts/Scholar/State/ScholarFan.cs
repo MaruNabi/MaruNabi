@@ -62,5 +62,14 @@ public class ScholarFan : ScholarState
     public override void OnExit()
     {
         base.OnExit();
+
+        this.elapsedTime = 0f;
+
+        this.stateMachine.Scholar.scholarManager.SetSchloarBehit(false);
+
+        if (this.stateMachine.Scholar.HP <= 0 && !this.stateMachine.Scholar.dead)
+        {
+            this.stateMachine.Scholar.Dead();
+        }
     }
 }

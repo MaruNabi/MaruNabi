@@ -40,9 +40,9 @@ public class ScholarManager : MonoBehaviour
 
     } 
 
-    public void SchloarBehit()
+    public void SetSchloarBehit(bool isHit)
     {
-        this.isScholarBehit = true;
+        this.isScholarBehit = isHit;
     }
 
     public bool GetIsSchloarBehit()

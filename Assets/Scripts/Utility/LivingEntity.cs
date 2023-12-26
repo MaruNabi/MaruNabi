@@ -18,10 +18,6 @@ public class LivingEntity : MonoBehaviour
     public virtual void OnDamage(int damage)
     {
         HP -= damage;
-        if (HP <= 0 && !dead)
-        {
-            Dead();
-        }
     }
 
     public virtual void RestoreHP(int restoreHP)
