@@ -24,6 +24,11 @@ public class PlayerNabi : Player
 
     void Update()
     {
+        if (isDashing)
+        {
+            return;
+        }
+
         if (Input.GetKey(KeyCode.UpArrow) && !isJumping && !isLock)
         {
             cMiniJumpPower = Charging(cMiniJumpPower, cMaxJumpPower, cJumpPower);
@@ -51,14 +56,25 @@ public class PlayerNabi : Player
             if (Input.GetKey(KeyCode.RightBracket))
             {
                 Instantiate(bulletPrefab, bulletPosition.position, transform.rotation);
+                Debug.Log(transform.rotation);
             }
             curTime = coolTime;
         }
         curTime -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.LeftBracket) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
     }
 
     private void FixedUpdate()
     {
+        if (isDashing)
+        {
+            return;
+        }
+
         PlayerMove();
     }
 

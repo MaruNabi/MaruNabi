@@ -18,22 +18,38 @@ public class PlayerMaru : Player
     }
 
     void Update()
-    {   
+    { 
+        if (isDashing)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.W) && !isJumping)
         {
             PlayerJump(cMiniJumpPower);
+            isJumpingEnd = false;
         }
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && !isJumpingEnd)
         {
             if (cMiniJumpPower < cMaxJumpPower)
             {
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
-                Debug.Log(cMiniJumpPower);
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            //Attack
+        }
+
+        if (Input.GetKeyDown(KeyCode.G) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
+
+        //Animation Script
         if (rigidBody.velocity.normalized.x == 0)
         {
             playerAnimation.SetBool("isRunning", false);
@@ -62,6 +78,11 @@ public class PlayerMaru : Player
 
     private void FixedUpdate()
     {
+        if (isDashing)
+        {
+            return;
+        }
+
         PlayerMove();
     }
 

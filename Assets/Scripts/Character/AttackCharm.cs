@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class AttackCharm : Bullet
 {
-    private Transform enemy;
+    public Transform enemy;
     float turn = 5.0f;
+    Vector3 bulletDirection;
 
     void Start()
     {
         SetBullet();
 
-        enemy = GameObject.FindGameObjectWithTag("Enemy").transform;
+        if (GameObject.FindGameObjectWithTag("Enemy"))
+        {
+            enemy = GameObject.FindGameObjectWithTag("Enemy").transform;
+        }
 
         if (transform.rotation == Quaternion.Euler(0, 0, 0))
         {
@@ -28,7 +32,10 @@ public class AttackCharm : Bullet
     {
         base.AttackInstantiate();
 
-        Vector3 bulletDirection = (enemy.position - transform.position).normalized;
+        if (enemy != null)
+        {
+            bulletDirection = (enemy.position - transform.position).normalized;
+        }
 
         bulletRigidbody.velocity = transform.right * speed;
 
