@@ -71,7 +71,9 @@ public class DialogSystem : MonoBehaviour
 
             for (int i = 0; i < scriptData.Count; i++)
             {
-                dialogData.Add(new DialogData((int)scriptData[i]["talker"], scriptData[i]["name"].ToString(), scriptData[i]["content"].ToString()));
+                dialogData.Add(new DialogData((int)scriptData[i]["talker"], 
+                scriptData[i]["name"].ToString(), 
+                scriptData[i]["content"].ToString()));
             }
 
             this.dialogData.Add(dialogData);
