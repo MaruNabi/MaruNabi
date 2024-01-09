@@ -2040,6 +2040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scholarPrefab: {fileID: 8878078845135146718, guid: 01f3283e653ee4641bbd1dad48a1f88a, type: 3}
   cloudPrefab: {fileID: 2774766041835606012, guid: bfa849ce3190e784e9a650bce6b864f3, type: 3}
+  strawPrefab: {fileID: 2376774297293504491, guid: fdfc57db157759648975cdc263176d23, type: 3}
   fanPrefab: {fileID: 444426551954482774, guid: dbff4382214158b4dab5fbab62d458c4, type: 3}
   player: {fileID: 596352307}
   scholarTransformArr:

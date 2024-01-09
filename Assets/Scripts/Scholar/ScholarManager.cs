@@ -11,6 +11,9 @@ public class ScholarManager : MonoBehaviour
     [SerializeField]
     private GameObject cloudPrefab;
 
+    [SerializeField]
+    private GameObject strawPrefab;
+
     [SerializeField] 
     public GameObject fanPrefab;
 
@@ -101,6 +104,8 @@ public class ScholarManager : MonoBehaviour
         {
             Scholar mouseScholar = scholarGO.GetComponent<Scholar>();
             mouseScholar.IsMouse = true;
+
+            StartCoroutine(StrawEffect(scholarTransformArr[idx].position));
         }
 
         return scholarGO;
@@ -127,6 +132,16 @@ public class ScholarManager : MonoBehaviour
         }
 
         Destroy(cloud);
+    }
+
+    public IEnumerator StrawEffect(Vector3 strawPosition)
+    {
+        GameObject straw = GameObject.Instantiate(strawPrefab);
+        straw.transform.position = strawPosition;
+
+        yield return new WaitForSeconds(1.0f);
+
+        Destroy(straw);
     }
 
     public GameObject MakeFan(Vector3 fanPosition)
