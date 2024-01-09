@@ -79,26 +79,29 @@ public class ScholarManager : MonoBehaviour
             {
                 Debug.Log("mouse : " + i);
 
-                scholars[i] = CreateScholar(i, false);
-
-                scholars[i].AddComponent<Scholar>(); // TO DO : mouse·Î º¯°æ
+                scholars[i] = CreateScholar(i, true);
             }
             else
             {
-                scholars[i] = CreateScholar(i, true);
+                scholars[i] = CreateScholar(i, false);
             }
         }
     }
 
-    private GameObject CreateScholar(int idx, bool isScholar)
+    private GameObject CreateScholar(int idx, bool isMouse)
     {
         GameObject scholarGO = GameObject.Instantiate(scholarPrefab, transform);
         scholarGO.transform.position = scholarTransformArr[idx].position;
 
         StartCoroutine(CloudEffect(scholarTransformArr[idx].position));
 
-        if (isScholar == true)
-            scholarGO.AddComponent<Scholar>();
+        scholarGO.AddComponent<Scholar>();
+
+        if (isMouse == true)
+        {
+            Scholar mouseScholar = scholarGO.GetComponent<Scholar>();
+            mouseScholar.IsMouse = true;
+        }
 
         return scholarGO;
     }
