@@ -29,28 +29,34 @@ public class PlayerNabi : Player
             return;
         }
 
-        if (Input.GetKey(KeyCode.UpArrow) && !isJumping && !isLock)
+        //Jump
+        if (Input.GetKey(KeyCode.RightControl) && !isJumping && !isLock)
         {
+            Debug.Log("RightCtrl");
             cMiniJumpPower = Charging(cMiniJumpPower, cMaxJumpPower, cJumpPower);
         }
 
-        if (Input.GetKeyUp(KeyCode.UpArrow) && !isJumping && !isLock)
+        //JumpAddForce
+        if (Input.GetKeyUp(KeyCode.RightControl) && !isJumping && !isLock)
         {
             PlayerJump(cMiniJumpPower);
         }
 
-        if (Input.GetKeyDown(KeyCode.RightShift))
+        //LockOn
+        if (Input.GetKeyDown(KeyCode.L))
         {
             isLock = true;
             Debug.Log("Locked");
         }
         
-        else if (Input.GetKeyUp(KeyCode.RightShift))
+        //LockOff
+        else if (Input.GetKeyUp(KeyCode.L))
         {
             isLock = false;
             Debug.Log("Unlocked");
         }
 
+        //Atk
         if (curTime <= 0)
         {
             if (Input.GetKey(KeyCode.RightBracket))
@@ -61,11 +67,6 @@ public class PlayerNabi : Player
             curTime = coolTime;
         }
         curTime -= Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.LeftBracket) && canDash)
-        {
-            StartCoroutine(Dash());
-        }
     }
 
     private void FixedUpdate()
@@ -86,12 +87,14 @@ public class PlayerNabi : Player
         {
             moveHorizontal = -1.0f;
             transform.rotation = Quaternion.Euler(0, 0, 0);
+            bulletPosition.rotation = Quaternion.Euler(0, 0, 0);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             moveHorizontal = 1.0f;
             transform.rotation = Quaternion.Euler(0, 180, 0);
+            bulletPosition.rotation = Quaternion.Euler(0, 180, 0);
         }
 
         base.PlayerMove();

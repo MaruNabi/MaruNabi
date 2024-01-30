@@ -18,10 +18,11 @@ public class AttackSmallBeads : Bullet
     {
         base.AttackInstantiate();
 
-        //나중에 8방향때문에 override 사용
+        //positive infinity, negative infinity
         if (transform.rotation.y == 0)
         {
             bulletRigidbody.velocity = new Vector2(-speed, 0);
+            //bulletRigidbody.velocity = Vector2.left * speed;
         }
 
         else

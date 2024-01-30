@@ -17,11 +17,6 @@ public class Bullet : MonoBehaviour
         
     }
 
-    void Update()
-    {
-        
-    }
-
     protected void SetBullet()
     {
         bulletRigidbody = GetComponent<Rigidbody2D>();
