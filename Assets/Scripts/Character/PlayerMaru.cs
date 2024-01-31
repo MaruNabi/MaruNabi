@@ -23,7 +23,7 @@ public class PlayerMaru : Player
     }
 
     void Update()
-    { 
+    {
         if (isDashing)
         {
             return;

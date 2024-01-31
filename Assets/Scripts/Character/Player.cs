@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private List<KeyCode> lockKeyList = new List<KeyCode>();
+
     protected bool characterID;                       //True : Maru, False : Nabi
     protected string characterName;
     protected int cLife;                              //Character Health
@@ -101,7 +103,10 @@ public class Player : MonoBehaviour
 
     protected void PlayerLock()
     {
-        
+        if(Input.anyKeyDown)
+        {
+            
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
