@@ -62,7 +62,6 @@ public class PlayerNabi : Player
             if (Input.GetKey(KeyCode.RightBracket))
             {
                 Instantiate(bulletPrefab, bulletPosition.position, transform.rotation);
-                Debug.Log(transform.rotation);
             }
             curTime = coolTime;
         }
