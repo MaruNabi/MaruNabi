@@ -98,12 +98,15 @@ public class ScholarManager : MonoBehaviour
 
         StartCoroutine(CloudEffect(scholarTransformArr[idx].position));
 
-        scholarGO.AddComponent<Scholar>();
-
-        if (isMouse == true)
+        if(isMouse == false)
         {
-            Scholar mouseScholar = scholarGO.GetComponent<Scholar>();
-            mouseScholar.IsMouse = true;
+            scholarGO.AddComponent<Scholar>();
+        }
+        else if (isMouse == true)
+        {
+            scholarGO.AddComponent<Mouse>();
+            // Scholar mouseScholar = scholarGO.GetComponent<Scholar>();
+            // mouseScholar.IsMouse = true;
 
             StartCoroutine(StrawEffect(scholarTransformArr[idx].position));
         }
