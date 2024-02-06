@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class BulletVectorManager : MonoBehaviour
 {
-    protected static Vector2 bulletVector;
+    protected Vector2 bulletVector;
+    //static?
 
     void Start()
     {
