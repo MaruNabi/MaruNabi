@@ -16,8 +16,8 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
     private void Awake()
     {
         base.states = new Dictionary<string, State<MouseStateMachine>>{
-            // {"Idle",new MouseIdle(this)},
-            // {"Appearance",new MouseAppearance(this)},
+            {"Idle",new MouseIdle(this)},
+            {"Appearance",new MouseAppearance(this)},
             // {"Fan",new MouseFan(this)},
         };
     }
