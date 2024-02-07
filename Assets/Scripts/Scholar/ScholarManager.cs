@@ -11,6 +11,9 @@ public class ScholarManager : MonoBehaviour
     [SerializeField]
     private GameObject cloudPrefab;
 
+    [SerializeField]
+    private GameObject strawPrefab;
+
     [SerializeField] 
     public GameObject fanPrefab;
 
@@ -79,26 +82,34 @@ public class ScholarManager : MonoBehaviour
             {
                 Debug.Log("mouse : " + i);
 
-                scholars[i] = CreateScholar(i, false);
-
-                scholars[i].AddComponent<Scholar>(); // TO DO : mouse·Î º¯°æ
+                scholars[i] = CreateScholar(i, true);
             }
             else
             {
-                scholars[i] = CreateScholar(i, true);
+                scholars[i] = CreateScholar(i, false);
             }
         }
     }
 
-    private GameObject CreateScholar(int idx, bool isScholar)
+    private GameObject CreateScholar(int idx, bool isMouse)
     {
         GameObject scholarGO = GameObject.Instantiate(scholarPrefab, transform);
         scholarGO.transform.position = scholarTransformArr[idx].position;
 
         StartCoroutine(CloudEffect(scholarTransformArr[idx].position));
 
-        if (isScholar == true)
+        if(isMouse == false)
+        {
             scholarGO.AddComponent<Scholar>();
+        }
+        else if (isMouse == true)
+        {
+            scholarGO.AddComponent<Mouse>();
+            // Scholar mouseScholar = scholarGO.GetComponent<Scholar>();
+            // mouseScholar.IsMouse = true;
+
+            StartCoroutine(StrawEffect(scholarTransformArr[idx].position));
+        }
 
         return scholarGO;
     }
@@ -124,6 +135,16 @@ public class ScholarManager : MonoBehaviour
         }
 
         Destroy(cloud);
+    }
+
+    public IEnumerator StrawEffect(Vector3 strawPosition)
+    {
+        GameObject straw = GameObject.Instantiate(strawPrefab);
+        straw.transform.position = strawPosition;
+
+        yield return new WaitForSeconds(1.0f);
+
+        Destroy(straw);
     }
 
     public GameObject MakeFan(Vector3 fanPosition)

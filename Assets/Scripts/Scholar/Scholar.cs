@@ -12,6 +12,14 @@ public partial class Scholar : LivingEntity
 
     public ScholarManager scholarManager;
 
+    /*
+    private bool isMouse;
+    public bool IsMouse
+    {
+        get; set;
+    }
+    */
+
     private void Awake()
     {
         this.scholarStateMachine = this.gameObject.AddComponent<ScholarStateMachine>();

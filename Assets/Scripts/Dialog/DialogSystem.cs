@@ -73,7 +73,9 @@ public class DialogSystem : MonoBehaviour
             {
                 dialogData.Add(new DialogData((int)scriptData[i]["talker"], 
                 scriptData[i]["name"].ToString(), 
-                scriptData[i]["content"].ToString()));
+                scriptData[i]["content"].ToString(),
+                (int)scriptData[i]["cutscene"],
+                (int)scriptData[i]["background"]));
             }
 
             this.dialogData.Add(dialogData);
