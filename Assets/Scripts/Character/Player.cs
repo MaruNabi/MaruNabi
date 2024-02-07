@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    protected const float MINIMUM_JUMP = 12.0f;
     protected bool characterID;                       //True : Maru, False : Nabi
     protected string characterName;
     protected int cLife;                              //Character Health
@@ -13,27 +12,41 @@ public class Player : MonoBehaviour
     protected float cSpeed = 6.0f;                     //Character Speed
     public static float ultimateGauge;
     protected float maxUltimateGauge;
+    protected float reviveTime = 0.0f;
+
+    protected const float MINIMUM_JUMP = 12.0f;
     [SerializeField]
     [Range(0, 10)]
     protected float cJumpPower = 0.03f;               //Incremental Jump Force
     [SerializeField]
     protected float cMaxJumpPower = 17.0f;            //Maximum Jump Force
     protected float cMiniJumpPower = MINIMUM_JUMP;    //Minimum Jump Force
-    protected float reviveTime = 0.0f;
+    protected bool isJumping = false;                 //Jumping State (Double Jump X)
+    protected bool isJumpingEnd = true;
 
-    protected float cDashPower = 20.0f;
-    protected float cDashTime = 0.2f;
-    protected float cDashCooldown = 2.0f;
+    protected const float DOUBLE_CLICK_TIME = 0.2f;
+    protected float lastClickTime = -1.0f;
+    protected bool isDoubleClicked;
+
+    private float cDashPower = 20.0f;
+    private float cDashTime = 0.2f;
+    private float cDashCooldown = 2.0f;
     protected bool canDash = true;
-    protected bool isDashing;
+    protected bool isDashing = false;
+
+    protected bool canSit = true;
+    protected bool isSitting = false;
+    protected Vector2 defaultPlayerColliderSize;
+    protected Vector2 sitPlayerColliderSize;
 
     protected Rigidbody2D rigidBody;
     protected SpriteRenderer spriteRenderer;
-
-    protected bool isJumping = false;                 //Jumping State (Double Jump X)
-    protected bool isJumpingEnd = true;
+    protected Animator playerAnimator;
+    protected BoxCollider2D playerCollider;
+    
     protected float moveHorizontal = 0.0f;
-    protected Animator playerAnimation;
+
+    private bool pastKey;
 
     protected float Charging(float minimumCharging, float maximumCharging, float addCharging) //minimum, maximum, incremental
     {
@@ -70,6 +83,30 @@ public class Player : MonoBehaviour
         rigidBody.velocity = movement + velocityYOnly;
     }
 
+    protected void DoubleClickDash(bool key)
+    {
+        if ((Time.time - lastClickTime) < DOUBLE_CLICK_TIME && pastKey == key)
+        {
+            isDoubleClicked = true;
+            lastClickTime = -1.0f;
+            StartCoroutine(PlayerDash());
+        }
+        else
+        {
+            isDoubleClicked = false;
+            lastClickTime = Time.time;
+        }
+        pastKey = key;
+    }
+
+    protected void PlayerLock()
+    {
+        if(Input.anyKeyDown)
+        {
+            
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -80,7 +117,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    protected IEnumerator Dash()
+    private IEnumerator PlayerDash()
     {
         canDash = false;
         isDashing = true;
@@ -100,5 +137,21 @@ public class Player : MonoBehaviour
         isDashing = false;
         yield return new WaitForSeconds(cDashCooldown);
         canDash = true;
+    }
+
+    protected IEnumerator PlayerSit()
+    {
+        isSitting = true;
+        canDash = false;
+        playerCollider.size = sitPlayerColliderSize;
+        if (canDash)
+        {
+            canDash = false; //TeamViewer Issue, Please Test
+        }
+        //PlayerSit vs PlayerDash Issue
+        //collision smaller
+        //animation controll
+        yield return new WaitUntil(() => isSitting == false);
+        playerCollider.size = defaultPlayerColliderSize;
     }
 }

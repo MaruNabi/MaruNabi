@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackCharm : Bullet
 {
-    public Transform enemy;
+    private Transform enemy;
     float turn = 5.0f;
     Vector3 bulletDirection;
 

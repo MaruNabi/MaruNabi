@@ -11,26 +11,33 @@ public class PlayerMaru : Player
         cLife = 3;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        playerAnimation = GetComponent<Animator>();
+        playerAnimator = GetComponent<Animator>();
+        playerCollider = GetComponent<BoxCollider2D>();
+
+        defaultPlayerColliderSize = playerCollider.size;
+        sitPlayerColliderSize = defaultPlayerColliderSize;
+        sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
         maxUltimateGauge = 3.0f;
     }
 
     void Update()
-    { 
+    {
         if (isDashing)
         {
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && !isJumping)
+        //Jump
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting)
         {
             PlayerJump(cMiniJumpPower);
             isJumpingEnd = false;
         }
 
-        if (Input.GetKey(KeyCode.W) && !isJumpingEnd)
+        //JumpAddForce
+        if (Input.GetKey(KeyCode.Space) && !isJumpingEnd && !isSitting)
         {
             if (cMiniJumpPower < cMaxJumpPower)
             {
@@ -39,40 +46,64 @@ public class PlayerMaru : Player
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyUp(KeyCode.A) && canDash && !isSitting)
+        {
+            DoubleClickDash(true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.D) && canDash && !isSitting)
+        {
+            DoubleClickDash(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.S) && canSit && !isJumping)
+        {
+            //Sit Start
+            StartCoroutine(PlayerSit());
+        }
+
+        if (Input.GetKeyUp(KeyCode.S) && isSitting)
+        {
+            //Sit End
+            isSitting = false;
+            canDash = true;
+        }
+
+        //Atk
+        if (Input.GetKeyDown(KeyCode.V))
         {
             //Attack
         }
 
-        if (Input.GetKeyDown(KeyCode.G) && canDash)
+        if (Input.GetKeyDown(KeyCode.B))
         {
-            StartCoroutine(Dash());
+            //Ultimate Attack
         }
 
         //Animation Script
         if (rigidBody.velocity.normalized.x == 0)
         {
-            playerAnimation.SetBool("isRunning", false);
+            playerAnimator.SetBool("isRunning", false);
         }
         else
         {
-            playerAnimation.SetBool("isRunning", true);
+            playerAnimator.SetBool("isRunning", true);
         }
 
         if (rigidBody.velocity.normalized.y > 0)
         {
-            playerAnimation.SetBool("isUp", true);
-            playerAnimation.SetBool("isDown", false);
+            playerAnimator.SetBool("isUp", true);
+            playerAnimator.SetBool("isDown", false);
         }
         else if (rigidBody.velocity.normalized.y < 0)
         {
-            playerAnimation.SetBool("isUp", false);
-            playerAnimation.SetBool("isDown", true);
+            playerAnimator.SetBool("isUp", false);
+            playerAnimator.SetBool("isDown", true);
         }
         else
         {
-            playerAnimation.SetBool("isUp", false);
-            playerAnimation.SetBool("isDown", false);
+            playerAnimator.SetBool("isUp", false);
+            playerAnimator.SetBool("isDown", false);
         }
     }
 
@@ -83,6 +114,8 @@ public class PlayerMaru : Player
             return;
         }
 
+        Debug.Log(canDash);
+
         PlayerMove();
     }
 
@@ -92,13 +125,27 @@ public class PlayerMaru : Player
 
         if (Input.GetKey(KeyCode.A))
         {
-            moveHorizontal = -1.0f;
+            if (isSitting)
+            {
+                moveHorizontal = 0.0f;
+            }
+            else
+            {
+                moveHorizontal = -1.0f;
+            }
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            moveHorizontal = 1.0f;
+            if (isSitting)
+            {
+                moveHorizontal = 0.0f;
+            }
+            else
+            {
+                moveHorizontal = 1.0f;
+            }
             transform.rotation = Quaternion.Euler(0, 180, 0);
         }
 
