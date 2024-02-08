@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : BulletVectorManager
+public class Bullet : MonoBehaviour
 {
     [SerializeField]
     protected float speed;
@@ -11,6 +11,7 @@ public class Bullet : BulletVectorManager
     [SerializeField]
     protected LayerMask isLayer;
     protected Rigidbody2D bulletRigidbody;
+    public Vector2 bulletVector;
 
     void Start()
     {

@@ -18,7 +18,6 @@ public class AttackSmallBeads : Bullet
     {
         base.AttackInstantiate();
 
-        bulletRigidbody.velocity = bulletVector * speed;
         //Debug.Log(bulletVector);
         //positive infinity, negative infinity
         /*

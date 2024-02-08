@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class BulletVectorManager : MonoBehaviour
 {
-    protected Vector2 bulletVector;
-    //static?
+    Vector2 bulletVector;
 
     void Start()
     {
@@ -22,6 +21,7 @@ public class BulletVectorManager : MonoBehaviour
             float angleY = directionalInput.y;
 
             bulletVector = new Vector2(angleY, angleX);
+            Debug.Log(bulletVector);
             
             transform.rotation = Quaternion.Euler(bulletVector);
         }
