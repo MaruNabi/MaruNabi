@@ -19,6 +19,7 @@ public class AttackSmallBeads : Bullet
         base.AttackInstantiate();
 
         //Debug.Log(bulletVector);
+        bulletRigidbody.velocity = bulletDir * speed;
         //positive infinity, negative infinity
         /*
         if (transform.rotation.y == 0)

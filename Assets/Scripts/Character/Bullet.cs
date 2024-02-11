@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     protected LayerMask isLayer;
     protected Rigidbody2D bulletRigidbody;
-    public Vector2 bulletVector;
+    protected Vector2 bulletDir;
 
     void Start()
     {
@@ -20,6 +20,9 @@ public class Bullet : MonoBehaviour
 
     protected void SetBullet()
     {
+        bulletDir = BulletVectorManager.bulletVector;
+        Debug.Log(bulletDir);
+
         bulletRigidbody = GetComponent<Rigidbody2D>();
         bulletRigidbody.gravityScale = 0;
         bulletRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
