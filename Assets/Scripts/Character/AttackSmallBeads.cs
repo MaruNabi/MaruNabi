@@ -19,18 +19,25 @@ public class AttackSmallBeads : Bullet
         base.AttackInstantiate();
 
         //Debug.Log(bulletVector);
-        bulletRigidbody.velocity = bulletDir * speed;
-        //positive infinity, negative infinity
-        /*
-        if (transform.rotation.y == 0)
+        //lockedBulletVector Init Problem
+        if (lockedBulletVector.magnitude == 0)
         {
-            bulletRigidbody.velocity = new Vector2(-speed, 0);
-            //bulletRigidbody.velocity = Vector2.left * speed;
+            Debug.Log(lockedBulletVector);        //Test(TeamViewerIssue) success , If success => Move to Bullet script
+            if (transform.rotation.y == 0)
+            {
+                bulletRigidbody.velocity = new Vector2(-speed, 0);
+                //bulletRigidbody.velocity = Vector2.left * speed;
+            }
+
+            else
+            {
+                bulletRigidbody.velocity = new Vector2(speed, 0);
+            }
         }
 
         else
         {
-            bulletRigidbody.velocity = new Vector2(speed, 0);
-        }*/
+            bulletRigidbody.velocity = lockedBulletVector * speed;
+        }
     }
 }

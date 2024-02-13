@@ -58,13 +58,11 @@ public class PlayerMaru : Player
 
         if (Input.GetKeyDown(KeyCode.S) && canSit && !isJumping)
         {
-            //Sit Start
             StartCoroutine(PlayerSit());
         }
 
         if (Input.GetKeyUp(KeyCode.S) && isSitting)
         {
-            //Sit End
             isSitting = false;
             canDash = true;
         }

@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     protected LayerMask isLayer;
     protected Rigidbody2D bulletRigidbody;
-    protected Vector2 bulletDir;
+    public Vector2 lockedBulletVector;
 
     void Start()
     {
@@ -20,8 +20,7 @@ public class Bullet : MonoBehaviour
 
     protected void SetBullet()
     {
-        bulletDir = BulletVectorManager.bulletVector;
-        Debug.Log(bulletDir);
+        lockedBulletVector = BulletVectorManager.bulletVector;
 
         bulletRigidbody = GetComponent<Rigidbody2D>();
         bulletRigidbody.gravityScale = 0;

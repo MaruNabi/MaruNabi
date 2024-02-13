@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class PlayerNabi : Player
 {
-    public GameObject bulletPrefab;                 //Bullet Prefab
-    public Transform bulletPosition;                //Bullet Instantiate Position
+    [SerializeField]
+    private GameObject bulletPrefab;                 //Bullet Prefab
+    [SerializeField]
+    private GameObject bulletVectorManager;
+    [SerializeField]
+    private Transform bulletPosition;                //Bullet Instantiate Position
     public float coolTime;
     private float curTime;
-    private bool isLock = false;                    //Lock
+    public bool isLock = false;                    //Lock
 
     void Start()
     {
@@ -17,6 +21,14 @@ public class PlayerNabi : Player
         cLife = 3;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerAnimator = GetComponent<Animator>();
+        playerCollider = GetComponent<BoxCollider2D>();
+
+        bulletVectorManager.SetActive(false);
+
+        defaultPlayerColliderSize = playerCollider.size;
+        sitPlayerColliderSize = defaultPlayerColliderSize;
+        sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
         maxUltimateGauge = 5.0f;
@@ -46,14 +58,15 @@ public class PlayerNabi : Player
         if (Input.GetKeyDown(KeyCode.L))
         {
             isLock = true;
-            Debug.Log("Locked");
+            bulletVectorManager.SetActive(true);
         }
         
         //LockOff
         else if (Input.GetKeyUp(KeyCode.L))
         {
             isLock = false;
-            Debug.Log("Unlocked");
+            
+            bulletVectorManager.SetActive(false);
         }
 
         //Atk
@@ -84,14 +97,28 @@ public class PlayerNabi : Player
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            moveHorizontal = -1.0f;
+            if (isSitting || isLock)
+            {
+                moveHorizontal = 0.0f;
+            }
+            else
+            {
+                moveHorizontal = -1.0f;
+            }
             transform.rotation = Quaternion.Euler(0, 0, 0);
             bulletPosition.rotation = Quaternion.Euler(0, 0, 0);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            moveHorizontal = 1.0f;
+            if (isSitting || isLock)
+            {
+                moveHorizontal = 0.0f;
+            }
+            else
+            {
+                moveHorizontal = 1.0f;
+            }
             transform.rotation = Quaternion.Euler(0, 180, 0);
             bulletPosition.rotation = Quaternion.Euler(0, 180, 0);
         }
