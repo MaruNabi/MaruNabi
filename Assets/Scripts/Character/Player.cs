@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     protected float maxUltimateGauge;
     protected float reviveTime = 0.0f;
 
-    protected const float MINIMUM_JUMP = 12.0f;
+    private const float MINIMUM_JUMP = 12.0f;
     [SerializeField]
     [Range(0, 10)]
     protected float cJumpPower = 0.03f;               //Incremental Jump Force
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     protected bool isJumping = false;                 //Jumping State (Double Jump X)
     protected bool isJumpingEnd = true;
 
-    protected const float DOUBLE_CLICK_TIME = 0.2f;
+    private const float DOUBLE_CLICK_TIME = 0.2f;
     protected float lastClickTime = -1.0f;
     protected bool isDoubleClicked;
 
@@ -99,14 +99,6 @@ public class Player : MonoBehaviour
         pastKey = key;
     }
 
-    protected void PlayerLock()
-    {
-        if(Input.anyKeyDown)
-        {
-            
-        }
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -114,6 +106,14 @@ public class Player : MonoBehaviour
             isJumping = false;
             isJumpingEnd = true;
             cMiniJumpPower = MINIMUM_JUMP;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Enemy Attack or Touch");
         }
     }
 

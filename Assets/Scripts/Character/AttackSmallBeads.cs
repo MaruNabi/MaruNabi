@@ -18,15 +18,11 @@ public class AttackSmallBeads : Bullet
     {
         base.AttackInstantiate();
 
-        //Debug.Log(bulletVector);
-        //lockedBulletVector Init Problem
         if (lockedBulletVector.magnitude == 0)
         {
-            Debug.Log(lockedBulletVector);        //Test(TeamViewerIssue) success , If success => Move to Bullet script
             if (transform.rotation.y == 0)
             {
                 bulletRigidbody.velocity = new Vector2(-speed, 0);
-                //bulletRigidbody.velocity = Vector2.left * speed;
             }
 
             else

@@ -10,9 +10,10 @@ public class PlayerNabi : Player
     private GameObject bulletVectorManager;
     [SerializeField]
     private Transform bulletPosition;                //Bullet Instantiate Position
-    public float coolTime;
+    [SerializeField]
+    private float coolTime;
     private float curTime;
-    public bool isLock = false;                    //Lock
+    private bool isLock = false;                    //Lock
 
     void Start()
     {
@@ -31,7 +32,7 @@ public class PlayerNabi : Player
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
-        maxUltimateGauge = 5.0f;
+        maxUltimateGauge = 1500.0f;
     }
 
     void Update()
@@ -42,16 +43,20 @@ public class PlayerNabi : Player
         }
 
         //Jump
-        if (Input.GetKey(KeyCode.RightControl) && !isJumping && !isLock)
+        if (Input.GetKeyDown(KeyCode.RightControl) && !isJumping && !isSitting)
         {
-            Debug.Log("RightCtrl");
-            cMiniJumpPower = Charging(cMiniJumpPower, cMaxJumpPower, cJumpPower);
+            PlayerJump(cMiniJumpPower);
+            isJumpingEnd = false;
         }
 
         //JumpAddForce
-        if (Input.GetKeyUp(KeyCode.RightControl) && !isJumping && !isLock)
+        if (Input.GetKey(KeyCode.RightControl) && !isJumpingEnd && !isSitting)
         {
-            PlayerJump(cMiniJumpPower);
+            if (cMiniJumpPower < cMaxJumpPower)
+            {
+                PlayerJumping(cJumpPower);
+                cMiniJumpPower += cJumpPower;
+            }
         }
 
         //LockOn
@@ -65,7 +70,7 @@ public class PlayerNabi : Player
         else if (Input.GetKeyUp(KeyCode.L))
         {
             isLock = false;
-            
+            BulletVectorManager.bulletVector = new Vector2(0, 0);
             bulletVectorManager.SetActive(false);
         }
 
@@ -79,6 +84,25 @@ public class PlayerNabi : Player
             curTime = coolTime;
         }
         curTime -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.LeftBracket))
+        {
+            //None
+            if (ultimateGauge < 500f)
+            {
+                return;
+            }
+            //Special Move
+            else if (ultimateGauge == maxUltimateGauge)
+            {
+
+            }
+            //Ability
+            else
+            {
+
+            }
+        }
     }
 
     private void FixedUpdate()

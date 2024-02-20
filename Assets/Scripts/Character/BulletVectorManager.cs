@@ -22,7 +22,12 @@ public class BulletVectorManager : MonoBehaviour
             float angleX = directionalInput.x;
             float angleY = directionalInput.y;
 
-            bulletVector = new Vector2(angleY, angleX);
+            bulletVector = new Vector2(angleX, angleY);
+        }
+
+        else
+        {
+            bulletVector = new Vector2(0.0f, 0.0f);
         }
     }
     Vector2 GetDirectionalInput()
@@ -30,6 +35,6 @@ public class BulletVectorManager : MonoBehaviour
         vertical = (Input.GetKey(KeyCode.RightArrow) && !(Input.GetKey(KeyCode.LeftArrow)) ? 1 : 0) - (!(Input.GetKey(KeyCode.RightArrow)) && Input.GetKey(KeyCode.LeftArrow) ? 1 : 0);
         horizontal = (Input.GetKey(KeyCode.UpArrow) && !(Input.GetKey(KeyCode.DownArrow)) ? 1 : 0) - (!(Input.GetKey(KeyCode.UpArrow)) && Input.GetKey(KeyCode.DownArrow) ? 1 : 0);
 
-        return new Vector2(horizontal, vertical);
+        return new Vector2(vertical, horizontal);
     }
 }

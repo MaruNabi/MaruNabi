@@ -19,7 +19,7 @@ public class PlayerMaru : Player
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
-        maxUltimateGauge = 3.0f;
+        maxUltimateGauge = 1500.0f;
     }
 
     void Update()

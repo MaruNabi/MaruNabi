@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour
     protected LayerMask isLayer;
     protected Rigidbody2D bulletRigidbody;
     public Vector2 lockedBulletVector;
+    private float attackPower = 300f;
 
     void Start()
     {
@@ -45,7 +46,10 @@ public class Bullet : MonoBehaviour
             {
                 Debug.Log("Enemy Hit!");
 
-                PlayerNabi.ultimateGauge += 0.3f;
+                if ((PlayerNabi.ultimateGauge += attackPower) > 1500f)
+                {
+                    PlayerNabi.ultimateGauge = 1500f;
+                }
             }
             DestroyBullet();
         }
