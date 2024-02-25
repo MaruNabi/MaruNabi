@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,13 +30,18 @@ public class ScholarManager : MonoBehaviour
 
     private bool isScholarBehit;
 
+    // TO DO : 20240225 kimyeonmo 기획에 따라 달라질 수 있는 수치는 데이터에셋등 다른 형태로 저장하기
+    private const int initMonsterNum = 5;
+
+    private int deathMonster = 0;
+
     private void Awake()
     {
         isScholarBehit = false;
     }
     void Start()
     {
-        this.RandomScholars(); 
+        this.RandomScholars(initMonsterNum); 
     }
 
     void Update()
@@ -58,6 +64,7 @@ public class ScholarManager : MonoBehaviour
         return this.player;
     }
 
+    // TO DO : 20240225 kimyeonmo 기획에 이런게 있었나? 이거 왜 만들었지 ...
     public Vector3 RandomAttack()
     {
         int idx = Random.Range(0, 5);
@@ -65,18 +72,19 @@ public class ScholarManager : MonoBehaviour
         return scholarTransformArr[idx].position;
     }
 
-    private int GetRandomIdx()
+    private int GetRandomIdx(int inNum)
     {
-        int idx = Random.Range(0, 5);
+        int idx = Random.Range(0, inNum);
 
         return idx;
     }
 
-    private void RandomScholars()
+    private void RandomScholars(int inNum)
     {
-        this.mouseIdx = GetRandomIdx();
+        this.mouseIdx = GetRandomIdx(inNum);
+        // TO DO : 20240225 kimyeonmo inNum은 그대로 두고, 빈자리에 빈 번호표를 하나 나눠줘야함
 
-        for(int i = 0; i < 6; i++)
+        for (int i = 0; i <= inNum; i++)
         {
             if(i == this.mouseIdx)
             {
@@ -158,5 +166,15 @@ public class ScholarManager : MonoBehaviour
     public void DestroyFan(GameObject fan)
     {
         Destroy(fan);
+    }
+
+    public int GetDeathMonster()
+    {
+        return deathMonster;
+    }
+
+    public void SetDeathMonster()
+    {
+        deathMonster++;
     }
 }

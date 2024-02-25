@@ -22,7 +22,7 @@ public partial class Scholar : LivingEntity
         Transform textMeshProTransform = scholarCanvas.GetChild(0);
         this.hpTextBox = textMeshProTransform.GetComponent<TextMeshProUGUI>();
 
-        // TO DO: HP 다른 곳에서 관리
+        // TO DO: 20240225 kimyeonmo HP 다른 곳에서 관리
         this.startingHP = 999999999;
 
         this.scholarManager = transform.parent.GetComponent<ScholarManager>();
@@ -37,7 +37,7 @@ public partial class Scholar : LivingEntity
     {
         this.scholarStateMachine.Initialize("Appearance", this);
 
-        // TO DO: UI 로직 분리 (delegate 이용)
+        // TO DO: 20240225 kimyeonmo UI 로직 분리 (delegate 이용)
         this.hpTextBox.text = HP.ToString();
     }
 

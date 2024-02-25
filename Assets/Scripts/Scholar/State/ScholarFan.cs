@@ -70,6 +70,7 @@ public class ScholarFan : ScholarState
         if (this.stateMachine.Scholar.HP <= 0 && !this.stateMachine.Scholar.dead)
         {
             this.stateMachine.Scholar.Dead();
+            this.stateMachine.Scholar.scholarManager.SetDeathMonster();
         }
     }
 }

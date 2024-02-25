@@ -2004,6 +2004,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2125024048}
   - component: {fileID: 2125024049}
+  - component: {fileID: 2125024050}
   m_Layer: 0
   m_Name: ScholarManager
   m_TagString: Untagged
@@ -2050,3 +2051,17 @@ MonoBehaviour:
   - {fileID: 1838857199}
   - {fileID: 495428218}
   - {fileID: 941720219}
+--- !u!114 &2125024050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125024047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb367b67d6149554ab2449693712fefd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fanPrefab: {fileID: 444426551954482774, guid: dbff4382214158b4dab5fbab62d458c4, type: 3}
+  player: {fileID: 596352307}
