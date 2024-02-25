@@ -30,7 +30,6 @@ public class ScholarIdle : ScholarState
             Debug.Log("idle 시간 달성");
 
             this.isBehit = this.stateMachine.Scholar.scholarManager.GetIsSchloarBehit();
-            Debug.Log("is Behit : " + this.isBehit);
 
             if (this.isBehit == true)
             {

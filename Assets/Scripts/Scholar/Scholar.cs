@@ -12,14 +12,6 @@ public partial class Scholar : LivingEntity
 
     public ScholarManager scholarManager;
 
-    /*
-    private bool isMouse;
-    public bool IsMouse
-    {
-        get; set;
-    }
-    */
-
     private void Awake()
     {
         this.scholarStateMachine = this.gameObject.AddComponent<ScholarStateMachine>();
@@ -43,10 +35,9 @@ public partial class Scholar : LivingEntity
 
     void Start()
     {
-        // this.scholarStateMachine.Initialize("Idle", this);
         this.scholarStateMachine.Initialize("Appearance", this);
 
-        // TO DO: UI 로직 분리 (delegate)
+        // TO DO: UI 로직 분리 (delegate 이용)
         this.hpTextBox.text = HP.ToString();
     }
 

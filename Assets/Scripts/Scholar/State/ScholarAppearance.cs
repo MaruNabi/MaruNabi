@@ -22,8 +22,6 @@ public class ScholarAppearance : ScholarState
 
         this.elapsedTime += Time.deltaTime;
 
-        Debug.Log("appearance ½Ã°£: " + elapsedTime);
-
         if (this.elapsedTime >= this.escapeTime)
         {
             this.stateMachine.SetState("Idle");

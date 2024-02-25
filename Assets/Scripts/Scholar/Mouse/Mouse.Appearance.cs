@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class Mouse : LivingEntity
 {
-    private SpriteRenderer scholarSpriteRenderer;
+    private SpriteRenderer mouseSpriteRenderer;
 
     private Color fadeColor;
 
@@ -15,15 +15,15 @@ public partial class Mouse : LivingEntity
 
     public IEnumerator AppearanceCoroutine()
     {
-        this.fadeColor = scholarSpriteRenderer.color;
+        this.fadeColor = mouseSpriteRenderer.color;
         this.fadeColor.a = 0f;
-        scholarSpriteRenderer.color = this.fadeColor;
+        mouseSpriteRenderer.color = this.fadeColor;
 
         while (this.fadeColor.a <= 1f)
         {
-            this.fadeColor = scholarSpriteRenderer.color;
+            this.fadeColor = mouseSpriteRenderer.color;
             this.fadeColor.a += 0.05f;
-            scholarSpriteRenderer.color = this.fadeColor;
+            mouseSpriteRenderer.color = this.fadeColor;
 
             yield return new WaitForSeconds(0.05f);
         }
@@ -31,16 +31,16 @@ public partial class Mouse : LivingEntity
 
     private IEnumerator BeHitEffect()
     {
-        this.BehitColor = this.scholarSpriteRenderer.color;
+        this.BehitColor = this.mouseSpriteRenderer.color;
 
         this.BehitColor.a = this.transparent;
 
-        this.scholarSpriteRenderer.color = this.BehitColor;
+        this.mouseSpriteRenderer.color = this.BehitColor;
 
         yield return new WaitForSeconds(0.3f);
 
         this.BehitColor.a = this.normal;
 
-        this.scholarSpriteRenderer.color = this.BehitColor;
+        this.mouseSpriteRenderer.color = this.BehitColor;
     }
 }

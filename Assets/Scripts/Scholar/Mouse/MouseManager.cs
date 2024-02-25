@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class MouseManager : MonoBehaviour
 {
-    private bool isMouseBehit;
+    [SerializeField]
+    public GameObject fanPrefab;
 
+    [SerializeField]
+    private GameObject player;
+
+    private bool isMouseBehit;
+   
     void Start()
     {
         
@@ -16,13 +22,31 @@ public class MouseManager : MonoBehaviour
         
     }
 
-    public void SetSchloarBehit(bool isHit)
+    public void SetMouseBehit(bool isHit)
     {
         this.isMouseBehit = isHit;
     }
 
-    public bool GetIsSchloarBehit()
+    public bool GetIsMouseBehit()
     {
         return this.isMouseBehit;
+    }
+
+    public GameObject GetPlayer()
+    {
+        return this.player;
+    }
+
+    public GameObject MakeFan(Vector3 fanPosition)
+    {
+        GameObject fan = GameObject.Instantiate(fanPrefab);
+        fan.transform.position = fanPosition;
+
+        return fan;
+    }
+
+    public void DestroyFan(GameObject fan)
+    {
+        Destroy(fan);
     }
 }

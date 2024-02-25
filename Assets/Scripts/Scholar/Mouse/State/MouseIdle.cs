@@ -19,7 +19,6 @@ public class MouseIdle : MouseState
 
         this.stateMachine.Mouse.IsIdle = true;
     }
-
     public override void OnUpdate()
     {
         base.OnUpdate();
@@ -30,16 +29,14 @@ public class MouseIdle : MouseState
         {
             Debug.Log("idle 시간 달성");
 
-            this.isBehit = this.stateMachine.Mouse.mouseManager.GetIsSchloarBehit();
+            this.isBehit = this.stateMachine.Mouse.mouseManager.GetIsMouseBehit();
 
             if (this.isBehit == true)
             {
-                // TO DO: 아직 Fan이 없음
-                // this.stateMachine.SetState("Fan");
+                this.stateMachine.SetState("Fan");
             }
         }
     }
-
     public override void OnExit()
     {
         base.OnExit();
