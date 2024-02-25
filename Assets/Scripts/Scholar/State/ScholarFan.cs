@@ -56,7 +56,7 @@ public class ScholarFan : ScholarState
         {
             this.stateMachine.Scholar.scholarManager.DestroyFan(this.fan);
 
-            this.stateMachine.SetState("Idle");
+            this.stateMachine.SetState("Appearance");
         }
     }
     public override void OnExit()

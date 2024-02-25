@@ -43,7 +43,7 @@ public partial class Scholar : LivingEntity
 
     void Start()
     {
-        this.scholarStateMachine.Initialize("Idle", this);
+        // this.scholarStateMachine.Initialize("Idle", this);
         this.scholarStateMachine.Initialize("Appearance", this);
 
         // TO DO: UI 로직 분리 (delegate)

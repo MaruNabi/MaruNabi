@@ -23,7 +23,6 @@ public class ScholarIdle : ScholarState
     {
         base.OnUpdate();
 
-        Debug.Log("idle ½Ã°£: " + elapsedTime);
         this.elapsedTime += Time.deltaTime;
 
         if (this.elapsedTime >= this.escapeTime)
