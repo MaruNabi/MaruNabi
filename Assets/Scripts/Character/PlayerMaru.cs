@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMaru : Player
 {
+    [SerializeField]
+    private Image[] maruLife;
+    public Sprite blankHP, fillHP;
+    private int cMaruLife;
+
     void Start()
     {
         characterID = true;
         characterName = "Maru";
-        cLife = 3;
+        cMaruLife = MAX_LIFE;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
@@ -19,7 +25,6 @@ public class PlayerMaru : Player
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
-        maxUltimateGauge = 1500.0f;
     }
 
     void Update()
@@ -112,9 +117,10 @@ public class PlayerMaru : Player
             return;
         }
 
-        Debug.Log(canDash);
-
-        PlayerMove();
+        if (!isHit)
+        {
+            PlayerMove();
+        }
     }
 
     protected override void PlayerMove()
@@ -148,5 +154,44 @@ public class PlayerMaru : Player
         }
 
         base.PlayerMove();
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (isInvincibleTime)
+                return;
+
+            isHit = true;
+
+            if (cMaruLife > 0)
+            {
+                cMaruLife -= 1;
+            }
+            else
+            {
+                //Dead
+            }
+
+            UpdateLifeUI();
+
+            StartCoroutine(Ondamaged(collision.transform.position));
+        }
+    }
+
+    private void UpdateLifeUI()
+    {
+        for (int i = 0; i < MAX_LIFE; i++)
+        {
+            if (i < cMaruLife)
+            {
+                maruLife[i].sprite = fillHP;
+            }
+            else
+            {
+                maruLife[i].sprite = blankHP;
+            }
+        }
     }
 }

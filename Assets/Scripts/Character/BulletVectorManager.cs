@@ -8,11 +8,6 @@ public class BulletVectorManager : MonoBehaviour
     private int vertical;
     private int horizontal;
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         Vector2 directionalInput = GetDirectionalInput();

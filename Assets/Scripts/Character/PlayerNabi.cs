@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerNabi : Player
 {
     [SerializeField]
     private GameObject bulletPrefab;                 //Bullet Prefab
+    [SerializeField]
+    private GameObject skillPrefab;
     [SerializeField]
     private GameObject bulletVectorManager;
     [SerializeField]
@@ -15,11 +18,16 @@ public class PlayerNabi : Player
     private float curTime;
     private bool isLock = false;                    //Lock
 
+    [SerializeField]
+    private Image[] nabiLife;
+    public Sprite blankHP, fillHP;
+    private int cNabiLife;
+
     void Start()
     {
         characterID = false;
         characterName = "Nabi";
-        cLife = 3;
+        cNabiLife = MAX_LIFE;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
@@ -32,7 +40,6 @@ public class PlayerNabi : Player
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
-        maxUltimateGauge = 1500.0f;
     }
 
     void Update()
@@ -88,19 +95,20 @@ public class PlayerNabi : Player
         if (Input.GetKeyDown(KeyCode.LeftBracket))
         {
             //None
-            if (ultimateGauge < 500f)
+            if (ultimateGauge < 500.0f)
             {
                 return;
             }
             //Special Move
             else if (ultimateGauge == maxUltimateGauge)
             {
-
+                Instantiate(skillPrefab, bulletPosition.position, transform.rotation);
+                ultimateGauge = 0.0f;
             }
             //Ability
             else
             {
-
+                ultimateGauge -= 500.0f;
             }
         }
     }
@@ -112,7 +120,10 @@ public class PlayerNabi : Player
             return;
         }
 
-        PlayerMove();
+        if (!isHit)
+        {
+            PlayerMove();
+        }
     }
 
     protected override void PlayerMove()
@@ -148,5 +159,45 @@ public class PlayerNabi : Player
         }
 
         base.PlayerMove();
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (isInvincibleTime)
+                return;
+
+            isHit = true;
+
+            if (cNabiLife > 0)
+            {
+                cNabiLife -= 1;
+            }
+            else
+            {
+                //Dead
+                return;
+            }
+
+            UpdateLifeUI();
+
+            StartCoroutine(Ondamaged(collision.transform.position));
+        }
+    }
+
+    private void UpdateLifeUI()
+    {
+        for (int i = 0; i < MAX_LIFE; i++)
+        {
+            if (i < cNabiLife)
+            {
+                nabiLife[i].sprite = fillHP;
+            }
+            else
+            {
+                nabiLife[i].sprite = blankHP;
+            }
+        }
     }
 }

@@ -6,12 +6,12 @@ public class Player : MonoBehaviour
 {
     protected bool characterID;                       //True : Maru, False : Nabi
     protected string characterName;
-    protected int cLife;                              //Character Health
+    public const int MAX_LIFE = 3;
     [SerializeField]
     [Range(0, 10)]
     protected float cSpeed = 6.0f;                     //Character Speed
     public static float ultimateGauge;
-    protected float maxUltimateGauge;
+    protected const float maxUltimateGauge = 1500.0f;
     protected float reviveTime = 0.0f;
 
     private const float MINIMUM_JUMP = 12.0f;
@@ -39,11 +39,14 @@ public class Player : MonoBehaviour
     protected Vector2 defaultPlayerColliderSize;
     protected Vector2 sitPlayerColliderSize;
 
+    protected bool isInvincibleTime = false;
+    protected bool isHit = false;
+
     protected Rigidbody2D rigidBody;
     protected SpriteRenderer spriteRenderer;
     protected Animator playerAnimator;
     protected BoxCollider2D playerCollider;
-    
+
     protected float moveHorizontal = 0.0f;
 
     private bool pastKey;
@@ -81,6 +84,7 @@ public class Player : MonoBehaviour
         Vector3 velocityYOnly = new Vector3(0.0f, rigidBody.velocity.y, 0.0f);
 
         rigidBody.velocity = movement + velocityYOnly;
+        //rigidBody.AddForce((movement + velocityYOnly)*10.0f);
     }
 
     protected void DoubleClickDash(bool key)
@@ -109,12 +113,34 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    protected IEnumerator Ondamaged(Vector2 enemyPos)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (isHit)
         {
-            Debug.Log("Enemy Attack or Touch");
+            StartCoroutine(Invincible(3.0f));
+            int dir = transform.position.x - enemyPos.x > 0 ? 1 : -1;
+            rigidBody.AddForce(new Vector2(dir, 1) * 7f, ForceMode2D.Impulse);
+            yield return new WaitForSeconds(0.5f);
+            isHit = false;
+            yield return new WaitForSeconds(2.5f);
         }
+    }
+
+    private IEnumerator Invincible(float invincibleTime)
+    {
+        isInvincibleTime = true;
+        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        yield return new WaitForSeconds(invincibleTime);
+        spriteRenderer.color = new Color(1, 1, 1, 1);
+        isInvincibleTime = false;
+    }
+
+    private IEnumerator BlinkCharacter()
+    {
+        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.color = new Color(1, 1, 1, 1);
+        yield return new WaitForSeconds(0.1f);
     }
 
     private IEnumerator PlayerDash()
@@ -146,10 +172,8 @@ public class Player : MonoBehaviour
         playerCollider.size = sitPlayerColliderSize;
         if (canDash)
         {
-            canDash = false; //TeamViewer Issue, Please Test
+            canDash = false;
         }
-        //PlayerSit vs PlayerDash Issue
-        //collision smaller
         //animation controll
         yield return new WaitUntil(() => isSitting == false);
         playerCollider.size = defaultPlayerColliderSize;

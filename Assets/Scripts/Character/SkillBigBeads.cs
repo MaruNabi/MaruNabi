@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackSmallBeads : Bullet
+public class SkillBigBeads : Bullet
 {
     void Start()
     {
@@ -20,6 +20,6 @@ public class AttackSmallBeads : Bullet
 
         NormalBulletMovement();
 
-        ColliderCheck(true, false);
+        ColliderCheck(false, true);
     }
 }

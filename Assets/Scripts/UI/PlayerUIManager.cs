@@ -9,21 +9,35 @@ public class PlayerUIManager : MonoBehaviour
     public Slider maruSlider;
     private float currentUltimateGuage = 0.0f;
 
+    public Image[] maruLife;
+    public Image[] nabiLife;
+    public Sprite blankHP, fillHP;
+
+    void Awake()
+    {
+        
+    }
+
     void Start()
     {
-
+        for (int i = 0; i < 3; i++)
+        {
+            maruLife[i].sprite = fillHP;
+            nabiLife[i].sprite = fillHP;
+        }
     }
 
     void Update()
     {
-        if (currentUltimateGuage != PlayerNabi.ultimateGauge)
+        if (currentUltimateGuage != Player.ultimateGauge)
         {
             SliderUpdate();
         }
     }
 
-    private void SliderUpdate()
+    public void SliderUpdate()
     {
-        nabiSlider.value = PlayerNabi.ultimateGauge;
+        nabiSlider.value = Player.ultimateGauge;
+        currentUltimateGuage = Player.ultimateGauge;
     }
 }
