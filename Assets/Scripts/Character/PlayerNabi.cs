@@ -35,6 +35,8 @@ public class PlayerNabi : Player
 
         bulletVectorManager.SetActive(false);
 
+        reviveZone.SetActive(false);
+
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
         sitPlayerColliderSize.y -= 0.5f;
@@ -120,7 +122,7 @@ public class PlayerNabi : Player
             return;
         }
 
-        if (!isHit)
+        if (canMove)
         {
             PlayerMove();
         }
@@ -169,20 +171,20 @@ public class PlayerNabi : Player
                 return;
 
             isHit = true;
+            canMove = false;
 
-            if (cNabiLife > 0)
+            if (cNabiLife > 1)
             {
                 cNabiLife -= 1;
+                StartCoroutine(Ondamaged(collision.transform.position));
             }
             else
             {
-                //Dead
-                return;
+                cNabiLife -= 1;
+                StartCoroutine(Death());
             }
 
             UpdateLifeUI();
-
-            StartCoroutine(Ondamaged(collision.transform.position));
         }
     }
 

@@ -20,6 +20,8 @@ public class PlayerMaru : Player
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
 
+        reviveZone.SetActive(false);
+
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
         sitPlayerColliderSize.y -= 0.5f;
@@ -117,7 +119,7 @@ public class PlayerMaru : Player
             return;
         }
 
-        if (!isHit)
+        if (canMove)
         {
             PlayerMove();
         }
@@ -164,19 +166,20 @@ public class PlayerMaru : Player
                 return;
 
             isHit = true;
+            canMove = false;
 
-            if (cMaruLife > 0)
+            if (cMaruLife > 1)
             {
                 cMaruLife -= 1;
+                StartCoroutine(Ondamaged(collision.transform.position));
             }
             else
             {
-                //Dead
+                cMaruLife -= 1;
+                StartCoroutine(Death());
             }
 
             UpdateLifeUI();
-
-            StartCoroutine(Ondamaged(collision.transform.position));
         }
     }
 

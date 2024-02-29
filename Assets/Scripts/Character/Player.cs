@@ -10,9 +10,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     [Range(0, 10)]
     protected float cSpeed = 6.0f;                     //Character Speed
+    protected bool canMove = true;
     public static float ultimateGauge;
     protected const float maxUltimateGauge = 1500.0f;
-    protected float reviveTime = 0.0f;
+    public float reviveTime = 1.5f;
+    public const float ADD_REVIVE_TIME = 0.8f;
+    public const float MAX_REVIVE_TIME = 9.5f;
 
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField]
@@ -41,6 +44,9 @@ public class Player : MonoBehaviour
 
     protected bool isInvincibleTime = false;
     protected bool isHit = false;
+
+    [SerializeField]
+    protected GameObject reviveZone;
 
     protected Rigidbody2D rigidBody;
     protected SpriteRenderer spriteRenderer;
@@ -113,6 +119,15 @@ public class Player : MonoBehaviour
         }
     }
 
+    protected IEnumerator Death()
+    {
+        canMove = false;
+        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        reviveZone.SetActive(true);
+        yield return new WaitForSeconds(10.0f);
+        this.gameObject.SetActive(false);
+    }
+
     protected IEnumerator Ondamaged(Vector2 enemyPos)
     {
         if (isHit)
@@ -122,6 +137,7 @@ public class Player : MonoBehaviour
             rigidBody.AddForce(new Vector2(dir, 1) * 7f, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.5f);
             isHit = false;
+            canMove = true;
             yield return new WaitForSeconds(2.5f);
         }
     }
@@ -129,18 +145,25 @@ public class Player : MonoBehaviour
     private IEnumerator Invincible(float invincibleTime)
     {
         isInvincibleTime = true;
-        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        StartCoroutine(BlinkEffect(invincibleTime));
         yield return new WaitForSeconds(invincibleTime);
         spriteRenderer.color = new Color(1, 1, 1, 1);
         isInvincibleTime = false;
     }
 
-    private IEnumerator BlinkCharacter()
+    private IEnumerator BlinkEffect(float invincibleTime)
     {
-        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
-        yield return new WaitForSeconds(0.1f);
-        spriteRenderer.color = new Color(1, 1, 1, 1);
-        yield return new WaitForSeconds(0.1f);
+        float remainingTime = 0.0f;
+        float startTime = Time.time;
+
+        while (remainingTime < invincibleTime)
+        {
+            spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+            yield return new WaitForSeconds(0.15f);
+            spriteRenderer.color = new Color(1, 1, 1, 1);
+            yield return new WaitForSeconds(0.15f);
+            remainingTime = Time.time - startTime;
+        }
     }
 
     private IEnumerator PlayerDash()
