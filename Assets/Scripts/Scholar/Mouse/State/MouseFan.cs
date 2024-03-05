@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class ScholarFan : ScholarState
+public class MouseFan : MouseState
 {
     private float elapsedTime = 0f;
     private float escapeTime = 3f;
@@ -11,15 +10,15 @@ public class ScholarFan : ScholarState
     private float fanSpeed = 3f;
     private float scaleSpeed = 7f;
 
-    private Transform scholarTransform;
+    private Transform mouseTransform;
 
-    private Vector3 scholarPos;
+    private Vector3 mousePos;
     private Vector3 playerPos;
 
     private GameObject fan;
     private GameObject player;
 
-    public ScholarFan(ScholarStateMachine stateMachine) : base(stateMachine)
+    public MouseFan(MouseStateMachine stateMachine) : base(stateMachine)
     {
     }
 
@@ -29,14 +28,14 @@ public class ScholarFan : ScholarState
 
         Debug.Log("부채");
 
-        this.scholarTransform = this.stateMachine.Scholar.transform;
-        this.scholarPos = scholarTransform.position;
+        this.mouseTransform = this.stateMachine.Mouse.transform;
+        this.mousePos = mouseTransform.position;
 
-        Debug.Log("위치: " + this.scholarPos);
+        Debug.Log("위치: " + this.mousePos);
 
-        this.fan = this.stateMachine.Scholar.scholarManager.MakeFan(scholarPos);
+        this.fan = this.stateMachine.Mouse.mouseManager.MakeFan(mousePos);
 
-        this.player = this.stateMachine.Scholar.scholarManager.GetPlayer();
+        this.player = this.stateMachine.Mouse.mouseManager.GetPlayer();
         this.playerPos = this.player.transform.position;
     }
     public override void OnUpdate()
@@ -54,7 +53,7 @@ public class ScholarFan : ScholarState
 
         if (this.elapsedTime >= this.escapeTime)
         {
-            this.stateMachine.Scholar.scholarManager.DestroyFan(this.fan);
+            this.stateMachine.Mouse.mouseManager.DestroyFan(this.fan);
 
             this.stateMachine.SetState("Appearance");
         }
@@ -65,12 +64,11 @@ public class ScholarFan : ScholarState
 
         this.elapsedTime = 0f;
 
-        this.stateMachine.Scholar.scholarManager.SetSchloarBehit(false);
+        this.stateMachine.Mouse.mouseManager.SetMouseBehit(false);
 
-        if (this.stateMachine.Scholar.HP <= 0 && !this.stateMachine.Scholar.dead)
+        if (this.stateMachine.Mouse.HP <= 0 && !this.stateMachine.Mouse.dead)
         {
-            this.stateMachine.Scholar.Dead();
-            this.stateMachine.Scholar.scholarManager.SetDeathMonster();
+            this.stateMachine.Mouse.Dead();
         }
     }
 }

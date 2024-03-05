@@ -12,14 +12,6 @@ public partial class Scholar : LivingEntity
 
     public ScholarManager scholarManager;
 
-    /*
-    private bool isMouse;
-    public bool IsMouse
-    {
-        get; set;
-    }
-    */
-
     private void Awake()
     {
         this.scholarStateMachine = this.gameObject.AddComponent<ScholarStateMachine>();
@@ -30,6 +22,7 @@ public partial class Scholar : LivingEntity
         Transform textMeshProTransform = scholarCanvas.GetChild(0);
         this.hpTextBox = textMeshProTransform.GetComponent<TextMeshProUGUI>();
 
+        // TO DO: 20240225 kimyeonmo HP 다른 곳에서 관리
         this.startingHP = 999999999;
 
         this.scholarManager = transform.parent.GetComponent<ScholarManager>();
@@ -42,9 +35,9 @@ public partial class Scholar : LivingEntity
 
     void Start()
     {
-        this.scholarStateMachine.Initialize("Idle", this);
         this.scholarStateMachine.Initialize("Appearance", this);
 
+        // TO DO: 20240225 kimyeonmo UI 로직 분리 (delegate 이용)
         this.hpTextBox.text = HP.ToString();
     }
 

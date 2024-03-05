@@ -23,7 +23,6 @@ public class ScholarIdle : ScholarState
     {
         base.OnUpdate();
 
-        Debug.Log("idle 시간: " + elapsedTime);
         this.elapsedTime += Time.deltaTime;
 
         if (this.elapsedTime >= this.escapeTime)
@@ -31,7 +30,6 @@ public class ScholarIdle : ScholarState
             Debug.Log("idle 시간 달성");
 
             this.isBehit = this.stateMachine.Scholar.scholarManager.GetIsSchloarBehit();
-            Debug.Log("is Behit : " + this.isBehit);
 
             if (this.isBehit == true)
             {
