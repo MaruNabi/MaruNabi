@@ -14,7 +14,9 @@ public class ScholarAppearance : ScholarState
     public override void OnEnter()
     {
         base.OnEnter();
-        this.stateMachine.StartCoroutine(this.stateMachine.Scholar.AppearanceCoroutine());
+
+
+        this.stateMachine.StartCoroutine(this.stateMachine.Scholar.AppearanceCoroutine ());
     }
     public override void OnUpdate()
     {

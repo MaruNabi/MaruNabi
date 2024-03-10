@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MouseAppearance : MouseState
@@ -14,8 +15,8 @@ public class MouseAppearance : MouseState
     public override void OnEnter()
     {
         base.OnEnter();
-
         // TO DO: kimyeonmo 240225 AppearanceCoroutine 추가하기
+        this.stateMachine.StartCoroutine(this.stateMachine.Mouse.AppearanceCoroutine());
     }
     public override void OnUpdate()
     {

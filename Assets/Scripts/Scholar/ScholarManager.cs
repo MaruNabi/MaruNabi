@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class ScholarManager : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private GameObject scholarPrefab;
 
     [SerializeField]
@@ -15,25 +16,43 @@ public class ScholarManager : MonoBehaviour
     [SerializeField]
     private GameObject strawPrefab;
 
-    [SerializeField] 
+    [SerializeField]
     public GameObject fanPrefab;
 
     [SerializeField]
     private GameObject player;
 
     [SerializeField]
-    private Transform[] scholarTransformArr = new Transform[6];
+    private Transform[] monsterTransformArr = new Transform[6];
 
     private GameObject[] scholars = new GameObject[6];
 
-    private int mouseIdx;
-
     private bool isScholarBehit;
+    private bool isInit = true;
+    private bool isFanEnd;
 
     // TO DO : 20240225 kimyeonmo 기획에 따라 달라질 수 있는 수치는 데이터에셋등 다른 형태로 저장하기
-    private const int initMonsterNum = 5;
-
+    private const int initMonsterNum = 6;
     private int deathMonster = 0;
+
+    enum MonsterType
+    {
+        Mouse = 0,      // 쥐
+        Scholar = 1,  // 선비
+        Empty = 2     // 빈칸
+    }
+
+    public bool IsInit
+    {
+        get { return isInit; }
+        set { isInit = value; }
+    }
+
+    public bool IsFanEnd
+    {
+        get { return isFanEnd; }
+        set { isFanEnd = value; }
+    }
 
     private void Awake()
     {
@@ -41,12 +60,16 @@ public class ScholarManager : MonoBehaviour
     }
     void Start()
     {
-        this.RandomScholars(initMonsterNum); 
+        this.MakeRandomMonsterLocation(initMonsterNum);
     }
 
     void Update()
     {
-
+        if(this.isFanEnd == true)
+        {
+            this.MakeRandomMonsterLocation(GetArriveMonster());
+            this.isFanEnd = false;
+        }
     } 
 
     public void SetSchloarBehit(bool isHit)
@@ -64,62 +87,79 @@ public class ScholarManager : MonoBehaviour
         return this.player;
     }
 
-    // TO DO : 20240225 kimyeonmo 기획에 이런게 있었나? 이거 왜 만들었지 ...
-    public Vector3 RandomAttack()
+    static List<MonsterType> GetRandomCombination(int inMonsterNum) // inMonsterNum = 생존한 몬스터 수(선비 + 쥐)
     {
-        int idx = Random.Range(0, 5);
+        List<MonsterType> combination = new List<MonsterType>();
 
-        return scholarTransformArr[idx].position;
-    }
+        int mouseNum = 1;
+        int scholarNum = inMonsterNum - mouseNum;
+        int emptyNum = 6 - inMonsterNum;
 
-    private int GetRandomIdx(int inNum)
-    {
-        int idx = Random.Range(0, inNum);
+        combination.AddRange(Enumerable.Repeat(MonsterType.Mouse, mouseNum));
+        combination.AddRange(Enumerable.Repeat(MonsterType.Scholar, scholarNum));
+        combination.AddRange(Enumerable.Repeat(MonsterType.Empty, emptyNum));
 
-        return idx;
-    }
-
-    private void RandomScholars(int inNum)
-    {
-        this.mouseIdx = GetRandomIdx(inNum);
-        // TO DO : 20240225 kimyeonmo inNum은 그대로 두고, 빈자리에 빈 번호표를 하나 나눠줘야함
-
-        for (int i = 0; i <= inNum; i++)
+        for(int i = 0; i < combination.Count; i++)
         {
-            if(i == this.mouseIdx)
-            {
-                Debug.Log("mouse : " + i);
+            int temp = (int)combination[i];
+            int randomIndex = Random.Range(i, combination.Count);
+            combination[i] = combination[randomIndex];
+            combination[randomIndex] = (MonsterType)temp;
+        }
 
-                scholars[i] = CreateScholar(i, true);
-            }
-            else
+        return combination;
+    }
+
+
+    public void MakeRandomMonsterLocation(int inMonsterNum)
+    {
+        List<MonsterType> monsters = GetRandomCombination(inMonsterNum);
+
+        for (int i = 0; i < monsters.Count; i++)
+        {
+            MonsterType monster = monsters[i];
+            switch (monster) 
             {
-                scholars[i] = CreateScholar(i, false);
+                case MonsterType.Mouse:
+                    Debug.Log("Mouse : " + i);
+                    scholars[i] = CreateMonster(i, true);
+                    break;
+
+                case MonsterType.Scholar:
+                    Debug.Log("Scholar : " + i);
+                    scholars[i] = CreateMonster(i, false);
+                    break;
+
+                case MonsterType.Empty:
+                    Debug.Log("Empty : " + i);
+                    break;
+
+                default: break;
             }
         }
     }
 
-    private GameObject CreateScholar(int idx, bool isMouse)
+    private GameObject CreateMonster(int idx, bool isMouse)
     {
-        GameObject scholarGO = GameObject.Instantiate(scholarPrefab, transform);
-        scholarGO.transform.position = scholarTransformArr[idx].position;
+        GameObject monsterGO = GameObject.Instantiate(scholarPrefab, transform);
+        monsterGO.transform.position = monsterTransformArr[idx].position;
 
-        StartCoroutine(CloudEffect(scholarTransformArr[idx].position));
+        StartCoroutine(CloudEffect(monsterTransformArr[idx].position));
 
         if(isMouse == false)
         {
-            scholarGO.AddComponent<Scholar>();
+            monsterGO.AddComponent<Scholar>();
         }
         else if (isMouse == true)
         {
-            scholarGO.AddComponent<Mouse>();
+            monsterGO.AddComponent<Mouse>();
             // Scholar mouseScholar = scholarGO.GetComponent<Scholar>();
             // mouseScholar.IsMouse = true;
 
-            StartCoroutine(StrawEffect(scholarTransformArr[idx].position));
+            StartCoroutine(StrawEffect(monsterTransformArr[idx].position));
         }
 
-        return scholarGO;
+        return monsterGO;
     }
 
     private Color fadeColor;
@@ -168,9 +208,9 @@ public class ScholarManager : MonoBehaviour
         Destroy(fan);
     }
 
-    public int GetDeathMonster()
+    public int GetArriveMonster()
     {
-        return deathMonster;
+        return 6 - deathMonster;
     }
 
     public void SetDeathMonster()
