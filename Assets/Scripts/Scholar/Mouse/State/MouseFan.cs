@@ -70,7 +70,7 @@ public class MouseFan : MouseState
         {
             
         }
-        this.stateMachine.Mouse.scholarManager.IsFanEnd = true;
+        this.stateMachine.Mouse.scholarManager.IsRoundEnd = true;
         this.stateMachine.Mouse.Dead();
     }
 }
