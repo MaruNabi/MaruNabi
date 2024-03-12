@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : BulletVectorManager
+public class Bullet : MonoBehaviour
 {
     [SerializeField]
     protected float speed;
     [SerializeField]
-    protected float distance;
+    protected float rayDistance;
     [SerializeField]
     protected LayerMask isLayer;
     protected Rigidbody2D bulletRigidbody;
+    public Vector2 lockedBulletVector;
+    private float attackPower = 300f;
+
+    private RaycastHit2D ray;
 
     void Start()
     {
@@ -19,6 +23,8 @@ public class Bullet : BulletVectorManager
 
     protected void SetBullet()
     {
+        lockedBulletVector = BulletVectorManager.bulletVector;
+
         bulletRigidbody = GetComponent<Rigidbody2D>();
         bulletRigidbody.gravityScale = 0;
         bulletRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -32,19 +38,48 @@ public class Bullet : BulletVectorManager
 
     protected virtual void AttackInstantiate()
     {
-        RaycastHit2D ray = Physics2D.Raycast(transform.position, transform.right, distance, isLayer);
+        this.ray = Physics2D.Raycast(transform.position, transform.right, rayDistance, isLayer);
 
-        Debug.DrawRay(transform.position, transform.right * distance, Color.red);
+        Debug.DrawRay(transform.position, transform.right * rayDistance, Color.red);
+    }
 
-        if (ray.collider != null)
+    protected void NormalBulletMovement()
+    {
+        if (lockedBulletVector.magnitude == 0)
         {
-            if (ray.collider.tag == "Enemy")
+            if (transform.rotation.y == 0)
             {
-                Debug.Log("Enemy Hit!");
-
-                PlayerNabi.ultimateGauge += 0.3f;
+                bulletRigidbody.velocity = new Vector2(-speed, 0);
             }
-            DestroyBullet();
+
+            else
+            {
+                bulletRigidbody.velocity = new Vector2(speed, 0);
+            }
+        }
+
+        else
+        {
+            bulletRigidbody.velocity = lockedBulletVector * speed;
+        }
+    }
+
+    protected void ColliderCheck(bool isNormalAtk, bool isPenetrate)
+    {
+        if (this.ray.collider != null)
+        {
+            if (this.ray.collider.tag == "Enemy" && isNormalAtk)
+            {
+                if ((PlayerNabi.ultimateGauge += attackPower) > 1500.0f)
+                {
+                    PlayerNabi.ultimateGauge = 1500.0f;
+                }
+            }
+
+            if (!isPenetrate)
+            {
+                DestroyBullet();
+            }
         }
     }
 }

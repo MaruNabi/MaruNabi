@@ -1,25 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMaru : Player
 {
+    [SerializeField]
+    private Image[] maruLife;
+    public Sprite blankHP, fillHP;
+
     void Start()
     {
         characterID = true;
         characterName = "Maru";
-        cLife = 3;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
+
+        reviveZone.SetActive(false);
 
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
-        maxUltimateGauge = 3.0f;
     }
 
     void Update()
@@ -58,13 +63,11 @@ public class PlayerMaru : Player
 
         if (Input.GetKeyDown(KeyCode.S) && canSit && !isJumping)
         {
-            //Sit Start
             StartCoroutine(PlayerSit());
         }
 
         if (Input.GetKeyUp(KeyCode.S) && isSitting)
         {
-            //Sit End
             isSitting = false;
             canDash = true;
         }
@@ -114,9 +117,10 @@ public class PlayerMaru : Player
             return;
         }
 
-        Debug.Log(canDash);
-
-        PlayerMove();
+        if (canMove)
+        {
+            PlayerMove();
+        }
     }
 
     protected override void PlayerMove()
@@ -150,5 +154,45 @@ public class PlayerMaru : Player
         }
 
         base.PlayerMove();
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (isInvincibleTime)
+                return;
+
+            isHit = true;
+            canMove = false;
+
+            if (cLife > 1)
+            {
+                cLife -= 1;
+                StartCoroutine(Ondamaged(collision.transform.position));
+            }
+            else
+            {
+                cLife -= 1;
+                StartCoroutine(Death());
+            }
+
+            UpdateLifeUI();
+        }
+    }
+
+    private void UpdateLifeUI()
+    {
+        for (int i = 0; i < MAX_LIFE; i++)
+        {
+            if (i < cLife)
+            {
+                maruLife[i].sprite = fillHP;
+            }
+            else
+            {
+                maruLife[i].sprite = blankHP;
+            }
+        }
     }
 }

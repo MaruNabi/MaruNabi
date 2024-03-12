@@ -5,8 +5,12 @@ using UnityEngine;
 public class AttackCharm : Bullet
 {
     private Transform enemy;
-    float turn = 5.0f;
+    float turnSpeed = 5.0f;
     Vector3 bulletDirection;
+
+    float angle;
+    float currentZ;
+    float newZ;
 
     void Start()
     {
@@ -35,13 +39,20 @@ public class AttackCharm : Bullet
         if (enemy != null)
         {
             bulletDirection = (enemy.position - transform.position).normalized;
+
+            bulletRigidbody.velocity = transform.right * speed;
+
+            angle = Mathf.Atan2(bulletDirection.y, bulletDirection.x) * Mathf.Rad2Deg;
+            currentZ = transform.rotation.eulerAngles.z;
+            newZ = Mathf.LerpAngle(currentZ, angle, turnSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(0, 0, newZ);
         }
 
-        bulletRigidbody.velocity = transform.right * speed;
+        else
+        {
+            NormalBulletMovement();
+        }
 
-        float angle = Mathf.Atan2(bulletDirection.y, bulletDirection.x) * Mathf.Rad2Deg;
-        float currentZ = transform.rotation.eulerAngles.z;
-        float newZ = Mathf.LerpAngle(currentZ, angle, turn * Time.deltaTime);
-        transform.rotation = Quaternion.Euler(0, 0, newZ);
+        ColliderCheck(true, false);
     }
 }

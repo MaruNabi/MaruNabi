@@ -6,15 +6,18 @@ public class Player : MonoBehaviour
 {
     protected bool characterID;                       //True : Maru, False : Nabi
     protected string characterName;
-    protected int cLife;                              //Character Health
+    public const int MAX_LIFE = 3;
+    protected int cLife = 3;
     [SerializeField]
     [Range(0, 10)]
     protected float cSpeed = 6.0f;                     //Character Speed
+    protected bool canMove = true;
     public static float ultimateGauge;
-    protected float maxUltimateGauge;
-    protected float reviveTime = 0.0f;
+    protected const float maxUltimateGauge = 1500.0f;
+    public static bool isReviveSuccess = false;
+    private bool isTimerEnd = false;
 
-    protected const float MINIMUM_JUMP = 12.0f;
+    private const float MINIMUM_JUMP = 12.0f;
     [SerializeField]
     [Range(0, 10)]
     protected float cJumpPower = 0.03f;               //Incremental Jump Force
@@ -24,7 +27,7 @@ public class Player : MonoBehaviour
     protected bool isJumping = false;                 //Jumping State (Double Jump X)
     protected bool isJumpingEnd = true;
 
-    protected const float DOUBLE_CLICK_TIME = 0.2f;
+    private const float DOUBLE_CLICK_TIME = 0.2f;
     protected float lastClickTime = -1.0f;
     protected bool isDoubleClicked;
 
@@ -39,11 +42,17 @@ public class Player : MonoBehaviour
     protected Vector2 defaultPlayerColliderSize;
     protected Vector2 sitPlayerColliderSize;
 
+    protected bool isInvincibleTime = false;
+    protected bool isHit = false;
+
+    [SerializeField]
+    protected GameObject reviveZone;
+
     protected Rigidbody2D rigidBody;
     protected SpriteRenderer spriteRenderer;
     protected Animator playerAnimator;
     protected BoxCollider2D playerCollider;
-    
+
     protected float moveHorizontal = 0.0f;
 
     private bool pastKey;
@@ -81,6 +90,7 @@ public class Player : MonoBehaviour
         Vector3 velocityYOnly = new Vector3(0.0f, rigidBody.velocity.y, 0.0f);
 
         rigidBody.velocity = movement + velocityYOnly;
+        //rigidBody.AddForce((movement + velocityYOnly)*10.0f);
     }
 
     protected void DoubleClickDash(bool key)
@@ -99,14 +109,6 @@ public class Player : MonoBehaviour
         pastKey = key;
     }
 
-    protected void PlayerLock()
-    {
-        if(Input.anyKeyDown)
-        {
-            
-        }
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -114,6 +116,99 @@ public class Player : MonoBehaviour
             isJumping = false;
             isJumpingEnd = true;
             cMiniJumpPower = MINIMUM_JUMP;
+        }
+    }
+
+    protected IEnumerator Death()
+    {
+        Debug.Log("Death Couroutine Start");
+        canMove = false;
+        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        reviveZone.SetActive(true);
+        StartCoroutine(Timer(10.0f));
+        
+        while (!isTimerEnd)
+        {
+            if (isReviveSuccess)
+            {
+                Debug.Log("Revive Successful");
+                StartCoroutine(Revive());
+                
+                yield break;
+            }
+            Debug.Log("revive Failure");
+            yield return null;
+        }
+        Debug.Log("not exit Death");
+
+        /*if (!isReviveSuccess)
+        {
+            this.gameObject.SetActive(false);
+        }*/
+
+        if (isTimerEnd)
+        {
+            if (!isReviveSuccess)
+            {
+                this.gameObject.SetActive(false);
+            }
+        }
+
+        isTimerEnd = false;
+    }
+
+    private IEnumerator Timer(float delayTime)
+    {
+        Debug.Log("Timer Start");
+        yield return new WaitForSeconds(delayTime);
+        Debug.Log("Timer Stop");
+        isTimerEnd = true;
+    }
+
+    private IEnumerator Revive()
+    {
+        reviveZone.SetActive(false);
+        canMove = true;
+        isReviveSuccess = false;
+        StartCoroutine(Invincible(3.0f));
+        yield return null;
+    }
+
+    protected IEnumerator Ondamaged(Vector2 enemyPos)
+    {
+        if (isHit)
+        {
+            StartCoroutine(Invincible(3.0f));
+            int dir = transform.position.x - enemyPos.x > 0 ? 1 : -1;
+            rigidBody.AddForce(new Vector2(dir, 1) * 4f, ForceMode2D.Impulse);
+            yield return new WaitForSeconds(0.5f);
+            isHit = false;
+            canMove = true;
+            yield return new WaitForSeconds(2.5f);
+        }
+    }
+
+    private IEnumerator Invincible(float invincibleTime)
+    {
+        isInvincibleTime = true;
+        StartCoroutine(BlinkEffect(invincibleTime, spriteRenderer));
+        yield return new WaitForSeconds(invincibleTime);
+        spriteRenderer.color = new Color(1, 1, 1, 1);
+        isInvincibleTime = false;
+    }
+
+    private IEnumerator BlinkEffect(float blinkTime, SpriteRenderer spriteRenderer)
+    {
+        float remainingTime = 0.0f;
+        float startTime = Time.time;
+
+        while (remainingTime < blinkTime)
+        {
+            spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+            yield return new WaitForSeconds(0.15f);
+            spriteRenderer.color = new Color(1, 1, 1, 1);
+            yield return new WaitForSeconds(0.15f);
+            remainingTime = Time.time - startTime;
         }
     }
 
@@ -146,10 +241,8 @@ public class Player : MonoBehaviour
         playerCollider.size = sitPlayerColliderSize;
         if (canDash)
         {
-            canDash = false; //TeamViewer Issue, Please Test
+            canDash = false;
         }
-        //PlayerSit vs PlayerDash Issue
-        //collision smaller
         //animation controll
         yield return new WaitUntil(() => isSitting == false);
         playerCollider.size = defaultPlayerColliderSize;

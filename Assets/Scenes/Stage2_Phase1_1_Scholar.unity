@@ -357,6 +357,7 @@ MonoBehaviour:
   cJumpPower: 0.03
   cMaxJumpPower: 17
   bulletPrefab: {fileID: 6098133194209272077, guid: 0cebf4fa38178104abd485bc2d4a105b, type: 3}
+  bulletVectorManager: {fileID: 878432284}
   bulletPosition: {fileID: 602417749}
   coolTime: 0.3
 --- !u!61 &596352309
@@ -471,6 +472,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 602417749}
+  - {fileID: 878432286}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -921,6 +923,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 558999604}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &878432284
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 878432286}
+  - component: {fileID: 878432285}
+  m_Layer: 0
+  m_Name: NabiBulletVectorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &878432285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878432284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4217f6c4786ea4cafbc5b9ef6b5d19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &878432286
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878432284}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 22.314201, y: 3.3053038, z: 9.467192}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 596352312}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &921300121
 GameObject:

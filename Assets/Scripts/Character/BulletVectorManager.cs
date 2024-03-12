@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class BulletVectorManager : MonoBehaviour
 {
-    protected Vector2 bulletVector;
-    //static?
-
-    void Start()
-    {
-
-    }
+    public static Vector2 bulletVector;
+    private int vertical;
+    private int horizontal;
 
     void Update()
     {
@@ -21,16 +17,19 @@ public class BulletVectorManager : MonoBehaviour
             float angleX = directionalInput.x;
             float angleY = directionalInput.y;
 
-            bulletVector = new Vector2(angleY, angleX);
-            
-            transform.rotation = Quaternion.Euler(bulletVector);
+            bulletVector = new Vector2(angleX, angleY);
+        }
+
+        else
+        {
+            bulletVector = new Vector2(0.0f, 0.0f);
         }
     }
     Vector2 GetDirectionalInput()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        vertical = (Input.GetKey(KeyCode.RightArrow) && !(Input.GetKey(KeyCode.LeftArrow)) ? 1 : 0) - (!(Input.GetKey(KeyCode.RightArrow)) && Input.GetKey(KeyCode.LeftArrow) ? 1 : 0);
+        horizontal = (Input.GetKey(KeyCode.UpArrow) && !(Input.GetKey(KeyCode.DownArrow)) ? 1 : 0) - (!(Input.GetKey(KeyCode.UpArrow)) && Input.GetKey(KeyCode.DownArrow) ? 1 : 0);
 
-        return new Vector2(horizontalInput, verticalInput);
+        return new Vector2(vertical, horizontal);
     }
 }
