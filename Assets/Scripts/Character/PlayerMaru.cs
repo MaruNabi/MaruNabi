@@ -8,13 +8,11 @@ public class PlayerMaru : Player
     [SerializeField]
     private Image[] maruLife;
     public Sprite blankHP, fillHP;
-    private int cMaruLife;
 
     void Start()
     {
         characterID = true;
         characterName = "Maru";
-        cMaruLife = MAX_LIFE;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
@@ -168,14 +166,14 @@ public class PlayerMaru : Player
             isHit = true;
             canMove = false;
 
-            if (cMaruLife > 1)
+            if (cLife > 1)
             {
-                cMaruLife -= 1;
+                cLife -= 1;
                 StartCoroutine(Ondamaged(collision.transform.position));
             }
             else
             {
-                cMaruLife -= 1;
+                cLife -= 1;
                 StartCoroutine(Death());
             }
 
@@ -187,7 +185,7 @@ public class PlayerMaru : Player
     {
         for (int i = 0; i < MAX_LIFE; i++)
         {
-            if (i < cMaruLife)
+            if (i < cLife)
             {
                 maruLife[i].sprite = fillHP;
             }

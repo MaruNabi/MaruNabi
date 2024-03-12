@@ -21,13 +21,11 @@ public class PlayerNabi : Player
     [SerializeField]
     private Image[] nabiLife;
     public Sprite blankHP, fillHP;
-    private int cNabiLife;
 
     void Start()
     {
         characterID = false;
         characterName = "Nabi";
-        cNabiLife = MAX_LIFE;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
@@ -167,20 +165,21 @@ public class PlayerNabi : Player
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            Debug.Log("Enemy Hit");
             if (isInvincibleTime)
                 return;
 
             isHit = true;
             canMove = false;
 
-            if (cNabiLife > 1)
+            if (cLife > 1)
             {
-                cNabiLife -= 1;
+                cLife -= 1;
                 StartCoroutine(Ondamaged(collision.transform.position));
             }
             else
             {
-                cNabiLife -= 1;
+                cLife -= 1;
                 StartCoroutine(Death());
             }
 
@@ -192,7 +191,7 @@ public class PlayerNabi : Player
     {
         for (int i = 0; i < MAX_LIFE; i++)
         {
-            if (i < cNabiLife)
+            if (i < cLife)
             {
                 nabiLife[i].sprite = fillHP;
             }

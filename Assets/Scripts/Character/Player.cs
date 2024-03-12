@@ -7,15 +7,15 @@ public class Player : MonoBehaviour
     protected bool characterID;                       //True : Maru, False : Nabi
     protected string characterName;
     public const int MAX_LIFE = 3;
+    protected int cLife = 3;
     [SerializeField]
     [Range(0, 10)]
     protected float cSpeed = 6.0f;                     //Character Speed
     protected bool canMove = true;
     public static float ultimateGauge;
     protected const float maxUltimateGauge = 1500.0f;
-    public float reviveTime = 1.5f;
-    public const float ADD_REVIVE_TIME = 0.8f;
-    public const float MAX_REVIVE_TIME = 9.5f;
+    public static bool isReviveSuccess = false;
+    private bool isTimerEnd = false;
 
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField]
@@ -121,11 +121,57 @@ public class Player : MonoBehaviour
 
     protected IEnumerator Death()
     {
+        Debug.Log("Death Couroutine Start");
         canMove = false;
         spriteRenderer.color = new Color(1, 1, 1, 0.4f);
         reviveZone.SetActive(true);
-        yield return new WaitForSeconds(10.0f);
-        this.gameObject.SetActive(false);
+        StartCoroutine(Timer(10.0f));
+        
+        while (!isTimerEnd)
+        {
+            if (isReviveSuccess)
+            {
+                Debug.Log("Revive Successful");
+                StartCoroutine(Revive());
+                
+                yield break;
+            }
+            Debug.Log("revive Failure");
+            yield return null;
+        }
+        Debug.Log("not exit Death");
+
+        /*if (!isReviveSuccess)
+        {
+            this.gameObject.SetActive(false);
+        }*/
+
+        if (isTimerEnd)
+        {
+            if (!isReviveSuccess)
+            {
+                this.gameObject.SetActive(false);
+            }
+        }
+
+        isTimerEnd = false;
+    }
+
+    private IEnumerator Timer(float delayTime)
+    {
+        Debug.Log("Timer Start");
+        yield return new WaitForSeconds(delayTime);
+        Debug.Log("Timer Stop");
+        isTimerEnd = true;
+    }
+
+    private IEnumerator Revive()
+    {
+        reviveZone.SetActive(false);
+        canMove = true;
+        isReviveSuccess = false;
+        StartCoroutine(Invincible(3.0f));
+        yield return null;
     }
 
     protected IEnumerator Ondamaged(Vector2 enemyPos)
@@ -134,7 +180,7 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(Invincible(3.0f));
             int dir = transform.position.x - enemyPos.x > 0 ? 1 : -1;
-            rigidBody.AddForce(new Vector2(dir, 1) * 7f, ForceMode2D.Impulse);
+            rigidBody.AddForce(new Vector2(dir, 1) * 4f, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.5f);
             isHit = false;
             canMove = true;
@@ -145,18 +191,18 @@ public class Player : MonoBehaviour
     private IEnumerator Invincible(float invincibleTime)
     {
         isInvincibleTime = true;
-        StartCoroutine(BlinkEffect(invincibleTime));
+        StartCoroutine(BlinkEffect(invincibleTime, spriteRenderer));
         yield return new WaitForSeconds(invincibleTime);
         spriteRenderer.color = new Color(1, 1, 1, 1);
         isInvincibleTime = false;
     }
 
-    private IEnumerator BlinkEffect(float invincibleTime)
+    private IEnumerator BlinkEffect(float blinkTime, SpriteRenderer spriteRenderer)
     {
         float remainingTime = 0.0f;
         float startTime = Time.time;
 
-        while (remainingTime < invincibleTime)
+        while (remainingTime < blinkTime)
         {
             spriteRenderer.color = new Color(1, 1, 1, 0.4f);
             yield return new WaitForSeconds(0.15f);
