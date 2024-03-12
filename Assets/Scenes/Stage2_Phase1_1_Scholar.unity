@@ -2044,7 +2044,7 @@ MonoBehaviour:
   strawPrefab: {fileID: 2376774297293504491, guid: fdfc57db157759648975cdc263176d23, type: 3}
   fanPrefab: {fileID: 444426551954482774, guid: dbff4382214158b4dab5fbab62d458c4, type: 3}
   player: {fileID: 596352307}
-  scholarTransformArr:
+  monsterTransformArr:
   - {fileID: 1351598506}
   - {fileID: 1891312046}
   - {fileID: 1144671971}

@@ -68,7 +68,9 @@ public class MouseFan : MouseState
 
         if (this.stateMachine.Mouse.HP <= 0 && !this.stateMachine.Mouse.dead)
         {
-            this.stateMachine.Mouse.Dead();
+            
         }
+        this.stateMachine.Mouse.scholarManager.IsRoundEnd = true;
+        this.stateMachine.Mouse.Dead();
     }
 }

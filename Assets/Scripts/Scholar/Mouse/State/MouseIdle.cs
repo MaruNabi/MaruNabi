@@ -27,9 +27,9 @@ public class MouseIdle : MouseState
 
         if (this.elapsedTime >= this.escapeTime)
         {
-            Debug.Log("idle 시간 달성");
+            Debug.Log("mouse idle 시간 달성");
 
-            this.isBehit = this.stateMachine.Mouse.mouseManager.GetIsMouseBehit();
+            this.isBehit = this.stateMachine.Mouse.scholarManager.GetIsSchloarBehit();
 
             if (this.isBehit == true)
             {

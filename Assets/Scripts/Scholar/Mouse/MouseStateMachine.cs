@@ -18,7 +18,7 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
         base.states = new Dictionary<string, State<MouseStateMachine>>{
             {"Idle",new MouseIdle(this)},
             {"Appearance",new MouseAppearance(this)},
-            // {"Fan",new MouseFan(this)},
+            {"Fan",new MouseFan(this)},
         };
     }
 

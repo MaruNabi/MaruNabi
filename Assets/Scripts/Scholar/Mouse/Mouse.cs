@@ -7,6 +7,7 @@ using System;
 public partial class Mouse : LivingEntity
 {
     private MouseStateMachine mouseStateMachine;
+    public ScholarManager scholarManager;
 
     public MouseManager mouseManager;
 
@@ -24,6 +25,7 @@ public partial class Mouse : LivingEntity
         this.startingHP = 999999999;
 
         this.mouseManager = transform.parent.GetComponent<MouseManager>();
+        this.scholarManager = transform.parent.GetComponent<ScholarManager>();
     }
 
     private void Start()
