@@ -1,0 +1,298 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc7924747b6dade48ac9a15d72b5176b, type: 3}
+  m_Name: PlaylistB
+  m_EditorClassIdentifier: 
+  Track: 1
+  PlayOrder: 0
+  RandomizeOrderSeed: 1
+  PlayMode: 0
+  MaxAmountOfPlays: 10
+  NextPlaylist: {fileID: 0}
+  Songs:
+  - Name: Thunder
+    Clip: {fileID: 8300000, guid: 46dcfa1187f4a1e4cb3793dd1351f669, type: 3}
+    PlayCount: 3
+    Options:
+      Initialized: 1
+      MmSoundManagerTrack: 0
+      AudioGroup: {fileID: 0}
+      Loop: 0
+      Volume: 1
+      Pitch: 1
+      ID: 0
+      Fade: 0
+      FadeInitialVolume: 0
+      FadeDuration: 1
+      FadeTween:
+        MMTweenDefinitionType: 0
+        MMTweenCurve: 4
+        Curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        Initialized: 0
+      Persistent: 0
+      RecycleAudioSource: {fileID: 0}
+      PlaybackTime: 0
+      PlaybackDuration: 0
+      PanStereo: 0
+      SpatialBlend: 0
+      AttachToTransform: {fileID: 0}
+      SoloSingleTrack: 0
+      SoloAllTracks: 0
+      AutoUnSoloOnEnd: 0
+      BypassEffects: 0
+      BypassListenerEffects: 0
+      BypassReverbZones: 0
+      Priority: 128
+      ReverbZoneMix: 1
+      DopplerLevel: 1
+      Location: {x: 0, y: 0, z: 0}
+      Spread: 0
+      RolloffMode: 0
+      MinDistance: 1
+      MaxDistance: 500
+      DoNotAutoRecycleIfNotDonePlaying: 1
+      UseCustomRolloffCurve: 0
+      CustomRolloffCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      UseSpatialBlendCurve: 0
+      SpatialBlendCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      UseReverbZoneMixCurve: 0
+      ReverbZoneMixCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      UseSpreadCurve: 0
+      SpreadCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  - Name: Rain in Car
+    Clip: {fileID: 8300000, guid: 659cfa07980ee49258c6d22926070cdb, type: 3}
+    PlayCount: 3
+    Options:
+      Initialized: 1
+      MmSoundManagerTrack: 0
+      AudioGroup: {fileID: 0}
+      Loop: 0
+      Volume: 1
+      Pitch: 1
+      ID: 0
+      Fade: 0
+      FadeInitialVolume: 0
+      FadeDuration: 1
+      FadeTween:
+        MMTweenDefinitionType: 0
+        MMTweenCurve: 4
+        Curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        Initialized: 0
+      Persistent: 0
+      RecycleAudioSource: {fileID: 0}
+      PlaybackTime: 0
+      PlaybackDuration: 0
+      PanStereo: 0
+      SpatialBlend: 0
+      AttachToTransform: {fileID: 0}
+      SoloSingleTrack: 0
+      SoloAllTracks: 0
+      AutoUnSoloOnEnd: 0
+      BypassEffects: 0
+      BypassListenerEffects: 0
+      BypassReverbZones: 0
+      Priority: 128
+      ReverbZoneMix: 1
+      DopplerLevel: 1
+      Location: {x: 0, y: 0, z: 0}
+      Spread: 0
+      RolloffMode: 0
+      MinDistance: 1
+      MaxDistance: 500
+      DoNotAutoRecycleIfNotDonePlaying: 1
+      UseCustomRolloffCurve: 0
+      CustomRolloffCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      UseSpatialBlendCurve: 0
+      SpatialBlendCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      UseReverbZoneMixCurve: 0
+      ReverbZoneMixCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      UseSpreadCurve: 0
+      SpreadCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  - Name: Piano Bass
+    Clip: {fileID: 8300000, guid: 4918d495582b2c74dba9ef90acb15aee, type: 3}
+    PlayCount: 2
+    Options:
+      Initialized: 1
+      MmSoundManagerTrack: 0
+      AudioGroup: {fileID: 0}
+      Loop: 0
+      Volume: 1
+      Pitch: 1
+      ID: 0
+      Fade: 0
+      FadeInitialVolume: 0
+      FadeDuration: 1
+      FadeTween:
+        MMTweenDefinitionType: 0
+        MMTweenCurve: 4
+        Curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        Initialized: 0
+      Persistent: 0
+      RecycleAudioSource: {fileID: 0}
+      PlaybackTime: 0
+      PlaybackDuration: 0
+      PanStereo: 0
+      SpatialBlend: 0
+      AttachToTransform: {fileID: 0}
+      SoloSingleTrack: 0
+      SoloAllTracks: 0
+      AutoUnSoloOnEnd: 0
+      BypassEffects: 0
+      BypassListenerEffects: 0
+      BypassReverbZones: 0
+      Priority: 128
+      ReverbZoneMix: 1
+      DopplerLevel: 1
+      Location: {x: 0, y: 0, z: 0}
+      Spread: 0
+      RolloffMode: 0
+      MinDistance: 1
+      MaxDistance: 500
+      DoNotAutoRecycleIfNotDonePlaying: 1
+      UseCustomRolloffCurve: 0
+      CustomRolloffCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      UseSpatialBlendCurve: 0
+      SpatialBlendCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      UseReverbZoneMixCurve: 0
+      ReverbZoneMixCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      UseSpreadCurve: 0
+      SpreadCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  PlayCount: 8
