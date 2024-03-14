@@ -123,53 +123,41 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Death Couroutine Start");
         canMove = false;
+        isTimerEnd = false;
+        isReviveSuccess = false;
         spriteRenderer.color = new Color(1, 1, 1, 0.4f);
         reviveZone.SetActive(true);
-        StartCoroutine(Timer(10.0f));
+        Invoke("InvokeTimer", 10.0f);
         
-        while (!isTimerEnd)
+        while (!isTimerEnd) //wait 10 seconds
         {
             if (isReviveSuccess)
             {
-                Debug.Log("Revive Successful");
                 StartCoroutine(Revive());
+                CancelInvoke("InvokeTimer");
                 
                 yield break;
             }
-            Debug.Log("revive Failure");
             yield return null;
         }
-        Debug.Log("not exit Death");
 
-        /*if (!isReviveSuccess)
+        if (!isReviveSuccess)
         {
             this.gameObject.SetActive(false);
-        }*/
-
-        if (isTimerEnd)
-        {
-            if (!isReviveSuccess)
-            {
-                this.gameObject.SetActive(false);
-            }
+            reviveZone.SetActive(false);
         }
-
-        isTimerEnd = false;
     }
 
-    private IEnumerator Timer(float delayTime)
+    private void InvokeTimer()
     {
-        Debug.Log("Timer Start");
-        yield return new WaitForSeconds(delayTime);
-        Debug.Log("Timer Stop");
         isTimerEnd = true;
     }
 
-    private IEnumerator Revive()
+    protected virtual IEnumerator Revive()
     {
         reviveZone.SetActive(false);
         canMove = true;
-        isReviveSuccess = false;
+        cLife = 1;
         StartCoroutine(Invincible(3.0f));
         yield return null;
     }

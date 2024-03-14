@@ -7,7 +7,8 @@ public class ReviveZone : MonoBehaviour
 {
     private bool characterID;
     private bool isReviving;
-    public static int deathCount = 0;
+    //public static int deathCount = 0;
+    private int deathCount = 0;
     private float reviveTime = 1.5f;
     private const float ADD_REVIVE_TIME = 0.8f;
     private const float MAX_REVIVE_TIME = 9.5f;
@@ -23,6 +24,21 @@ public class ReviveZone : MonoBehaviour
 
     void Awake()
     {
+        /*reviveSpriteRenderer = GetComponent<SpriteRenderer>();
+        reviveBarCanvas.gameObject.SetActive(false);
+        if (deathCount < 10)
+        {
+            reviveTime = 1.5f + (ADD_REVIVE_TIME * deathCount);
+        }
+        else
+        {
+            reviveTime = MAX_REVIVE_TIME;
+        }
+        deathCount++;*/
+    }
+
+    private void OnEnable()
+    {
         reviveSpriteRenderer = GetComponent<SpriteRenderer>();
         reviveBarCanvas.gameObject.SetActive(false);
         if (deathCount < 10)
@@ -34,13 +50,19 @@ public class ReviveZone : MonoBehaviour
             reviveTime = MAX_REVIVE_TIME;
         }
         deathCount++;
+
+        StartCoroutine(ReviveZoneBlink());
+        reviveBarImage.fillAmount = 0.0f;       //reviveBarImage Init
+        fillAmountUnit = 1.0f / reviveTime * 0.02f;
+        Debug.Log("deathCount" + deathCount);
     }
 
     void Start()
     {
-        StartCoroutine(ReviveZoneBlink());
+        /*StartCoroutine(ReviveZoneBlink());
         reviveBarImage.fillAmount = 0.0f;       //reviveBarImage Init
         fillAmountUnit = 1.0f / reviveTime * 0.02f;
+        Debug.Log("deathCount" + deathCount);*/
     }
 
     void Update()

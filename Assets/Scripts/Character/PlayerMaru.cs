@@ -181,6 +181,13 @@ public class PlayerMaru : Player
         }
     }
 
+    protected override IEnumerator Revive()
+    {
+        yield return base.Revive();
+
+        UpdateLifeUI();
+    }
+
     private void UpdateLifeUI()
     {
         for (int i = 0; i < MAX_LIFE; i++)
