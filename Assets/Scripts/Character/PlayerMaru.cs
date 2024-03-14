@@ -70,6 +70,7 @@ public class PlayerMaru : Player
         {
             isSitting = false;
             canDash = true;
+            playerAnimator.SetBool("isSit", false);
         }
 
         //Atk
@@ -86,11 +87,11 @@ public class PlayerMaru : Player
         //Animation Script
         if (rigidBody.velocity.normalized.x == 0)
         {
-            playerAnimator.SetBool("isRunning", false);
+            playerAnimator.SetBool("isMove", false);
         }
         else
         {
-            playerAnimator.SetBool("isRunning", true);
+            playerAnimator.SetBool("isMove", true);
         }
 
         if (rigidBody.velocity.normalized.y > 0)
