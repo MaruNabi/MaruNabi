@@ -1,0 +1,10 @@
+[
+  {
+    "ID": 1,
+    "Code": "MONSTER_SCHOLAR",
+    "Name": "선비",
+    "MonsterType": 1,
+    "MovementType": false,
+    "Passive": 0
+  }
+]
