@@ -99,6 +99,7 @@ public class Player : MonoBehaviour
         {
             isDoubleClicked = true;
             lastClickTime = -1.0f;
+            playerAnimator.SetBool("isDash", true);
             StartCoroutine(PlayerDash());
         }
         else
@@ -125,7 +126,7 @@ public class Player : MonoBehaviour
         canMove = false;
         isTimerEnd = false;
         isReviveSuccess = false;
-        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        //spriteRenderer.color = new Color(1, 1, 1, 0.4f);
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
         Invoke("InvokeTimer", 10.0f);
@@ -222,6 +223,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(cDashTime);
         rigidBody.gravityScale = originalGravity;
         isDashing = false;
+        playerAnimator.SetBool("isDash", false);
         yield return new WaitForSeconds(cDashCooldown);
         canDash = true;
     }
