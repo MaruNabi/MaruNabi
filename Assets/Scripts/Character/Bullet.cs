@@ -61,6 +61,10 @@ public class Bullet : MonoBehaviour
         else
         {
             bulletRigidbody.velocity = lockedBulletVector * speed;
+            float angle = Mathf.Atan2(lockedBulletVector.y, lockedBulletVector.x) * Mathf.Rad2Deg;
+            angle += 180f;
+            angle %= 360f;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
 
