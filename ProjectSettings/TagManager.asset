@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Enemy
   - Bullet
+  - Manager
+  - PoolRoot
   layers:
   - Default
   - TransparentFX
