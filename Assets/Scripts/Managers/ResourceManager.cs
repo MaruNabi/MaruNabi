@@ -22,6 +22,8 @@ public class ResourceManager
         return Resources.Load<T>(path);
     }
 
+    #region Prefab
+
     //Resources -> Prefab 폴더에 있는 프리팹을 생성 해주는 함수
     public GameObject Instantiate(string path, Transform parent = null)
     {
@@ -62,23 +64,9 @@ public class ResourceManager
         return go;
     }
 
-    public void Destroy(GameObject go)
-    {
-        if (go == null)
-            return;
 
-        //만약에 풀링이 필요하다면 -> 풀링 매니저에게 위탁
-        //삭제하는 것이 아니라 오브젝트 풀로 이동시키는 것이라 생각하면 된다.
+    #endregion
 
-        if (go.TryGetComponent(out Poolable poolable))
-        {
-            Managers.Pool.Push(poolable);
-            return;
-        }
-
-        Object.Destroy(go);
-    }
-    
     // public void saveData()
     // {
     //     List<UnlockCard> deckCardsList = new List<UnlockCard>();

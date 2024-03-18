@@ -4,11 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public interface ILoader<Key, Value>
-{
-    Dictionary<Key, Value> MakeDict();
-}
-
 public class DataManager
 {
     public Dictionary<int, MonsterData> monsterDict { get; private set; } = new Dictionary<int, MonsterData>();
