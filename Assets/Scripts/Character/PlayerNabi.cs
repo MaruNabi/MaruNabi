@@ -17,6 +17,8 @@ public class PlayerNabi : Player
     private float coolTime;
     private float curTime;
     private bool isLock = false;                    //Lock
+    [SerializeField]
+    private GameObject playerBullets;
 
     [SerializeField]
     private Image[] nabiLife;
@@ -40,6 +42,8 @@ public class PlayerNabi : Player
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
+
+        Managers.Pool.CreatePool(bulletPrefab, 20);
     }
 
     void Update()
@@ -86,7 +90,10 @@ public class PlayerNabi : Player
         {
             if (Input.GetKey(KeyCode.RightBracket))
             {
-                Instantiate(bulletPrefab, bulletPosition.position, transform.rotation);
+                //Instantiate(bulletPrefab, bulletPosition.position, transform.rotation);
+                GameObject bulletObject = Managers.Pool.Pop(bulletPrefab, playerBullets.transform).gameObject;
+                bulletObject.transform.position = bulletPosition.position;
+                bulletObject.transform.rotation = transform.rotation;
             }
             curTime = coolTime;
         }
@@ -185,6 +192,13 @@ public class PlayerNabi : Player
 
             UpdateLifeUI();
         }
+    }
+
+    protected override IEnumerator Revive()
+    {
+        yield return base.Revive();
+
+        UpdateLifeUI();
     }
 
     private void UpdateLifeUI()

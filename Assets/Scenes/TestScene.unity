@@ -631,7 +631,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 4409084ffd4ef1f4ab7dc3680fc03c67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -704,6 +704,7 @@ MonoBehaviour:
   bulletVectorManager: {fileID: 1073860745}
   bulletPosition: {fileID: 2082914111}
   coolTime: 0.3
+  playerBullets: {fileID: 835814058}
   nabiLife:
   - {fileID: 1371030968}
   - {fileID: 659782059}
@@ -1495,6 +1496,37 @@ MonoBehaviour:
   player: {fileID: 1558366181}
   reviveBarImage: {fileID: 1533812146}
   reviveBarCanvas: {fileID: 902328701}
+--- !u!1 &835814058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 835814059}
+  m_Layer: 0
+  m_Name: PlayerBullets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &835814059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835814058}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.0824182, y: 1.0756112, z: -0.026937006}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &890470873
 GameObject:
   m_ObjectHideFlags: 0
@@ -2477,7 +2509,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2.4}
+    oldSize: {x: 2.22, y: 2.9}
     newSize: {x: 2, y: 2.4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2547,8 +2579,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 5e037fccaf80ce84db5fc6aed64b8899, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: ac0b0328e0a96f047804163cc3af67ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

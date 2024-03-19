@@ -99,6 +99,7 @@ public class Player : MonoBehaviour
         {
             isDoubleClicked = true;
             lastClickTime = -1.0f;
+            playerAnimator.SetBool("isDash", true);
             StartCoroutine(PlayerDash());
         }
         else
@@ -121,55 +122,44 @@ public class Player : MonoBehaviour
 
     protected IEnumerator Death()
     {
-        Debug.Log("Death Couroutine Start");
         canMove = false;
-        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        isTimerEnd = false;
+        isReviveSuccess = false;
+        //spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
-        StartCoroutine(Timer(10.0f));
+        Invoke("InvokeTimer", 10.0f);
         
-        while (!isTimerEnd)
+        while (!isTimerEnd) //wait 10 seconds
         {
             if (isReviveSuccess)
             {
-                Debug.Log("Revive Successful");
                 StartCoroutine(Revive());
+                CancelInvoke("InvokeTimer");
                 
                 yield break;
             }
-            Debug.Log("revive Failure");
             yield return null;
         }
-        Debug.Log("not exit Death");
 
-        /*if (!isReviveSuccess)
+        if (!isReviveSuccess)
         {
             this.gameObject.SetActive(false);
-        }*/
-
-        if (isTimerEnd)
-        {
-            if (!isReviveSuccess)
-            {
-                this.gameObject.SetActive(false);
-            }
+            reviveZone.SetActive(false);
         }
-
-        isTimerEnd = false;
     }
 
-    private IEnumerator Timer(float delayTime)
+    private void InvokeTimer()
     {
-        Debug.Log("Timer Start");
-        yield return new WaitForSeconds(delayTime);
-        Debug.Log("Timer Stop");
         isTimerEnd = true;
     }
 
-    private IEnumerator Revive()
+    protected virtual IEnumerator Revive()
     {
         reviveZone.SetActive(false);
         canMove = true;
-        isReviveSuccess = false;
+        cLife = 1;
+        playerAnimator.SetBool("isDead", false);
         StartCoroutine(Invincible(3.0f));
         yield return null;
     }
@@ -178,10 +168,12 @@ public class Player : MonoBehaviour
     {
         if (isHit)
         {
+            playerAnimator.SetBool("isHit", true);
             StartCoroutine(Invincible(3.0f));
             int dir = transform.position.x - enemyPos.x > 0 ? 1 : -1;
             rigidBody.AddForce(new Vector2(dir, 1) * 4f, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.5f);
+            playerAnimator.SetBool("isHit", false);
             isHit = false;
             canMove = true;
             yield return new WaitForSeconds(2.5f);
@@ -230,6 +222,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(cDashTime);
         rigidBody.gravityScale = originalGravity;
         isDashing = false;
+        playerAnimator.SetBool("isDash", false);
         yield return new WaitForSeconds(cDashCooldown);
         canDash = true;
     }
@@ -237,6 +230,7 @@ public class Player : MonoBehaviour
     protected IEnumerator PlayerSit()
     {
         isSitting = true;
+        playerAnimator.SetBool("isSit", true);
         canDash = false;
         playerCollider.size = sitPlayerColliderSize;
         if (canDash)
