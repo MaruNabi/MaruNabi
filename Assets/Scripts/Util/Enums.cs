@@ -3,6 +3,7 @@
 public enum ESceneType
 {
     Title,
+    Tutorial, 
     Game,
     Loading,
     Test,

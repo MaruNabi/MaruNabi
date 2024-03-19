@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using System;
 
 public class Bullet : MonoBehaviour
 {
@@ -16,6 +18,8 @@ public class Bullet : MonoBehaviour
 
     private RaycastHit2D ray;
 
+    private IEnumerator bulletDestroyCoroutine;
+
     void Start()
     {
         
@@ -23,17 +27,34 @@ public class Bullet : MonoBehaviour
 
     protected void SetBullet()
     {
+        if (bulletDestroyCoroutine != null)
+            StopCoroutine(bulletDestroyCoroutine);
         lockedBulletVector = BulletVectorManager.bulletVector;
 
         bulletRigidbody = GetComponent<Rigidbody2D>();
         bulletRigidbody.gravityScale = 0;
         bulletRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        Invoke("DestroyBullet", 2);
+        bulletDestroyCoroutine = BulletDestroy();
+        StartCoroutine(bulletDestroyCoroutine);
+        //UniWait().Forget();
+    }
+
+    async UniTaskVoid UniWait()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(2f));
+        Debug.Log("Disappear");
+        DestroyBullet();
+    }
+
+    private IEnumerator BulletDestroy()
+    {
+        yield return new WaitForSeconds(2.0f);
+        Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
     }
 
     protected void DestroyBullet()
     {
-        Destroy(gameObject);
+        Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
     }
 
     protected virtual void AttackInstantiate()

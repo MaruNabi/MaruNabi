@@ -24,17 +24,7 @@ public class ReviveZone : MonoBehaviour
 
     void Awake()
     {
-        /*reviveSpriteRenderer = GetComponent<SpriteRenderer>();
-        reviveBarCanvas.gameObject.SetActive(false);
-        if (deathCount < 10)
-        {
-            reviveTime = 1.5f + (ADD_REVIVE_TIME * deathCount);
-        }
-        else
-        {
-            reviveTime = MAX_REVIVE_TIME;
-        }
-        deathCount++;*/
+        
     }
 
     private void OnEnable()

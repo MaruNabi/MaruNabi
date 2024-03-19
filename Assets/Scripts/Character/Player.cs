@@ -122,7 +122,6 @@ public class Player : MonoBehaviour
 
     protected IEnumerator Death()
     {
-        Debug.Log("Death Couroutine Start");
         canMove = false;
         isTimerEnd = false;
         isReviveSuccess = false;

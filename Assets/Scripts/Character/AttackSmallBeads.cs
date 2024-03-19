@@ -6,6 +6,11 @@ public class AttackSmallBeads : Bullet
 {
     void Start()
     {
+        //SetBullet();
+    }
+
+    private void OnEnable()
+    {
         SetBullet();
     }
 
