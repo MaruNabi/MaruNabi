@@ -215,7 +215,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &294060494
 GameObject:
@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 596352309}
   - component: {fileID: 596352308}
   m_Layer: 3
-  m_Name: Nabi_Test (1)
+  m_Name: Nabi_Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -356,10 +356,15 @@ MonoBehaviour:
   cSpeed: 6
   cJumpPower: 0.03
   cMaxJumpPower: 17
+  reviveZone: {fileID: 0}
   bulletPrefab: {fileID: 6098133194209272077, guid: 0cebf4fa38178104abd485bc2d4a105b, type: 3}
+  skillPrefab: {fileID: 0}
   bulletVectorManager: {fileID: 878432284}
   bulletPosition: {fileID: 602417749}
   coolTime: 0.3
+  nabiLife: []
+  blankHP: {fileID: 0}
+  fillHP: {fileID: 0}
 --- !u!61 &596352309
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1599,6 +1604,37 @@ Transform:
   m_Father: {fileID: 558999604}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1517039805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1517039806}
+  m_Layer: 0
+  m_Name: ----------System----------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1517039806
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517039805}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.7, y: 2.46, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1548292386
 GameObject:
   m_ObjectHideFlags: 0
@@ -1681,7 +1717,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1641416668
 GameObject:
@@ -1908,7 +1944,7 @@ Transform:
   m_Children:
   - {fileID: 2125024048}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1838857198
 GameObject:
@@ -2038,7 +2074,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2125024047
 GameObject:
