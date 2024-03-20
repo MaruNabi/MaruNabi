@@ -2,11 +2,11 @@
 #region Manager
 public enum ESceneType
 {
-    Title,
-    Tutorial, 
-    Game,
-    Loading,
-    Test,
+    TitleScene,
+    TutorialScene, 
+    GameScene,
+    LoadingScene,
+    TestScene,
 }
 #endregion
 
