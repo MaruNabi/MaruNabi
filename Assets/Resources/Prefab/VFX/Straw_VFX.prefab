@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 422505094626097677}
   - component: {fileID: 6882291073751984440}
   m_Layer: 0
-  m_Name: straw
+  m_Name: Straw_VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
