@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: _Position
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity
+    Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=18900\n246;713;1413;630;152.9913;93.60216;1.653342;True;False\nNode;AmplifyShaderEditor.FunctionInput;5;-1096.124,-441.4707;Inherit;False;Noise
+    Texture;9;3;False;1;0;SAMPLER2D;0,0;False;1;SAMPLER2D;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;18;-620.3149,-14.29797;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.DynamicAppendNode;16;-1041.767,107.4102;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.SimpleDivideOpNode;19;-884.3542,181.8642;Inherit;False;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionInput;22;-649.4418,-376.2329;Inherit;False;In
+    Time;1;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;26;131.1825,-25.99852;Inherit;False;OverlayPixelate;11;;29;b5143779e0f80f0468b1635824b2e02d;0;1;1;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionInput;6;-814.902,584.1522;Inherit;False;Shader
+    Position;2;2;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionNode;34;1117.919,127.8486;Inherit;False;OverlaySnapDistort;15;;46;22eadee15566fbf469daf03a6a2b6df1;0;4;38;FLOAT;0;False;3;SAMPLER2D;0;False;37;FLOAT2;0,0;False;15;FLOAT2;0,0;False;1;FLOAT2;36\nNode;AmplifyShaderEditor.SimpleDivideOpNode;15;1925.603,448.6798;Inherit;False;2;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionNode;21;-352.9864,-157.7928;Inherit;False;OverlayDistort;0;;51;bd4dc60ca9a62df459b8eafdf0ca3feb;0;4;23;FLOAT;0;False;3;SAMPLER2D;0;False;5;FLOAT2;0,0;False;1;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionInput;27;-918.7946,-91.98643;Inherit;False;Screen
+    Position;2;0;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.ScreenParams;12;-1279.716,84.34415;Inherit;False;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.FunctionNode;33;581.4823,77.77684;Inherit;False;OverlayRipple;7;;39;8f55b00d30b6c444a8ac4ad0ebc27481;0;2;1;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionNode;42;1549.742,265.2999;Inherit;False;OverlayReflect;0;;64;45f3e60742833464abd5ede03e1221f0;0;1;1;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionOutput;0;2159.807,513.6127;Inherit;False;True;-1;Out
+    Screen Position;0;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0\nWireConnection;18;0;27;0\nWireConnection;18;1;19;0\nWireConnection;16;0;12;1\nWireConnection;16;1;12;2\nWireConnection;19;0;16;0\nWireConnection;19;1;12;2\nWireConnection;26;1;21;0\nWireConnection;34;38;22;0\nWireConnection;34;3;5;0\nWireConnection;34;37;6;0\nWireConnection;34;15;33;0\nWireConnection;15;0;42;0\nWireConnection;15;1;19;0\nWireConnection;21;23;22;0\nWireConnection;21;3;5;0\nWireConnection;21;5;6;0\nWireConnection;21;1;18;0\nWireConnection;33;1;26;0\nWireConnection;33;2;6;0\nWireConnection;42;1;34;36\nWireConnection;0;0;15;0\nASEEND*/\n//CHKSM=EA54CA7BAABE7F4BE5101D5ED19844ADF4CA8EA7"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_customEdited: 0
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 3
+  m_customNodeCategory: 
+  m_previewPosition: 0
+  m_hidden: 0

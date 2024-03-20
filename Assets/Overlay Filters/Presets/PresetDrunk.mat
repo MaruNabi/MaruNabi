@@ -1,0 +1,186 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PresetDrunk
+  m_Shader: {fileID: 4800000, guid: 12e812b8c8e3a0742bd48129c3b3c138, type: 3}
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA _DISTORTOPPOSITEFLOW_ON _ENABLEDIRECTIONALBLUR_ON
+    _ENABLEDISTORT_ON _ENABLEFADENOISESCROLL_ON _ENABLEFADESINE_ON _ENABLEGAUSSIANBLUR_ON
+    _ENABLESINGLETONE_ON _ENABLESTATICNOISE_ON _FADENOISESCROLLOPPOSITEFLOW_ON _OUTLINEFILLINSIDE_ON
+    _OUTLINEFILLLINES_ON _SHADERSPACE_WORLD
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: 6b7b4a61603088549ac748de5e4e6d8c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Alpha: 1
+    - _Brightness: 1
+    - _ColorMask: 15
+    - _ColorStepsFade: 1
+    - _ColorStepsStep1: 0.25
+    - _ColorStepsStep2: 0.5
+    - _ColorStepsStep3: 0.75
+    - _Contrast: 1
+    - _DirectionalBlurDirection: 0
+    - _DirectionalBlurOffset: 8
+    - _DistortFade: 1
+    - _DistortOppositeFlow: 1
+    - _EnableBrightness: 0
+    - _EnableColorSteps: 0
+    - _EnableContrast: 0
+    - _EnableDirectionalBlur: 1
+    - _EnableDistort: 1
+    - _EnableFadeDissolve: 0
+    - _EnableFadeNoiseScroll: 1
+    - _EnableFadeSine: 1
+    - _EnableFadeSpread: 0
+    - _EnableGaussianBlur: 1
+    - _EnableGlitch: 0
+    - _EnableHue: 0
+    - _EnableLight: 0
+    - _EnableLimitColors: 0
+    - _EnableNegative: 0
+    - _EnableOutline: 0
+    - _EnablePixelate: 0
+    - _EnableRainbow: 0
+    - _EnableRipple: 0
+    - _EnableSaturation: 0
+    - _EnableSingleTone: 1
+    - _EnableSnapDistort: 0
+    - _EnableSplitTone: 0
+    - _EnableStaticNoise: 1
+    - _EnableTimeFPS: 0
+    - _EnableTimeFrequency: 0
+    - _EnableTimeSpeed: 0
+    - _EnableTimeUnscaled: 0
+    - _EnableZoomBlur: 0
+    - _FadeDissolveFade: 1
+    - _FadeDissolveWidth: 0.5
+    - _FadeNoiseScrollFrom: 0.1
+    - _FadeNoiseScrollOppositeFlow: 1
+    - _FadeNoiseScrollSnapLevels: 10000
+    - _FadeNoiseScrollTo: 1
+    - _FadeSineFrequency: 3
+    - _FadeSineFrom: 0.4
+    - _FadeSineTo: 1
+    - _FadeSpreadFade: 2
+    - _FadeSpreadNoiseFactor: 0.2
+    - _FadeSpreadWidth: 0.5
+    - _GaussianBlurOffset: 4
+    - _GlitchBrightness: 4
+    - _GlitchFade: 1
+    - _GlitchHueSpeed: 1
+    - _GlitchMaskMin: 0.4
+    - _Hue: 0
+    - _LightContrast: 1
+    - _LightIntensity: 0.2
+    - _LightSaturation: 0.1
+    - _LimitColorsBrightnessSteps: 10
+    - _LimitColorsFade: 1
+    - _LimitColorsHueSteps: 15
+    - _LimitColorsSaturationSteps: 15
+    - _NegativeFade: 1
+    - _OutlineBias: 0.5
+    - _OutlineBrightnessTolerance: 0.04
+    - _OutlineFade: 1
+    - _OutlineFillInside: 1
+    - _OutlineFillLines: 1
+    - _OutlineHueTolerance: 0.02
+    - _OutlineSaturationTolerance: 0.04
+    - _OutlineWidth: 0.002
+    - _PixelateFade: 1
+    - _PixelatePixels: 100
+    - _PixelsPerUnit: 100
+    - _RainbowBrightness: 1.5
+    - _RainbowContrast: 1
+    - _RainbowFade: 0.5
+    - _RainbowNoiseFactor: 0.1
+    - _RainbowSaturation: 1
+    - _RainbowSpeed: 0.5
+    - _RainbowZoomDensity: 0.2
+    - _RectHeight: 100
+    - _RectWidth: 100
+    - _RippleOffset: 1
+    - _Saturation: 1
+    - _ScreenWidthUnits: 10
+    - _ShaderSpace: 4
+    - _SingleToneContrast: 0.5
+    - _SingleToneFade: 0.4
+    - _SnapDistortFade: 1
+    - _SnapDistortOppositeFlow: 0
+    - _SnapDistortSnapLevels: 3
+    - _SplitToneContrast: 1
+    - _SplitToneFade: 1
+    - _SplitTonePolarize: 1
+    - _SplitToneShift: 0
+    - _StaticNoiseFade: 0.1
+    - _StaticNoiseSpeed: 4
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _TimeFPS: 5
+    - _TimeRange: 0.5
+    - _TimeSpeed: 1
+    - _UseUIAlphaClip: 0
+    - _ZoomBlurMaxRadius: 10
+    - _ZoomBlurMinRadius: 0.5
+    - _ZoomBlurOffset: 1
+    - _ZoomBlurPower: 2
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorStepsColor0: {r: 0.05882353, g: 0.2196078, b: 0.05882353, a: 0}
+    - _ColorStepsColor1: {r: 0.1882353, g: 0.3843137, b: 0.1882353, a: 0}
+    - _ColorStepsColor2: {r: 0.5450981, g: 0.6745098, b: 0.05882353, a: 0}
+    - _ColorStepsColor3: {r: 0.6078432, g: 0.7372549, b: 0.05882353, a: 0}
+    - _DistortOffset: {r: 0.01, g: 0.01, b: 0, a: 0}
+    - _DistortScale: {r: 0.2, g: 0.2, b: 0, a: 0}
+    - _DistortSpeed: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _FadeDissolveNoiseScale: {r: 0.04, g: 0.04, b: 0, a: 0}
+    - _FadeNoiseScrollScale: {r: 0, g: 0.01, b: 0, a: 0}
+    - _FadeNoiseScrollSpeed: {r: 0, g: 2, b: 0, a: 0}
+    - _FadeSpreadNoiseScale: {r: 0.2, g: 0.2, b: 0, a: 0}
+    - _FadeSpreadPosition: {r: 0, g: 0, b: 0, a: 0}
+    - _GlitchDistortion: {r: 0.1, g: 0, b: 0, a: 0}
+    - _GlitchDistortionScale: {r: 0, g: 3, b: 0, a: 0}
+    - _GlitchDistortionSpeed: {r: 0, g: 1, b: 0, a: 0}
+    - _GlitchMaskScale: {r: 0, g: 0.1, b: 0, a: 0}
+    - _GlitchMaskSpeed: {r: 0, g: 4, b: 0, a: 0}
+    - _GlitchNoiseScale: {r: 0, g: 3, b: 0, a: 0}
+    - _GlitchNoiseSpeed: {r: 0, g: 1, b: 0, a: 0}
+    - _OutlineFillColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineLineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RainbowCenter: {r: 0, g: 0, b: 0, a: 0}
+    - _RainbowNoiseScale: {r: 0.2, g: 0.2, b: 0, a: 0}
+    - _RippleCenter: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _SingleToneColor: {r: 0, g: 1, b: 0, a: 0}
+    - _SnapDistortOffset: {r: 0.1, g: 0, b: 0, a: 0}
+    - _SnapDistortScale: {r: 0, g: 0.01, b: 0, a: 0}
+    - _SnapDistortSpeed: {r: 0, g: 50, b: 0, a: 0}
+    - _SplitToneHighlightsColor: {r: 1, g: 0.1, b: 0.1, a: 0}
+    - _SplitToneShadowsColor: {r: 0.1, g: 0.4000002, b: 1, a: 0}
+    - _StaticNoiseScale: {r: 1, g: 1, b: 0, a: 0}
+    - _ZoomBlurPosition: {r: 0, g: -100, b: 0, a: 0}
