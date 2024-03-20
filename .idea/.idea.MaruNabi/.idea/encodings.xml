@@ -3,5 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/Scholar.BeHit.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/Scholar.cs" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/ScholarManager.cs" charset="x-windows-949" />
+    <file url="PROJECT" charset="x-windows-949" />
   </component>
 </project>

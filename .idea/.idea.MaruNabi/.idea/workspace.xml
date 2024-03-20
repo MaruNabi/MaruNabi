@@ -5,22 +5,67 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9fc5f3d6-e80d-4d8c-b107-e60cd29142fd" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MaruNabi/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MaruNabi/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/DataManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/DataManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/Managers.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/Managers.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/PoolManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/PoolManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Managers/ResourceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Managers/ResourceManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/Scholar.Appearance.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/Scholar.Appearance.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/Scholar.BeHit.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/Scholar.BeHit.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/Scholar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/Scholar.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/ScholarManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/ScholarManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/ScholarUIController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/ScholarUIController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scene/SceneLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scene/SceneLoader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Util/IDamageable.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Util/IDamageable.cs.meta" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Materials.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Materials/ScholarFan_Material.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Materials/ScholarFan_Material.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/VFX/Smoke_VFX.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/VFX/Smoke_VFX.prefab.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Animations/Monsters/Scholar/Scholar_Attack.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/Animations/Monsters/Scholar/Scholar_Attack.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Animations/Monsters/Scholar/Scholar_Flustered.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/Animations/Monsters/Scholar/Scholar_Flustered.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Brightness.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Brightness.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Contrast.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Contrast.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Distort.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Distort.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Glitch.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Glitch.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Hue.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Hue.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Light.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Light.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Limit Colors.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Limit Colors.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Negative.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Negative.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Outline.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Outline.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Pixelate.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Pixelate.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Rainbow.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Rainbow.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Saturation.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Saturation.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Sepia.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Sepia.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Sharpen.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Sharpen.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Single Tone.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Single Tone.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/SnapDistort.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/SnapDistort.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Split Tone.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Split Tone.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Static Noise.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Basics/Static Noise.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Directional Blur/Directional_Blur_1.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Directional Blur/Directional_Blur_1.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Directional Blur/Directional_Blur_2.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Directional Blur/Directional_Blur_2.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Drunk.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Drunk.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Fancy Glitch/Fancy_Glitch_1.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Fancy Glitch/Fancy_Glitch_1.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Fancy Glitch/Fancy_Glitch_2.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Fancy Glitch/Fancy_Glitch_2.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/GameBoy.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/GameBoy.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Gaussian Blur/Gaussian_Blur_1.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Gaussian Blur/Gaussian_Blur_1.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Gaussian Blur/Gaussian_Blur_2.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Gaussian Blur/Gaussian_Blur_2.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Gaussian Blur/Gaussian_Blur_3.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Gaussian Blur/Gaussian_Blur_3.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Neon.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Neon.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Painting.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Painting.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Poison.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Poison.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Rage.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Rage.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Ripple.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Ripple.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Screen.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Screen.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Underwater.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Underwater.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Zoom Blur/Zoom_Blur_1.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Zoom Blur/Zoom_Blur_1.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Zoom Blur/Zoom_Blur_2.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Demo/Materials/Zoom Blur/Zoom_Blur_2.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetDrunk.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetDrunk.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetFancyGlitch.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetFancyGlitch.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetGameBoy.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetGameBoy.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetNeon.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetNeon.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetPainting.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetPainting.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetPoison.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetPoison.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetRage.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetRage.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetScreen.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetScreen.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetSepia.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetSepia.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetUnderwater.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Overlay Filters/Presets/PresetUnderwater.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefab/VFX/Fan_VFX.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/VFX/Fan_VFX.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefab/VFX/Fan_VFX.prefab.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/VFX/Fan_VFX.prefab.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefab/VFX/Straw_VFX.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefab/VFX/Straw_VFX.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Stage2_Phase1_1_Scholar.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Stage2_Phase1_1_Scholar.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Monsters/Mouse/State/MouseFan.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Monsters/Mouse/State/MouseFan.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/State/ScholarFan.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Monsters/Scholar/State/ScholarFan.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Smoke Effects Cartoon Toon Anime Sprite Sheet Animation/Animations/SmokeFX5.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Smoke Effects Cartoon Toon Anime Sprite Sheet Animation/Animations/SmokeFX5.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,10 +76,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Elin/Assets/02. Scripts/Deck/Data/Data.Contents.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Elin/Assets/02. Scripts/Deck/Managers/DataManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Elin/Assets/02. Scripts/Deck/Managers/Managers.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Elin/Assets/02. Scripts/Deck/Managers/ResourceManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Overlay Filters/Demo/Scripts/DemoManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DataScripts/MonsterData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/Managers.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Util/Interface/ILoader.cs" root0="FORCE_HIGHLIGHTING" />
@@ -50,26 +99,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Managers__0315&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Scholar__0320",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\fhrhd\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\fhrhd\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\fhrhd\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\fhrhd\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache",
+      "C:\\Users\\fhrhd\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache",
+      "C:\\Users\\fhrhd\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Unity 에디터에 연결.Unity 에디터에 연결">
     <configuration name="유닛 테스트(배치 모드)" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2021.3.19f1\Editor\Unity.exe" />
@@ -120,6 +169,7 @@
       <workItem from="1710527005368" duration="7647000" />
       <workItem from="1710538232641" duration="526000" />
       <workItem from="1710787362152" duration="10021000" />
+      <workItem from="1710928100968" duration="11527000" />
     </task>
     <servers />
   </component>

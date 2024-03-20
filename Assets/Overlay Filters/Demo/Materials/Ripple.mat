@@ -2,15 +2,24 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ripple
   m_Shader: {fileID: 4800000, guid: 12e812b8c8e3a0742bd48129c3b3c138, type: 3}
-  m_ShaderKeywords: _ENABLEFADEWITHALPHA_ON _ENABLERIPPLE_ON _ENABLEZOOMBLUR_ON _FADINGMETHOD_NONE
-    _OUTLINEFILLINSIDE_ON _OUTLINEFILLLINES_ON _SHADERSPACE_UV_RAW _TIMESETTINGS_LINEAR_DEFAULT
+  m_ValidKeywords:
+  - _ENABLEFADEWITHALPHA_ON
+  - _ENABLERIPPLE_ON
+  - _ENABLEZOOMBLUR_ON
+  - _OUTLINEFILLINSIDE_ON
+  - _OUTLINEFILLLINES_ON
+  - _REFLECTLOCALMIRROR_ON
+  - _SHADERSPACE_UV_RAW
+  m_InvalidKeywords:
+  - _FADINGMETHOD_NONE
+  - _TIMESETTINGS_LINEAR_DEFAULT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -68,6 +77,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _Brightness: 1
     - _BumpScale: 1
@@ -103,6 +113,7 @@ Material:
     - _EnableOutline: 0
     - _EnablePixelate: 0
     - _EnableRainbow: 0
+    - _EnableReflect: 0
     - _EnableRipple: 1
     - _EnableSaturation: 0
     - _EnableSharpen: 0
@@ -172,6 +183,8 @@ Material:
     - _RainbowZoomDensity: 0.2
     - _RectHeight: 100
     - _RectWidth: 100
+    - _ReflectLocalMirror: 1
+    - _ReflectMirrorHeight: 0
     - _RippleOffset: 4
     - _Saturation: 1
     - _ScreenWidthUnits: 10
@@ -248,3 +261,4 @@ Material:
     - _SplitToneShadowsColor: {r: 0.1, g: 0.4000002, b: 1, a: 0}
     - _StaticNoiseScale: {r: 1, g: 1, b: 0, a: 0}
     - _ZoomBlurPosition: {r: 0.5, g: 0.5, b: 0, a: 0}
+  m_BuildTextureStacks: []

@@ -9,7 +9,7 @@ public class ScholarFan : ScholarState
     private float escapeTime = 3f;
 
     private float fanSpeed = 3f;
-    private float scaleSpeed = 7f;
+    private float scaleSpeed = 100f;
 
     private Transform scholarTransform;
 
@@ -27,12 +27,12 @@ public class ScholarFan : ScholarState
     {
         base.OnEnter();
 
-        Debug.Log("ºÎÃ¤");
+        Debug.Log("ï¿½ï¿½Ã¤");
 
         this.scholarTransform = this.stateMachine.Scholar.transform;
         this.scholarPos = scholarTransform.position;
 
-        Debug.Log("À§Ä¡: " + this.scholarPos);
+        Debug.Log("ï¿½ï¿½Ä¡: " + this.scholarPos);
 
         this.fan = this.stateMachine.Scholar.scholarManager.MakeFan(scholarPos);
 
@@ -45,12 +45,10 @@ public class ScholarFan : ScholarState
 
         this.elapsedTime += Time.deltaTime;
 
-        this.fan.transform.Translate(playerPos * Time.deltaTime * this.fanSpeed);
-
-        Vector3 currentScale = fan.transform.localScale;
-        currentScale += new Vector3(scaleSpeed, scaleSpeed, 0) * Time.deltaTime;
-        this.fan.transform.localScale = currentScale;
-
+        //this.fan.transform.Translate(playerPos * Time.deltaTime * this.fanSpeed);
+        // Vector3 currentScale = fan.transform.localScale;
+        // currentScale += new Vector3(scaleSpeed, scaleSpeed, 0) * Time.deltaTime;
+        // this.fan.transform.localScale = currentScale;
 
         if (this.elapsedTime >= this.escapeTime)
         {

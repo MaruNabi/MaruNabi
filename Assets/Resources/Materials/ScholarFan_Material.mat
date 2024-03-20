@@ -7,18 +7,17 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sharpen
+  m_Name: ScholarFan_Material
   m_Shader: {fileID: 4800000, guid: 12e812b8c8e3a0742bd48129c3b3c138, type: 3}
   m_ValidKeywords:
-  - _ENABLEFADESPREAD_ON
   - _ENABLEFADEWITHALPHA_ON
-  - _ENABLESHARPEN_ON
+  - _ENABLERIPPLE_ON
+  - _ENABLEZOOMBLUR_ON
   - _OUTLINEFILLINSIDE_ON
   - _OUTLINEFILLLINES_ON
   - _REFLECTLOCALMIRROR_ON
-  - _SHADERSPACE_WORLD
+  - _SHADERSPACE_UV_RAW
   m_InvalidKeywords:
-  - ETC1_EXTERNAL_ALPHA
   - _FADINGMETHOD_NONE
   - _TIMESETTINGS_LINEAR_DEFAULT
   m_LightmapFlags: 4
@@ -30,12 +29,48 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FadingMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
+        m_Texture: {fileID: 2800000, guid: ff730d9d2d6496f4abb13b5ca1bfe27e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTexture:
         m_Texture: {fileID: 2800000, guid: 6b7b4a61603088549ac748de5e4e6d8c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -45,16 +80,20 @@ Material:
     m_Ints: []
     m_Floats:
     - _Brightness: 1
+    - _BumpScale: 1
     - _ColorMask: 15
     - _ColorStepsFade: 1
     - _ColorStepsStep1: 0.25
     - _ColorStepsStep2: 0.5
     - _ColorStepsStep3: 0.75
     - _Contrast: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
     - _DirectionalBlurDirection: 0
     - _DirectionalBlurOffset: 1
     - _DistortFade: 1
     - _DistortOppositeFlow: 0
+    - _DstBlend: 0
     - _EnableBrightness: 0
     - _EnableColorSteps: 0
     - _EnableContrast: 0
@@ -63,7 +102,7 @@ Material:
     - _EnableFadeDissolve: 0
     - _EnableFadeNoiseScroll: 0
     - _EnableFadeSine: 0
-    - _EnableFadeSpread: 1
+    - _EnableFadeSpread: 0
     - _EnableFadeWithAlpha: 1
     - _EnableGaussianBlur: 0
     - _EnableGlitch: 0
@@ -75,9 +114,9 @@ Material:
     - _EnablePixelate: 0
     - _EnableRainbow: 0
     - _EnableReflect: 0
-    - _EnableRipple: 0
+    - _EnableRipple: 1
     - _EnableSaturation: 0
-    - _EnableSharpen: 1
+    - _EnableSharpen: 0
     - _EnableSingleTone: 0
     - _EnableSnapDistort: 0
     - _EnableSplitTone: 0
@@ -86,7 +125,7 @@ Material:
     - _EnableTimeFrequency: 0
     - _EnableTimeSpeed: 0
     - _EnableTimeUnscaled: 0
-    - _EnableZoomBlur: 0
+    - _EnableZoomBlur: 1
     - _FadeDissolveFade: 1
     - _FadeDissolveWidth: 0.5
     - _FadeNoiseScrollFrom: 0
@@ -99,11 +138,18 @@ Material:
     - _FadeSpreadFade: 2
     - _FadeSpreadNoiseFactor: 0.2
     - _FadeSpreadWidth: 0.5
+    - _FadingMethod: 0
+    - _FadingNoiseFactor: 0.2
+    - _FadingWidth: 0.5
+    - _FullFade: 1
     - _GaussianBlurOffset: 1
     - _GlitchBrightness: 4
     - _GlitchFade: 1
     - _GlitchHueSpeed: 1
     - _GlitchMaskMin: 0.4
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
     - _Hue: 0
     - _LightContrast: 1
     - _LightIntensity: 0.2
@@ -112,7 +158,10 @@ Material:
     - _LimitColorsFade: 1
     - _LimitColorsHueSteps: 15
     - _LimitColorsSaturationSteps: 15
+    - _Metallic: 0
+    - _Mode: 0
     - _NegativeFade: 1
+    - _OcclusionStrength: 1
     - _OutlineBias: 0.5
     - _OutlineBrightnessTolerance: 0.04
     - _OutlineFade: 1
@@ -121,6 +170,7 @@ Material:
     - _OutlineHueTolerance: 0.02
     - _OutlineSaturationTolerance: 0.04
     - _OutlineWidth: 0.002
+    - _Parallax: 0.02
     - _PixelateFade: 1
     - _PixelatePixels: 100
     - _PixelsPerUnit: 100
@@ -135,20 +185,23 @@ Material:
     - _RectWidth: 100
     - _ReflectLocalMirror: 1
     - _ReflectMirrorHeight: 0
-    - _RippleOffset: 1
+    - _RippleOffset: 4
     - _Saturation: 1
     - _ScreenWidthUnits: 10
-    - _ShaderSpace: 4
-    - _SharpenIntensity: 1.4
+    - _ShaderSpace: 1
+    - _SharpenIntensity: 1.5
     - _SingleToneContrast: 1
     - _SingleToneFade: 1
+    - _SmoothnessTextureChannel: 0
     - _SnapDistortFade: 1
     - _SnapDistortOppositeFlow: 0
     - _SnapDistortSnapLevels: 3
+    - _SpecularHighlights: 1
     - _SplitToneContrast: 1
     - _SplitToneFade: 1
     - _SplitTonePolarize: 1
     - _SplitToneShift: 0
+    - _SrcBlend: 1
     - _StaticNoiseFade: 1
     - _StaticNoiseSpeed: 5
     - _Stencil: 0
@@ -157,13 +210,19 @@ Material:
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
     - _TimeFPS: 5
+    - _TimeFrequency: 2
     - _TimeRange: 0.5
+    - _TimeScale: 1
+    - _TimeSettings: 0
     - _TimeSpeed: 1
+    - _TimeValue: 0
     - _Transparency: 1
+    - _UVSec: 0
     - _UseUIAlphaClip: 0
-    - _ZoomBlurMaxRadius: 10
-    - _ZoomBlurMinRadius: 0.5
-    - _ZoomBlurOffset: 1
+    - _ZWrite: 1
+    - _ZoomBlurMaxRadius: 0.3
+    - _ZoomBlurMinRadius: 0.2
+    - _ZoomBlurOffset: 200
     - _ZoomBlurPower: 2
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -174,11 +233,14 @@ Material:
     - _DistortOffset: {r: 0.02, g: 0.02, b: 0, a: 0}
     - _DistortScale: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _DistortSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FadeDissolveNoiseScale: {r: 0.04, g: 0.04, b: 0, a: 0}
     - _FadeNoiseScrollScale: {r: 0, g: 0.02, b: 0, a: 0}
     - _FadeNoiseScrollSpeed: {r: 0, g: 5, b: 0, a: 0}
     - _FadeSpreadNoiseScale: {r: 0.2, g: 0.2, b: 0, a: 0}
     - _FadeSpreadPosition: {r: 0, g: 0, b: 0, a: 0}
+    - _FadingNoiseScale: {r: 0.04, g: 0.04, b: 0, a: 0}
+    - _FadingPosition: {r: 0, g: 0, b: 0, a: 0}
     - _GlitchDistortion: {r: 0.1, g: 0, b: 0, a: 0}
     - _GlitchDistortionScale: {r: 0, g: 3, b: 0, a: 0}
     - _GlitchDistortionSpeed: {r: 0, g: 1, b: 0, a: 0}
@@ -198,5 +260,5 @@ Material:
     - _SplitToneHighlightsColor: {r: 1, g: 0.1, b: 0.1, a: 0}
     - _SplitToneShadowsColor: {r: 0.1, g: 0.4000002, b: 1, a: 0}
     - _StaticNoiseScale: {r: 1, g: 1, b: 0, a: 0}
-    - _ZoomBlurPosition: {r: 0, g: 0, b: 0, a: 0}
+    - _ZoomBlurPosition: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []

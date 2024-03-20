@@ -1374,51 +1374,6 @@ Transform:
   m_Father: {fileID: 294060495}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1192805921
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1192805923}
-  - component: {fileID: 1192805922}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1192805922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1192805921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88a4b12663b16674fb3c02f104411d0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <SceneType>k__BackingField: 0
---- !u!4 &1192805923
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1192805921}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.18499994, y: 0.07499999, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1267961712
 GameObject:
   m_ObjectHideFlags: 0
@@ -2213,7 +2168,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1752319390}
   m_RootOrder: 0
@@ -2231,9 +2186,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scholarPrefab: {fileID: 8878078845135146718, guid: 01f3283e653ee4641bbd1dad48a1f88a, type: 3}
-  cloudPrefab: {fileID: 2774766041835606012, guid: bfa849ce3190e784e9a650bce6b864f3, type: 3}
+  cloudPrefab: {fileID: 1351699654911004, guid: 879aa6d314d3ef848a01ba73a217d9ca, type: 3}
   strawPrefab: {fileID: 2376774297293504491, guid: fdfc57db157759648975cdc263176d23, type: 3}
-  fanPrefab: {fileID: 444426551954482774, guid: dbff4382214158b4dab5fbab62d458c4, type: 3}
+  fanPrefab: {fileID: 6141675117983338419, guid: ecca77a57b57e664f90c8447031618cd, type: 3}
   player: {fileID: 596352307}
   monsterTransformArr:
   - {fileID: 1351598506}
@@ -2254,5 +2209,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb367b67d6149554ab2449693712fefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fanPrefab: {fileID: 444426551954482774, guid: dbff4382214158b4dab5fbab62d458c4, type: 3}
+  fanPrefab: {fileID: 6141675117983338419, guid: ecca77a57b57e664f90c8447031618cd, type: 3}
   player: {fileID: 596352307}
