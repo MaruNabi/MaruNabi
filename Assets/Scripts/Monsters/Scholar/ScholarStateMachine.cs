@@ -22,8 +22,13 @@ public class ScholarStateMachine : StateMachine<ScholarStateMachine>
 
     public void Initialize(string stateName, Scholar scholar)
     {
-        Debug.Log(stateName);
+        //Debug.Log(stateName);
         this.scholar = scholar;
         base.Initialize(stateName);
+    }
+    
+    public void ChangeAnimationAttack()
+    {
+        scholar.scholarAnimator.SetBool("Attack", true);
     }
 }

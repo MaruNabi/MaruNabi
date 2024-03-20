@@ -18,6 +18,7 @@ public class Scholar : LivingEntity
     
     private ScholarStateMachine scholarStateMachine;
     public ScholarManager scholarManager;
+    [SerializeField] public Animator scholarAnimator;
     
     public bool isIdle = false;
 
@@ -41,6 +42,7 @@ public class Scholar : LivingEntity
         this.startingHP = 999999999;
 
         this.scholarManager = transform.parent.GetComponent<ScholarManager>();
+        this.scholarAnimator = transform.GetComponent<Animator>();
     }
 
     void Start()
@@ -57,13 +59,14 @@ public class Scholar : LivingEntity
         {
             if(this.IsIdle == true)
             {
+                scholarAnimator.SetBool("BeHit", true);
                 Debug.Log("총알 맞았다!!");
 
                 scholarManager.SetSchloarBehit(true);
-                OnDamage(523456789);
+                OnDamage(100);
 
                 Debug.Log("비히트?? " + scholarManager.GetIsSchloarBehit());
-
+                
                 this.hpTextBox.text = HP.ToString();
 
                 StartCoroutine(BeHitEffect());

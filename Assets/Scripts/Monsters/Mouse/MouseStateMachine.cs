@@ -28,4 +28,9 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
         this.mouse = mouse;
         base.Initialize(stateName);
     }
+    
+    public void ChangeAnimationAttack()
+    {
+        mouse.mouseAnimator.SetBool("Attack", true);
+    }
 }
