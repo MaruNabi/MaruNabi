@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
+using DG.Tweening;
 
 public class LoadingScene : BaseScene
 {
     public static string nextScene;
 
     [SerializeField]
-    Image progressBar;
+    TMP_Text loadingText;
 
     void Start()
     {
@@ -29,6 +31,9 @@ public class LoadingScene : BaseScene
         op.allowSceneActivation = false;
 
         float timer = 0f;
+        float fakeLoadingTime = 0f;
+
+        loadingText.DOFade(0.0f, 0.5f).SetLoops(-1, LoopType.Yoyo);
 
         while(!op.isDone)
         {
@@ -36,13 +41,13 @@ public class LoadingScene : BaseScene
 
             if (op.progress < 0.9f)
             {
-                progressBar.fillAmount = op.progress;
+                fakeLoadingTime = op.progress;
             }
             else
             {
                 timer += Time.unscaledDeltaTime;
-                progressBar.fillAmount = Mathf.Lerp(0.9f, 1f, timer);
-                if(progressBar.fillAmount >= 1f)
+                fakeLoadingTime = Mathf.Lerp(0.9f, 1f, timer);
+                if(fakeLoadingTime >= 1f)
                 {
                     op.allowSceneActivation = true;
                     yield break;
@@ -54,6 +59,5 @@ public class LoadingScene : BaseScene
     public override void Clear()
     {
         nextScene = "";
-        progressBar.fillAmount = 0f;
     }
 }
