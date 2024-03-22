@@ -1,9 +1,20 @@
 {
+<<<<<<< Updated upstream
   "Data":
   [
     {
       "CODE" : "LOADING_DATA_001",
       "DIALOGUE" : "마루의 방패 디자인은 한국 전통 원방패에서 모티브를 얻었습니다."
+=======
+  "Data": [
+    {
+      "CODE": "Dialogue_001",
+      "Descryption": "마루의 방패 디자인은 한국 전통 원방패에서 모티브를 얻었습니다."
+    },
+
+    {
+
+>>>>>>> Stashed changes
     }
   ]
 }
