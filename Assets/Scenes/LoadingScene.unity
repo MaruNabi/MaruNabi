@@ -508,7 +508,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -613.9754, y: 0, z: 0, w: 0}
+  m_margin: {x: -1099.2777, y: 0, z: 0, w: -1.4867096}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -880,8 +880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a5d2c3ca449194a94f026ada9b38dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progressBar: {fileID: 441065420}
-  loadingText: {fileID: 1831090859}
+  loadingText: {fileID: 265547387}
 --- !u!1 &1582644031
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,18 +5,18 @@ using System.Collections.Generic;
 [Serializable]
 public class LoadingSceneData
 {
-    public string CODE;
+    public int CODE;
     public string DIALOGUE;
 }
 
 [Serializable]
-public class LoadingSceneDict : ILoader<string, LoadingSceneData>
+public class LoadingSceneDict : ILoader<int, LoadingSceneData>
 {
     public List<LoadingSceneData> Data = new List<LoadingSceneData>();
 
-    public Dictionary<string, LoadingSceneData> MakeDict()
+    public Dictionary<int, LoadingSceneData> MakeDict()
     {
-        Dictionary<string, LoadingSceneData> dict = new Dictionary<string, LoadingSceneData>();
+        Dictionary<int, LoadingSceneData> dict = new Dictionary<int, LoadingSceneData>();
         foreach (LoadingSceneData item in Data)
         {
             dict.Add(item.CODE, item);

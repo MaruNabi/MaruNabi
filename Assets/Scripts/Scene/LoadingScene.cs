@@ -9,7 +9,8 @@ using DG.Tweening;
 public class LoadingScene : BaseScene
 {
     public static string nextScene;
-    Dictionary<string, LoadingSceneData> loadingDataDict = new Dictionary<string, LoadingSceneData>();
+    Dictionary<int, LoadingSceneData> loadingDataDict = new Dictionary<int, LoadingSceneData>();
+    private int textRandomCount;
 
     [SerializeField]
     TMP_Text loadingText;
@@ -25,8 +26,9 @@ public class LoadingScene : BaseScene
     {
         yield return new WaitUntil(() => Managers.Data.loadingDict != null);
         loadingDataDict = Managers.Data.loadingDict;
-        loadingDataDict.TryGetValue("Dialogue_001", out LoadingSceneData loadingSceneData);
-        Debug.Log(loadingSceneData.DIALOGUE);
+        textRandomCount = UnityEngine.Random.Range(1, loadingDataDict.Count + 1);
+        loadingDataDict.TryGetValue(textRandomCount, out LoadingSceneData loadingSceneData);
+        loadingText.text = loadingSceneData.DIALOGUE;
     }
 
     protected override void Init()
