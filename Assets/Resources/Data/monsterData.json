@@ -1,10 +1,28 @@
-[
-  {
-    "ID": 1,
-    "Code": "MONSTER_SCHOLAR",
-    "Name": "선비",
-    "MonsterType": 1,
-    "MovementType": false,
-    "Passive": 0
-  }
-]
+{
+  "Data": [
+    {
+      "CODE": "SCHOLAR_MONSTER",
+      "ID": 1,
+      "NAME": "선비",
+      "TYPE": 2,
+      "MOVETYPE": true,
+      "LIFE": 999999999,
+      "SPEED": 0,
+      "JUMPPOWER": 0,
+      "PASSIVE": 0,
+      "RESPAWNTIME" : 0
+    },
+    {
+      "CODE": "MOUSESCHOLAR_MONSTER",
+      "ID": 2,
+      "NAME": "쥐선비",
+      "TYPE": 3,
+      "MOVETYPE": true,
+      "LIFE": 13000,
+      "SPEED": 0,
+      "JUMPPOWER": 0,
+      "PASSIVE": 0,
+      "RESPAWNTIME" : 0
+    }
+  ]
+}
