@@ -1,18 +1,32 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class LivingEntity : MonoBehaviour
+public abstract class Entity : MonoBehaviour
 {
-    public int startingHP = 100;
-    public int HP { get; protected set; }
+    protected float maxHp = 100;
+    public float HP { get; protected set; }
     public bool dead { get; protected set; }
-
     public event Action onDeath;
+
+    private void Awake()
+    {
+        Init();
+    }
+
+    IEnumerator WaitDataManager()
+    {
+        yield return new WaitUntil(() => Managers.Data != null);
+        Init();
+    }
+    
+    protected abstract void Init();
 
     protected virtual void OnEnable()
     {
         dead = false;
-        HP = startingHP;
+        HP = maxHp;
     }
 
     public virtual void OnDamage(int damage)
@@ -24,9 +38,9 @@ public class LivingEntity : MonoBehaviour
     {
         if (dead) return;
 
-        if (startingHP >= HP + restoreHP)
+        if (maxHp >= HP + restoreHP)
             HP += restoreHP;
-        else HP = startingHP;
+        else HP = maxHp;
     }
 
     public virtual void Dead()
