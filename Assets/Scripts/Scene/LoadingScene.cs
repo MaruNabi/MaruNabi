@@ -9,12 +9,15 @@ using DG.Tweening;
 public class LoadingScene : BaseScene
 {
     public static string nextScene;
+    Dictionary<string, LoadingSceneData> loadingTextData = new Dictionary<string, LoadingSceneData>();
 
     [SerializeField]
     TMP_Text loadingText;
 
     void Start()
     {
+        loadingTextData = Managers.Data.loadingDict;
+        
         StartCoroutine(LoadSceneProcess());
     }
 
