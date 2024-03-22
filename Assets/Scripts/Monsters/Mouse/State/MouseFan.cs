@@ -8,7 +8,6 @@ public class MouseFan : MouseState
     private float escapeTime = 3f;
 
     private float fanSpeed = 3f;
-    private float scaleSpeed = 7f;
 
     private Transform mouseTransform;
 
@@ -44,12 +43,10 @@ public class MouseFan : MouseState
 
         this.elapsedTime += Time.deltaTime;
 
-        this.fan.transform.Translate(playerPos * Time.deltaTime * this.fanSpeed);
-
-        Vector3 currentScale = fan.transform.localScale;
-        currentScale += new Vector3(scaleSpeed, scaleSpeed, 0) * Time.deltaTime;
-        this.fan.transform.localScale = currentScale;
-
+        //this.fan.transform.Translate(playerPos * Time.deltaTime * this.fanSpeed);
+        // Vector3 currentScale = fan.transform.localScale;
+        // currentScale += new Vector3(scaleSpeed, scaleSpeed, 0) * Time.deltaTime;
+        // this.fan.transform.localScale = currentScale;
 
         if (this.elapsedTime >= this.escapeTime)
         {

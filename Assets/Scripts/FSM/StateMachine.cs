@@ -54,7 +54,7 @@ public abstract class StateMachine<T> : MonoBehaviour where T : StateMachine<T>
 
     public void SetState(string stateName)
     {
-        Debug.Log(stateName);
+        //Debug.Log(stateName);
         if (this.currentState == null || this.isRunning == false)
             return;
 

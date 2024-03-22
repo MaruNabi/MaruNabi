@@ -22,7 +22,7 @@ public partial class Mouse : LivingEntity
             if (this.IsIdle == true)
             {
                 Debug.Log("ÃÑ¾Ë ¸Â¾Ò´Ù!!");
-
+                mouseAnimator.SetBool("BeHit", true);
                 mouseManager.SetMouseBehit(true);
                 OnDamage(523456789);
 

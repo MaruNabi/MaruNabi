@@ -10,7 +10,8 @@ public partial class Mouse : LivingEntity
     public ScholarManager scholarManager;
 
     public MouseManager mouseManager;
-
+    [SerializeField] public Animator mouseAnimator;
+    
     private void Awake()
     {
         this.mouseStateMachine = this.gameObject.AddComponent<MouseStateMachine>();
@@ -26,6 +27,7 @@ public partial class Mouse : LivingEntity
 
         this.mouseManager = transform.parent.GetComponent<MouseManager>();
         this.scholarManager = transform.parent.GetComponent<ScholarManager>();
+        this.mouseAnimator = transform.GetComponent<Animator>();
     }
 
     private void Start()

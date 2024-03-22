@@ -27,13 +27,16 @@ public class ScholarIdle : ScholarState
 
         if (this.elapsedTime >= this.escapeTime)
         {
-            Debug.Log("idle 시간 달성");
+            //Debug.Log("idle 시간 달성");
 
             this.isBehit = this.stateMachine.Scholar.scholarManager.GetIsSchloarBehit();
 
             if (this.isBehit == true)
             {
                 this.stateMachine.SetState("Fan");
+                
+                // 공격 애니메이션
+                stateMachine.ChangeAnimationAttack();
             }
         }
     }
