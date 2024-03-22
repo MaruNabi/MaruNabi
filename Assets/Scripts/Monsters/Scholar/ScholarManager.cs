@@ -121,17 +121,14 @@ public class ScholarManager : MonoBehaviour
             switch (monster) 
             {
                 case MonsterType.Mouse:
-                    Debug.Log("Mouse : " + i);
                     scholars[i] = CreateMonster(i, true);
                     break;
 
                 case MonsterType.Scholar:
-                    Debug.Log("Scholar : " + i);
                     scholars[i] = CreateMonster(i, false);
                     break;
 
                 case MonsterType.Empty:
-                    Debug.Log("Empty : " + i);
                     break;
 
                 default: break;
@@ -204,13 +201,10 @@ public class ScholarManager : MonoBehaviour
 
     public IEnumerator AppearanceCoroutine(float amount)
     {
-        Debug.Log("roundNum" + roundNum);
-        Debug.Log(amount + "º²Â¤!!");
-
         this.fadeColor = strawSpriteRenderer.color;
         this.fadeColor.a = amount;
         strawSpriteRenderer.color = this.fadeColor;
-        Debug.Log(strawSpriteRenderer.color);
+
         while (this.fadeColor.a <= 0f)
         {
             this.fadeColor = strawSpriteRenderer.color;

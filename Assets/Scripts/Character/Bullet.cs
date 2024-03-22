@@ -49,12 +49,12 @@ public class Bullet : MonoBehaviour
     private IEnumerator BulletDestroy()
     {
         yield return new WaitForSeconds(2.0f);
-        Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
+        Managers.Pool.Push(Util.GetOrAddComponent<Poolable>(this.gameObject));
     }
 
     protected void DestroyBullet()
     {
-        Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
+        Managers.Pool.Push(Util.GetOrAddComponent<Poolable>(this.gameObject));
     }
 
     protected virtual void AttackInstantiate()

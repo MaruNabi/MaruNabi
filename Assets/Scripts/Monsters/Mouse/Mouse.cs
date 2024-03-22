@@ -4,88 +4,74 @@ using TMPro;
 using UnityEngine;
 using System;
 
-public partial class Mouse : LivingEntity
+public class Mouse : Entity
 {
-    private TMP_Text hpTextBox;
-
-    public bool isIdle = false;
-
-    public bool IsIdle
+    [SerializeField] public Animator mouseAnimator;
+    public ScholarManager scholarManager;
+    public MouseManager mouseManager;
+    
+    private bool isIdle;
+    public bool Idle
     {
         get { return isIdle; }
         set { isIdle = value; }
     }
     
     private MouseStateMachine mouseStateMachine;
-    public ScholarManager scholarManager;
+    private SpriteRenderer mouseSpriteRenderer;
+    private TMP_Text hpTextBox;
+    private Color fadeColor;
+    private Color BehitColor;
 
-    public MouseManager mouseManager;
-    [SerializeField] public Animator mouseAnimator;
+    private float transparent = 0.5f;
+    private float normal = 1.0f;
     
     protected override void Init()
     {
-        this.mouseStateMachine = this.gameObject.AddComponent<MouseStateMachine>();
-
-        this.mouseSpriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
-
-        Transform mouseCanvas = transform.GetChild(0);
-        Transform textMeshProTransform = mouseCanvas.GetChild(0);
-        this.hpTextBox = textMeshProTransform.GetComponent<TextMeshProUGUI>();
-
-        // TO DO: HP 다른 곳에서 관리
-        this.maxHp = 999999999;
-
-        this.mouseManager = transform.parent.GetComponent<MouseManager>();
-        this.scholarManager = transform.parent.GetComponent<ScholarManager>();
-        this.mouseAnimator = transform.GetComponent<Animator>();
-    }
-
-    private void Start()
-    {
-        this.mouseStateMachine.Initialize("Appearance", this);
-        this.hpTextBox.text = HP.ToString();
+        hpTextBox = Util.FindChild<TextMeshProUGUI>(gameObject, "", true);
+        data = Util.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER");
+        mouseStateMachine = Util.GetOrAddComponent<MouseStateMachine>(gameObject);
+        
+        mouseSpriteRenderer = GetComponent<SpriteRenderer>();
+        mouseAnimator = GetComponent<Animator>();
+        mouseManager = transform.parent.GetComponent<MouseManager>();
+        scholarManager = transform.parent.GetComponent<ScholarManager>();
+        
+        mouseStateMachine.Initialize("Appearance", this);
+    
+        maxHP = data.LIFE;
+        HP = maxHP;
+        hpTextBox.text = HP.ToString();
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            if (this.IsIdle == true)
+            if (Idle)
             {
-                Debug.Log("총알 맞았다!!");
                 mouseAnimator.SetBool("BeHit", true);
                 mouseManager.SetMouseBehit(true);
-                OnDamage(523456789);
-
-                Debug.Log("비히트?? " + mouseManager.GetIsMouseBehit());
-
-                this.hpTextBox.text = HP.ToString();
+                OnDamage(5);
+                
+                hpTextBox.text = HP.ToString();
 
                 StartCoroutine(BeHitEffect());
             }
         }
     }
-    
-    private SpriteRenderer mouseSpriteRenderer;
-
-    private Color fadeColor;
-
-    private float transparent = 0.5f;
-    private float normal = 1.0f;
-
-    private Color BehitColor;
 
     public IEnumerator AppearanceCoroutine()
     {
-        this.fadeColor = mouseSpriteRenderer.color;
-        this.fadeColor.a = 0f;
-        mouseSpriteRenderer.color = this.fadeColor;
+        fadeColor = mouseSpriteRenderer.color;
+        fadeColor.a = 0f;
+        mouseSpriteRenderer.color = fadeColor;
 
-        while (this.fadeColor.a <= 1f)
+        while (fadeColor.a <= 1f)
         {
-            this.fadeColor = mouseSpriteRenderer.color;
-            this.fadeColor.a += 0.05f;
-            mouseSpriteRenderer.color = this.fadeColor;
+            fadeColor = mouseSpriteRenderer.color;
+            fadeColor.a += 0.05f;
+            mouseSpriteRenderer.color = fadeColor;
 
             yield return new WaitForSeconds(0.05f);
         }
@@ -93,16 +79,13 @@ public partial class Mouse : LivingEntity
 
     private IEnumerator BeHitEffect()
     {
-        this.BehitColor = this.mouseSpriteRenderer.color;
-
-        this.BehitColor.a = this.transparent;
-
-        this.mouseSpriteRenderer.color = this.BehitColor;
+        BehitColor = mouseSpriteRenderer.color;
+        BehitColor.a = transparent;
+        mouseSpriteRenderer.color = BehitColor;
 
         yield return new WaitForSeconds(0.3f);
-
-        this.BehitColor.a = this.normal;
-
-        this.mouseSpriteRenderer.color = this.BehitColor;
+        
+        BehitColor.a = normal;
+        mouseSpriteRenderer.color = BehitColor;
     }
 }

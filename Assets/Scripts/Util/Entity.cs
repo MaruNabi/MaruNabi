@@ -5,14 +5,15 @@ using UnityEngine.Serialization;
 
 public abstract class Entity : MonoBehaviour
 {
-    protected float maxHp = 100;
+    protected float maxHP;
     public float HP { get; protected set; }
     public bool dead { get; protected set; }
     public event Action onDeath;
 
-    private void Awake()
+    protected MonsterData data;
+    private void Start()
     {
-        Init();
+        StartCoroutine(WaitDataManager());
     }
 
     IEnumerator WaitDataManager()
@@ -26,7 +27,7 @@ public abstract class Entity : MonoBehaviour
     protected virtual void OnEnable()
     {
         dead = false;
-        HP = maxHp;
+        HP = maxHP;
     }
 
     public virtual void OnDamage(int damage)
@@ -38,9 +39,9 @@ public abstract class Entity : MonoBehaviour
     {
         if (dead) return;
 
-        if (maxHp >= HP + restoreHP)
+        if (maxHP >= HP + restoreHP)
             HP += restoreHP;
-        else HP = maxHp;
+        else HP = maxHP;
     }
 
     public virtual void Dead()

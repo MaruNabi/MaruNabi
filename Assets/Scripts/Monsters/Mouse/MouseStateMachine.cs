@@ -24,7 +24,6 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
 
     public void Initialize(string stateName, Mouse mouse)
     {
-        Debug.Log(stateName);
         this.mouse = mouse;
         base.Initialize(stateName);
     }

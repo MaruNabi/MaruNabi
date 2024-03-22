@@ -17,7 +17,7 @@ public class MouseIdle : MouseState
     {
         base.OnEnter();
 
-        this.stateMachine.Mouse.IsIdle = true;
+        this.stateMachine.Mouse.Idle = true;
     }
     public override void OnUpdate()
     {
@@ -43,6 +43,6 @@ public class MouseIdle : MouseState
         base.OnExit();
 
         this.elapsedTime = 0f;
-        this.stateMachine.Mouse.IsIdle = false;
+        this.stateMachine.Mouse.Idle = false;
     }
 }

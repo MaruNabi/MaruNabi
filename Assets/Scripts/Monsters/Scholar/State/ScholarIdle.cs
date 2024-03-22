@@ -17,7 +17,7 @@ public class ScholarIdle : ScholarState
     {
         base.OnEnter();
 
-        this.stateMachine.Scholar.IsIdle = true;
+        this.stateMachine.Scholar.Idle = true;
     }
     public override void OnUpdate()
     {
@@ -45,6 +45,6 @@ public class ScholarIdle : ScholarState
         base.OnExit();
 
         this.elapsedTime = 0f;
-        this.stateMachine.Scholar.IsIdle = false;
+        this.stateMachine.Scholar.Idle = false;
     }
 }
