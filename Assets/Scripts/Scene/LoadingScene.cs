@@ -9,16 +9,24 @@ using DG.Tweening;
 public class LoadingScene : BaseScene
 {
     public static string nextScene;
-    Dictionary<string, LoadingSceneData> loadingTextData = new Dictionary<string, LoadingSceneData>();
+    Dictionary<string, LoadingSceneData> loadingDataDict = new Dictionary<string, LoadingSceneData>();
 
     [SerializeField]
     TMP_Text loadingText;
 
     void Start()
     {
-        loadingTextData = Managers.Data.loadingDict;
-        
+        StartCoroutine(WaitForDataLoading());
+
         StartCoroutine(LoadSceneProcess());
+    }
+
+    private IEnumerator WaitForDataLoading()
+    {
+        yield return new WaitUntil(() => Managers.Data.loadingDict != null);
+        loadingDataDict = Managers.Data.loadingDict;
+        loadingDataDict.TryGetValue("Dialogue_001", out LoadingSceneData loadingSceneData);
+        Debug.Log(loadingSceneData.DIALOGUE);
     }
 
     protected override void Init()

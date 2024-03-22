@@ -13,7 +13,7 @@ public class DataManager
     {
         //Resources의 Data 폴더 산하에서 해당하는 이름에 맞는 json 데이터를 읽어온다.
         monsterDict = LoadJson<MonsterDict, string, MonsterData>("MonsterData").MakeDict();
-        loadingDict = LoadJson<LoadingDataDict, string, LoadingSceneData>("LoadingSceneData").MakeDict();
+        loadingDict = LoadJson<LoadingSceneDict, string, LoadingSceneData>("LoadingSceneData").MakeDict();
     }
 
     Loader LoadJson<Loader, Key, Value>(string path) where Loader : ILoader<Key, Value>

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class LoadingSceneData
@@ -10,7 +9,8 @@ public class LoadingSceneData
     public string DIALOGUE;
 }
 
-public class LoadingDataDict : ILoader<string, LoadingSceneData>
+[Serializable]
+public class LoadingSceneDict : ILoader<string, LoadingSceneData>
 {
     public List<LoadingSceneData> Data = new List<LoadingSceneData>();
 
