@@ -399,7 +399,7 @@ GameObject:
   - component: {fileID: 265547388}
   - component: {fileID: 265547387}
   m_Layer: 5
-  m_Name: TextPool
+  m_Name: LoadingText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -881,6 +881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingText: {fileID: 265547387}
+  loadingPhrases: {fileID: 1831090859}
 --- !u!1 &1582644031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,7 +1083,7 @@ GameObject:
   - component: {fileID: 1831090860}
   - component: {fileID: 1831090859}
   m_Layer: 5
-  m_Name: LoadingText
+  m_Name: LoadingPhrases
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
