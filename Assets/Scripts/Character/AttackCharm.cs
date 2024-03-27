@@ -12,7 +12,7 @@ public class AttackCharm : Bullet
     float currentZ;
     float newZ;
 
-    void Start()
+    void OnEnable()
     {
         SetBullet();
 

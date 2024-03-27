@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class AttackSmallBeads : Bullet
 {
-    void Start()
-    {
-        //SetBullet();
-    }
-
-    private void OnEnable()
+    void OnEnable()
     {
         SetBullet();
     }

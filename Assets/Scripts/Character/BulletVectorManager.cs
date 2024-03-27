@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletVectorManager : MonoBehaviour
+public class BulletVectorManager
 {
-    public static Vector2 bulletVector;
     private int vertical;
     private int horizontal;
+
+    /*void Start()
+    {
+        
+    }
 
     void Update()
     {
@@ -17,15 +21,16 @@ public class BulletVectorManager : MonoBehaviour
             float angleX = directionalInput.x;
             float angleY = directionalInput.y;
 
-            bulletVector = new Vector2(angleX, angleY);
+            BulletVector = new Vector2(angleX, angleY);
         }
 
         else
         {
-            bulletVector = new Vector2(0.0f, 0.0f);
+            BulletVector = new Vector2(0.0f, 0.0f);
         }
-    }
-    Vector2 GetDirectionalInput()
+    }*/
+
+    public Vector2 GetDirectionalInput()
     {
         vertical = (Input.GetKey(KeyCode.RightArrow) && !(Input.GetKey(KeyCode.LeftArrow)) ? 1 : 0) - (!(Input.GetKey(KeyCode.RightArrow)) && Input.GetKey(KeyCode.LeftArrow) ? 1 : 0);
         horizontal = (Input.GetKey(KeyCode.UpArrow) && !(Input.GetKey(KeyCode.DownArrow)) ? 1 : 0) - (!(Input.GetKey(KeyCode.UpArrow)) && Input.GetKey(KeyCode.DownArrow) ? 1 : 0);

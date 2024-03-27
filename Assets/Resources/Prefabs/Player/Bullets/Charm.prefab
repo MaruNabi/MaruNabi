@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8894455992461859839}
   - component: {fileID: 9089737123747408321}
   - component: {fileID: -2481410095875264910}
-  - component: {fileID: -7751972408562109597}
   - component: {fileID: -433915459431304967}
+  - component: {fileID: -7751972408562109597}
   m_Layer: 0
   m_Name: Charm
   m_TagString: Bullet
@@ -108,24 +108,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-7751972408562109597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6098133194209272077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3af3af57f7c16a94ab1778188de09d8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  rayDistance: 0.2
-  isLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  lockedBulletVector: {x: 0, y: 0}
 --- !u!61 &-433915459431304967
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -152,3 +134,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.38, y: 0.11}
   m_EdgeRadius: 0
+--- !u!114 &-7751972408562109597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6098133194209272077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3af3af57f7c16a94ab1778188de09d8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  rayDistance: 0.2
+  isLayer:
+    serializedVersion: 2
+    m_Bits: 128

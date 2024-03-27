@@ -13,11 +13,6 @@ public class PlayerUIManager : MonoBehaviour
     public Image[] nabiLife;
     public Sprite blankHP, fillHP;
 
-    void Awake()
-    {
-        
-    }
-
     void Start()
     {
         for (int i = 0; i < 3; i++)

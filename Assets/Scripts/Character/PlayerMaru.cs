@@ -6,6 +6,19 @@ using UnityEngine.UI;
 public class PlayerMaru : Player
 {
     [SerializeField]
+    private GameObject swordPrefab;
+    [SerializeField]
+    private GameObject skillPrefab;
+    [SerializeField]
+    private Transform atkPosition;
+
+    private bool isLock = false;
+    private bool attacksNow = false;
+
+    [SerializeField]
+    private GameObject playerBullets;
+
+    [SerializeField]
     private Image[] maruLife;
     public Sprite blankHP, fillHP;
 
@@ -25,6 +38,8 @@ public class PlayerMaru : Player
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
+
+        Managers.Pool.CreatePool(swordPrefab, 2);
     }
 
     void Update()
@@ -48,6 +63,28 @@ public class PlayerMaru : Player
             {
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            isLock = true;
+        }
+
+        else if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            isLock = false;
+        }
+
+        if (Input.GetKey(KeyCode.V))
+        {
+            if (!attacksNow) 
+            {
+                attacksNow = true;
+                GameObject swordObject = Managers.Pool.Pop(swordPrefab, playerBullets.transform).gameObject;
+                swordObject.transform.position = atkPosition.position;
+                swordObject.transform.rotation = transform.rotation;
+                //Atknow false
             }
         }
 
@@ -130,7 +167,7 @@ public class PlayerMaru : Player
 
         if (Input.GetKey(KeyCode.A))
         {
-            if (isSitting)
+            if (isSitting || isLock)
             {
                 moveHorizontal = 0.0f;
             }
@@ -139,11 +176,12 @@ public class PlayerMaru : Player
                 moveHorizontal = -1.0f;
             }
             transform.rotation = Quaternion.Euler(0, 0, 0);
+            atkPosition.rotation = Quaternion.Euler(0, 0, 0);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            if (isSitting)
+            if (isSitting || isLock)
             {
                 moveHorizontal = 0.0f;
             }
@@ -152,6 +190,7 @@ public class PlayerMaru : Player
                 moveHorizontal = 1.0f;
             }
             transform.rotation = Quaternion.Euler(0, 180, 0);
+            atkPosition.rotation = Quaternion.Euler(0, 180, 0);
         }
 
         base.PlayerMove();

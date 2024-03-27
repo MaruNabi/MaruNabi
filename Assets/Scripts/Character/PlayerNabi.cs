@@ -10,15 +10,13 @@ public class PlayerNabi : Player
     [SerializeField]
     private GameObject skillPrefab;
     [SerializeField]
-    private GameObject bulletVectorManager;
-    [SerializeField]
-    private Transform bulletPosition;                //Bullet Instantiate Position
+    private Transform atkPosition;                //Bullet Instantiate Position
     [SerializeField]
     private float coolTime;
     private float curTime;
     private bool isLock = false;                    //Lock
     [SerializeField]
-    private GameObject playerBullets;
+    private GameObject playerBullets;               //For Pooling
 
     [SerializeField]
     private Image[] nabiLife;
@@ -32,8 +30,6 @@ public class PlayerNabi : Player
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
-
-        bulletVectorManager.SetActive(false);
 
         reviveZone.SetActive(false);
 
@@ -74,15 +70,13 @@ public class PlayerNabi : Player
         if (Input.GetKeyDown(KeyCode.L))
         {
             isLock = true;
-            bulletVectorManager.SetActive(true);
         }
         
         //LockOff
         else if (Input.GetKeyUp(KeyCode.L))
         {
             isLock = false;
-            BulletVectorManager.bulletVector = new Vector2(0, 0);
-            bulletVectorManager.SetActive(false);
+            //BulletVectorManager.bulletVector = new Vector2(0, 0);
         }
 
         //Atk
@@ -92,7 +86,7 @@ public class PlayerNabi : Player
             {
                 //Instantiate(bulletPrefab, bulletPosition.position, transform.rotation);
                 GameObject bulletObject = Managers.Pool.Pop(bulletPrefab, playerBullets.transform).gameObject;
-                bulletObject.transform.position = bulletPosition.position;
+                bulletObject.transform.position = atkPosition.position;
                 bulletObject.transform.rotation = transform.rotation;
             }
             curTime = coolTime;
@@ -109,7 +103,7 @@ public class PlayerNabi : Player
             //Special Move
             else if (ultimateGauge == maxUltimateGauge)
             {
-                Instantiate(skillPrefab, bulletPosition.position, transform.rotation);
+                Instantiate(skillPrefab, atkPosition.position, transform.rotation);
                 ultimateGauge = 0.0f;
             }
             //Ability
@@ -148,7 +142,7 @@ public class PlayerNabi : Player
                 moveHorizontal = -1.0f;
             }
             transform.rotation = Quaternion.Euler(0, 0, 0);
-            bulletPosition.rotation = Quaternion.Euler(0, 0, 0);
+            atkPosition.rotation = Quaternion.Euler(0, 0, 0);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
@@ -162,7 +156,7 @@ public class PlayerNabi : Player
                 moveHorizontal = 1.0f;
             }
             transform.rotation = Quaternion.Euler(0, 180, 0);
-            bulletPosition.rotation = Quaternion.Euler(0, 180, 0);
+            atkPosition.rotation = Quaternion.Euler(0, 180, 0);
         }
 
         base.PlayerMove();

@@ -13,26 +13,25 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     protected LayerMask isLayer;
     protected Rigidbody2D bulletRigidbody;
-    public Vector2 lockedBulletVector;
+    protected Vector2 lockedBulletVector;
     private float attackPower = 300f;
 
     private RaycastHit2D ray;
 
     private IEnumerator bulletDestroyCoroutine;
 
-    void Start()
-    {
-        
-    }
+    BulletVectorManager bulletVec = new BulletVectorManager();
 
     protected void SetBullet()
     {
         if (bulletDestroyCoroutine != null)
             StopCoroutine(bulletDestroyCoroutine);
-        lockedBulletVector = BulletVectorManager.bulletVector;
+
+        if (Input.GetKey(KeyCode.L))
+            lockedBulletVector = bulletVec.GetDirectionalInput();
 
         bulletRigidbody = GetComponent<Rigidbody2D>();
-        bulletRigidbody.gravityScale = 0;
+        bulletRigidbody.gravityScale = 0.0f;
         bulletRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         bulletDestroyCoroutine = BulletDestroy();
         StartCoroutine(bulletDestroyCoroutine);
@@ -49,11 +48,13 @@ public class Bullet : MonoBehaviour
     private IEnumerator BulletDestroy()
     {
         yield return new WaitForSeconds(2.0f);
+        lockedBulletVector = new Vector2(0.0f, 0.0f);
         Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
     }
 
     protected void DestroyBullet()
     {
+        lockedBulletVector = new Vector2(0.0f, 0.0f);
         Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
     }
 
