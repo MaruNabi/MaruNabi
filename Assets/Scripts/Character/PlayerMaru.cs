@@ -78,13 +78,18 @@ public class PlayerMaru : Player
 
         if (Input.GetKey(KeyCode.V))
         {
-            if (!attacksNow) 
+            if (!attacksNow)
             {
                 attacksNow = true;
                 GameObject swordObject = Managers.Pool.Pop(swordPrefab, playerBullets.transform).gameObject;
                 swordObject.transform.position = atkPosition.position;
                 swordObject.transform.rotation = transform.rotation;
                 //Atknow false
+            }
+
+            if (swordPrefab.activeSelf == false)
+            {
+                attacksNow = false;
             }
         }
 
@@ -108,12 +113,6 @@ public class PlayerMaru : Player
             isSitting = false;
             canDash = true;
             playerAnimator.SetBool("isSit", false);
-        }
-
-        //Atk
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            //Attack
         }
 
         if (Input.GetKeyDown(KeyCode.B))

@@ -7,14 +7,17 @@ using DG.Tweening;
 
 public class AttackSmallSword : Bullet
 {
-    private Vector2 bulletPosition;
+    private Vector3 bulletPosition;
     private Vector3 targetVec;
+    private Vector3 intersection = new Vector3(3.0f, 0, 0);
+
+    private bool isActive = false;
+
+    private bool isLoop = true;
 
     private void OnEnable()
     {
-        SetBullet();
-
-        
+        SetBullet(1f);
     }
 
     void Update()
@@ -26,28 +29,34 @@ public class AttackSmallSword : Bullet
     {
         base.AttackInstantiate();
 
-        NormalSwordMovement();
+        StartCoroutine(NormalSwordMovement());
+
     }
 
-    private void NormalSwordMovement()
+    private IEnumerator NormalSwordMovement()
     {
-        if (lockedBulletVector.magnitude == 0)
+        if (!isActive)
         {
-            Debug.Log("Hi");
-            if (transform.rotation.y == 0)
+            isActive = true;
+            if (lockedBulletVector.magnitude == 0)
             {
-                //bulletPosition = transform.position;
-                transform.DOMoveX(1, 1).SetLoops(-1, LoopType.Yoyo);
-                //transform.DOMove(bulletPosition, 1);
-            }
+                bulletPosition = transform.position;
 
-            else
-            {
-                //transform.DOMoveX(-1, 1).SetLoops(-1, LoopType.Yoyo);
-                transform.DOMoveX(1, 1).SetLoops(-1, LoopType.Yoyo);
-                //bulletPosition = transform.position;
-                //transform.DOMoveX(1, 1);
-                //transform.DOMove(bulletPosition, 1);
+                if (transform.rotation.y == 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                    targetVec = bulletPosition - intersection;
+                    //transform.DOMove(bulletPosition, 0.4f).SetEase(Ease.InCubic);
+                }
+
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                    targetVec = bulletPosition + intersection;
+                }
+
+                transform.DOMove(targetVec, 0.4f).SetEase(Ease.OutCubic);
+                yield return new WaitForSeconds(0.4f);
             }
         }
     }

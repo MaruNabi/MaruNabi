@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
 
     BulletVectorManager bulletVec = new BulletVectorManager();
 
-    protected void SetBullet()
+    protected void SetBullet(float bulletHoldingTime = 2.0f)
     {
         if (bulletDestroyCoroutine != null)
             StopCoroutine(bulletDestroyCoroutine);
@@ -33,7 +33,7 @@ public class Bullet : MonoBehaviour
         bulletRigidbody = GetComponent<Rigidbody2D>();
         bulletRigidbody.gravityScale = 0.0f;
         bulletRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        bulletDestroyCoroutine = BulletDestroy();
+        bulletDestroyCoroutine = BulletDestroy(bulletHoldingTime);
         StartCoroutine(bulletDestroyCoroutine);
         //UniWait().Forget();
     }
@@ -45,9 +45,9 @@ public class Bullet : MonoBehaviour
         DestroyBullet();
     }
 
-    private IEnumerator BulletDestroy()
+    private IEnumerator BulletDestroy(float bulletHoldingTime = 2.0f)
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(bulletHoldingTime);
         lockedBulletVector = new Vector2(0.0f, 0.0f);
         Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
     }
