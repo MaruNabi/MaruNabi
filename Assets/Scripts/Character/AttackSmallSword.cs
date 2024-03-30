@@ -9,15 +9,19 @@ public class AttackSmallSword : Bullet
 {
     private Vector3 bulletPosition;
     private Vector3 targetVec;
-    private Vector3 intersection = new Vector3(3.0f, 0, 0);
+    private Vector3 bulletDistance = new Vector3(4.0f, 0, 0);
 
     private bool isActive = false;
 
     private bool isLoop = true;
 
+    private GameObject bulletReturnPosition;
+
     private void OnEnable()
     {
-        SetBullet(1f);
+        SetBullet(0.8f);
+
+        bulletReturnPosition = GameObject.Find("MaruBulletPosition");
     }
 
     void Update()
@@ -25,12 +29,16 @@ public class AttackSmallSword : Bullet
         AttackInstantiate();
     }
 
+    private void OnDisable()
+    {
+        isActive = false;
+    }
+
     protected override void AttackInstantiate()
     {
         base.AttackInstantiate();
 
         StartCoroutine(NormalSwordMovement());
-
     }
 
     private IEnumerator NormalSwordMovement()
@@ -38,6 +46,7 @@ public class AttackSmallSword : Bullet
         if (!isActive)
         {
             isActive = true;
+
             if (lockedBulletVector.magnitude == 0)
             {
                 bulletPosition = transform.position;
@@ -45,19 +54,35 @@ public class AttackSmallSword : Bullet
                 if (transform.rotation.y == 0)
                 {
                     transform.rotation = Quaternion.Euler(0, 180, 0);
-                    targetVec = bulletPosition - intersection;
+                    targetVec = bulletPosition - bulletDistance;
                     //transform.DOMove(bulletPosition, 0.4f).SetEase(Ease.InCubic);
                 }
 
                 else
                 {
                     transform.rotation = Quaternion.Euler(0, 0, 0);
-                    targetVec = bulletPosition + intersection;
+                    targetVec = bulletPosition + bulletDistance;
                 }
-
-                transform.DOMove(targetVec, 0.4f).SetEase(Ease.OutCubic);
-                yield return new WaitForSeconds(0.4f);
             }
+
+            transform.DOMove(targetVec, 0.4f).SetEase(Ease.OutCubic);
+            yield return new WaitForSeconds(0.4f);
+
+            transform.DOMove(bulletReturnPosition.transform.position, 0.2f).SetEase(Ease.InCirc);
+            yield return new WaitForSeconds(0.2f);
+
+            StartCoroutine("ReturnSword");
+            yield return new WaitForSeconds(0.3f);
+            StopCoroutine("ReturnSword");
+        }
+    }
+
+    private IEnumerator ReturnSword()
+    {
+        while (true)
+        {
+            DOTween.To(() => transform.position, x => transform.position = x, bulletReturnPosition.transform.position, 0.3f);
+            yield return null;
         }
     }
 }

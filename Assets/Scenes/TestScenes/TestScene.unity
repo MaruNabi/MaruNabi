@@ -1761,7 +1761,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1002217362}
   m_Layer: 3
-  m_Name: BulletPosition
+  m_Name: MaruBulletPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3491,7 +3491,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2082914111}
   m_Layer: 3
-  m_Name: BulletPosition
+  m_Name: NabiBulletPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

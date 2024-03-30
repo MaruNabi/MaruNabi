@@ -16,6 +16,9 @@ public class Bullet : MonoBehaviour
     protected Vector2 lockedBulletVector;
     private float attackPower = 300f;
 
+    [SerializeField]
+    private Transform rayStartPosition;
+
     private RaycastHit2D ray;
 
     private IEnumerator bulletDestroyCoroutine;
@@ -60,9 +63,9 @@ public class Bullet : MonoBehaviour
 
     protected virtual void AttackInstantiate()
     {
-        this.ray = Physics2D.Raycast(transform.position, transform.right, rayDistance, isLayer);
+        this.ray = Physics2D.Raycast(rayStartPosition.position, transform.right, rayDistance, isLayer);
 
-        Debug.DrawRay(transform.position, transform.right * rayDistance, Color.red);
+        Debug.DrawRay(rayStartPosition.position, transform.right * rayDistance, Color.red);
     }
 
     protected void NormalBulletMovement()

@@ -84,10 +84,9 @@ public class PlayerMaru : Player
                 GameObject swordObject = Managers.Pool.Pop(swordPrefab, playerBullets.transform).gameObject;
                 swordObject.transform.position = atkPosition.position;
                 swordObject.transform.rotation = transform.rotation;
-                //Atknow false
             }
 
-            if (swordPrefab.activeSelf == false)
+            if (playerBullets.transform.childCount == 0)
             {
                 attacksNow = false;
             }
