@@ -117,7 +117,22 @@ public class PlayerMaru : Player
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            //Ultimate Attack
+            //None
+            if (ultimateGauge < 500.0f)
+            {
+                return;
+            }
+            //Special Move
+            else if (ultimateGauge == maxUltimateGauge)
+            {
+                Instantiate(skillPrefab, atkPosition.position, transform.rotation);
+                ultimateGauge = 0.0f;
+            }
+            //Ability
+            else
+            {
+                ultimateGauge -= 500.0f;
+            }
         }
 
         //Animation Script

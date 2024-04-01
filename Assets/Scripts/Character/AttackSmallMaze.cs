@@ -96,13 +96,4 @@ public class AttackSmallMaze : Sword
             }
         }
     }
-
-    private IEnumerator ReturnSword()
-    {
-        while (true)
-        {
-            DOTween.To(() => transform.position, x => transform.position = x, swordReturnPosition.transform.position, 0.3f);
-            yield return null;
-        }
-    }
 }

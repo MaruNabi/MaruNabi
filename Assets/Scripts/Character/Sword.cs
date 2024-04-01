@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Sword : MonoBehaviour
 {
@@ -66,6 +67,7 @@ public class Sword : MonoBehaviour
         {
             if (ray.collider.tag == "Enemy" && isHitOnce && ray.collider.name != currentHit)
             {
+                Debug.Log("Hit!");
                 isHitOnce = false;
                 currentHit = ray.collider.name;
                 if ((PlayerMaru.ultimateGauge += attackPower) > 1500.0f)
@@ -78,6 +80,15 @@ public class Sword : MonoBehaviour
         else if (ray.collider == null)
         {
             isHitOnce = true;
+        }
+    }
+
+    protected IEnumerator ReturnSword()
+    {
+        while (true)
+        {
+            DOTween.To(() => transform.position, x => transform.position = x, swordReturnPosition.transform.position, 0.3f);
+            yield return null;
         }
     }
 }

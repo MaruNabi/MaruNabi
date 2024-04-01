@@ -5,15 +5,13 @@ using Cysharp.Threading.Tasks;
 using System;
 using DG.Tweening;
 
-public class AttackSmallSword : Sword
+public class AttackSmallAxe : Sword
 {
-    private const float MAX_DISTANCE = 4.0f;
-
-    private float finalAttackPower;
+    private const float MAX_DISTANCE = 5.0f;
 
     private void OnEnable()
     {
-        SetSword(0.8f);
+        SetSword(1.35f);
 
         swordDistance = new Vector2(MAX_DISTANCE, 0);
 
@@ -23,12 +21,13 @@ public class AttackSmallSword : Sword
     void Update()
     {
         AttackInstantiate();
+
+        transform.Rotate(new Vector3(0, 0, -480.0f * Time.deltaTime));
     }
 
     private void OnDisable()
     {
         isActive = false;
-        finalAttackPower = 0.0f;
         currentHit = "";
     }
 
@@ -36,17 +35,16 @@ public class AttackSmallSword : Sword
     {
         base.AttackInstantiate();
 
-        StartCoroutine(NormalSwordMovement());
-
-        SwordHit();
+        StartCoroutine(NormalAxeMovement());
     }
 
-    private IEnumerator NormalSwordMovement()
+    private IEnumerator NormalAxeMovement()
     {
         if (!isActive)
         {
             isActive = true;
             swordPosition = transform.position;
+            StartCoroutine("SetActiveRay");
 
             if (lockedSwordVector.magnitude == 0)
             {
@@ -83,28 +81,40 @@ public class AttackSmallSword : Sword
                 transform.rotation = Quaternion.Euler(xAngle, 0, zAngle);
             }
 
-            transform.DOMove(targetVec, 0.4f).SetEase(Ease.OutCubic);
-            yield return new WaitForSeconds(0.4f);
+            transform.DOMove(targetVec, 0.25f).SetEase(Ease.OutCubic);
+            yield return new WaitForSeconds(0.25f);
+
+            yield return new WaitForSeconds(0.75f);
 
             transform.DOMove(swordReturnPosition.transform.position, 0.2f).SetEase(Ease.InCirc);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.15f);
 
             StartCoroutine("ReturnSword");
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.1f);
             StopCoroutine("ReturnSword");
+            StopCoroutine("SetActiveRay");
         }
     }
 
-    private void SwordHit()
+    private IEnumerator SetActiveRay()
+    {
+        while (true)
+        {
+            isHitOnce = true;
+            AxeHit();
+            yield return new WaitForSeconds(0.25f);
+        }
+    }
+
+    private void AxeHit()
     {
         if (ray.collider != null)
         {
-            if (ray.collider.tag == "Enemy" && isHitOnce && ray.collider.name != currentHit)
+            if (ray.collider.tag == "Enemy" && isHitOnce)
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
-                finalAttackPower = attackPower * Mathf.Round(MAX_DISTANCE - Vector3.Distance(transform.position, swordPosition));
-                if ((PlayerMaru.ultimateGauge += finalAttackPower) > 1500.0f)
+                if ((PlayerMaru.ultimateGauge += attackPower) > 1500.0f)
                 {
                     PlayerMaru.ultimateGauge = 1500.0f;
                 }
