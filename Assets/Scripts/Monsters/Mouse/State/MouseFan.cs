@@ -1,73 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class MouseFan : MouseState
 {
-    private float elapsedTime = 0f;
-    private float escapeTime = 3f;
-
-    private float fanSpeed = 3f;
-
+    private const float FAN_DELAY = 0.5f;
+    private float elapsedTime;
+    private float escapeTime;
+    
     private Transform mouseTransform;
-
     private Vector3 mousePos;
-    private Vector3 playerPos;
-
     private GameObject fan;
-    private GameObject player;
 
     public MouseFan(MouseStateMachine stateMachine) : base(stateMachine)
     {
+        elapsedTime = 0f;
+        escapeTime = 4f;
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
-
-        Debug.Log("부채");
-
-        this.mouseTransform = this.stateMachine.Mouse.transform;
-        this.mousePos = mouseTransform.position;
-
-        Debug.Log("위치: " + this.mousePos);
-
-        this.fan = this.stateMachine.Mouse.mouseManager.MakeFan(mousePos);
-
-        this.player = this.stateMachine.Mouse.mouseManager.GetPlayer();
-        this.playerPos = this.player.transform.position;
+        mouseTransform = stateMachine.Mouse.transform;
+        mousePos = mouseTransform.position;
+        AttackWait().Forget();
     }
+
+    async UniTaskVoid AttackWait()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.GetAnimPlayTime()));
+        stateMachine.ChangeAnimation(EAnimationType.Attack);
+        await UniTask.Delay(TimeSpan.FromSeconds(FAN_DELAY));
+        fan = stateMachine.Mouse.MakeFan(mousePos);
+    }
+
     public override void OnUpdate()
     {
         base.OnUpdate();
 
-        this.elapsedTime += Time.deltaTime;
+        elapsedTime += Time.deltaTime;
 
-        //this.fan.transform.Translate(playerPos * Time.deltaTime * this.fanSpeed);
-        // Vector3 currentScale = fan.transform.localScale;
-        // currentScale += new Vector3(scaleSpeed, scaleSpeed, 0) * Time.deltaTime;
-        // this.fan.transform.localScale = currentScale;
-
-        if (this.elapsedTime >= this.escapeTime)
+        if (elapsedTime >= escapeTime)
         {
-            this.stateMachine.Mouse.mouseManager.DestroyFan(this.fan);
-
-            this.stateMachine.SetState("Appearance");
+            stateMachine.Mouse.DestroyFan(fan);
+            stateMachine.SetState("Leave");
         }
-    }
-    public override void OnExit()
-    {
-        base.OnExit();
-
-        this.elapsedTime = 0f;
-
-        this.stateMachine.Mouse.mouseManager.SetMouseBehit(false);
-
-        if (this.stateMachine.Mouse.HP <= 0 && !this.stateMachine.Mouse.dead)
-        {
-            
-        }
-        this.stateMachine.Mouse.scholarManager.IsRoundEnd = true;
-        this.stateMachine.Mouse.Dead();
     }
 }

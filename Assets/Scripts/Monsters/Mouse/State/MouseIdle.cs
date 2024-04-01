@@ -1,48 +1,55 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class MouseIdle : MouseState
 {
-    private float elapsedTime = 0f;
-
-    private float escapeTime = 5f;
-
+    private float elapsedTime;
+    private float escapeTime;
     private bool isBehit;
+
     public MouseIdle(MouseStateMachine stateMachine) : base(stateMachine)
     {
+        elapsedTime = 0f;
+        escapeTime = 7f;
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
 
-        this.stateMachine.Mouse.Idle = true;
+        stateMachine.Mouse.Idle = true;
     }
+
     public override void OnUpdate()
     {
         base.OnUpdate();
 
-        this.elapsedTime += Time.deltaTime;
+        elapsedTime += Time.deltaTime;
 
-        if (this.elapsedTime >= this.escapeTime)
+        if (elapsedTime >= escapeTime)
         {
-            //Debug.Log("mouse idle 시간 달성");
+            isBehit = stateMachine.Mouse.IsHit;
 
-            this.isBehit = this.stateMachine.Mouse.scholarManager.GetIsSchloarBehit();
-
-            if (this.isBehit == true)
+            if (isBehit)
             {
-                this.stateMachine.SetState("Fan");
-                stateMachine.ChangeAnimationAttack();
+                stateMachine.SetState("Leave");
+                stateMachine.ChangeAnimation(EAnimationType.Hit);
+            }
+            else
+            {
+                stateMachine.SetState("Fan");
+                stateMachine.ChangeAnimation(EAnimationType.Laugh);
             }
         }
     }
+
     public override void OnExit()
     {
         base.OnExit();
 
-        this.elapsedTime = 0f;
-        this.stateMachine.Mouse.Idle = false;
+        elapsedTime = 0f;
+        stateMachine.Mouse.Idle = false;
     }
 }

@@ -1,22 +1,22 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
+using DG.Tweening;
 
 public abstract class Entity : MonoBehaviour
 {
-    protected float maxHP;
     public float HP { get; protected set; }
-    public bool dead { get; protected set; }
-    public event Action onDeath;
+    public bool Dead { get; protected set; }
+    public MonsterData Data { get; protected set; }
 
-    protected MonsterData data;
+    protected float maxHP;
+    
     private void Start()
     {
         StartCoroutine(WaitDataManager());
     }
 
-    IEnumerator WaitDataManager()
+    private IEnumerator WaitDataManager()
     {
         yield return new WaitUntil(() => Managers.Data != null);
         Init();
@@ -26,28 +26,28 @@ public abstract class Entity : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        dead = false;
+        Dead = false;
         HP = maxHP;
     }
 
-    public virtual void OnDamage(int damage)
+    public virtual void OnDamage(float _damage)
     {
-        HP -= damage;
+        HP -= _damage;
     }
 
-    public virtual void RestoreHP(int restoreHP)
+    public virtual void RestoreHp(float _restoreHP)
     {
-        if (dead) return;
+        if (Dead) return;
 
-        if (maxHP >= HP + restoreHP)
-            HP += restoreHP;
+        if (maxHP >= HP + _restoreHP)
+            HP += _restoreHP;
         else HP = maxHP;
     }
 
-    public virtual void Dead()
+    public virtual void Leave()
     {
-        if (onDeath != null) onDeath();
-        dead = true;
+        Dead = true;
+        
         Destroy(gameObject);
     }
 }

@@ -5,35 +5,31 @@ using UnityEngine;
 
 public class MouseAppearance : MouseState
 {
-    private float elapsedTime = 0f;
-
+    private float elapsedTime;
     private float escapeTime = 1f;
 
-    public MouseAppearance(MouseStateMachine stateMachine) : base(stateMachine)
-    {
-    }
+    public MouseAppearance(MouseStateMachine stateMachine) : base(stateMachine) { }
+    
     public override void OnEnter()
     {
         base.OnEnter();
-        // TO DO: kimyeonmo 240225 AppearanceCoroutine 추가하기
-        this.stateMachine.StartCoroutine(this.stateMachine.Mouse.AppearanceCoroutine());
+        stateMachine.Mouse.AppearanceEffect();
     }
+    
     public override void OnUpdate()
     {
         base.OnUpdate();
+        elapsedTime += Time.deltaTime;
 
-        this.elapsedTime += Time.deltaTime;
-
-        if (this.elapsedTime >= this.escapeTime)
+        if (elapsedTime >= escapeTime)
         {
-            this.stateMachine.SetState("Idle");
+            stateMachine.SetState("Idle");
         }
     }
 
     public override void OnExit()
     {
         base.OnExit();
-
-        this.elapsedTime = 0f;
+        elapsedTime = 0f;
     }
 }

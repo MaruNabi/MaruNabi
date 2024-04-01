@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class ScholarStateMachine : StateMachine<ScholarStateMachine>
 {
+    public Scholar Scholar => scholar;
     private Scholar scholar;
-
-    public Scholar Scholar{
-        get { 
-            return this.scholar; }
-    }
+    private Animator scholarAnimator;
 
     private void Awake()
     {
@@ -17,18 +14,40 @@ public class ScholarStateMachine : StateMachine<ScholarStateMachine>
             {"Idle",new ScholarIdle(this)},
             {"Appearance",new ScholarAppearance(this)},
             {"Fan",new ScholarFan(this)},
+            {"Leave",new ScholarLeave(this)}
         };
     }
 
-    public void Initialize(string stateName, Scholar scholar)
+    public void Initialize(string _stateName, Scholar _scholar, Animator _scholarAnimator)
     {
-        //Debug.Log(stateName);
-        this.scholar = scholar;
-        base.Initialize(stateName);
+        scholar = _scholar;
+        scholarAnimator = _scholarAnimator;
+        base.Initialize(_stateName);
     }
     
-    public void ChangeAnimationAttack()
+    public void ChangeAnimation(EAnimationType _type)
     {
-        scholar.scholarAnimator.SetBool("Attack", true);
+        switch (_type)
+        {
+            case EAnimationType.Attack:
+                scholarAnimator.SetTrigger("Attack");
+                break;
+            case EAnimationType.Hit:
+                scholarAnimator.SetTrigger("Hit");
+                break;
+            case EAnimationType.Laugh:
+                scholarAnimator.SetTrigger("Laugh");
+                break;
+            case EAnimationType.Angry:
+                scholarAnimator.SetTrigger("Angry");
+                break;
+            default:
+                break;
+        }
+    }
+    
+    public float GetAnimPlayTime()
+    {
+        return scholarAnimator.GetCurrentAnimatorStateInfo(0).length;
     }
 }
