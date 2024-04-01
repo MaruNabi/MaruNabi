@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 8878078845135146716}
   - component: {fileID: 8878078845135146719}
   - component: {fileID: 58373727550689186}
+  - component: {fileID: 8605698608836456883}
   m_Layer: 7
   m_Name: Scholar
   m_TagString: Enemy
@@ -201,7 +202,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.029800296, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -212,7 +213,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.76, y: 3.38}
+  m_Size: {x: 2.1997569, y: 3.38}
   m_EdgeRadius: 0
 --- !u!95 &58373727550689186
 Animator:
@@ -234,6 +235,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &8605698608836456883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8878078845135146718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d41dc4b06b008534598594f243987306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smokePrefab: {fileID: 1351699654911004, guid: 879aa6d314d3ef848a01ba73a217d9ca, type: 3}
+  strawPrefab: {fileID: 6085769272412218725, guid: fdfc57db157759648975cdc263176d23, type: 3}
+  fanPrefab: {fileID: 6141675117983338419, guid: ecca77a57b57e664f90c8447031618cd, type: 3}
 --- !u!1 &8878078845178952062
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,8 +325,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4284308962
+  m_fontColor: {r: 0.8867924, g: 0.36391956, b: 0.36391956, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
