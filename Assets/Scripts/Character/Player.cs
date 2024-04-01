@@ -12,7 +12,6 @@ public class Player : MonoBehaviour
     [Range(0, 10)]
     protected float cSpeed = 6.0f;                     //Character Speed
     protected bool canMove = true;
-    public static float ultimateGauge;
     protected const float maxUltimateGauge = 1500.0f;
     public static bool isReviveSuccess = false;
     private bool isTimerEnd = false;
@@ -90,7 +89,6 @@ public class Player : MonoBehaviour
         Vector3 velocityYOnly = new Vector3(0.0f, rigidBody.velocity.y, 0.0f);
 
         rigidBody.velocity = movement + velocityYOnly;
-        //rigidBody.AddForce((movement + velocityYOnly)*10.0f);
     }
 
     protected void DoubleClickDash(bool key)
@@ -125,7 +123,6 @@ public class Player : MonoBehaviour
         canMove = false;
         isTimerEnd = false;
         isReviveSuccess = false;
-        //spriteRenderer.color = new Color(1, 1, 1, 0.4f);
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
         Invoke("InvokeTimer", 10.0f);

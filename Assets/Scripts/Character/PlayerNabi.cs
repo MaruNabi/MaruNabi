@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerNabi : Player
 {
+    public static float ultimateGauge;
     [SerializeField]
     private GameObject bulletPrefab;                 //Bullet Prefab
     [SerializeField]
@@ -84,7 +85,6 @@ public class PlayerNabi : Player
         {
             if (Input.GetKey(KeyCode.RightBracket))
             {
-                //Instantiate(bulletPrefab, bulletPosition.position, transform.rotation);
                 GameObject bulletObject = Managers.Pool.Pop(bulletPrefab, playerBullets.transform).gameObject;
                 bulletObject.transform.position = atkPosition.position;
                 bulletObject.transform.rotation = transform.rotation;

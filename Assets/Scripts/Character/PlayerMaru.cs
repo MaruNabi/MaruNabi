@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerMaru : Player
 {
+    public static float ultimateGauge;
     [SerializeField]
     private GameObject swordPrefab;
     [SerializeField]

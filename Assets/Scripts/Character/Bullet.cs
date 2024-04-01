@@ -14,12 +14,12 @@ public class Bullet : MonoBehaviour
     protected LayerMask isLayer;
     protected Rigidbody2D bulletRigidbody;
     protected Vector2 lockedBulletVector;
-    private float attackPower = 300f;
+    protected float attackPower = 300f;
 
     [SerializeField]
     private Transform rayStartPosition;
 
-    private RaycastHit2D ray;
+    protected RaycastHit2D ray;
 
     private IEnumerator bulletDestroyCoroutine;
 
@@ -31,14 +31,13 @@ public class Bullet : MonoBehaviour
             StopCoroutine(bulletDestroyCoroutine);
 
         if (Input.GetKey(KeyCode.L))
-            lockedBulletVector = bulletVec.GetDirectionalInput();
+            lockedBulletVector = bulletVec.GetDirectionalInputNabi();
 
         bulletRigidbody = GetComponent<Rigidbody2D>();
         bulletRigidbody.gravityScale = 0.0f;
         bulletRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         bulletDestroyCoroutine = BulletDestroy(bulletHoldingTime);
         StartCoroutine(bulletDestroyCoroutine);
-        //UniWait().Forget();
     }
 
     async UniTaskVoid UniWait()
