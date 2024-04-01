@@ -2488,7 +2488,7 @@ MonoBehaviour:
   cJumpPower: 0.03
   cMaxJumpPower: 17
   reviveZone: {fileID: 826753361}
-  swordPrefab: {fileID: 7860113607635504239, guid: 7f0c28b08b053d04cbe6340d3493fb1b, type: 3}
+  swordPrefab: {fileID: 1270841603412045712, guid: bdac475ed6a530d4894383a5a02b7999, type: 3}
   skillPrefab: {fileID: 0}
   atkPosition: {fileID: 1002217362}
   playerBullets: {fileID: 835814058}

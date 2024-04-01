@@ -20,8 +20,17 @@ public class Sword : MonoBehaviour
 
     private IEnumerator bulletDestroyCoroutine;
 
+    protected Vector2 swordPosition;
+    protected Vector2 targetVec;
+    protected Vector2 swordDistance = new Vector2(0, 0);
+
+    protected bool isActive = false;
+    protected bool isLoop = true;
+    protected bool isHitOnce = true;
+    protected string currentHit;
+
     BulletVectorManager bulletVec = new BulletVectorManager();
-    protected void SetBullet(float bulletHoldingTime = 2.0f)
+    protected void SetSword(float bulletHoldingTime = 2.0f)
     {
         if (bulletDestroyCoroutine != null)
             StopCoroutine(bulletDestroyCoroutine);
@@ -49,5 +58,26 @@ public class Sword : MonoBehaviour
         this.ray = Physics2D.Raycast(rayStartPosition.position, transform.right, rayDistance, isLayer);
 
         Debug.DrawRay(rayStartPosition.position, transform.right * rayDistance, Color.red);
+    }
+
+    protected void NormalHit()
+    {
+        if (ray.collider != null)
+        {
+            if (ray.collider.tag == "Enemy" && isHitOnce && ray.collider.name != currentHit)
+            {
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                if ((PlayerMaru.ultimateGauge += attackPower) > 1500.0f)
+                {
+                    PlayerMaru.ultimateGauge = 1500.0f;
+                }
+            }
+        }
+
+        else if (ray.collider == null)
+        {
+            isHitOnce = true;
+        }
     }
 }

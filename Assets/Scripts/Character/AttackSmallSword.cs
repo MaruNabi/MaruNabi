@@ -7,24 +7,15 @@ using DG.Tweening;
 
 public class AttackSmallSword : Sword
 {
-    private const float MAX_SWORD_DISTANCE = 4.0f;
-
-    private Vector2 swordPosition;
-    private Vector2 targetVec;
-    private Vector2 swordDistance = new Vector2(MAX_SWORD_DISTANCE, 0);
-
-    private bool isActive = false;
-    private bool isLoop = true;
-    private bool isHitOnce = true;
-
-    private GameObject swordReturnPosition;
+    private const float MAX_DISTANCE = 4.0f;
 
     private float finalAttackPower;
-    private string currentHit;
 
     private void OnEnable()
     {
-        SetBullet(0.8f);
+        SetSword(0.8f);
+
+        swordDistance = new Vector2(MAX_DISTANCE, 0);
 
         attackPower = 50.0f;
     }
@@ -75,7 +66,12 @@ public class AttackSmallSword : Sword
 
             else
             {
-                targetVec = swordPosition + (lockedSwordVector * MAX_SWORD_DISTANCE);
+                if (lockedSwordVector.x != 0 && lockedSwordVector.y != 0)
+                    targetVec = swordPosition + (lockedSwordVector * Mathf.Sqrt(Mathf.Pow(MAX_DISTANCE, 2) / 2));
+                else
+                    targetVec = swordPosition + (lockedSwordVector * MAX_DISTANCE);
+
+                Debug.Log(Mathf.Sqrt(Mathf.Pow(MAX_DISTANCE, 2) / 2));
                 float zAngle = Mathf.Atan2(lockedSwordVector.y, lockedSwordVector.x) * Mathf.Rad2Deg;
                 zAngle %= 360f;
                 float xAngle = 0.0f;
@@ -86,8 +82,6 @@ public class AttackSmallSword : Sword
                 }
                 transform.rotation = Quaternion.Euler(xAngle, 0, zAngle);
             }
-
-            Debug.Log(targetVec);
 
             transform.DOMove(targetVec, 0.4f).SetEase(Ease.OutCubic);
             yield return new WaitForSeconds(0.4f);
@@ -118,7 +112,7 @@ public class AttackSmallSword : Sword
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
-                finalAttackPower = attackPower * Mathf.Round(MAX_SWORD_DISTANCE - Vector3.Distance(transform.position, swordPosition));
+                finalAttackPower = attackPower * Mathf.Round(MAX_DISTANCE - Vector3.Distance(transform.position, swordPosition));
                 if ((PlayerMaru.ultimateGauge += finalAttackPower) > 1500.0f)
                 {
                     PlayerMaru.ultimateGauge = 1500.0f;
