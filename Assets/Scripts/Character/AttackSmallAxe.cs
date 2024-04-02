@@ -15,7 +15,7 @@ public class AttackSmallAxe : Sword
 
         swordDistance = new Vector2(MAX_DISTANCE, 0);
 
-        attackPower = 50.0f;
+        attackPower = 100.0f;
     }
 
     void Update()
