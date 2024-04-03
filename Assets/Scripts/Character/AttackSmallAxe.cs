@@ -9,6 +9,9 @@ public class AttackSmallAxe : Sword
 {
     private const float MAX_DISTANCE = 5.0f;
 
+    [SerializeField]
+    private Vector3 rotateSpeed = new Vector3(0, 0, -1920.0f);
+
     private void OnEnable()
     {
         SetSword(1.35f);
@@ -22,7 +25,7 @@ public class AttackSmallAxe : Sword
     {
         AttackInstantiate();
 
-        transform.Rotate(new Vector3(0, 0, -480.0f * Time.deltaTime));
+        transform.Rotate(rotateSpeed * Time.deltaTime);
     }
 
     private void OnDisable()
@@ -69,7 +72,6 @@ public class AttackSmallAxe : Sword
                 else
                     targetVec = swordPosition + (lockedSwordVector * MAX_DISTANCE);
 
-                Debug.Log(Mathf.Sqrt(Mathf.Pow(MAX_DISTANCE, 2) / 2));
                 float zAngle = Mathf.Atan2(lockedSwordVector.y, lockedSwordVector.x) * Mathf.Rad2Deg;
                 zAngle %= 360f;
                 float xAngle = 0.0f;
@@ -102,7 +104,7 @@ public class AttackSmallAxe : Sword
         {
             isHitOnce = true;
             AxeHit();
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.125f);
         }
     }
 

@@ -31,6 +31,7 @@ public class Sword : MonoBehaviour
     protected string currentHit;
 
     BulletVectorManager bulletVec = new BulletVectorManager();
+
     protected void SetSword(float bulletHoldingTime = 2.0f)
     {
         if (bulletDestroyCoroutine != null)

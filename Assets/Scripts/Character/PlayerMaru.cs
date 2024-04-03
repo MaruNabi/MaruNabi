@@ -20,6 +20,9 @@ public class PlayerMaru : Player
     private GameObject playerBullets;
 
     [SerializeField]
+    private GameObject playerSkills;
+
+    [SerializeField]
     private Image[] maruLife;
     public Sprite blankHP, fillHP;
 
@@ -41,6 +44,7 @@ public class PlayerMaru : Player
         ultimateGauge = 0.0f;
 
         Managers.Pool.CreatePool(swordPrefab, 2);
+        Managers.Pool.CreatePool(skillPrefab, 2);
     }
 
     void Update()
@@ -125,7 +129,9 @@ public class PlayerMaru : Player
             //Special Move
             else if (ultimateGauge == maxUltimateGauge)
             {
-                Instantiate(skillPrefab, atkPosition.position, transform.rotation);
+                GameObject skillObject = Managers.Pool.Pop(skillPrefab, playerSkills.transform).gameObject;
+                skillObject.transform.position = atkPosition.position;
+                skillObject.transform.rotation = transform.rotation;
                 ultimateGauge = 0.0f;
             }
             //Ability
