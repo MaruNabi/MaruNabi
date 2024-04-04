@@ -71,7 +71,6 @@ public class AttackSmallSword : Sword
                 else
                     targetVec = swordPosition + (lockedSwordVector * MAX_DISTANCE);
 
-                Debug.Log(Mathf.Sqrt(Mathf.Pow(MAX_DISTANCE, 2) / 2));
                 float zAngle = Mathf.Atan2(lockedSwordVector.y, lockedSwordVector.x) * Mathf.Rad2Deg;
                 zAngle %= 360f;
                 float xAngle = 0.0f;

@@ -68,7 +68,6 @@ public class Sword : MonoBehaviour
         {
             if (ray.collider.tag == "Enemy" && isHitOnce && ray.collider.name != currentHit)
             {
-                Debug.Log("Hit!");
                 isHitOnce = false;
                 currentHit = ray.collider.name;
                 if ((PlayerMaru.ultimateGauge += attackPower) > 1500.0f)

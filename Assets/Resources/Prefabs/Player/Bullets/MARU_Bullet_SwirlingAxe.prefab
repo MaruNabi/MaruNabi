@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &110286677543072522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7040115494244476794}
+  m_Layer: 0
+  m_Name: E2_Ray
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7040115494244476794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110286677543072522}
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.466, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2040606632965950574}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3450186962618893947
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2206316424558089042}
+  m_Layer: 0
+  m_Name: E1_Ray
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2206316424558089042
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3450186962618893947}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.459, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8082901942164874732}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3658941866156007290
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3b34acc3786f841a27cbc329571b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rayDistance: 0
+  rayDistance: 0.5
   isLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -107,6 +169,37 @@ MonoBehaviour:
   - {fileID: 4522139817040976557}
   - {fileID: 6900599216701743208}
   - {fileID: 9087661124121254516}
+--- !u!1 &3927667721053106147
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1245110042562416161}
+  m_Layer: 0
+  m_Name: E3_Ray
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1245110042562416161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3927667721053106147}
+  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
+  m_LocalPosition: {x: -0.459, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8997348892576926993}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4522139817040976557
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,6 +212,7 @@ GameObject:
   - component: {fileID: 8952482761680601979}
   - component: {fileID: 2486245379557559682}
   - component: {fileID: 1156420964995410908}
+  - component: {fileID: 1929685536363170573}
   m_Layer: 0
   m_Name: MARU_Bullet_SwirlingAxe_E2
   m_TagString: Bullet
@@ -134,10 +228,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4522139817040976557}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7040115494244476794}
   m_Father: {fileID: 5385521535491276156}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
@@ -240,6 +335,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.01, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1929685536363170573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522139817040976557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7adc177af8bce4b4b98749bdd75c6f67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axeRayStartPosition: {fileID: 7040115494244476794}
+  isLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &6900599216701743208
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +363,7 @@ GameObject:
   - component: {fileID: 1665475374416059500}
   - component: {fileID: 9113645343075193660}
   - component: {fileID: 3614036079402991934}
+  - component: {fileID: 2927760116679370548}
   m_Layer: 0
   m_Name: MARU_Bullet_SwirlingAxe_E3
   m_TagString: Bullet
@@ -270,7 +382,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1245110042562416161}
   m_Father: {fileID: 5385521535491276156}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
@@ -373,6 +486,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.01, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2927760116679370548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6900599216701743208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7adc177af8bce4b4b98749bdd75c6f67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axeRayStartPosition: {fileID: 1245110042562416161}
+  isLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &7328621123290641499
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,6 +514,7 @@ GameObject:
   - component: {fileID: 1085347783309924568}
   - component: {fileID: 7542434604958627507}
   - component: {fileID: 4225447814294807858}
+  - component: {fileID: 6542410956898826479}
   m_Layer: 0
   m_Name: MARU_Bullet_SwirlingAxe_E1
   m_TagString: Bullet
@@ -403,7 +533,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2206316424558089042}
   m_Father: {fileID: 5385521535491276156}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -506,6 +637,53 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.01, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &6542410956898826479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7328621123290641499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7adc177af8bce4b4b98749bdd75c6f67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axeRayStartPosition: {fileID: 2206316424558089042}
+  isLayer:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!1 &8855256254020464882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 553219106228969072}
+  m_Layer: 0
+  m_Name: E4_Ray
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &553219106228969072
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8855256254020464882}
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: -0.7071068}
+  m_LocalPosition: {x: -0.459, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2221929900343550156}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9087661124121254516
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,6 +696,7 @@ GameObject:
   - component: {fileID: 5268016029304303495}
   - component: {fileID: 5823379622890015679}
   - component: {fileID: 4724873416938214388}
+  - component: {fileID: 2967986970869384728}
   m_Layer: 0
   m_Name: MARU_Bullet_SwirlingAxe_E4
   m_TagString: Bullet
@@ -533,10 +712,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9087661124121254516}
   m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 553219106228969072}
   m_Father: {fileID: 5385521535491276156}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
@@ -639,3 +819,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.01, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2967986970869384728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9087661124121254516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7adc177af8bce4b4b98749bdd75c6f67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axeRayStartPosition: {fileID: 553219106228969072}
+  isLayer:
+    serializedVersion: 2
+    m_Bits: 128

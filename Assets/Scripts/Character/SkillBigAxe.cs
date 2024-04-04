@@ -74,11 +74,10 @@ public class SkillBigAxe : Sword
                 axe[i].transform.position = swordReturnPosition.transform.position + new Vector3(x, y);
                 axe[i].transform.rotation = Quaternion.Euler(0, 0, (deg + (i * (360 / objSize))) * -5);
                 //axe[i].transform.RotateAround(swordReturnPosition.transform.position, Vector3.back, objSpeed * Time.deltaTime);
-                ray = Physics2D.Raycast(swordReturnPosition.transform.position, axe[i].transform.position, isLayer);
-                Debug.DrawRay(swordReturnPosition.transform.position, axe[i].transform.position, Color.red);
             }
         }
         else
             deg = 0;
     }
+
 }
