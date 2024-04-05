@@ -14,7 +14,7 @@ public class AttackSmallAxe : Sword
 
     private void OnEnable()
     {
-        SetSword(1.35f);
+        SetSword(1.6f);
 
         swordDistance = new Vector2(MAX_DISTANCE, 0);
 
@@ -32,6 +32,7 @@ public class AttackSmallAxe : Sword
     {
         isActive = false;
         currentHit = "";
+        swordSpriteRenderer.color = new Color(1, 1, 1, 1);
     }
 
     protected override void AttackInstantiate()
@@ -91,6 +92,7 @@ public class AttackSmallAxe : Sword
             transform.DOMove(swordReturnPosition.transform.position, 0.2f).SetEase(Ease.InCirc);
             yield return new WaitForSeconds(0.15f);
 
+            SwordFade(0.3f);
             StartCoroutine("ReturnSword");
             yield return new WaitForSeconds(0.1f);
             StopCoroutine("ReturnSword");

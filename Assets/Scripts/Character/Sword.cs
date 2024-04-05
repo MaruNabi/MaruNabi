@@ -10,6 +10,7 @@ public class Sword : MonoBehaviour
     [SerializeField]
     protected LayerMask isLayer;
     protected Rigidbody2D swordRigidbody;
+    protected SpriteRenderer swordSpriteRenderer;
     protected Vector2 lockedSwordVector;
     protected float attackPower;
 
@@ -41,6 +42,7 @@ public class Sword : MonoBehaviour
             lockedSwordVector = bulletVec.GetDirectionalInputMaru();
 
         swordRigidbody = GetComponent<Rigidbody2D>();
+        swordSpriteRenderer = GetComponent<SpriteRenderer>();
         swordRigidbody.gravityScale = 0.0f;
         swordRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         swordReturnPosition = GameObject.Find("MaruBulletPosition");
@@ -81,6 +83,11 @@ public class Sword : MonoBehaviour
         {
             isHitOnce = true;
         }
+    }
+
+    protected void SwordFade(float durationTime)
+    {
+        swordSpriteRenderer.DOFade(0, durationTime);
     }
 
     protected IEnumerator ReturnSword()

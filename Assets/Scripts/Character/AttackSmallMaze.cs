@@ -13,8 +13,9 @@ public class AttackSmallMaze : Sword
     private float angle;
     private Quaternion dRot;
 
-    private Vector3[] mazeTarget = new Vector3[3];
+    private Vector3 rotateVec;
 
+    private Vector3[] mazeTarget = new Vector3[3];
     private Vector3[] wayPoints;
 
     private void OnEnable()
@@ -37,9 +38,10 @@ public class AttackSmallMaze : Sword
         currentHit = "";
 
         for (int i = 0; i < wayPoints.Length; i++)
-            mazeTarget[i] = Vector3.zero;
+            mazeTarget[i] = Vector2.zero;
 
         wayPoints = null;
+        swordSpriteRenderer.color = new Color(1, 1, 1, 1);
     }
 
     protected override void AttackInstantiate()
@@ -64,11 +66,12 @@ public class AttackSmallMaze : Sword
             isActive = true;
             swordPosition = transform.position;
 
-            if (transform.rotation.y == 0)
+            if (transform.rotation.y == 0) //left
             {
                 transform.rotation = Quaternion.Euler(0, 180, 0);
                 mazeTarget[0].x = swordPosition.x - swordDistance.x;
                 mazeTarget[1].x = swordPosition.x - Mathf.Sqrt(Mathf.Pow(MAX_DISTANCE, 2) * 2);
+                rotateVec = Vector3.back;
             }
 
             else
@@ -76,15 +79,13 @@ public class AttackSmallMaze : Sword
                 transform.rotation = Quaternion.Euler(0, 0, 0);
                 mazeTarget[0].x = swordPosition.x + swordDistance.x;
                 mazeTarget[1].x = swordPosition.x + Mathf.Sqrt(Mathf.Pow(MAX_DISTANCE, 2) * 2);
+                rotateVec = Vector3.forward;
             }
 
             mazeTarget[0].y = swordPosition.y + swordDistance.y;
             mazeTarget[1].y = swordPosition.y;
             mazeTarget[2].x = mazeTarget[0].x;
             mazeTarget[2].y = swordPosition.y - swordDistance.y;
-            Debug.Log(mazeTarget[0]);
-            Debug.Log(mazeTarget[1]);
-            Debug.Log(mazeTarget[2]);
 
             if (lockedSwordVector.magnitude != 0)
             {
@@ -96,11 +97,8 @@ public class AttackSmallMaze : Sword
 
                 for (int i = 0; i < mazeTarget.Length; i++)
                 {
-                    mazeTarget[i] = Quaternion.AngleAxis((1 - lockedSwordVector.x) * 45, Vector3.forward * lockedSwordVector.y) * mazeTarget[i]; //값은 맞는데 축이 안 맞음
-                    mazeTarget[i].x += -3.31f;
-                    mazeTarget[i].y += 4.48f;
-                    //mazeTarget[i] = Quaternion.Euler(0, (1 - lockedSwordVector.x) * 45, 0) * mazeTarget[i];
-                    Debug.Log(mazeTarget[i]);
+                    Vector3 rot = Quaternion.AngleAxis((1 - lockedSwordVector.x) * 45, rotateVec * lockedSwordVector.y) * (mazeTarget[i] - swordReturnPosition.transform.position);
+                    mazeTarget[i] = rot + swordReturnPosition.transform.position;
                 }
             }
 
@@ -116,6 +114,7 @@ public class AttackSmallMaze : Sword
             transform.DOMove(swordReturnPosition.transform.position, 0.3f).SetEase(Ease.InCirc);
             yield return new WaitForSeconds(0.2f);
 
+            SwordFade(0.2f);
             StartCoroutine("ReturnSword");
             yield return new WaitForSeconds(0.1f);
             StopCoroutine("ReturnSword");

@@ -13,7 +13,7 @@ public class AttackSmallSword : Sword
 
     private void OnEnable()
     {
-        SetSword(0.8f);
+        SetSword(1f);
 
         swordDistance = new Vector2(MAX_DISTANCE, 0);
 
@@ -30,6 +30,7 @@ public class AttackSmallSword : Sword
         isActive = false;
         finalAttackPower = 0.0f;
         currentHit = "";
+        swordSpriteRenderer.color = new Color(1, 1, 1, 1);
     }
 
     protected override void AttackInstantiate()
@@ -88,6 +89,7 @@ public class AttackSmallSword : Sword
             transform.DOMove(swordReturnPosition.transform.position, 0.2f).SetEase(Ease.InCirc);
             yield return new WaitForSeconds(0.2f);
 
+            SwordFade(0.2f);
             StartCoroutine("ReturnSword");
             yield return new WaitForSeconds(0.3f);
             StopCoroutine("ReturnSword");

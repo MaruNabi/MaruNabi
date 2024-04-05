@@ -62,7 +62,6 @@ public class SkillBigAxe : Sword
     private void Revolution()
     {
         deg += Time.deltaTime * objSpeed;
-
         
         if (deg < 360)
         {
