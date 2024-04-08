@@ -123,6 +123,15 @@ public class AttackSmallAxe : Sword
                     PlayerMaru.ultimateGauge = 1500.0f;
                 }
             }
+            else if (ray.collider.name != currentHit)
+            {
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                if ((PlayerMaru.ultimateGauge += attackPower) > 1500.0f)
+                {
+                    PlayerMaru.ultimateGauge = 1500.0f;
+                }
+            }
         }
 
         else if (ray.collider == null)

@@ -224,17 +224,25 @@ public class Player : MonoBehaviour
         canDash = true;
     }
 
-    protected IEnumerator PlayerSit()
+    protected IEnumerator PlayerSit(bool isTimeLimit = false, float time = 0.5f)
     {
         isSitting = true;
         playerAnimator.SetBool("isSit", true);
         canDash = false;
+        canMove = false;
         playerCollider.size = sitPlayerColliderSize;
         if (canDash)
         {
             canDash = false;
         }
-        //animation controll
+        if (isTimeLimit)
+        {
+            yield return new WaitForSeconds(time);
+            isSitting = false;
+            canDash = true;
+            canMove = true;
+            playerAnimator.SetBool("isSit", false);
+        }
         yield return new WaitUntil(() => isSitting == false);
         playerCollider.size = defaultPlayerColliderSize;
     }

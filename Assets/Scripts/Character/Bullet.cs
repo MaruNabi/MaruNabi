@@ -16,6 +16,9 @@ public class Bullet : MonoBehaviour
     protected Vector2 lockedBulletVector;
     protected float attackPower = 300f;
 
+    protected string currentHit;
+    private bool isHitOnce = true;
+
     [SerializeField]
     private Transform rayStartPosition;
 
@@ -104,10 +107,29 @@ public class Bullet : MonoBehaviour
                 }
             }
 
+            if (ray.collider.tag == "Enemy" && !isNormalAtk && isHitOnce)
+            {
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                Debug.Log("Hit");
+            }
+
+            else if (ray.collider.name != currentHit)
+            {
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                Debug.Log("Hit");
+            }
+
             if (!isPenetrate)
             {
                 DestroyBullet();
             }
+        }
+
+        else if (ray.collider == null && !isNormalAtk)
+        {
+            isHitOnce = true;
         }
     }
 }

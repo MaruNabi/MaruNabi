@@ -50,7 +50,7 @@ public class Sword : MonoBehaviour
         StartCoroutine(bulletDestroyCoroutine);
     }
 
-    private IEnumerator BulletDestroy(float bulletHoldingTime = 2.0f)
+    protected IEnumerator BulletDestroy(float bulletHoldingTime = 2.0f)
     {
         yield return new WaitForSeconds(bulletHoldingTime);
         lockedSwordVector = new Vector2(0.0f, 0.0f);
@@ -68,7 +68,17 @@ public class Sword : MonoBehaviour
     {
         if (ray.collider != null)
         {
-            if (ray.collider.tag == "Enemy" && isHitOnce && ray.collider.name != currentHit)
+            if (ray.collider.tag == "Enemy" && isHitOnce)
+            {
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                if ((PlayerMaru.ultimateGauge += attackPower) > 1500.0f)
+                {
+                    PlayerMaru.ultimateGauge = 1500.0f;
+                }
+            }
+
+            else if (ray.collider.name != currentHit)
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;

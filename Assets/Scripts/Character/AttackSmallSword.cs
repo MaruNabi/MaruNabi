@@ -100,7 +100,17 @@ public class AttackSmallSword : Sword
     {
         if (ray.collider != null)
         {
-            if (ray.collider.tag == "Enemy" && isHitOnce && ray.collider.name != currentHit)
+            if (ray.collider.tag == "Enemy" && isHitOnce)
+            {
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                finalAttackPower = attackPower * Mathf.Round(MAX_DISTANCE - Vector3.Distance(transform.position, swordPosition));
+                if ((PlayerMaru.ultimateGauge += finalAttackPower) > 1500.0f)
+                {
+                    PlayerMaru.ultimateGauge = 1500.0f;
+                }
+            }
+            else if (ray.collider.name != currentHit)
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;

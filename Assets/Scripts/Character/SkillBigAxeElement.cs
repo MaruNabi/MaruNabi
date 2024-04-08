@@ -43,9 +43,16 @@ public class SkillBigAxeElement : MonoBehaviour
                 currentHit = rayAxe.collider.name;
                 Debug.Log("Hit");
             }
+
+            else if (rayAxe.collider.name != currentHit)
+            {
+                isHitOnce = false;
+                currentHit = rayAxe.collider.name;
+                Debug.Log("Hit");
+            }
         }
 
-        else if (rayAxe.collider == null || rayAxe.collider.name != currentHit)
+        else if (rayAxe.collider == null)
         {
             isHitOnce = true;
         }

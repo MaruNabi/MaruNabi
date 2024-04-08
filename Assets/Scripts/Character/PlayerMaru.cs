@@ -116,6 +116,7 @@ public class PlayerMaru : Player
         {
             isSitting = false;
             canDash = true;
+            canMove = true;
             playerAnimator.SetBool("isSit", false);
         }
 
@@ -129,6 +130,7 @@ public class PlayerMaru : Player
             //Special Move
             else if (ultimateGauge == maxUltimateGauge)
             {
+                StartCoroutine(PlayerSit(true));
                 GameObject skillObject = Managers.Pool.Pop(skillPrefab, playerSkills.transform).gameObject;
                 skillObject.transform.position = atkPosition.position;
                 skillObject.transform.rotation = transform.rotation;
