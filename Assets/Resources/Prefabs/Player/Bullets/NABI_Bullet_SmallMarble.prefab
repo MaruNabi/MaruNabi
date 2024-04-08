@@ -44,9 +44,9 @@ GameObject:
   - component: {fileID: 2238047231302616381}
   - component: {fileID: 6403840807383142082}
   - component: {fileID: -3983305569463522622}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NABI_Bullet_SmallMarble
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -23,6 +23,9 @@ public class PlayerMaru : Player
     private GameObject playerSkills;
 
     [SerializeField]
+    private GameObject playerShield;
+
+    [SerializeField]
     private Image[] maruLife;
     public Sprite blankHP, fillHP;
 
@@ -35,6 +38,7 @@ public class PlayerMaru : Player
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
 
+        playerShield.SetActive(false);
         reviveZone.SetActive(false);
 
         defaultPlayerColliderSize = playerCollider.size;
@@ -55,9 +59,10 @@ public class PlayerMaru : Player
         }
 
         //Jump
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting)
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting && canJump)
         {
             PlayerJump(cMiniJumpPower);
+            canJump = false;
             isJumpingEnd = false;
         }
 
@@ -69,6 +74,7 @@ public class PlayerMaru : Player
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
             }
+            canJump = true;
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -81,7 +87,7 @@ public class PlayerMaru : Player
             isLock = false;
         }
 
-        if (Input.GetKey(KeyCode.V))
+        if (Input.GetKey(KeyCode.V) && canAtk)
         {
             if (!attacksNow)
             {
@@ -139,6 +145,7 @@ public class PlayerMaru : Player
             //Ability
             else
             {
+                StartCoroutine(PlayerShield());
                 ultimateGauge -= 500.0f;
             }
         }
@@ -243,11 +250,41 @@ public class PlayerMaru : Player
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("EnemyBullet"))
+        {
+            Destroy(collision.gameObject);
+        }
+    }
+
     protected override IEnumerator Revive()
     {
         yield return base.Revive();
 
         UpdateLifeUI();
+    }
+
+    private IEnumerator PlayerShield()
+    {
+        playerShield.SetActive(true);
+        canMove = false;
+        canDash = false;
+        canSit = false;
+        canJump = false;
+        canAtk = false;
+        //shield on
+        yield return new WaitForSeconds(0.25f);
+        //shield Idle
+        yield return new WaitForSeconds(1.0f);
+        //Shield Off
+        yield return new WaitForSeconds(0.25f);
+        canMove = true;
+        canDash = true;
+        canSit = true;
+        canJump = true;
+        canAtk = true;
+        playerShield.SetActive(false);
     }
 
     private void UpdateLifeUI()

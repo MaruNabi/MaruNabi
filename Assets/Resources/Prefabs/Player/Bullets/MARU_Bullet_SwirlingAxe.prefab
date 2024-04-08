@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: -1754971166263411753}
   - component: {fileID: 5407945639787902689}
   - component: {fileID: -2762083988893762803}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MARU_Bullet_SwirlingAxe
   m_TagString: Bullet
   m_Icon: {fileID: 0}

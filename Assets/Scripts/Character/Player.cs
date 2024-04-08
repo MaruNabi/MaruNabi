@@ -41,6 +41,9 @@ public class Player : MonoBehaviour
     protected Vector2 defaultPlayerColliderSize;
     protected Vector2 sitPlayerColliderSize;
 
+    protected bool canAtk = true;
+    protected bool canJump = true;
+
     protected bool isInvincibleTime = false;
     protected bool isHit = false;
 

@@ -19,8 +19,8 @@ TagManager:
   - Ground
   - Enemy
   - 
-  - 
-  - 
+  - PlayerBullet
+  - PlayerShield
   - 
   - 
   - 

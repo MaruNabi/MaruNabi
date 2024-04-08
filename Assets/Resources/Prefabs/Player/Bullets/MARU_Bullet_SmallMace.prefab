@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -4834747911229930988}
   - component: {fileID: 4915531082418645361}
   - component: {fileID: -977478839937426449}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MARU_Bullet_SmallMace
   m_TagString: Bullet
   m_Icon: {fileID: 0}

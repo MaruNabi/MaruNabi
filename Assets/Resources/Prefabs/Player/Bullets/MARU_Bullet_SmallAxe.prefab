@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 9158530116938020776}
   - component: {fileID: 927043367905826564}
   - component: {fileID: -1645377029643252698}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MARU_Bullet_SmallAxe
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -183,3 +183,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   rayStartPosition: {fileID: 2012916126264770039}
+  rotateSpeed: {x: 0, y: 0, z: -480}

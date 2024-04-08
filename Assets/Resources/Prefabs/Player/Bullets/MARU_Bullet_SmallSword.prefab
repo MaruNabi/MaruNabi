@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 7409096684036534910}
   - component: {fileID: 4296581851944589535}
   - component: {fileID: -8425159565323493913}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MARU_Bullet_SmallSword
   m_TagString: Bullet
   m_Icon: {fileID: 0}

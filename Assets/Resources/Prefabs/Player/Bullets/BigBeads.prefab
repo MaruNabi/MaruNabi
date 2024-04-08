@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: -2481410095875264910}
   - component: {fileID: -433915459431304967}
   - component: {fileID: 3271328071551079812}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BigBeads
   m_TagString: Bullet
   m_Icon: {fileID: 0}
