@@ -9,6 +9,7 @@ TagManager:
   - Bullet
   - Manager
   - PoolRoot
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX

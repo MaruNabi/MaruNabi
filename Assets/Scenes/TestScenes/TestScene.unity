@@ -729,7 +729,7 @@ MonoBehaviour:
   cJumpPower: 0.03
   cMaxJumpPower: 17
   reviveZone: {fileID: 614651919}
-  bulletPrefab: {fileID: 3705265244114169924, guid: 9ab931bf3422a284a925defc712817e9, type: 3}
+  bulletPrefab: {fileID: 2886524095368617505, guid: 09d1a26706c088741b49013c46cc0d08, type: 3}
   skillPrefab: {fileID: 6755300497967375902, guid: 61e58f7f5e85a1546beb47409bf43a74, type: 3}
   atkPosition: {fileID: 2082914111}
   coolTime: 0.3
@@ -2709,7 +2709,7 @@ MonoBehaviour:
   cJumpPower: 0.03
   cMaxJumpPower: 17
   reviveZone: {fileID: 826753361}
-  swordPrefab: {fileID: 4187900768715722193, guid: 4c187ef928b07fd40977cf27c1f84ac4, type: 3}
+  swordPrefab: {fileID: 4890713044523036917, guid: 9deb789c79375d141a07d93d800a304b, type: 3}
   skillPrefab: {fileID: 188024984029324945, guid: 49345dc96ef0d674dbd52dab887032f1, type: 3}
   atkPosition: {fileID: 1002217362}
   playerBullets: {fileID: 835814058}

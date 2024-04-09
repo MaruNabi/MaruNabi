@@ -97,9 +97,9 @@ public class Bullet : MonoBehaviour
 
     protected void ColliderCheck(bool isNormalAtk, bool isPenetrate)
     {
-        if (this.ray.collider != null)
+        if (ray.collider != null)
         {
-            if (this.ray.collider.tag == "Enemy" && isNormalAtk)
+            if (ray.collider.tag == "Enemy" && isNormalAtk)
             {
                 if ((PlayerNabi.ultimateGauge += attackPower) > 1500.0f)
                 {
@@ -107,14 +107,14 @@ public class Bullet : MonoBehaviour
                 }
             }
 
-            if (ray.collider.tag == "Enemy" && !isNormalAtk && isHitOnce)
+            else if (ray.collider.tag == "Enemy" && !isNormalAtk && isHitOnce)
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
                 Debug.Log("Hit");
             }
 
-            else if (ray.collider.name != currentHit)
+            else if (ray.collider.tag == "Enemy" && ray.collider.name != currentHit)
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;

@@ -8,9 +8,13 @@ public class AttackCharm : Bullet
     float turnSpeed = 5.0f;
     Vector3 bulletDirection;
 
-    float angle;
-    float currentZ;
-    float newZ;
+    private bool isInitOnce = true;
+
+    private float angle;
+    private float currentZ;
+    private float newZ;
+
+    private Animator attackCharmAnimator;
 
     void OnEnable()
     {
@@ -21,15 +25,34 @@ public class AttackCharm : Bullet
             enemy = GameObject.FindGameObjectWithTag("Enemy").transform;
         }
 
-        if (transform.rotation == Quaternion.Euler(0, 0, 0))
-        {
-            transform.rotation = Quaternion.Euler(0, 0, -180);
-        }
+        
+        //attackCharmAnimator.StartPlayback();
     }
 
     void Update()
     {
+        if (transform.rotation == Quaternion.Euler(0, 0, 0) && isInitOnce && enemy != null) //transform.rotation == Quaternion.Euler(0, 0, 0)
+        {
+            isInitOnce = false;
+            Debug.Log("Rotate Left");
+            transform.rotation = Quaternion.Euler(0, 0, -180);
+            Debug.Log(transform.rotation);
+        }
+
+        else if (transform.rotation != Quaternion.Euler(0, 0, 0) && isInitOnce && enemy != null)
+        {
+            isInitOnce = false;
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
         AttackInstantiate();
+    }
+
+    private void OnDisable()
+    {
+        isInitOnce = true;
+        enemy = null;
+        //attackCharmAnimator.StopPlayback();
     }
 
     protected override void AttackInstantiate()
