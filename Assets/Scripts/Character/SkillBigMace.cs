@@ -83,8 +83,8 @@ public class SkillBigMace : Sword
             yield return new WaitForSeconds(1f);
             blinkEffect.SetActive(false);
 
-            transform.DOMove(targetVec, 1f).SetEase(Ease.Linear);
-            yield return new WaitForSeconds(1f);
+            transform.DOMove(targetVec, 0.75f).SetEase(Ease.Linear);
+            yield return new WaitForSeconds(0.75f);
         }
     }
 

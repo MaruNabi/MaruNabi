@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackCharm : Bullet
+public class SkillCurseCharm : Bullet
 {
     private Transform enemy;
-    float turnSpeed = 5.0f;
-    Vector3 bulletDirection;
+    private float turnSpeed = 5.0f;
+    private Vector3 bulletDirection;
 
     private bool isInitOnce = true;
+    protected bool isHitEnemy = false;
 
     private float bulletAngle;
     private float currentZ;
     private float newZ;
+
+    [SerializeField]
+    private GameObject curseArrow;
+
+    private Animator curseCharmAnimator;
 
     void OnEnable()
     {
@@ -22,6 +28,9 @@ public class AttackCharm : Bullet
         {
             enemy = GameObject.FindGameObjectWithTag("Enemy").transform;
         }
+
+        curseCharmAnimator = GetComponent<Animator>();
+        curseArrow.SetActive(false);
     }
 
     void Update()
@@ -38,14 +47,34 @@ public class AttackCharm : Bullet
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
 
-        AttackInstantiate();
+        if (!isHitEnemy)
+        {
+            AttackInstantiate();
+        }
+
+        else
+        {
+            bulletRigidbody.velocity = new Vector2(0, 0);
+            //transform.rotation = Quaternion.Euler(0, 180, 0);
+
+            if (bulletDirection.x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+
+            curseArrow.SetActive(true);
+        }
     }
 
     private void OnDisable()
     {
         isInitOnce = true;
         enemy = null;
-        //attackCharmAnimator.StopPlayback();
+        isHitEnemy = false;
     }
 
     protected override void AttackInstantiate()
@@ -69,6 +98,18 @@ public class AttackCharm : Bullet
             NormalBulletMovement();
         }
 
-        ColliderCheck(true, false);
+        CurseCharmHit();
+    }
+
+    private void CurseCharmHit()
+    {
+        if (ray.collider != null)
+        {
+            if (ray.collider.tag == "Enemy")
+            {
+                curseCharmAnimator.SetBool("isHit", true);
+                isHitEnemy = true;
+            }
+        }
     }
 }

@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     protected float cMiniJumpPower = MINIMUM_JUMP;    //Minimum Jump Force
     protected bool isJumping = false;                 //Jumping State (Double Jump X)
     protected bool isJumpingEnd = true;
+    protected bool isGround = true;
 
     private const float DOUBLE_CLICK_TIME = 0.2f;
     protected float lastClickTime = -1.0f;
@@ -117,7 +118,16 @@ public class Player : MonoBehaviour
         {
             isJumping = false;
             isJumpingEnd = true;
+            isGround = true;
             cMiniJumpPower = MINIMUM_JUMP;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGround = false;
         }
     }
 

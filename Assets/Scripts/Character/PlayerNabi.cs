@@ -16,8 +16,12 @@ public class PlayerNabi : Player
     private float coolTime;
     private float curTime;
     private bool isLock = false;                    //Lock
+    private bool isAttacksNow = false;
     [SerializeField]
     private GameObject playerBullets;               //For Pooling
+
+    [SerializeField]
+    private GameObject playerSkills;
 
     [SerializeField]
     private Image[] nabiLife;
@@ -41,6 +45,7 @@ public class PlayerNabi : Player
         ultimateGauge = 0.0f;
 
         Managers.Pool.CreatePool(bulletPrefab, 20);
+        Managers.Pool.CreatePool(skillPrefab, 5);
     }
 
     void Update()
@@ -83,15 +88,23 @@ public class PlayerNabi : Player
         //Atk
         if (curTime <= 0)
         {
-            if (Input.GetKey(KeyCode.RightBracket))
+            if (Input.GetKey(KeyCode.RightBracket) && !isAttacksNow)
             {
+                if (bulletPrefab.name == "NABI_Bullet_SmallSpark")
+                {
+                    isAttacksNow = true;
+                }
                 GameObject bulletObject = Managers.Pool.Pop(bulletPrefab, playerBullets.transform).gameObject;
                 bulletObject.transform.position = atkPosition.position;
                 bulletObject.transform.rotation = transform.rotation;
             }
+
             curTime = coolTime;
         }
         curTime -= Time.deltaTime;
+
+        if (Input.GetKeyUp(KeyCode.RightBracket))
+            isAttacksNow = false;
 
         if (Input.GetKeyDown(KeyCode.LeftBracket))
         {
@@ -103,7 +116,10 @@ public class PlayerNabi : Player
             //Special Move
             else if (ultimateGauge == maxUltimateGauge)
             {
-                Instantiate(skillPrefab, atkPosition.position, transform.rotation);
+                GameObject skillObject = Managers.Pool.Pop(skillPrefab, playerSkills.transform).gameObject;
+                skillObject.transform.position = atkPosition.position;
+                skillObject.transform.rotation = transform.rotation;
+
                 ultimateGauge = 0.0f;
             }
             //Ability
