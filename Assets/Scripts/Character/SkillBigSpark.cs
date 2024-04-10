@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillBigBeads : Bullet
+public class SkillBigSpark : Bullet
 {
     void OnEnable()
     {
-        SetBullet(2.5f);
+        SetBullet();
     }
 
+    // Update is called once per frame
     void Update()
     {
         AttackInstantiate();

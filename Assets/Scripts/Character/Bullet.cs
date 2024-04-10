@@ -18,6 +18,8 @@ public class Bullet : MonoBehaviour
 
     protected string currentHit;
     private bool isHitOnce = true;
+    private float angle;
+    private bool isOneInit = true;
 
     [SerializeField]
     private Transform rayStartPosition;
@@ -52,6 +54,7 @@ public class Bullet : MonoBehaviour
 
     private IEnumerator BulletDestroy(float bulletHoldingTime = 2.0f)
     {
+        isOneInit = true;
         yield return new WaitForSeconds(bulletHoldingTime);
         lockedBulletVector = new Vector2(0.0f, 0.0f);
         Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
@@ -74,22 +77,28 @@ public class Bullet : MonoBehaviour
     {
         if (lockedBulletVector.magnitude == 0)
         {
-            if (transform.rotation.y == 0)
+            if (isOneInit)
             {
-                bulletRigidbody.velocity = new Vector2(-speed, 0);
-            }
+                isOneInit = false;
+                if (transform.rotation.y == 0)
+                {
+                    angle = 180;
+                    bulletRigidbody.velocity = new Vector2(-speed, 0);
+                }
 
-            else
-            {
-                bulletRigidbody.velocity = new Vector2(speed, 0);
+                else
+                {
+                    angle = 0;
+                    bulletRigidbody.velocity = new Vector2(speed, 0);
+                }
+                transform.rotation = Quaternion.Euler(0, angle, 0);
             }
         }
 
         else
         {
             bulletRigidbody.velocity = lockedBulletVector * speed;
-            float angle = Mathf.Atan2(lockedBulletVector.y, lockedBulletVector.x) * Mathf.Rad2Deg;
-            angle += 180f;
+            angle = Mathf.Atan2(lockedBulletVector.y, lockedBulletVector.x) * Mathf.Rad2Deg;
             angle %= 360f;
             transform.rotation = Quaternion.Euler(0, 0, angle);
         }
