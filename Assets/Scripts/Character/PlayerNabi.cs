@@ -56,37 +56,36 @@ public class PlayerNabi : Player
         }
 
         //Jump
-        if (Input.GetKeyDown(KeyCode.RightControl) && !isJumping && !isSitting)
+        if (Input.GetKeyDown(KeyCode.RightShift) && !isJumping && !isSitting && canJump)
         {
             PlayerJump(cMiniJumpPower);
+            canJump = false;
             isJumpingEnd = false;
         }
 
         //JumpAddForce
-        if (Input.GetKey(KeyCode.RightControl) && !isJumpingEnd && !isSitting)
+        if (Input.GetKey(KeyCode.RightShift) && !isJumpingEnd && !isSitting)
         {
             if (cMiniJumpPower < cMaxJumpPower)
             {
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
             }
+            canJump = true;
         }
 
-        //LockOn
         if (Input.GetKeyDown(KeyCode.L))
         {
             isLock = true;
         }
         
-        //LockOff
         else if (Input.GetKeyUp(KeyCode.L))
         {
             isLock = false;
-            //BulletVectorManager.bulletVector = new Vector2(0, 0);
         }
 
-        //Atk
-        if (curTime <= 0)
+        //ToDo : getkey and curtime switch
+        if (curTime <= 0 && canAtk)
         {
             if (Input.GetKey(KeyCode.RightBracket) && !isAttacksNow)
             {
@@ -98,13 +97,38 @@ public class PlayerNabi : Player
                 bulletObject.transform.position = atkPosition.position;
                 bulletObject.transform.rotation = transform.rotation;
             }
-
             curTime = coolTime;
         }
         curTime -= Time.deltaTime;
 
         if (Input.GetKeyUp(KeyCode.RightBracket))
+        {
             isAttacksNow = false;
+            //Playeranimator isatk false
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftArrow) && canDash && !isSitting)
+        {
+            DoubleClickDash(true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.RightArrow) && canDash && !isSitting)
+        {
+            DoubleClickDash(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow) && canSit && !isJumping)
+        {
+            StartCoroutine(PlayerSit());
+        }
+
+        if (Input.GetKeyUp(KeyCode.DownArrow) && isSitting)
+        {
+            isSitting = false;
+            canDash = true;
+            canMove = true;
+            //animator sit false
+        }
 
         if (Input.GetKeyDown(KeyCode.LeftBracket))
         {
@@ -127,6 +151,40 @@ public class PlayerNabi : Player
             {
                 ultimateGauge -= 500.0f;
             }
+        }
+
+        //Animation Script
+        if (rigidBody.velocity.normalized.x == 0)
+        {
+            playerAnimator.SetBool("isMove", false);
+        }
+        else
+        {
+            playerAnimator.SetBool("isMove", true);
+        }
+
+        if (!isGround)
+        {
+            if (rigidBody.velocity.normalized.y > 0)
+            {
+                playerAnimator.SetBool("isUp", true);
+                playerAnimator.SetBool("isDown", false);
+            }
+            else if (rigidBody.velocity.normalized.y < 0)
+            {
+                playerAnimator.SetBool("isUp", false);
+                playerAnimator.SetBool("isDown", true);
+            }
+            /*else
+            {
+                playerAnimator.SetBool("isUp", false);
+                playerAnimator.SetBool("isDown", false);
+            }*/
+        }
+        else
+        {
+            playerAnimator.SetBool("isUp", false);
+            playerAnimator.SetBool("isDown", false);
         }
     }
 

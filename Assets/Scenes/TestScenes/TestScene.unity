@@ -620,6 +620,7 @@ GameObject:
   - component: {fileID: 608614169}
   - component: {fileID: 608614165}
   - component: {fileID: 608614170}
+  - component: {fileID: 608614171}
   m_Layer: 3
   m_Name: Nabi_Test
   m_TagString: Player
@@ -772,6 +773,26 @@ MonoBehaviour:
   - {fileID: 1928137994}
   blankHP: {fileID: 21300000, guid: bfc0091cce7542c4dad03c20488a8f4c, type: 3}
   fillHP: {fileID: 21300000, guid: 8bdaf8b5cf59afd46ab7dac0043070ac, type: 3}
+--- !u!95 &608614171
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608614163}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7f30aaaf53e344d4798fbec7a3776b46, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &614651919
 GameObject:
   m_ObjectHideFlags: 0
@@ -2714,7 +2735,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558366181}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.981, y: 2.41, z: 0}
+  m_LocalPosition: {x: -7.56, y: 2.52, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:

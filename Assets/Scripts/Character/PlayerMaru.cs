@@ -110,7 +110,7 @@ public class PlayerMaru : Player
             playerAnimator.SetBool("isAtk", false);
         }
 
-            if (Input.GetKeyUp(KeyCode.A) && canDash && !isSitting)
+        if (Input.GetKeyUp(KeyCode.A) && canDash && !isSitting)
         {
             DoubleClickDash(true);
         }
