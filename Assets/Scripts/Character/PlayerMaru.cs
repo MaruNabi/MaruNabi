@@ -90,6 +90,7 @@ public class PlayerMaru : Player
 
         if (Input.GetKey(KeyCode.V) && canAtk)
         {
+            playerAnimator.SetBool("isAtk", true);
             if (!attacksNow)
             {
                 attacksNow = true;
@@ -104,7 +105,12 @@ public class PlayerMaru : Player
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.A) && canDash && !isSitting)
+        if (Input.GetKeyUp(KeyCode.V) && canAtk)
+        {
+            playerAnimator.SetBool("isAtk", false);
+        }
+
+            if (Input.GetKeyUp(KeyCode.A) && canDash && !isSitting)
         {
             DoubleClickDash(true);
         }
@@ -283,6 +289,7 @@ public class PlayerMaru : Player
     private IEnumerator PlayerShield()
     {
         playerShield.SetActive(true);
+        playerAnimator.SetBool("isDefence", true);
         canMove = false;
         canDash = false;
         canSit = false;
@@ -291,6 +298,7 @@ public class PlayerMaru : Player
         //Shield on
         yield return new WaitForSeconds(0.25f);
         //Shield Idle
+        playerAnimator.SetBool("isDefence", false);
         yield return new WaitForSeconds(0.5f);
         //Shield Off
         yield return new WaitForSeconds(0.25f);
