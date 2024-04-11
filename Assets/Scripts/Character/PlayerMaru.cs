@@ -11,8 +11,6 @@ public class PlayerMaru : Player
     private GameObject swordPrefab;
     [SerializeField]
     private GameObject skillPrefab;
-    [SerializeField]
-    private Transform atkPosition;
 
     private bool isLock = false;
     private bool attacksNow = false;

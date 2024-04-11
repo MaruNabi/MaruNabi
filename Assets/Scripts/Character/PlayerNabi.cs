@@ -11,8 +11,6 @@ public class PlayerNabi : Player
     [SerializeField]
     private GameObject skillPrefab;
     [SerializeField]
-    private Transform atkPosition;                //Bullet Instantiate Position
-    [SerializeField]
     private float coolTime;
     private float curTime;
     private bool isLock = false;                    //Lock
@@ -89,6 +87,7 @@ public class PlayerNabi : Player
         {
             if (Input.GetKey(KeyCode.RightBracket) && !isAttacksNow)
             {
+                playerAnimator.SetBool("isAtk", true);
                 if (bulletPrefab.name == "NABI_Bullet_SmallSpark")
                 {
                     isAttacksNow = true;
@@ -104,6 +103,7 @@ public class PlayerNabi : Player
         if (Input.GetKeyUp(KeyCode.RightBracket))
         {
             isAttacksNow = false;
+            playerAnimator.SetBool("isAtk", false);
             //Playeranimator isatk false
         }
 
@@ -127,7 +127,7 @@ public class PlayerNabi : Player
             isSitting = false;
             canDash = true;
             canMove = true;
-            //animator sit false
+            playerAnimator.SetBool("isSit", false);
         }
 
         if (Input.GetKeyDown(KeyCode.LeftBracket))
@@ -140,6 +140,7 @@ public class PlayerNabi : Player
             //Special Move
             else if (ultimateGauge == maxUltimateGauge)
             {
+                StartCoroutine(PlayerSit(true));
                 GameObject skillObject = Managers.Pool.Pop(skillPrefab, playerSkills.transform).gameObject;
                 skillObject.transform.position = atkPosition.position;
                 skillObject.transform.rotation = transform.rotation;
@@ -149,6 +150,7 @@ public class PlayerNabi : Player
             //Ability
             else
             {
+                //Animation?
                 ultimateGauge -= 500.0f;
             }
         }

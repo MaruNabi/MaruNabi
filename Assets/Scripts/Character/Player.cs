@@ -56,6 +56,11 @@ public class Player : MonoBehaviour
     protected Animator playerAnimator;
     protected BoxCollider2D playerCollider;
 
+    [SerializeField]
+    protected Transform atkPosition;
+    protected Vector2 defaultAtkPosition;
+    protected Vector2 sitAtkPosition;
+
     protected float moveHorizontal = 0.0f;
 
     private bool pastKey;
@@ -243,7 +248,11 @@ public class Player : MonoBehaviour
         playerAnimator.SetBool("isSit", true);
         canDash = false;
         canMove = false;
+        defaultAtkPosition = atkPosition.transform.localPosition;
+        sitAtkPosition = defaultAtkPosition;
+        sitAtkPosition.y = defaultAtkPosition.y - 0.5f;
         playerCollider.size = sitPlayerColliderSize;
+        atkPosition.transform.localPosition = sitAtkPosition;
         if (canDash)
         {
             canDash = false;
@@ -258,5 +267,6 @@ public class Player : MonoBehaviour
         }
         yield return new WaitUntil(() => isSitting == false);
         playerCollider.size = defaultPlayerColliderSize;
+        atkPosition.transform.localPosition = defaultAtkPosition;
     }
 }
