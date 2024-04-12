@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class Util
+public class Utils
 {
     /// <summary>
     /// 컴포넌트 없으면 Add, 있다면 Get하는 작업을 한 번에 할 수 있도록 하는 함수.
