@@ -61,6 +61,9 @@ public class Player : MonoBehaviour
     protected Vector2 defaultAtkPosition;
     protected Vector2 sitAtkPosition;
 
+    [SerializeField]
+    protected GameObject reviveEffect;
+
     protected float moveHorizontal = 0.0f;
 
     private bool pastKey;
