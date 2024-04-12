@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MouseAppearance : MouseState
+public class MouseScholarScholarAppearance : MouseScholarState
 {
     private float elapsedTime;
     private float escapeTime = 1f;
 
-    public MouseAppearance(MouseStateMachine stateMachine) : base(stateMachine) { }
+    public MouseScholarScholarAppearance(MouseScholarStateMachine mouseScholarStateMachine) : base(mouseScholarStateMachine) { }
     
     public override void OnEnter()
     {
         base.OnEnter();
-        stateMachine.Mouse.AppearanceEffect();
+        stateMachine.MouseScholar.AppearanceEffect();
     }
     
     public override void OnUpdate()

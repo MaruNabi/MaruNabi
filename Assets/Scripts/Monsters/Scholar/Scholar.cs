@@ -35,9 +35,9 @@ public class Scholar : Entity
 
     protected override void Init()
     {
-        hpTextBox = Util.FindChild<TextMeshProUGUI>(gameObject, "", true);
-        scholarStateMachine = Util.GetOrAddComponent<ScholarStateMachine>(gameObject);
-        Data = Util.GetDictValue(Managers.Data.monsterDict, "SCHOLAR_MONSTER");
+        hpTextBox = Utils.FindChild<TextMeshProUGUI>(gameObject, "", true);
+        scholarStateMachine = Utils.GetOrAddComponent<ScholarStateMachine>(gameObject);
+        Data = Utils.GetDictValue(Managers.Data.monsterDict, "SCHOLAR_MONSTER");
 
         scholarSpriteRenderer = GetComponent<SpriteRenderer>();
         scholarAnimator = GetComponent<Animator>();

@@ -35,10 +35,18 @@ public enum EAnimationType
     Angry
 }
 
-enum EMonsterName
+public enum EMonsterName
 {
     Mouse = 0,      // Áã
     Scholar = 1,  // ¼±ºñ
     Empty = 2     // ºóÄ­
+}
+
+public enum EMousePattern
+{
+    HeadButt,
+    SpawnRats,
+    Tail,
+    Rock
 }
 #endregion

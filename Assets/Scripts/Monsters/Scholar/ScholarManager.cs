@@ -8,6 +8,7 @@ public class ScholarManager : MonoBehaviour
     [SerializeField] private GameObject scholarPrefab;
     [SerializeField] private GameObject player;
     [SerializeField] private Transform[] monsterTransformArr = new Transform[6];
+    [SerializeField] private bool roundStart;
     
     private GameObject[] scholars;
     private Sequence sequence;
@@ -18,19 +19,22 @@ public class ScholarManager : MonoBehaviour
 
     void Start()
     {
-        roundNum = -1;
-        scholars = new GameObject[6];
+        if (roundStart)
+        {
+            roundNum = -1;
+            scholars = new GameObject[6];
 
-        Mouse.OnRoundEnd += RoundRestart;
-        Mouse.OnDeath += StageClear;
+            MouseScholar.OnRoundEnd += RoundRestart;
+            MouseScholar.OnDeath += StageClear;
         
-        MakeMonsterRandomLocation(INIT_MONSTERNUM);
+            MakeMonsterRandomLocation(INIT_MONSTERNUM);
+        }
     }
     
     private void OnDestroy()
     {
-        Mouse.OnRoundEnd -= RoundRestart;
-        Mouse.OnDeath -= StageClear;
+        MouseScholar.OnRoundEnd -= RoundRestart;
+        MouseScholar.OnDeath -= StageClear;
     }
 
     private void RoundRestart()
@@ -101,7 +105,7 @@ public class ScholarManager : MonoBehaviour
         }
         else if (isMouse)
         {
-            monsterGO.AddComponent<Mouse>();
+            monsterGO.AddComponent<MouseScholar>();
         }
 
         return monsterGO;

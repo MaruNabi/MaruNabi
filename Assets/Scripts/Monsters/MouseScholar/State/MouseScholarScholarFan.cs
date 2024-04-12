@@ -2,7 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class MouseFan : MouseState
+public class MouseScholarScholarFan : MouseScholarState
 {
     private const float FAN_DELAY = 0.5f;
     private float elapsedTime;
@@ -12,7 +12,7 @@ public class MouseFan : MouseState
     private Vector3 mousePos;
     private GameObject fan;
 
-    public MouseFan(MouseStateMachine stateMachine) : base(stateMachine)
+    public MouseScholarScholarFan(MouseScholarStateMachine scholarStateMachine) : base(scholarStateMachine)
     {
         elapsedTime = 0f;
         escapeTime = 4f;
@@ -21,7 +21,7 @@ public class MouseFan : MouseState
     public override void OnEnter()
     {
         base.OnEnter();
-        mouseTransform = stateMachine.Mouse.transform;
+        mouseTransform = stateMachine.MouseScholar.transform;
         mousePos = mouseTransform.position;
         AttackWait().Forget();
     }
@@ -31,7 +31,7 @@ public class MouseFan : MouseState
         await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.GetAnimPlayTime()));
         stateMachine.ChangeAnimation(EAnimationType.Attack);
         await UniTask.Delay(TimeSpan.FromSeconds(FAN_DELAY));
-        fan = stateMachine.Mouse.MakeFan(mousePos);
+        fan = stateMachine.MouseScholar.MakeFan(mousePos);
     }
 
     public override void OnUpdate()
@@ -42,7 +42,7 @@ public class MouseFan : MouseState
 
         if (elapsedTime >= escapeTime)
         {
-            stateMachine.Mouse.DestroyFan(fan);
+            stateMachine.MouseScholar.DestroyFan(fan);
             stateMachine.SetState("Leave");
         }
     }

@@ -3,13 +3,13 @@ using System.Collections;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class MouseIdle : MouseState
+public class MouseScholarScholarIdle : MouseScholarState
 {
     private float elapsedTime;
     private float escapeTime;
     private bool isBehit;
 
-    public MouseIdle(MouseStateMachine stateMachine) : base(stateMachine)
+    public MouseScholarScholarIdle(MouseScholarStateMachine scholarStateMachine) : base(scholarStateMachine)
     {
         elapsedTime = 0f;
         escapeTime = 7f;
@@ -19,7 +19,7 @@ public class MouseIdle : MouseState
     {
         base.OnEnter();
 
-        stateMachine.Mouse.Idle = true;
+        stateMachine.MouseScholar.Idle = true;
     }
 
     public override void OnUpdate()
@@ -30,7 +30,7 @@ public class MouseIdle : MouseState
 
         if (elapsedTime >= escapeTime)
         {
-            isBehit = stateMachine.Mouse.IsHit;
+            isBehit = stateMachine.MouseScholar.IsHit;
 
             if (isBehit)
             {
@@ -50,6 +50,6 @@ public class MouseIdle : MouseState
         base.OnExit();
 
         elapsedTime = 0f;
-        stateMachine.Mouse.Idle = false;
+        stateMachine.MouseScholar.Idle = false;
     }
 }
