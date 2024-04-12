@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,10 +11,10 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
     private void Awake()
     {
         base.states = new Dictionary<string, State<MouseStateMachine>>{
-            {"Idle",new MouseIdle(this)},
-            {"Appearance",new MouseAppearance(this)},
-            {"Fan",new MouseFan(this)},
-            {"Leave",new MouseLeave(this)}
+            {"Enter",new MouseEnterState(this)},
+            {"Run",new MouseRunState(this)},
+            {"Phase1",new MousePhase1State(this)},
+            {"Phase2",new MousePhase2State(this)}
         };
     }
 

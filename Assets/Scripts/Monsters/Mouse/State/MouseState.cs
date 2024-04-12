@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseState : State<MouseStateMachine>
 {
-    public MouseState(MouseStateMachine stateMachine) : base(stateMachine)
+    public MouseState(MouseStateMachine mouseStateMachine) : base(mouseStateMachine)
     {
     }
 
@@ -12,6 +12,7 @@ public class MouseState : State<MouseStateMachine>
     {
         base.OnEnter();
     }
+    
     public override void OnUpdate()
     {
         base.OnUpdate();
@@ -21,6 +22,7 @@ public class MouseState : State<MouseStateMachine>
     {
         base.OnFixedUpdate();
     }
+    
     public override void OnExit()
     {
         base.OnExit();
