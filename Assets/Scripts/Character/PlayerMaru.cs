@@ -156,6 +156,7 @@ public class PlayerMaru : Player
             //Ability
             else
             {
+                playerAnimator.SetBool("isDefence", true);
                 StartCoroutine(PlayerShield());
                 ultimateGauge -= 500.0f;
             }
@@ -286,8 +287,9 @@ public class PlayerMaru : Player
 
     private IEnumerator PlayerShield()
     {
+        
         playerShield.SetActive(true);
-        playerAnimator.SetBool("isDefence", true);
+        
         canMove = false;
         canDash = false;
         canSit = false;
@@ -296,9 +298,9 @@ public class PlayerMaru : Player
         //Shield on
         yield return new WaitForSeconds(0.25f);
         //Shield Idle
-        playerAnimator.SetBool("isDefence", false);
         yield return new WaitForSeconds(0.5f);
         //Shield Off
+        playerAnimator.SetBool("isDefence", false);
         yield return new WaitForSeconds(0.25f);
         canMove = true;
         canDash = true;
