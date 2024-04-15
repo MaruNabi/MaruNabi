@@ -64,6 +64,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     protected GameObject reviveEffect;
 
+    [SerializeField]
+    private GameObject landingEffect;
+    [SerializeField]
+    private GameObject dashEffect;
+
     protected float moveHorizontal = 0.0f;
 
     private bool pastKey;
@@ -128,6 +133,7 @@ public class Player : MonoBehaviour
             isJumpingEnd = true;
             isGround = true;
             cMiniJumpPower = MINIMUM_JUMP;
+            Instantiate(landingEffect, transform);
         }
     }
 
@@ -226,6 +232,11 @@ public class Player : MonoBehaviour
     {
         canDash = false;
         isDashing = true;
+        Instantiate(dashEffect, transform.position, dashEffect.transform.rotation);
+        if (transform.rotation != Quaternion.Euler(0, 0, 0))
+            dashEffect.transform.rotation = Quaternion.Euler(0, 0, -90);
+        else
+            dashEffect.transform.rotation = Quaternion.Euler(0, 0, 90);
         float originalGravity = rigidBody.gravityScale;
         rigidBody.gravityScale = 0f;
         if (transform.rotation.y == 0)
