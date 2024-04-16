@@ -961,7 +961,7 @@ MonoBehaviour:
   reviveBarImage: {fileID: 1251013158}
   reviveBarCanvas: {fileID: 426868004}
   effectPos: {fileID: 1857837270}
-  successEffect: {fileID: 7620254092401797697, guid: 505c94c61e040ce4eb12c53bca7cdb33, type: 3}
+  successEffect: {fileID: 4682372368252633859, guid: f783282419c3c7a448e5788ad6f8dba9, type: 3}
 --- !u!1 &659782056
 GameObject:
   m_ObjectHideFlags: 0
@@ -1591,7 +1591,7 @@ MonoBehaviour:
   reviveBarImage: {fileID: 1533812146}
   reviveBarCanvas: {fileID: 902328701}
   effectPos: {fileID: 420910173}
-  successEffect: {fileID: 7620254092401797697, guid: 505c94c61e040ce4eb12c53bca7cdb33, type: 3}
+  successEffect: {fileID: 4682372368252633859, guid: f783282419c3c7a448e5788ad6f8dba9, type: 3}
 --- !u!1 &835814058
 GameObject:
   m_ObjectHideFlags: 0
