@@ -19,6 +19,10 @@ public class ReviveZone : MonoBehaviour
     private Image reviveBarImage;
     [SerializeField]
     private Canvas reviveBarCanvas;
+    [SerializeField]
+    private Transform effectPos;
+    [SerializeField]
+    private GameObject successEffect;
 
     private SpriteRenderer reviveSpriteRenderer;
 
@@ -59,6 +63,7 @@ public class ReviveZone : MonoBehaviour
             reviveBarImage.fillAmount += fillAmountUnit;
             if (reviveBarImage.fillAmount >= 1.0f)
             {
+                Instantiate(successEffect, effectPos.transform.position, effectPos.transform.rotation);
                 Player.isReviveSuccess = true;
                 reviveBarCanvas.gameObject.SetActive(false);
                 reviveBarImage.fillAmount = 0.0f;
