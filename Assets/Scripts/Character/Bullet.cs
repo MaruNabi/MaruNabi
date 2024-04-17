@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour
     protected float attackPower = 300f;
 
     protected string currentHit;
+    protected bool isEffectOnce = true;
     private bool isHitOnce = true;
     private float angle;
     private bool isOneInit = true;
@@ -27,6 +28,8 @@ public class Bullet : MonoBehaviour
     protected RaycastHit2D ray;
 
     private IEnumerator bulletDestroyCoroutine;
+
+    protected GameObject shootEffect;
 
     BulletVectorManager bulletVec = new BulletVectorManager();
 
@@ -42,6 +45,7 @@ public class Bullet : MonoBehaviour
         bulletRigidbody.gravityScale = 0.0f;
         bulletRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         bulletDestroyCoroutine = BulletDestroy(bulletHoldingTime);
+        isEffectOnce = true;
         StartCoroutine(bulletDestroyCoroutine);
     }
 
@@ -139,6 +143,15 @@ public class Bullet : MonoBehaviour
         else if (ray.collider == null && !isNormalAtk)
         {
             isHitOnce = true;
+        }
+    }
+
+    protected void PlayShootEffect()
+    {
+        if (isEffectOnce)
+        {
+            isEffectOnce = false;
+            Instantiate(shootEffect, transform.position, transform.rotation);
         }
     }
 }

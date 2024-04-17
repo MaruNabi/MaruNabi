@@ -42,6 +42,8 @@ public class PlayerNabi : Player
 
         ultimateGauge = 0.0f;
 
+        reviveEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/HyperCasual/Area/Area_heal_green");
+
         Managers.Pool.CreatePool(bulletPrefab, 20);
         Managers.Pool.CreatePool(skillPrefab, 5);
     }

@@ -22,6 +22,8 @@ public class AttackCharm : Bullet
         {
             enemy = GameObject.FindGameObjectWithTag("Enemy").transform;
         }
+
+        shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Dron");
     }
 
     void Update()
@@ -37,6 +39,8 @@ public class AttackCharm : Bullet
             isInitOnce = false;
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
+
+        PlayShootEffect();
 
         AttackInstantiate();
     }

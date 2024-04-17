@@ -209,6 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 113260136}
   - component: {fileID: 113260135}
+  - component: {fileID: 113260137}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -293,6 +294,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &113260137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113260134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &114942914
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,8 +778,8 @@ MonoBehaviour:
   - {fileID: 1346815026}
   - {fileID: 1526180693}
   - {fileID: 1664474362}
-  buttonSelectedSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  notSelectedSprite: {fileID: 21300002, guid: 358b5d9f23bc9413e87c9948acc67ee1, type: 3}
+  selectedSprite: {fileID: 0}
+  unSelectedSprite: {fileID: 0}
 --- !u!1 &1346815023
 GameObject:
   m_ObjectHideFlags: 0

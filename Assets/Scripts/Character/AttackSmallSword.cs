@@ -4,6 +4,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System;
 using DG.Tweening;
+using MoreMountains.Feedbacks;
 
 public class AttackSmallSword : Sword
 {
@@ -11,6 +12,9 @@ public class AttackSmallSword : Sword
 
     private float finalAttackPower;
     private bool canHit;
+
+    [SerializeField]
+    private MMF_Player motionBlur;
 
     private void OnEnable()
     {
@@ -38,6 +42,8 @@ public class AttackSmallSword : Sword
     protected override void AttackInstantiate()
     {
         base.AttackInstantiate();
+
+        motionBlur?.PlayFeedbacks();
 
         StartCoroutine(NormalSwordMovement());
 

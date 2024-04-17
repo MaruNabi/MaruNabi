@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     protected const float maxUltimateGauge = 1500.0f;
     public static bool isReviveSuccess = false;
     private bool isTimerEnd = false;
+    private bool isCalledOnce = true;
 
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField]
@@ -61,7 +62,6 @@ public class Player : MonoBehaviour
     protected Vector2 defaultAtkPosition;
     protected Vector2 sitAtkPosition;
 
-    [SerializeField]
     protected GameObject reviveEffect;
 
     [SerializeField]
@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
             isJumpingEnd = true;
             isGround = true;
             cMiniJumpPower = MINIMUM_JUMP;
-            Instantiate(landingEffect, transform);
+            Instantiate(landingEffect, transform.position, transform.rotation);
         }
     }
 
@@ -150,6 +150,7 @@ public class Player : MonoBehaviour
         canMove = false;
         isTimerEnd = false;
         isReviveSuccess = false;
+        isCalledOnce = true;
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
         Invoke("InvokeTimer", 10.0f);
@@ -158,10 +159,15 @@ public class Player : MonoBehaviour
         {
             if (isReviveSuccess)
             {
-                StartCoroutine(Revive());
-                CancelInvoke("InvokeTimer");
-                
-                yield break;
+                if (isCalledOnce)
+                {
+                    isCalledOnce = false;
+
+                    StartCoroutine(Revive());
+                    CancelInvoke("InvokeTimer");
+
+                    yield break;
+                }
             }
             yield return null;
         }
@@ -184,6 +190,7 @@ public class Player : MonoBehaviour
         canMove = true;
         cLife = 1;
         playerAnimator.SetBool("isDead", false);
+        Instantiate(reviveEffect, transform);
         StartCoroutine(Invincible(3.0f));
         yield return null;
     }
@@ -233,10 +240,7 @@ public class Player : MonoBehaviour
         canDash = false;
         isDashing = true;
         Instantiate(dashEffect, transform.position, dashEffect.transform.rotation);
-        if (transform.rotation != Quaternion.Euler(0, 0, 0))
-            dashEffect.transform.rotation = Quaternion.Euler(0, 0, -90);
-        else
-            dashEffect.transform.rotation = Quaternion.Euler(0, 0, 90);
+        dashEffect.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
         float originalGravity = rigidBody.gravityScale;
         rigidBody.gravityScale = 0f;
         if (transform.rotation.y == 0)
@@ -264,7 +268,7 @@ public class Player : MonoBehaviour
         canMove = false;
         defaultAtkPosition = atkPosition.transform.localPosition;
         sitAtkPosition = defaultAtkPosition;
-        sitAtkPosition.y = defaultAtkPosition.y - 0.5f;
+        sitAtkPosition.y = defaultAtkPosition.y - 0.7f;
         playerCollider.size = sitPlayerColliderSize;
         atkPosition.transform.localPosition = sitAtkPosition;
         if (canDash)

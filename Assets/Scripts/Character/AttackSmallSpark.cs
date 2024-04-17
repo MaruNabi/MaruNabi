@@ -41,6 +41,7 @@ public class AttackSmallSpark : Bullet
             {
                 isSetOnce = false;
                 SetBullet();
+                shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Shotgun");
                 sparkSpriteRenderer.color = originColor;
 
                 transform.position = sparkStartPosition.transform.position;
@@ -62,7 +63,11 @@ public class AttackSmallSpark : Bullet
         }
 
         if (isRelease)
+        {
+            PlayShootEffect();
+
             AttackInstantiate();
+        }
     }
 
     private void OnDisable()

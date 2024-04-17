@@ -145,6 +145,7 @@ MonoBehaviour:
   rayStartPosition: {fileID: 238695619667076944}
   blinkEffect: {fileID: 4332898047454749206}
   blinkSpriteRenderer: {fileID: 2039268542874773730}
+  explosionEffect: {fileID: 8026320913011426125, guid: 4d1f1d63ee5d17747a4040108fc13579, type: 3}
 --- !u!1 &4332898047454749206
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,10 +7,14 @@ public class AttackSmallBeads : Bullet
     void OnEnable()
     {
         SetBullet();
+
+        shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Rikochet");
     }
 
     void Update()
     {
+        PlayShootEffect();
+
         AttackInstantiate();
     }
 

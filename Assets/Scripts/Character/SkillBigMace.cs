@@ -18,9 +18,13 @@ public class SkillBigMace : Sword
     [SerializeField]
     private SpriteRenderer blinkSpriteRenderer;
 
+    private GameObject explosionEffect;
+
     private void OnEnable()
     {
         SetSword(2f);
+
+        explosionEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/MaceExploEff");
     }
 
     void Update()
@@ -93,6 +97,7 @@ public class SkillBigMace : Sword
         if (collision.gameObject.CompareTag("Ground"))
         {
             Debug.Log("Ground Hit");
+            Instantiate(explosionEffect, transform.position, transform.rotation);
             StartCoroutine(BulletDestroy(0.0f));
         }
     }

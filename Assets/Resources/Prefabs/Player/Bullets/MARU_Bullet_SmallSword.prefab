@@ -183,3 +183,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   rayStartPosition: {fileID: 8811438544693281648}
+  motionBlur: {fileID: 0}
