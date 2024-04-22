@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 207851668286137188}
   m_Layer: 0
   m_Name: Rats
-  m_TagString: Untagged
+  m_TagString: TempObstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
