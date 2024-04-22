@@ -1,40 +1,47 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
 
 public class Mouse : Entity
 {
+    [SerializeField] private GameObject rats;
+    [SerializeField] private GameObject rock;
+    [SerializeField] private GameObject tail;
+    [SerializeField] private Sprite mouseStand;
+    [SerializeField] private Sprite mouseDead;
+    
     private MouseStateMachine mouseStateMachine;
     private SpriteRenderer mouseSpriteRenderer;
     private BoxCollider2D headCollider;
     private Animator mouseAnimator;
-    [SerializeField] private TMP_Text hpText;
-    [SerializeField] private GameObject rats;
-    [SerializeField] private GameObject rock;
+    private Sequence sequence;
+    private TMP_Text hpText;
+    private Vector3 startPos;
     
-    private Sequence hitSequence;
-    private Sequence headButtSequence;
 
-    private bool canHit;
-    private bool phase2;
-
-    public bool Phase2
-    {
-        get => phase2;
-        set => phase2 = value;
-    }
+    private Dictionary<EMousePattern, int> behaviorGacha;
+    public Dictionary<EMousePattern, int> BehaviorGacha => behaviorGacha;
 
     private float randomPatternPercent;
+    private bool canHit;
+    private bool phaseChange;
 
-    private Dictionary<EMousePattern, int> gachaProbability;
+    public bool PhaseChange
+    {
+        get => phaseChange;
+        set => phaseChange = value;
+    }
 
     private void Start()
     {
         Init();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Space))
+            SpawnRock();
     }
 
     protected override void Init()
@@ -42,31 +49,25 @@ public class Mouse : Entity
         //Data = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER");
 
         maxHP = 51000;
-        gachaProbability = new Dictionary<EMousePattern, int>();
-        
+        behaviorGacha = new Dictionary<EMousePattern, int>();
+
         mouseStateMachine = Utils.GetOrAddComponent<MouseStateMachine>(gameObject);
         mouseSpriteRenderer = GetComponent<SpriteRenderer>();
         mouseSpriteRenderer = GetComponent<SpriteRenderer>();
-        
-        hitSequence = DOTween.Sequence();
-        headButtSequence = DOTween.Sequence();
-        
-        mouseStateMachine.Initialize("Enter", this, GetComponent<Animator>());
+        hpText = Utils.FindChild<TMP_Text>(gameObject);
+        sequence = DOTween.Sequence();
 
         HP = maxHP;
         hpText.text = HP.ToString();
         randomPatternPercent = 30f;
-        
-        gachaProbability.Add(EMousePattern.HeadButt, 35);
-        gachaProbability.Add(EMousePattern.SpawnRats, 15);
-        gachaProbability.Add(EMousePattern.Rock, 25);
-        gachaProbability.Add(EMousePattern.Tail, 25);
-    }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-             SpawnRats();
+        behaviorGacha.Add(EMousePattern.HeadButt, 35);
+        behaviorGacha.Add(EMousePattern.SpawnRats, 15);
+        behaviorGacha.Add(EMousePattern.Rock, 25);
+        behaviorGacha.Add(EMousePattern.Tail, 25);
+        startPos = transform.position;
+        
+        mouseStateMachine.Initialize("Enter", this, GetComponent<Animator>());
     }
 
     public bool CheckPhaseChangeHp()
@@ -74,6 +75,11 @@ public class Mouse : Entity
         return HP <= 49000;
     }
     
+    public bool CheckDead()
+    {
+        return HP <= 0;
+    }
+
     public void SetCanHit(bool hit)
     {
         canHit = hit;
@@ -81,76 +87,172 @@ public class Mouse : Entity
 
     public Dictionary<EMousePattern, int> GetGacha()
     {
-        return gachaProbability;
+        return behaviorGacha;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // ¸Ó¸®¿¡¸¸ ¸ÂÀ» ¼ö ÀÖ°Ô ÄÝ¶óÀÌ´õ ¿µ¿ª ¼³Á¤
+        // ë¨¸ë¦¬ì—ë§Œ ë§žì„ ìˆ˜ ìžˆê²Œ ì½œë¼ì´ë” ì˜ì—­ ì„¤ì •
         if (collision.CompareTag("Bullet"))
         {
             if (canHit)
             {
-                BeHitEffect();
-                OnDamage(100);
+                HitEffect();
+                OnDamage(1000);
                 hpText.text = HP.ToString();
             }
         }
     }
 
-    private void BeHitEffect()
+    private void HitEffect()
     {
-        if (hitSequence.IsPlaying())
+        if (sequence.IsPlaying())
             return;
 
-        hitSequence = DOTween.Sequence();
-        hitSequence
+        sequence = DOTween.Sequence();
+        sequence
             .Append(mouseSpriteRenderer.DOFade(0.25f, 0.25f))
             .Append(mouseSpriteRenderer.DOFade(1f, 0.25f));
     }
 
     public float HeadButt()
     {
-        if (headButtSequence.IsPlaying())
+        if (sequence.IsPlaying())
             return 0;
-        
-        headButtSequence = DOTween.Sequence();
-        headButtSequence.OnStart(() =>
+
+        sequence = DOTween.Sequence();
+        sequence
+            .OnStart(() =>
             {
                 if (mouseSpriteRenderer.flipX == false)
                     mouseSpriteRenderer.flipX = true;
 
                 canHit = true;
             })
-            .AppendInterval(0.5f)
+            .AppendInterval(1f)
             .Append(transform.DOMoveX(transform.position.x - 14f, 0.75f).SetEase(Ease.InCubic))
+            .Join(transform.DOMoveY(transform.position.y - 1.5f, 0.75f).SetEase(Ease.InCubic))
             .AppendCallback(() =>
             {
                 mouseSpriteRenderer.flipX = false;
                 canHit = false;
             })
             .AppendInterval(0.25f)
-            .Append(transform.DOMoveX(transform.position.x, 0.75f));
-        
-        return headButtSequence.Duration();
+            .Append(transform.DOMove(transform.position, 0.75f));
+
+        return sequence.Duration();
     }
 
     public float SpawnRats()
     {
-        transform.DOShakePosition(1f);
-        
-        var spawnPos= transform.position + Vector3.right * 5f;
-        spawnPos.y -= 1f;
-        Instantiate(rats, spawnPos, Quaternion.identity);
+        if (sequence.IsPlaying())
+            return 0;
 
-        return 2f;
+        sequence = DOTween.Sequence();
+        sequence
+            .Append(transform.DOShakePosition(1f))
+            .AppendCallback(() =>
+            {
+                var spawnPos = transform.position + Vector3.right * 5f + Vector3.down * 0.25f;
+                Instantiate(rats, spawnPos, Quaternion.identity);
+            })
+            .AppendInterval(3f);
+
+        return sequence.Duration();
     }
-    
-    public float Rock()
+
+    public float SpawnRock()
     {
-        var spawnPos= transform.position + Vector3.up * 15f;
-        Instantiate(rock, spawnPos, Quaternion.identity);
+        if (sequence.IsPlaying())
+            return 0;
+
+        sequence = DOTween.Sequence();
+        sequence
+            .Append(transform.DOShakeRotation(1f))
+            .AppendCallback(() =>
+            {
+                var rockSpawnPoint = transform.position + Vector3.up * 10f;
+                Instantiate(rock, rockSpawnPoint, Quaternion.identity);
+            })
+            .AppendInterval(3f);
+
+        return sequence.Duration();
+    }
+
+    public float TailAttack()
+    {
+        if (sequence.IsPlaying())
+            return 0;
+
+        sequence = DOTween.Sequence();
+        sequence
+            .OnStart(() =>
+            {
+                // ì• ë‹ˆë©”ì´ì…˜ ì •ì§€ í›„ ë’¤ ëŒê¸°
+                if (mouseSpriteRenderer.flipX == false)
+                    mouseSpriteRenderer.flipX = true;
+
+                canHit = true;
+            })
+            .AppendInterval(1f)
+            .AppendCallback(() =>
+            {
+                var tailSpawnPoint = transform.position + Vector3.right * 5f + Vector3.down * 0.5f;
+                Instantiate(tail, tailSpawnPoint, Quaternion.Euler(0, 0, 6.6f));
+            })
+            .AppendInterval(1.5f)
+            .OnComplete(() =>
+            {
+                mouseSpriteRenderer.flipX = false;
+                canHit = false;
+            });
+
+
+        // ê¼¬ë¦¬ ê³µê²©
+        return sequence.Duration();
+    }
+
+    public EMousePattern TakeOne()
+    {
+        return RandomizerUtil.From(behaviorGacha).TakeOne();
+    }
+
+    public void PhaseChangeSprite()
+    {
+        if (sequence.IsPlaying())
+            sequence.Kill();
         
-        return 4.5f;
+        var runSprite = mouseSpriteRenderer.sprite;
+        mouseSpriteRenderer.sprite = mouseStand;
+        
+        sequence = DOTween.Sequence();
+        sequence
+            .AppendInterval(2f)
+            .Append(transform.DOMove(startPos, 1f))
+            .OnComplete(() =>
+            {
+                mouseSpriteRenderer.flipX = false;
+                mouseSpriteRenderer.sprite = runSprite;
+            });
+    }
+
+    public override void OnDead()
+    {
+        if (sequence.IsPlaying())
+            sequence.Kill();
+        
+        sequence = DOTween.Sequence();
+        sequence
+            .AppendInterval(2f)
+            .Append(transform.DOMove(startPos, 1f))
+            .AppendCallback(() =>
+            {
+                mouseSpriteRenderer.sprite = mouseDead;
+            })
+            .AppendInterval(2f)
+            .OnComplete(() =>
+            {
+                Destroy(gameObject);
+            });
     }
 }

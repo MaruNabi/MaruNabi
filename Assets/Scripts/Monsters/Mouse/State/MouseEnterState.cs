@@ -15,7 +15,13 @@ public class MouseEnterState : State<MouseStateMachine>
     {
         base.OnEnter();
         mouseTransform = stateMachine.Mouse.transform;
+        EnterWait().Forget();
+    }
+
+    private async UniTaskVoid EnterWait()
+    {
         mouseTransform.DOShakeScale(2f);
+        await UniTask.Delay(TimeSpan.FromSeconds(2f));
         stateMachine.SetState("Run");
     }
 }

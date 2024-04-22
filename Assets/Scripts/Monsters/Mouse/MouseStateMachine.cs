@@ -14,7 +14,9 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
             {"Enter",new MouseEnterState(this)},
             {"Run",new MouseRunState(this)},
             {"Phase1",new MousePhase1State(this)},
-            {"Phase2",new MousePhase2State(this)}
+            {"PhaseChange",new MousePhaseChangeState(this)},
+            {"Phase2",new MousePhase2State(this)},
+            {"Dead",new MouseDeadState(this)},
         };
     }
 

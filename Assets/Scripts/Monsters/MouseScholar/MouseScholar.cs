@@ -106,11 +106,11 @@ public class MouseScholar : Entity
         Destroy(fan);
     }
     
-    public override void Leave()
+    public override void OnDead()
     {
         DOTween.KillAll(mouseSpriteRenderer);
         DOTween.KillAll(this);
-        base.Leave();
+        base.OnDead();
     }
 
     public void RoundEnd()
@@ -121,6 +121,12 @@ public class MouseScholar : Entity
 
     public void Death()
     {
+        if(sequence.IsPlaying())
+            sequence.Kill();
+        
+        Debug.Log("MouseScholar Death");
+        mouseSpriteRenderer.DOFade(100, 2f);
+        mouseSpriteRenderer.sprite = mouseEffects.mouseDeadSprite;
         OnDeath?.Invoke();
     }
 }

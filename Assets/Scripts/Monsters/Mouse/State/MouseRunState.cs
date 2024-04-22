@@ -21,7 +21,7 @@ public class MouseRunState : State<MouseStateMachine>
     async UniTaskVoid RunWait()
     {
         await UniTask.Delay(TimeSpan.FromSeconds(RUNNNING_TIME));
-        if(stateMachine.Mouse.Phase2)
+        if(stateMachine.Mouse.PhaseChange)
             stateMachine.SetState("Phase2");
         else
             stateMachine.SetState("Phase1");

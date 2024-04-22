@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Unity.VisualScripting;
@@ -12,10 +13,13 @@ public class MousePhase2State : State<MouseStateMachine>
     
     private float randomPatternPercent;
     private bool isPhase2;
-
+    
+    CancellationTokenSource cts;
+    
     public MousePhase2State(MouseStateMachine mouseStateMachine) : base(mouseStateMachine)
     {
         randomPatternPercent = 40f;
+        cts = new CancellationTokenSource();
     }
 
     public override void OnEnter()
@@ -27,26 +31,37 @@ public class MousePhase2State : State<MouseStateMachine>
     public override void OnUpdate()
     {
         base.OnUpdate();
-        // Á×À½ Ã¼Å©
+        if(stateMachine.Mouse.CheckDead())
+        {
+            cts.Cancel();
+            stateMachine.SetState("Dead");
+        }
     }
     
     public async UniTaskVoid RandomPattern()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
-        
-        if (RandomizerUtil.PercentRandomizer(30))
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: cts.Token);
+
+        switch (stateMachine.Mouse.TakeOne())
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.HeadButt()));
-        }
-        else
-        {
-            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()));
+            case EMousePattern.HeadButt:
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.HeadButt()));
+                break;
+            case EMousePattern.SpawnRats:
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()));
+                break;
+            case EMousePattern.Rock:
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRock()));
+                break;
+            case EMousePattern.Tail:
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.TailAttack()));
+                break;
         }
 
         // ¿¬¼Ó °ø°Ý È®·ü
         if (RandomizerUtil.PercentRandomizer(randomPatternPercent))
         {
-            randomPatternPercent -= 15f;
+            randomPatternPercent -= 20f;
 
             if (randomPatternPercent <= 10)
                 randomPatternPercent = 10f;
@@ -55,39 +70,7 @@ public class MousePhase2State : State<MouseStateMachine>
         }
         else
         {
-            stateMachine.SetState("Enter");
+            stateMachine.SetState("Run");
         }
     }
-    
-    // public async UniTaskVoid RandomPatternPhase2()
-    // {
-    //     var takeOne = RandomizerUtil.From(gachaProbability).TakeOne();
-    //     switch (takeOne)
-    //     {
-    //         case EMousePattern.HeadButt:
-    //             await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.HeadButt()));
-    //             break;
-    //         case EMousePattern.SpawnRats:
-    //             await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()));
-    //             break;
-    //         case EMousePattern.Rock:
-    //             //³«¼®
-    //             break;
-    //         case EMousePattern.Tail:
-    //             //²¿¸®
-    //             break;
-    //     }
-    //
-    //     
-    //     //¿¬¼Ó °ø°Ý È®·ü
-    //     if (RandomizerUtil.PercentRandomizer(randomPatternPercent))
-    //     {
-    //         randomPatternPercent -= 20f;
-    //
-    //         if (randomPatternPercent <= 10)
-    //             randomPatternPercent = 10f;
-    //
-    //         RandomPatternPhase2().Forget();
-    //     }
-    // }
 }
