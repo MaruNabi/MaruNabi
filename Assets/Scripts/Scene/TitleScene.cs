@@ -42,9 +42,9 @@ public class TitleScene : BaseScene
         for (int i = 0; i < buttons.Length; i++)
         {
             if (i == selectedButtonIndex)
-                buttons[i].GetComponent<Image>().color = Color.white;
+                buttons[i].GetComponent<Image>().sprite = selectedSprite;
             else
-                buttons[i].GetComponent<Image>().color = Color.black;
+                buttons[i].GetComponent<Image>().sprite = unSelectedSprite;
         }
 
         if (Input.GetKeyDown(KeyCode.Return))
