@@ -114,5 +114,7 @@ public class ScholarManager : MonoBehaviour
     private void StageClear()
     {
         Debug.Log("클리어");
+        
+        // 연출
     }
 }

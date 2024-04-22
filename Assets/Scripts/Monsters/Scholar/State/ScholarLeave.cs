@@ -18,6 +18,6 @@ public class ScholarLeave : ScholarState
         stateMachine.Scholar.SmokeEffect();
         // 재입장까지 대기 시간
         await UniTask.Delay(TimeSpan.FromSeconds(ESCAPE_TIME));
-        stateMachine.Scholar.Leave();
+        stateMachine.Scholar.OnDead();
     }
 }

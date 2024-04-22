@@ -33,6 +33,9 @@ public abstract class Entity : MonoBehaviour
     public virtual void OnDamage(float _damage)
     {
         HP -= _damage;
+        
+        if (HP <= 0)
+            HP = 0;
     }
 
     public virtual void RestoreHp(float _restoreHP)
@@ -44,10 +47,9 @@ public abstract class Entity : MonoBehaviour
         else HP = maxHP;
     }
 
-    public virtual void Leave()
+    public virtual void OnDead()
     {
         Dead = true;
-        
         Destroy(gameObject);
     }
 }

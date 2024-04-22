@@ -109,8 +109,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -185,9 +185,10 @@ GameObject:
   - component: {fileID: 8878078845135146719}
   - component: {fileID: 58373727550689186}
   - component: {fileID: 8605698608836456883}
+  - component: {fileID: 4829809989285915711}
   m_Layer: 7
   m_Name: Scholar
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -201,7 +202,7 @@ Transform:
   m_GameObject: {fileID: 8878078845135146718}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 469278431377901783}
@@ -270,7 +271,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.029800296, y: 0}
@@ -321,3 +322,21 @@ MonoBehaviour:
   smokePrefab: {fileID: 1351699654911004, guid: 879aa6d314d3ef848a01ba73a217d9ca, type: 3}
   strawPrefab: {fileID: 6085769272412218725, guid: fdfc57db157759648975cdc263176d23, type: 3}
   fanPrefab: {fileID: 6141675117983338419, guid: ecca77a57b57e664f90c8447031618cd, type: 3}
+  mouseDeadSprite: {fileID: -189588513, guid: b8a7e11f9981dda489e0ad5a1a9ff6a1, type: 3}
+--- !u!114 &4829809989285915711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8878078845135146718}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc6d6f891c84484ebfbf1db189ed5c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backRenderers:
+  - {fileID: 8878078845135146716}
+  middleRenderers:
+  - {fileID: 8224877203064413316}
+  sortingLayerName: 

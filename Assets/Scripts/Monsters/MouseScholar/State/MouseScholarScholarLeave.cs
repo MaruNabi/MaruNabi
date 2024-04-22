@@ -25,14 +25,15 @@ public class MouseScholarScholarLeave : MouseScholarState
         // 재입장까지 대기 시간
         await UniTask.Delay(TimeSpan.FromSeconds(ESCAPE_TIME));
         
-        stateMachine.MouseScholar.RoundEnd();
-        
         if (stateMachine.MouseScholar.HP <= 0 && stateMachine.MouseScholar.Dead == false)
         {
             // 스테이지 종료
             stateMachine.MouseScholar.Death();
         }
-        
-        stateMachine.MouseScholar.Leave();
+        else
+        {
+            stateMachine.MouseScholar.RoundEnd();
+            stateMachine.MouseScholar.OnDead();
+        }
     }
 }

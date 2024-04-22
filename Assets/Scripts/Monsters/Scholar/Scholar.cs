@@ -35,7 +35,7 @@ public class Scholar : Entity
 
     protected override void Init()
     {
-        hpTextBox = Utils.FindChild<TextMeshProUGUI>(gameObject, "", true);
+        hpTextBox = Utils.FindChild<TMP_Text>(gameObject, "", true);
         scholarStateMachine = Utils.GetOrAddComponent<ScholarStateMachine>(gameObject);
         Data = Utils.GetDictValue(Managers.Data.monsterDict, "SCHOLAR_MONSTER");
 
@@ -116,11 +116,11 @@ public class Scholar : Entity
         Destroy(fan);
     }
     
-    public override void Leave()
+    public override void OnDead()
     {
         DOTween.KillAll(scholarSpriteRenderer);
         DOTween.KillAll(this);
         isHit = false;
-        base.Leave();
+        base.OnDead();
     }
 }
