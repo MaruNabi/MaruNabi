@@ -1,75 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class ScholarFan : ScholarState
 {
-    private float elapsedTime = 0f;
-    private float escapeTime = 3f;
-
-    private float fanSpeed = 3f;
-    private float scaleSpeed = 100f;
+    private const float ATTACK_DELAY = 0.5f;
+    private float elapsedTime;
+    private float escapeTime;
 
     private Transform scholarTransform;
-
     private Vector3 scholarPos;
-    private Vector3 playerPos;
-
     private GameObject fan;
-    private GameObject player;
-
+    
     public ScholarFan(ScholarStateMachine stateMachine) : base(stateMachine)
     {
+        elapsedTime = 0f;
+        escapeTime = 4f;
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
-
-        Debug.Log("��ä");
-
-        this.scholarTransform = this.stateMachine.Scholar.transform;
-        this.scholarPos = scholarTransform.position;
-
-        Debug.Log("��ġ: " + this.scholarPos);
-
-        this.fan = this.stateMachine.Scholar.scholarManager.MakeFan(scholarPos);
-
-        this.player = this.stateMachine.Scholar.scholarManager.GetPlayer();
-        this.playerPos = this.player.transform.position;
+        scholarTransform = stateMachine.Scholar.transform;
+        scholarPos = scholarTransform.position;
+        AttackWait().Forget();
     }
+    
+    private async UniTaskVoid AttackWait()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.GetAnimPlayTime()));
+        stateMachine.ChangeAnimation(EAnimationType.Attack);
+        await UniTask.Delay(TimeSpan.FromSeconds(ATTACK_DELAY));
+        fan = stateMachine.Scholar.MakeFan(scholarPos);
+    }
+    
     public override void OnUpdate()
     {
         base.OnUpdate();
+        elapsedTime += Time.deltaTime;
 
-        this.elapsedTime += Time.deltaTime;
-
-        //this.fan.transform.Translate(playerPos * Time.deltaTime * this.fanSpeed);
-        // Vector3 currentScale = fan.transform.localScale;
-        // currentScale += new Vector3(scaleSpeed, scaleSpeed, 0) * Time.deltaTime;
-        // this.fan.transform.localScale = currentScale;
-
-        if (this.elapsedTime >= this.escapeTime)
+        if (elapsedTime >= escapeTime)
         {
-            this.stateMachine.Scholar.scholarManager.DestroyFan(this.fan);
-
-            this.stateMachine.SetState("Appearance");
+            stateMachine.Scholar.DestroyFan(fan);
+            stateMachine.SetState("Leave");
         }
-    }
-    public override void OnExit()
-    {
-        base.OnExit();
-
-        this.elapsedTime = 0f;
-
-        this.stateMachine.Scholar.scholarManager.SetSchloarBehit(false);
-
-        if (this.stateMachine.Scholar.HP <= 0 && !this.stateMachine.Scholar.dead)
-        {
-            this.stateMachine.Scholar.scholarManager.SetDeathMonster();
-        }
-
-        this.stateMachine.Scholar.Dead();
     }
 }

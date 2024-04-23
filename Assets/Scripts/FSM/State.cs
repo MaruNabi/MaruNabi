@@ -6,9 +6,9 @@ public abstract class State<T>
 {
     protected T stateMachine;
 
-    public State(T stateMachine)
+    public State(T _stateMachine)
     {
-        this.stateMachine = stateMachine;
+        stateMachine = _stateMachine;
     }
 
     virtual public void OnEnter()

@@ -1,107 +1,126 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using DG.Tweening;
+using Mono.Cecil.Cil;
 using UnityEngine;
-using UnityEngine.Events;
 using TMPro;
-using System;
 
-public class Scholar : LivingEntity
+public class Scholar : Entity
 {
-    private SpriteRenderer scholarSpriteRenderer;
-    private TMP_Text hpTextBox;
-    private Color BehitColor;
-    private Color fadeColor;
-    
-    private float transparent = 0.5f;
-    private float normal = 1.0f;
-    
-    private ScholarStateMachine scholarStateMachine;
+    // TODO : 결합도 낮추기
     public ScholarManager scholarManager;
-    [SerializeField] public Animator scholarAnimator;
-    
-    public bool isIdle = false;
 
-    public bool IsIdle
+    // TODO : 결합도 낮추기
+    public Animator scholarAnimator;
+
+    public bool Idle
     {
         get { return isIdle; }
         set { isIdle = value; }
     }
 
-    private void Awake()
+    private bool isIdle;
+
+    private ScholarStateMachine scholarStateMachine;
+    private SpriteRenderer scholarSpriteRenderer;
+    private TMP_Text hpTextBox;
+    private ScholarEffects scholarEffects;
+    private Sequence sequence;
+    private const float DAMAGE_VALUE = 10;
+    private bool isHit;
+
+    public bool IsHit
     {
-        this.scholarStateMachine = this.gameObject.AddComponent<ScholarStateMachine>();
-
-        this.scholarSpriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
-
-        Transform scholarCanvas = transform.GetChild(0);
-        Transform textMeshProTransform = scholarCanvas.GetChild(0);
-        this.hpTextBox = textMeshProTransform.GetComponent<TextMeshProUGUI>();
-
-        // TO DO: 20240225 kimyeonmo HP 다른 곳에서 관리
-        this.startingHP = 999999999;
-
-        this.scholarManager = transform.parent.GetComponent<ScholarManager>();
-        this.scholarAnimator = transform.GetComponent<Animator>();
+        get => isHit;
+        set => isHit = value;
     }
 
-    void Start()
+    protected override void Init()
     {
-        this.scholarStateMachine.Initialize("Appearance", this);
+        hpTextBox = Utils.FindChild<TMP_Text>(gameObject, "", true);
+        scholarStateMachine = Utils.GetOrAddComponent<ScholarStateMachine>(gameObject);
+        Data = Utils.GetDictValue(Managers.Data.monsterDict, "SCHOLAR_MONSTER");
 
-        // TO DO: 20240225 kimyeonmo UI 로직 분리 (delegate 이용)
-        this.hpTextBox.text = HP.ToString();
+        scholarSpriteRenderer = GetComponent<SpriteRenderer>();
+        scholarAnimator = GetComponent<Animator>();
+        scholarManager = transform.parent.GetComponent<ScholarManager>();
+        scholarEffects = GetComponent<ScholarEffects>();
+
+        scholarStateMachine.Initialize("Appearance", this, scholarAnimator);
+
+        maxHP = Data.LIFE;
+        HP = maxHP;
+        hpTextBox.text = HP.ToString();
     }
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // 총알에 맞았을 때
         if (collision.gameObject.tag == "Bullet")
         {
-            if(this.IsIdle == true)
+            if (Idle)
             {
-                scholarAnimator.SetBool("BeHit", true);
-                Debug.Log("총알 맞았다!!");
-
-                scholarManager.SetSchloarBehit(true);
-                OnDamage(100);
-
-                Debug.Log("비히트?? " + scholarManager.GetIsSchloarBehit());
-                
-                this.hpTextBox.text = HP.ToString();
-
-                StartCoroutine(BeHitEffect());
+                isHit = true;
+                BeHitEffect();
+                OnDamage(DAMAGE_VALUE);
+                hpTextBox.text = HP.ToString();
             }
         }
     }
-    
-    public IEnumerator AppearanceCoroutine()
-    {
-        this.fadeColor = scholarSpriteRenderer.color;
-        this.fadeColor.a = 0f;
-        scholarSpriteRenderer.color = this.fadeColor;
 
-        while (this.fadeColor.a <= 1f)
-        {
-            this.fadeColor = scholarSpriteRenderer.color;
-            this.fadeColor.a += 0.05f;
-            scholarSpriteRenderer.color = this.fadeColor;
-            
-            yield return new WaitForSeconds(0.05f);
-        }
+    // TODO : 이펙트 풀오브젝트 사용, 스크립트 분리
+    public void AppearanceEffect()
+    {
+        GameObject smoke = Instantiate(scholarEffects.smokePrefab);
+        smoke.transform.position = transform.position;
+
+        float timer = 0;
+        DOTween.To(() => timer, x => timer = x, 1f, 0.4f)
+            .OnComplete(() => Destroy(smoke));
+        
+        sequence = DOTween.Sequence();
+        sequence.OnStart(() => scholarSpriteRenderer.color = new Color(1, 1, 1, 0))
+            .Append(scholarSpriteRenderer.DOFade(1f, 1f));
     }
 
-    private IEnumerator BeHitEffect()
+    private void BeHitEffect()
     {
-        this.BehitColor = this.scholarSpriteRenderer.color;
+        sequence = DOTween.Sequence();
+        sequence
+            .Append(scholarSpriteRenderer.DOFade(0.5f, 0.3f))
+            .Append(scholarSpriteRenderer.DOFade(1f, 0.3f));
+    }
+    
+    public void SmokeEffect()
+    {
+        GameObject smoke = Instantiate(scholarEffects.smokePrefab);
+        smoke.transform.position = transform.position;
+        
+        float timer = 0;
+        DOTween.To(() => timer, x => timer = x, 1f, 0.4f)
+            .OnComplete(() =>
+            {
+                Destroy(smoke);
+            });
+        scholarSpriteRenderer.DOFade(0, 0.4f);
+        hpTextBox.DOFade(0, 0.4f);
+    }
+    
+    public GameObject MakeFan(Vector3 fanPosition)
+    {
+        GameObject fan = Instantiate(scholarEffects.fanPrefab);
+        fan.transform.position = fanPosition;
+        return fan;
+    }
 
-        this.BehitColor.a = this.transparent;
-
-        this.scholarSpriteRenderer.color = this.BehitColor;
-
-        yield return new WaitForSeconds(0.3f);
-
-        this.BehitColor.a = this.normal;
-
-        this.scholarSpriteRenderer.color = this.BehitColor;
+    public void DestroyFan(GameObject fan)
+    {
+        Destroy(fan);
+    }
+    
+    public override void OnDead()
+    {
+        DOTween.KillAll(scholarSpriteRenderer);
+        DOTween.KillAll(this);
+        isHit = false;
+        base.OnDead();
     }
 }

@@ -6,7 +6,7 @@
       "NAME": "선비",
       "TYPE": 2,
       "MOVETYPE": true,
-      "LIFE": 999999999,
+      "LIFE": 999999,
       "SPEED": 0,
       "JUMPPOWER": 0,
       "PASSIVE": 0,
