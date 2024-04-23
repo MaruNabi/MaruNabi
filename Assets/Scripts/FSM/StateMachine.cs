@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using StateName = System.String;
+
 public abstract class StateMachine<T> : MonoBehaviour where T : StateMachine<T>
 {
     public State<T> currentState;
@@ -10,70 +10,65 @@ public abstract class StateMachine<T> : MonoBehaviour where T : StateMachine<T>
 
     private bool isRunning;
 
-    public bool IsRunning
-    {
-        get { return this.isRunning; }
-        set { this.isRunning = value; }
-    }
+    public bool IsRunning { get { return isRunning; } }
 
-    public virtual void Initialize(string stateName)
+    public virtual void Initialize(string _stateName)
     {
-        if (!this.states.ContainsKey(stateName))
+        if (states.ContainsKey(_stateName) == false)
             return;
 
-        this.currentState = this.states[stateName];
-        this.isRunning = true;
-        this.currentState.OnEnter();
+        currentState = states[_stateName];
+        isRunning = true;
+        currentState.OnEnter();
     }
 
     void Update()
     {
-
-        if (this.currentState == null || this.isRunning == false)
+        if (currentState == null || isRunning == false)
             return;
 
-        this.currentState?.OnUpdate();
+        currentState?.OnUpdate();
     }
 
     private void FixedUpdate()
     {
-        if (this.currentState == null || this.IsRunning == false)
+        if (currentState == null || IsRunning == false)
             return;
 
-        this.currentState?.OnFixedUpdate(); ;
+        currentState?.OnFixedUpdate();
     }
 
 
     private void LateUpdate()
     {
-        if (this.currentState == null || this.IsRunning == false)
+        if (currentState == null || IsRunning == false)
             return;
 
-        this.currentState?.OnLateUpdate(); ;
+        currentState?.OnLateUpdate(); ;
     }
 
-    public void SetState(string stateName)
+    public void SetState(string _stateName)
     {
-        //Debug.Log(stateName);
-        if (this.currentState == null || this.isRunning == false)
+        if (currentState == null || isRunning == false)
             return;
 
-        if (!this.states.ContainsKey(stateName))
+        if (states.ContainsKey(_stateName) == false)
             return;
 
-        this.currentState.OnExit();
-        this.currentState = this.states[stateName];
-        this.currentState.OnEnter();
+        currentState.OnExit();
+        currentState = states[_stateName];
+        currentState.OnEnter();
     }
 
-    public void AddState(string stateName, State<T> state)
+    public void AddState(string _stateName, State<T> _state)
     {
-        if (this.currentState == null || this.isRunning == false)
+        if (currentState == null || isRunning == false)
             return;
 
-        this.currentState.OnExit();
-        this.states[stateName] = state;
-        this.currentState = this.states[stateName];
-        this.currentState.OnEnter();
+        currentState.OnExit();
+        states[_stateName] = _state;
+        
+        currentState = states[_stateName];
+        currentState.OnEnter();
     }
 }

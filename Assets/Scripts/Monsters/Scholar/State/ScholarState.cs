@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class ScholarState : State<ScholarStateMachine>
 {
-    public ScholarState(ScholarStateMachine stateMachine) : base(stateMachine)
-    {
-    }
+    public ScholarState(ScholarStateMachine stateMachine) : base(stateMachine) { }
 
     public override void OnEnter()
     {
         base.OnEnter();
     }
+    
     public override void OnUpdate()
     {
         base.OnUpdate();

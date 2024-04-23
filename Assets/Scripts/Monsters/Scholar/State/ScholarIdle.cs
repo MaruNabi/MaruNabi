@@ -1,50 +1,53 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class ScholarIdle : ScholarState
 {
-    private float elapsedTime = 0f;
-
-    private float escapeTime = 5f;
-
+    private float elapsedTime;
+    private float escapeTime;
     private bool isBehit;
+
     public ScholarIdle(ScholarStateMachine stateMachine) : base(stateMachine)
     {
+        elapsedTime = 0f;
+        escapeTime = 7f;
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
-
-        this.stateMachine.Scholar.IsIdle = true;
+        stateMachine.Scholar.Idle = true;
     }
+    
     public override void OnUpdate()
     {
         base.OnUpdate();
 
-        this.elapsedTime += Time.deltaTime;
+        elapsedTime += Time.deltaTime;
 
-        if (this.elapsedTime >= this.escapeTime)
+        if (elapsedTime >= escapeTime)
         {
-            //Debug.Log("idle 시간 달성");
+            isBehit = stateMachine.Scholar.IsHit;
 
-            this.isBehit = this.stateMachine.Scholar.scholarManager.GetIsSchloarBehit();
-
-            if (this.isBehit == true)
+            if (isBehit)
             {
-                this.stateMachine.SetState("Fan");
-                
-                // 공격 애니메이션
-                stateMachine.ChangeAnimationAttack();
+                stateMachine.SetState("Fan");
+                stateMachine.ChangeAnimation(EAnimationType.Angry);
+            }
+            else
+            {
+                stateMachine.SetState("Leave");
             }
         }
     }
+    
     public override void OnExit()
     {
         base.OnExit();
-
-        this.elapsedTime = 0f;
-        this.stateMachine.Scholar.IsIdle = false;
+        elapsedTime = 0f;
+        stateMachine.Scholar.Idle = false;
     }
 }

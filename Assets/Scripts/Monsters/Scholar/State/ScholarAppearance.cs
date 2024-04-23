@@ -4,35 +4,36 @@ using UnityEngine;
 
 public class ScholarAppearance : ScholarState
 {
-    private float elapsedTime = 0f;
+    private float elapsedTime;
+    private float escapeTime;
 
-    private float escapeTime = 1f;
     public ScholarAppearance(ScholarStateMachine stateMachine) : base(stateMachine)
     {
+        elapsedTime = 0f;
+        escapeTime = 1f;
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
-
-
-        this.stateMachine.StartCoroutine(this.stateMachine.Scholar.AppearanceCoroutine ());
+        stateMachine.Scholar.AppearanceEffect();
     }
+    
     public override void OnUpdate()
     {
         base.OnUpdate();
 
-        this.elapsedTime += Time.deltaTime;
+        elapsedTime += Time.deltaTime;
 
-        if (this.elapsedTime >= this.escapeTime)
+        if (elapsedTime >= escapeTime)
         {
-            this.stateMachine.SetState("Idle");
+            stateMachine.SetState("Idle");
         }
     }
+    
     public override void OnExit()
     {
         base.OnExit();
-
-        this.elapsedTime = 0f;
+        elapsedTime = 0f;
     }
 }
