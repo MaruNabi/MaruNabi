@@ -13,30 +13,40 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     protected LayerMask isLayer;
     protected Rigidbody2D bulletRigidbody;
-    public Vector2 lockedBulletVector;
-    private float attackPower = 300f;
+    protected Vector2 lockedBulletVector;
+    protected float attackPower = 300f;
 
-    private RaycastHit2D ray;
+    protected string currentHit;
+    protected bool isEffectOnce = true;
+    private bool isHitOnce = true;
+    private float angle;
+    private bool isOneInit = true;
+
+    [SerializeField]
+    private Transform rayStartPosition;
+
+    protected RaycastHit2D ray;
 
     private IEnumerator bulletDestroyCoroutine;
 
-    void Start()
-    {
-        
-    }
+    protected GameObject shootEffect;
 
-    protected void SetBullet()
+    BulletVectorManager bulletVec = new BulletVectorManager();
+
+    protected void SetBullet(float bulletHoldingTime = 2.0f)
     {
         if (bulletDestroyCoroutine != null)
             StopCoroutine(bulletDestroyCoroutine);
-        lockedBulletVector = BulletVectorManager.bulletVector;
+
+        if (Input.GetKey(KeyCode.L))
+            lockedBulletVector = bulletVec.GetDirectionalInputNabi();
 
         bulletRigidbody = GetComponent<Rigidbody2D>();
-        bulletRigidbody.gravityScale = 0;
+        bulletRigidbody.gravityScale = 0.0f;
         bulletRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        bulletDestroyCoroutine = BulletDestroy();
+        bulletDestroyCoroutine = BulletDestroy(bulletHoldingTime);
+        isEffectOnce = true;
         StartCoroutine(bulletDestroyCoroutine);
-        //UniWait().Forget();
     }
 
     async UniTaskVoid UniWait()
@@ -46,44 +56,53 @@ public class Bullet : MonoBehaviour
         DestroyBullet();
     }
 
-    private IEnumerator BulletDestroy()
+    private IEnumerator BulletDestroy(float bulletHoldingTime = 2.0f)
     {
-        yield return new WaitForSeconds(2.0f);
-        Managers.Pool.Push(Utils.GetOrAddComponent<Poolable>(this.gameObject));
+        isOneInit = true;
+        yield return new WaitForSeconds(bulletHoldingTime);
+        lockedBulletVector = new Vector2(0.0f, 0.0f);
+        Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
     }
 
     protected void DestroyBullet()
     {
-        Managers.Pool.Push(Utils.GetOrAddComponent<Poolable>(this.gameObject));
+        lockedBulletVector = new Vector2(0.0f, 0.0f);
+        Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
     }
 
     protected virtual void AttackInstantiate()
     {
-        this.ray = Physics2D.Raycast(transform.position, transform.right, rayDistance, isLayer);
+        this.ray = Physics2D.Raycast(rayStartPosition.position, transform.right, rayDistance, isLayer);
 
-        Debug.DrawRay(transform.position, transform.right * rayDistance, Color.red);
+        Debug.DrawRay(rayStartPosition.position, transform.right * rayDistance, Color.red);
     }
 
     protected void NormalBulletMovement()
     {
         if (lockedBulletVector.magnitude == 0)
         {
-            if (transform.rotation.y == 0)
+            if (isOneInit)
             {
-                bulletRigidbody.velocity = new Vector2(-speed, 0);
-            }
+                isOneInit = false;
+                if (transform.rotation.y == 0)
+                {
+                    angle = 180;
+                    bulletRigidbody.velocity = new Vector2(-speed, 0);
+                }
 
-            else
-            {
-                bulletRigidbody.velocity = new Vector2(speed, 0);
+                else
+                {
+                    angle = 0;
+                    bulletRigidbody.velocity = new Vector2(speed, 0);
+                }
+                transform.rotation = Quaternion.Euler(0, angle, 0);
             }
         }
 
         else
         {
             bulletRigidbody.velocity = lockedBulletVector * speed;
-            float angle = Mathf.Atan2(lockedBulletVector.y, lockedBulletVector.x) * Mathf.Rad2Deg;
-            angle += 180f;
+            angle = Mathf.Atan2(lockedBulletVector.y, lockedBulletVector.x) * Mathf.Rad2Deg;
             angle %= 360f;
             transform.rotation = Quaternion.Euler(0, 0, angle);
         }
@@ -91,9 +110,9 @@ public class Bullet : MonoBehaviour
 
     protected void ColliderCheck(bool isNormalAtk, bool isPenetrate)
     {
-        if (this.ray.collider != null)
+        if (ray.collider != null)
         {
-            if (this.ray.collider.tag == "Enemy" && isNormalAtk)
+            if (ray.collider.tag == "Enemy" && isNormalAtk)
             {
                 if ((PlayerNabi.ultimateGauge += attackPower) > 1500.0f)
                 {
@@ -101,10 +120,38 @@ public class Bullet : MonoBehaviour
                 }
             }
 
+            else if (ray.collider.tag == "Enemy" && !isNormalAtk && isHitOnce)
+            {
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                Debug.Log("Hit");
+            }
+
+            else if (ray.collider.tag == "Enemy" && ray.collider.name != currentHit)
+            {
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                Debug.Log("Hit");
+            }
+
             if (!isPenetrate)
             {
                 DestroyBullet();
             }
+        }
+
+        else if (ray.collider == null && !isNormalAtk)
+        {
+            isHitOnce = true;
+        }
+    }
+
+    protected void PlayShootEffect()
+    {
+        if (isEffectOnce)
+        {
+            isEffectOnce = false;
+            Instantiate(shootEffect, transform.position, transform.rotation);
         }
     }
 }

@@ -9,8 +9,7 @@ TagManager:
   - Bullet
   - Manager
   - PoolRoot
-  - TempObstacle
-  - RockWall
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -20,14 +19,14 @@ TagManager:
   - UI
   - Ground
   - Enemy
-  - Obstacle
-  - ObstaclePass
+  - 
+  - PlayerBullet
+  - PlayerShield
   - 
   - 
   - 
   - 
-  - 
-  - 
+  - PostProcessing
   - 
   - 
   - 

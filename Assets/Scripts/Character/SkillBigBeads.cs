@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SkillBigBeads : Bullet
 {
-    void Start()
+    void OnEnable()
     {
-        SetBullet();
+        SetBullet(2.5f);
     }
 
     void Update()

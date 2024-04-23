@@ -9,16 +9,28 @@ using DG.Tweening;
 public class LoadingScene : BaseScene
 {
     public static string nextScene;
-    Dictionary<string, LoadingSceneData> loadingTextData = new Dictionary<string, LoadingSceneData>();
+    Dictionary<int, LoadingSceneData> loadingDataDict = new Dictionary<int, LoadingSceneData>();
+    private int textRandomCount;
 
     [SerializeField]
     TMP_Text loadingText;
+    [SerializeField]
+    TMP_Text loadingPhrases;
 
     void Start()
     {
-        loadingTextData = Managers.Data.loadingDict;
-        
+        StartCoroutine(WaitForDataLoading());
+
         StartCoroutine(LoadSceneProcess());
+    }
+
+    private IEnumerator WaitForDataLoading()
+    {
+        yield return new WaitUntil(() => Managers.Data.loadingDict != null);
+        loadingDataDict = Managers.Data.loadingDict;
+        textRandomCount = UnityEngine.Random.Range(1, loadingDataDict.Count + 1);
+        loadingDataDict.TryGetValue(textRandomCount, out LoadingSceneData loadingSceneData);
+        loadingText.text = loadingSceneData.DIALOGUE;
     }
 
     protected override void Init()
@@ -36,7 +48,7 @@ public class LoadingScene : BaseScene
         float timer = 0f;
         float fakeLoadingTime = 0f;
 
-        loadingText.DOFade(0.0f, 0.5f).SetLoops(-1, LoopType.Yoyo);
+        loadingPhrases.DOFade(0.0f, 0.5f).SetLoops(-1, LoopType.Yoyo);
 
         while(!op.isDone)
         {
@@ -62,5 +74,6 @@ public class LoadingScene : BaseScene
     public override void Clear()
     {
         nextScene = "";
+        textRandomCount = 0;
     }
 }

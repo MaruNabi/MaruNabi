@@ -2,9 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class PlayerMaru : Player
 {
+    public static float ultimateGauge;
+    [SerializeField]
+    private GameObject swordPrefab;
+    [SerializeField]
+    private GameObject skillPrefab;
+
+    private bool isLock = false;
+    private bool attacksNow = false;
+
+    [SerializeField]
+    private GameObject playerBullets;
+
+    [SerializeField]
+    private GameObject playerSkills;
+
+    [SerializeField]
+    private GameObject playerShield;
+
     [SerializeField]
     private Image[] maruLife;
     public Sprite blankHP, fillHP;
@@ -18,6 +37,7 @@ public class PlayerMaru : Player
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
 
+        playerShield.SetActive(false);
         reviveZone.SetActive(false);
 
         defaultPlayerColliderSize = playerCollider.size;
@@ -25,6 +45,11 @@ public class PlayerMaru : Player
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
+
+        reviveEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/HyperCasual/Area/Area_heal_green");
+
+        Managers.Pool.CreatePool(swordPrefab, 2);
+        Managers.Pool.CreatePool(skillPrefab, 2);
     }
 
     void Update()
@@ -35,9 +60,10 @@ public class PlayerMaru : Player
         }
 
         //Jump
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting)
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting && canJump)
         {
             PlayerJump(cMiniJumpPower);
+            canJump = false;
             isJumpingEnd = false;
         }
 
@@ -49,6 +75,39 @@ public class PlayerMaru : Player
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
             }
+            canJump = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            isLock = true;
+        }
+
+        else if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            isLock = false;
+        }
+
+        if (Input.GetKey(KeyCode.V) && canAtk)
+        {
+            playerAnimator.SetBool("isAtk", true);
+            if (!attacksNow)
+            {
+                attacksNow = true;
+                GameObject swordObject = Managers.Pool.Pop(swordPrefab, playerBullets.transform).gameObject;
+                swordObject.transform.position = atkPosition.position;
+                swordObject.transform.rotation = transform.rotation;
+            }
+
+            if (playerBullets.transform.childCount == 0)
+            {
+                attacksNow = false;
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.V) && canAtk)
+        {
+            playerAnimator.SetBool("isAtk", false);
         }
 
         if (Input.GetKeyUp(KeyCode.A) && canDash && !isSitting)
@@ -70,18 +129,39 @@ public class PlayerMaru : Player
         {
             isSitting = false;
             canDash = true;
+            canMove = true;
             playerAnimator.SetBool("isSit", false);
-        }
-
-        //Atk
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            //Attack
         }
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            //Ultimate Attack
+            //None
+            if (ultimateGauge < 500.0f)
+            {
+                return;
+            }
+            //Special Move
+            else if (ultimateGauge == maxUltimateGauge)
+            {
+                StartCoroutine(PlayerSit(true));
+                GameObject skillObject = Managers.Pool.Pop(skillPrefab, playerSkills.transform).gameObject;
+                skillObject.transform.position = atkPosition.position;
+                skillObject.transform.rotation = transform.rotation;
+
+                if (skillPrefab.name == "MARU_Bullet_BigSword")
+                {
+                    StartCoroutine(MaruSkillBigSword());
+                }
+
+                ultimateGauge = 0.0f;
+            }
+            //Ability
+            else
+            {
+                playerAnimator.SetBool("isDefence", true);
+                StartCoroutine(PlayerShield());
+                ultimateGauge -= 500.0f;
+            }
         }
 
         //Animation Script
@@ -94,15 +174,23 @@ public class PlayerMaru : Player
             playerAnimator.SetBool("isMove", true);
         }
 
-        if (rigidBody.velocity.normalized.y > 0)
+        if (!isGround)
         {
-            playerAnimator.SetBool("isUp", true);
-            playerAnimator.SetBool("isDown", false);
-        }
-        else if (rigidBody.velocity.normalized.y < 0)
-        {
-            playerAnimator.SetBool("isUp", false);
-            playerAnimator.SetBool("isDown", true);
+            if (rigidBody.velocity.normalized.y > 0)
+            {
+                playerAnimator.SetBool("isUp", true);
+                playerAnimator.SetBool("isDown", false);
+            }
+            else if (rigidBody.velocity.normalized.y < 0)
+            {
+                playerAnimator.SetBool("isUp", false);
+                playerAnimator.SetBool("isDown", true);
+            }
+            /*else
+            {
+                playerAnimator.SetBool("isUp", false);
+                playerAnimator.SetBool("isDown", false);
+            }*/
         }
         else
         {
@@ -130,7 +218,7 @@ public class PlayerMaru : Player
 
         if (Input.GetKey(KeyCode.A))
         {
-            if (isSitting)
+            if (isSitting || isLock)
             {
                 moveHorizontal = 0.0f;
             }
@@ -139,11 +227,12 @@ public class PlayerMaru : Player
                 moveHorizontal = -1.0f;
             }
             transform.rotation = Quaternion.Euler(0, 0, 0);
+            atkPosition.rotation = Quaternion.Euler(0, 0, 0);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            if (isSitting)
+            if (isSitting || isLock)
             {
                 moveHorizontal = 0.0f;
             }
@@ -152,6 +241,7 @@ public class PlayerMaru : Player
                 moveHorizontal = 1.0f;
             }
             transform.rotation = Quaternion.Euler(0, 180, 0);
+            atkPosition.rotation = Quaternion.Euler(0, 180, 0);
         }
 
         base.PlayerMove();
@@ -182,11 +272,44 @@ public class PlayerMaru : Player
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("EnemyBullet"))
+        {
+            Destroy(collision.gameObject);
+        }
+    }
+
     protected override IEnumerator Revive()
     {
         yield return base.Revive();
 
         UpdateLifeUI();
+    }
+
+    private IEnumerator PlayerShield()
+    {
+        
+        playerShield.SetActive(true);
+        
+        canMove = false;
+        canDash = false;
+        canSit = false;
+        canJump = false;
+        canAtk = false;
+        //Shield on
+        yield return new WaitForSeconds(0.25f);
+        //Shield Idle
+        yield return new WaitForSeconds(0.5f);
+        //Shield Off
+        playerAnimator.SetBool("isDefence", false);
+        yield return new WaitForSeconds(0.25f);
+        canMove = true;
+        canDash = true;
+        canSit = true;
+        canJump = true;
+        canAtk = true;
+        playerShield.SetActive(false);
     }
 
     private void UpdateLifeUI()
@@ -202,5 +325,57 @@ public class PlayerMaru : Player
                 maruLife[i].sprite = blankHP;
             }
         }
+    }
+
+    private IEnumerator MaruSkillBigSword()
+    {
+        Vector3 target1;
+        Vector3 target2;
+        Vector3 target3;
+
+        if (transform.rotation.y == 0)
+        {
+            target1 = transform.position - new Vector3(5, 0, 0);
+            target2 = transform.position + new Vector3(4, 0, 0);
+            target3 = transform.position - new Vector3(6, 0, 0);
+        }
+        else
+        {
+            target1 = transform.position + new Vector3(5, 0, 0);
+            target2 = transform.position - new Vector3(4, 0, 0);
+            target3 = transform.position + new Vector3(6, 0, 0);
+        }
+
+        canMove = false;
+        canDash = false;
+        canSit = false;
+        canJump = false;
+        canAtk = false;
+
+        float playerGravity = rigidBody.gravityScale;
+        rigidBody.gravityScale = 0f;
+        playerCollider.isTrigger = true;
+
+        yield return new WaitForSeconds(0.25f);
+
+        playerAnimator.SetBool("isDash", true);
+        transform.DOMove(target1, 0.215f).SetEase(Ease.OutQuart);
+        yield return new WaitForSeconds(0.215f);
+        transform.Rotate(0, 180, 0);
+        transform.DOMove(target2, 0.215f).SetEase(Ease.OutQuart);
+        yield return new WaitForSeconds(0.215f);
+        transform.Rotate(0, 180, 0);
+        transform.DOMove(target3, 0.215f).SetEase(Ease.OutQuart);
+        yield return new WaitForSeconds(0.215f);
+        playerAnimator.SetBool("isDash", false);
+
+        rigidBody.gravityScale = playerGravity;
+        playerCollider.isTrigger = false;
+
+        canMove = true;
+        canDash = true;
+        canSit = true;
+        canJump = true;
+        canAtk = true;
     }
 }

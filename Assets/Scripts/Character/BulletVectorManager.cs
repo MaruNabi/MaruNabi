@@ -2,33 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletVectorManager : MonoBehaviour
+public class BulletVectorManager
 {
-    public static Vector2 bulletVector;
     private int vertical;
     private int horizontal;
 
-    void Update()
-    {
-        Vector2 directionalInput = GetDirectionalInput();
-
-        if (directionalInput.magnitude > 0)
-        {
-            float angleX = directionalInput.x;
-            float angleY = directionalInput.y;
-
-            bulletVector = new Vector2(angleX, angleY);
-        }
-
-        else
-        {
-            bulletVector = new Vector2(0.0f, 0.0f);
-        }
-    }
-    Vector2 GetDirectionalInput()
+    public Vector2 GetDirectionalInputNabi()
     {
         vertical = (Input.GetKey(KeyCode.RightArrow) && !(Input.GetKey(KeyCode.LeftArrow)) ? 1 : 0) - (!(Input.GetKey(KeyCode.RightArrow)) && Input.GetKey(KeyCode.LeftArrow) ? 1 : 0);
         horizontal = (Input.GetKey(KeyCode.UpArrow) && !(Input.GetKey(KeyCode.DownArrow)) ? 1 : 0) - (!(Input.GetKey(KeyCode.UpArrow)) && Input.GetKey(KeyCode.DownArrow) ? 1 : 0);
+
+        return new Vector2(vertical, horizontal);
+    }
+
+    public Vector2 GetDirectionalInputMaru()
+    {
+        vertical = (Input.GetKey(KeyCode.D) && !(Input.GetKey(KeyCode.A)) ? 1 : 0) - (!(Input.GetKey(KeyCode.D)) && Input.GetKey(KeyCode.A) ? 1 : 0);
+        horizontal = (Input.GetKey(KeyCode.W) && !(Input.GetKey(KeyCode.S)) ? 1 : 0) - (!(Input.GetKey(KeyCode.W)) && Input.GetKey(KeyCode.S) ? 1 : 0);
 
         return new Vector2(vertical, horizontal);
     }

@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class AttackSmallBeads : Bullet
 {
-    void Start()
-    {
-        //SetBullet();
-    }
-
-    private void OnEnable()
+    void OnEnable()
     {
         SetBullet();
+
+        shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Rikochet");
     }
 
     void Update()
     {
+        PlayShootEffect();
+
         AttackInstantiate();
     }
 
