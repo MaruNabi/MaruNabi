@@ -10,17 +10,9 @@ public class PlayerUIManager : MonoBehaviour
     private float currentUltimateGuageNabi = 0.0f;
     private float currentUltimateGuageMaru = 0.0f;
 
-    public Image[] maruLife;
-    public Image[] nabiLife;
-    public Sprite blankHP, fillHP;
-
     void Start()
     {
-        for (int i = 0; i < 3; i++)
-        {
-            maruLife[i].sprite = fillHP;
-            nabiLife[i].sprite = fillHP;
-        }
+
     }
 
     void Update()

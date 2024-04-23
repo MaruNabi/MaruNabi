@@ -25,8 +25,9 @@ public class PlayerMaru : Player
     private GameObject playerShield;
 
     [SerializeField]
-    private Image[] maruLife;
-    public Sprite blankHP, fillHP;
+    private Image playerHpUI;
+
+    private Sprite[] maruLife = new Sprite[6];
 
     void Start()
     {
@@ -47,6 +48,13 @@ public class PlayerMaru : Player
         ultimateGauge = 0.0f;
 
         reviveEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/HyperCasual/Area/Area_heal_green");
+
+        for (int i = 0; i < maruLife.Length; i++)
+        {
+            maruLife[i] = Resources.Load<Sprite>("UI/PlayerUI/UI_Stage_MaruIcon_" + i);
+        }
+
+        UpdateLifeUI();
 
         Managers.Pool.CreatePool(swordPrefab, 2);
         Managers.Pool.CreatePool(skillPrefab, 2);
@@ -249,7 +257,7 @@ public class PlayerMaru : Player
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
             if (isInvincibleTime)
                 return;
@@ -314,16 +322,9 @@ public class PlayerMaru : Player
 
     private void UpdateLifeUI()
     {
-        for (int i = 0; i < MAX_LIFE; i++)
+        if (cLife >= 0)
         {
-            if (i < cLife)
-            {
-                maruLife[i].sprite = fillHP;
-            }
-            else
-            {
-                maruLife[i].sprite = blankHP;
-            }
+            playerHpUI.GetComponent<Image>().sprite = maruLife[cLife];
         }
     }
 
