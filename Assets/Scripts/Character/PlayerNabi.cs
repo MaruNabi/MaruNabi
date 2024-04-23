@@ -22,8 +22,9 @@ public class PlayerNabi : Player
     private GameObject playerSkills;
 
     [SerializeField]
-    private Image[] nabiLife;
-    public Sprite blankHP, fillHP;
+    private Image playerHpUI;
+
+    private Sprite[] nabiLife = new Sprite[6];
 
     void Start()
     {
@@ -43,6 +44,13 @@ public class PlayerNabi : Player
         ultimateGauge = 0.0f;
 
         reviveEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/HyperCasual/Area/Area_heal_green");
+
+        for (int i = 0; i < nabiLife.Length; i++)
+        {
+            nabiLife[i] = Resources.Load<Sprite>("UI/PlayerUI/UI_Stage_NabiIcon_" + i);
+        }
+
+        UpdateLifeUI();
 
         Managers.Pool.CreatePool(bulletPrefab, 20);
         Managers.Pool.CreatePool(skillPrefab, 5);
@@ -242,7 +250,7 @@ public class PlayerNabi : Player
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
             Debug.Log("Enemy Hit");
             if (isInvincibleTime)
@@ -275,16 +283,9 @@ public class PlayerNabi : Player
 
     private void UpdateLifeUI()
     {
-        for (int i = 0; i < MAX_LIFE; i++)
+        if (cLife >= 0)
         {
-            if (i < cLife)
-            {
-                nabiLife[i].sprite = fillHP;
-            }
-            else
-            {
-                nabiLife[i].sprite = blankHP;
-            }
+            playerHpUI.GetComponent<Image>().sprite = nabiLife[cLife];
         }
     }
 }

@@ -6,8 +6,8 @@ public class Player : MonoBehaviour
 {
     protected bool characterID;                       //True : Maru, False : Nabi
     protected string characterName;
-    public const int MAX_LIFE = 3;
-    protected int cLife = 3;
+    public const int MAX_LIFE = 5;
+    protected int cLife = 5;
     [SerializeField]
     [Range(0, 10)]
     protected float cSpeed = 6.0f;                     //Character Speed
