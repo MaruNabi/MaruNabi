@@ -13,11 +13,16 @@ public enum DialogueType
 public class PrepareSceneUIData : ScriptableObject
 {
     [Header("Info")]
-    public string displayName;
-    public string description;
+    public string[] displayName;
+    [TextArea]
+    public string[] description;
     public DialogueType type;
     public Sprite selectedImage;        //border
     public Sprite unSelectedImage;      //normal
     public Sprite selectingImage;       //now selected in skill set
     public Sprite disableImage;         //before selected
+
+    [Header("ChangeSkillIcon")]
+    public Sprite changeImagePoolSlot;
+    public Sprite[] changeImagePoolDescript;
 }
