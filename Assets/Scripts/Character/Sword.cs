@@ -54,7 +54,7 @@ public class Sword : MonoBehaviour
     {
         yield return new WaitForSeconds(bulletHoldingTime);
         lockedSwordVector = new Vector2(0.0f, 0.0f);
-        Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
+        Managers.Pool.Push(Utils.GetOrAddComponent<Poolable>(this.gameObject));
     }
 
     protected virtual void AttackInstantiate()

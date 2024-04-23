@@ -61,13 +61,13 @@ public class Bullet : MonoBehaviour
         isOneInit = true;
         yield return new WaitForSeconds(bulletHoldingTime);
         lockedBulletVector = new Vector2(0.0f, 0.0f);
-        Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
+        Managers.Pool.Push(Utils.GetOrAddComponent<Poolable>(this.gameObject));
     }
 
     protected void DestroyBullet()
     {
         lockedBulletVector = new Vector2(0.0f, 0.0f);
-        Managers.Pool.Push(ComponentUtil.GetOrAddComponent<Poolable>(this.gameObject));
+        Managers.Pool.Push(Utils.GetOrAddComponent<Poolable>(this.gameObject));
     }
 
     protected virtual void AttackInstantiate()
