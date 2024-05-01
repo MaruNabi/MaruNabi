@@ -50,6 +50,11 @@ public class PlayerNabi : Player
             nabiLife[i] = Resources.Load<Sprite>("UI/PlayerUI/UI_Stage_NabiIcon_" + i);
         }
 
+        for (int i = 0; i < canPlayerState.Length; i++)
+        {
+            canPlayerState[i] = true;
+        }
+
         UpdateLifeUI();
 
         Managers.Pool.CreatePool(bulletPrefab, 20);
@@ -64,10 +69,10 @@ public class PlayerNabi : Player
         }
 
         //Jump
-        if (Input.GetKeyDown(KeyCode.RightShift) && !isJumping && !isSitting && canJump)
+        if (Input.GetKeyDown(KeyCode.RightShift) && !isJumping && !isSitting && canPlayerState[3])
         {
             PlayerJump(cMiniJumpPower);
-            canJump = false;
+            canPlayerState[3] = false;
             isJumpingEnd = false;
         }
 
@@ -79,7 +84,7 @@ public class PlayerNabi : Player
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
             }
-            canJump = true;
+            canPlayerState[3] = true;
         }
 
         if (Input.GetKeyDown(KeyCode.L))
@@ -93,7 +98,7 @@ public class PlayerNabi : Player
         }
 
         //ToDo : getkey and curtime switch
-        if (curTime <= 0 && canAtk)
+        if (curTime <= 0 && canPlayerState[4])
         {
             if (Input.GetKey(KeyCode.RightBracket) && !isAttacksNow)
             {
@@ -117,17 +122,17 @@ public class PlayerNabi : Player
             //Playeranimator isatk false
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftArrow) && canDash && !isSitting)
+        if (Input.GetKeyUp(KeyCode.LeftArrow) && canPlayerState[1] && !isSitting)
         {
             DoubleClickDash(true);
         }
 
-        if (Input.GetKeyUp(KeyCode.RightArrow) && canDash && !isSitting)
+        if (Input.GetKeyUp(KeyCode.RightArrow) && canPlayerState[1] && !isSitting)
         {
             DoubleClickDash(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) && canSit && !isJumping)
+        if (Input.GetKeyDown(KeyCode.DownArrow) && canPlayerState[2] && !isJumping)
         {
             StartCoroutine(PlayerSit());
         }
@@ -135,8 +140,8 @@ public class PlayerNabi : Player
         if (Input.GetKeyUp(KeyCode.DownArrow) && isSitting)
         {
             isSitting = false;
-            canDash = true;
-            canMove = true;
+            canPlayerState[0] = true;
+            canPlayerState[1] = true;
             playerAnimator.SetBool("isSit", false);
         }
 
@@ -207,7 +212,7 @@ public class PlayerNabi : Player
             return;
         }
 
-        if (canMove)
+        if (canPlayerState[0])
         {
             PlayerMove();
         }
@@ -265,8 +270,11 @@ public class PlayerNabi : Player
             if (isInvincibleTime)
                 return;
 
+            if (!canPlayerState[5])
+                return;
+
             isHit = true;
-            canMove = false;
+            canPlayerState[0] = false;
 
             if (cLife > 1)
             {
@@ -290,8 +298,11 @@ public class PlayerNabi : Player
             if (isInvincibleTime)
                 return;
 
+            if (!canPlayerState[5])
+                return;
+
             isHit = true;
-            canMove = false;
+            canPlayerState[0] = false;
 
             if (cLife > 1)
             {

@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     [Range(0, 10)]
     protected float cSpeed = 6.0f;                     //Character Speed
-    protected bool canMove = true;
+    protected bool[] canPlayerState = new bool[6];      //move, dash, sit, jump, atk, hit
     protected const float maxUltimateGauge = 1500.0f;
     public static bool isReviveSuccess = false;
     private bool isTimerEnd = false;
@@ -35,16 +35,11 @@ public class Player : MonoBehaviour
     private float cDashPower = 20.0f;
     private float cDashTime = 0.2f;
     private float cDashCooldown = 2.0f;
-    protected bool canDash = true;
     protected bool isDashing = false;
 
-    protected bool canSit = true;
     protected bool isSitting = false;
     protected Vector2 defaultPlayerColliderSize;
     protected Vector2 sitPlayerColliderSize;
-
-    protected bool canAtk = true;
-    protected bool canJump = true;
 
     protected bool isInvincibleTime = false;
     protected bool isHit = false;
@@ -147,7 +142,6 @@ public class Player : MonoBehaviour
 
     protected IEnumerator Death()
     {
-        canMove = false;
         isTimerEnd = false;
         isReviveSuccess = false;
         isCalledOnce = true;
@@ -174,6 +168,7 @@ public class Player : MonoBehaviour
 
         if (!isReviveSuccess)
         {
+            PlayerStateTransition(false);
             this.gameObject.SetActive(false);
             reviveZone.SetActive(false);
         }
@@ -187,7 +182,7 @@ public class Player : MonoBehaviour
     protected virtual IEnumerator Revive()
     {
         reviveZone.SetActive(false);
-        canMove = true;
+        canPlayerState[0] = true;
         cLife = 1;
         playerAnimator.SetBool("isDead", false);
         Instantiate(reviveEffect, transform);
@@ -206,7 +201,7 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             playerAnimator.SetBool("isHit", false);
             isHit = false;
-            canMove = true;
+            canPlayerState[0] = true;
             yield return new WaitForSeconds(2.5f);
         }
     }
@@ -237,7 +232,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator PlayerDash()
     {
-        canDash = false;
+        canPlayerState[1] = false;
         isDashing = true;
         Instantiate(dashEffect, transform.position, dashEffect.transform.rotation);
         dashEffect.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
@@ -257,34 +252,42 @@ public class Player : MonoBehaviour
         isDashing = false;
         playerAnimator.SetBool("isDash", false);
         yield return new WaitForSeconds(cDashCooldown);
-        canDash = true;
+        canPlayerState[1] = true;
     }
 
     protected IEnumerator PlayerSit(bool isTimeLimit = false, float time = 0.5f)
     {
         isSitting = true;
         playerAnimator.SetBool("isSit", true);
-        canDash = false;
-        canMove = false;
+        canPlayerState[1] = false;
+        canPlayerState[0] = false;
         defaultAtkPosition = atkPosition.transform.localPosition;
         sitAtkPosition = defaultAtkPosition;
         sitAtkPosition.y = defaultAtkPosition.y - 0.7f;
         playerCollider.size = sitPlayerColliderSize;
         atkPosition.transform.localPosition = sitAtkPosition;
-        if (canDash)
+        if (canPlayerState[1])
         {
-            canDash = false;
+            canPlayerState[1] = false;
         }
         if (isTimeLimit)
         {
             yield return new WaitForSeconds(time);
             isSitting = false;
-            canDash = true;
-            canMove = true;
+            canPlayerState[1] = true;
+            canPlayerState[0] = true;
             playerAnimator.SetBool("isSit", false);
         }
         yield return new WaitUntil(() => isSitting == false);
         playerCollider.size = defaultPlayerColliderSize;
         atkPosition.transform.localPosition = defaultAtkPosition;
+    }
+
+    public void PlayerStateTransition(bool _set, int _index = 4)
+    {
+        for (int i = _index; i < canPlayerState.Length; i++)
+        {
+            canPlayerState[i] = _set;
+        }
     }
 }

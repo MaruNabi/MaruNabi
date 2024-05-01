@@ -14,6 +14,7 @@ public class PrepareSceneManager : BaseScene
     private GameObject selectActivateSprite;
     private int selectedButtonIndex = 0;
     private int buttonCount;
+    private bool isActive;
 
     public PrepareScene maruUIManager;
     public PrepareScene nabiUIManager;
@@ -21,13 +22,18 @@ public class PrepareSceneManager : BaseScene
     void Start()
     {
         buttonCount = buttons.Length;
-
+        isActive = false;
         finalGuess.SetActive(false);
     }
 
     void Update()
     {
         if (maruUIManager.isReady == true && nabiUIManager.isReady == true)
+        {
+            isActive = true;
+        }
+
+        if (isActive)
         {
             finalGuess.SetActive(true);
             ButtonsControl();
@@ -60,7 +66,10 @@ public class PrepareSceneManager : BaseScene
 
         if (Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.RightBracket))
         {
-            ExeFunction();
+            if (isActive)
+            {
+                ExeFunction();
+            }
         }
     }
 
@@ -72,6 +81,7 @@ public class PrepareSceneManager : BaseScene
                 OnClickGameStart();
                 break;
             case 1:
+                isActive = false;
                 finalGuess.SetActive(false);
                 break;
             default:

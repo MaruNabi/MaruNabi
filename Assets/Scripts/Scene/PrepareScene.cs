@@ -281,7 +281,7 @@ public class PrepareScene : MonoBehaviour
         {
             isReady = true;
             //.SetEase(Ease.InOutBack)
-            pannel.transform.DOLocalMoveY(pannelMovePos, 0.5f);
+            pannel.transform.DOLocalMoveY(pannelMovePos, 0.5f).SetEase(Ease.InOutBack);
             UIMatrics[currentDepth][0].GetComponent<Image>().sprite = selectedUI.disableImage;
 
             for (int i = 0; i < skillSlotSelect.Length; i++)
