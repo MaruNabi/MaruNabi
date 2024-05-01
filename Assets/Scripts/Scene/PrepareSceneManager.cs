@@ -2,25 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class TitleScene : BaseScene
+public class PrepareSceneManager : BaseScene
 {
     [SerializeField]
+    private GameObject finalGuess;
+    [SerializeField]
     private Image[] buttons;
+    [SerializeField]
+    private GameObject selectActivateSprite;
     private int selectedButtonIndex = 0;
     private int buttonCount;
 
-    [SerializeField]
-    private Sprite selectedSprite, unSelectedSprite;
+    public PrepareScene maruUIManager;
+    public PrepareScene nabiUIManager;
 
     void Start()
     {
         buttonCount = buttons.Length;
+
+        finalGuess.SetActive(false);
     }
 
     void Update()
     {
-        ButtonsControl();
+        if (maruUIManager.isReady == true && nabiUIManager.isReady == true)
+        {
+            finalGuess.SetActive(true);
+            ButtonsControl();
+        }
     }
 
     protected override void Init()
@@ -30,11 +41,11 @@ public class TitleScene : BaseScene
 
     private void ButtonsControl()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
         }
@@ -42,12 +53,12 @@ public class TitleScene : BaseScene
         for (int i = 0; i < buttons.Length; i++)
         {
             if (i == selectedButtonIndex)
-                buttons[i].GetComponent<Image>().sprite = selectedSprite;
-            else
-                buttons[i].GetComponent<Image>().sprite = unSelectedSprite;
+            {
+                selectActivateSprite.transform.localPosition = buttons[i].transform.localPosition;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.RightBracket))
         {
             ExeFunction();
         }
@@ -55,16 +66,13 @@ public class TitleScene : BaseScene
 
     private void ExeFunction()
     {
-        switch(selectedButtonIndex)
+        switch (selectedButtonIndex)
         {
             case 0:
                 OnClickGameStart();
                 break;
             case 1:
-                break;
-            case 2:
-                break;
-            case 3:
+                finalGuess.SetActive(false);
                 break;
             default:
                 Debug.LogError("Not Found Button");
@@ -81,6 +89,6 @@ public class TitleScene : BaseScene
 
     public override void Clear()
     {
-        
+
     }
 }

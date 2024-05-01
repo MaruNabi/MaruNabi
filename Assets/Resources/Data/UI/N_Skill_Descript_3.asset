@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da78c9c1e5b18d5408ac89b2237a65c8, type: 3}
+  m_Name: N_Skill_Descript_3
+  m_EditorClassIdentifier: 
+  displayName:
+  - "\uCD08\uC2E0\uC131"
+  - "\uC800\uC8FC \uC0B4"
+  - "\uBD88\uAF43 \uD0C4\uD658"
+  description:
+  - "\uCEE4\uB2E4\uB780 \uB3C4\uAE68\uBE44\uBD88\uC744 \uC55E\uC73C\uB85C \uC3D8\uC544\uB0C5\uB2C8\uB2E4.\n\uB2E4\uC18C
+    \uB290\uB9AC\uC9C0\uB9CC, \uC9C4\uD589 \uBC29\uD5A5\uC5D0 \uC788\uB294 \uBAA8\uB4E0
+    \uC801\uC744 \uACF5\uACA9\uD569\uB2C8\uB2E4."
+  - "\uAC00\uC7A5 \uAC00\uAE4C\uC6B4 \uC801\uC5D0\uAC8C \uBD80\uC801\uC744 \uC3D8\uC544\uB0B8
+    \uC774\uD6C4, \uADF8 \uC704\uB85C \uC800\uC8FC\uC758 \uD654\uC0B4\uC744 \uB0A0\uB9BD\uB2C8\uB2E4.\n\uC801\uC774
+    \uC788\uB2E4\uBA74 \uC5B4\uB514\uB4E0 \uCAD3\uC544\uAC11\uB2C8\uB2E4."
+  - "\uC544\uC8FC \uC791\uC740 \uD06C\uAE30\uC758 \uD0C4\uD658\uC744 \uC55E\uC73C\uB85C
+    \uBE60\uB974\uAC8C \uC3D8\uC544\uB0C5\uB2C8\uB2E4.\n\uC870\uC900\uC740 \uC5B4\uB835\uC9C0\uB9CC,
+    \uADF8 \uC704\uB825\uC740 \uB9E4\uC6B0 \uAC15\uD569\uB2C8\uB2E4."
+  type: 1
+  selectedImage: {fileID: 21300000, guid: 6b7afbaf5a6d3184083863d524710397, type: 3}
+  unSelectedImage: {fileID: 21300000, guid: 203f2f2c731a7d84eb4a6ba2b6371657, type: 3}
+  selectingImage: {fileID: 0}
+  disableImage: {fileID: 0}
+  changeImagePoolSlot: {fileID: 0}
+  changeImagePoolDescript: []

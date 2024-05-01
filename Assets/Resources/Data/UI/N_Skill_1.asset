@@ -10,15 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da78c9c1e5b18d5408ac89b2237a65c8, type: 3}
-  m_Name: ThirdSlot
+  m_Name: N_Skill_1
   m_EditorClassIdentifier: 
   displayName:
-  - "\uB450\uBC88\uC9F8 \uC2A4\uD0AC"
+  - "\uAD6C\uC2AC"
   description: []
   type: 0
-  selectedImage: {fileID: 21300000, guid: 3ce45bd4819c2654fa5ab396bbbd2ddb, type: 3}
-  unSelectedImage: {fileID: 21300000, guid: 5af72999311f9ec4fbb5d8d8529f6eb8, type: 3}
+  selectedImage: {fileID: 21300000, guid: 84fc41024e67a8141a293844af9a0ade, type: 3}
+  unSelectedImage: {fileID: 21300000, guid: fd6ffd94c22743f45bbc09fb26bddded, type: 3}
   selectingImage: {fileID: 21300000, guid: 44b33958d4138df42964e3c856f61af4, type: 3}
   disableImage: {fileID: 21300000, guid: a976a775e66bbf841bf7e6f9146b1a32, type: 3}
-  changeImagePoolSlot: {fileID: 0}
-  changeImagePoolDescript: []
+  changeImagePoolSlot: {fileID: 21300000, guid: 255afd075c35d374b968867391cde88a, type: 3}
+  changeImagePoolDescript:
+  - {fileID: 21300000, guid: a2635f881a47ac443926ce26a1d15dc5, type: 3}
+  - {fileID: 21300000, guid: eddd8a0d807ce8240b77b0e150c2004e, type: 3}
+  - {fileID: 21300000, guid: 2cb850a19a2251f48b95dac4c67676d3, type: 3}

@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da78c9c1e5b18d5408ac89b2237a65c8, type: 3}
-  m_Name: ForthSlot
+  m_Name: Trait_3
   m_EditorClassIdentifier: 
   displayName:
-  - "\uB450\uBC88\uC9F8 \uD2B9\uC131"
-  description: []
-  type: 0
-  selectedImage: {fileID: 21300000, guid: 6a7c5929242125242ab70dbfe5b9d800, type: 3}
-  unSelectedImage: {fileID: 21300000, guid: 6ec884fef02ef1d438f1ee8bc5d35129, type: 3}
+  - "\uCD95\uC9C0\uC220"
+  description:
+  - "\uC774\uB3D9 \uC18D\uB3C4\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  type: 1
+  selectedImage: {fileID: 21300000, guid: 15881204d61696b4a878af5a77c4c165, type: 3}
+  unSelectedImage: {fileID: 21300000, guid: c319b0c030f6993409eafc0049fa7a96, type: 3}
   selectingImage: {fileID: 21300000, guid: bbdf72be90e82ff4dac4871c3646d686, type: 3}
-  disableImage: {fileID: 21300000, guid: c319b0c030f6993409eafc0049fa7a96, type: 3}
-  changeImagePoolSlot: {fileID: 0}
+  disableImage: {fileID: 21300000, guid: 53ca52a75219a4541a7729d360feff4a, type: 3}
+  changeImagePoolSlot: {fileID: 21300000, guid: 1b70903c3dd1aea4e91637e5cf5937de, type: 3}
   changeImagePoolDescript: []

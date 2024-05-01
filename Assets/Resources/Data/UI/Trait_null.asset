@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da78c9c1e5b18d5408ac89b2237a65c8, type: 3}
-  m_Name: ForthSlot
+  m_Name: Trait_null
   m_EditorClassIdentifier: 
   displayName:
-  - "\uB450\uBC88\uC9F8 \uD2B9\uC131"
+  - "\uBE48 \uC2AC\uB86F"
   description: []
   type: 0
-  selectedImage: {fileID: 21300000, guid: 6a7c5929242125242ab70dbfe5b9d800, type: 3}
-  unSelectedImage: {fileID: 21300000, guid: 6ec884fef02ef1d438f1ee8bc5d35129, type: 3}
-  selectingImage: {fileID: 21300000, guid: bbdf72be90e82ff4dac4871c3646d686, type: 3}
-  disableImage: {fileID: 21300000, guid: c319b0c030f6993409eafc0049fa7a96, type: 3}
+  selectedImage: {fileID: 21300000, guid: c267857c3f8b15242ba4954998368421, type: 3}
+  unSelectedImage: {fileID: 21300000, guid: c267857c3f8b15242ba4954998368421, type: 3}
+  selectingImage: {fileID: 21300000, guid: c267857c3f8b15242ba4954998368421, type: 3}
+  disableImage: {fileID: 21300000, guid: c267857c3f8b15242ba4954998368421, type: 3}
   changeImagePoolSlot: {fileID: 0}
   changeImagePoolDescript: []

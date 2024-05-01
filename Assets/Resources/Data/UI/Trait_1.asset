@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da78c9c1e5b18d5408ac89b2237a65c8, type: 3}
+  m_Name: Trait_1
+  m_EditorClassIdentifier: 
+  displayName:
+  - "\uB3C4\uC57D\uC220"
+  description:
+  - "\uACF5\uC911\uC5D0\uC11C \uD55C\uBC88 \uB354 \uB3C4\uC57D\uC744 \uD560 \uC218
+    \uC788\uC2B5\uB2C8\uB2E4."
+  type: 1
+  selectedImage: {fileID: 21300000, guid: 15881204d61696b4a878af5a77c4c165, type: 3}
+  unSelectedImage: {fileID: 21300000, guid: c319b0c030f6993409eafc0049fa7a96, type: 3}
+  selectingImage: {fileID: 21300000, guid: bbdf72be90e82ff4dac4871c3646d686, type: 3}
+  disableImage: {fileID: 21300000, guid: 53ca52a75219a4541a7729d360feff4a, type: 3}
+  changeImagePoolSlot: {fileID: 21300000, guid: 092305d02cfedc04db402afbec685f62, type: 3}
+  changeImagePoolDescript: []

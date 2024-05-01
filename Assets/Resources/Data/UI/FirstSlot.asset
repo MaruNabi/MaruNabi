@@ -18,11 +18,7 @@ MonoBehaviour:
   type: 0
   selectedImage: {fileID: 21300000, guid: 3ce45bd4819c2654fa5ab396bbbd2ddb, type: 3}
   unSelectedImage: {fileID: 21300000, guid: 5af72999311f9ec4fbb5d8d8529f6eb8, type: 3}
-  selectingImage: {fileID: 0}
-  disableImage: {fileID: 0}
-  canChangeImage: 1
-  canChangeText: 0
-  changeImagePool:
-  - {fileID: 21300000, guid: 5bdc589765a53204a9470cfeba7a468f, type: 3}
-  - {fileID: 21300000, guid: 745997c01e4ab8048a55c333442242ae, type: 3}
-  - {fileID: 21300000, guid: 1031c2250207d8b4396d56d8cb8736d2, type: 3}
+  selectingImage: {fileID: 21300000, guid: 44b33958d4138df42964e3c856f61af4, type: 3}
+  disableImage: {fileID: 21300000, guid: a976a775e66bbf841bf7e6f9146b1a32, type: 3}
+  changeImagePoolSlot: {fileID: 0}
+  changeImagePoolDescript: []
