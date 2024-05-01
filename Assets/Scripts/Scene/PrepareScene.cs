@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 
-public class PrepareScene : BaseScene
+public class PrepareScene : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] skillSlots;
@@ -21,16 +21,21 @@ public class PrepareScene : BaseScene
     public GameObject skillSetWindow;
     public GameObject traitWindow;
 
+    public bool isMaruUI;
+    public bool isReady = false;
+
     private GameObject[] skill = new GameObject[3];
     private GameObject[] skillDescript = new GameObject[3];
     private GameObject[] trait_1 = new GameObject[4];
     private GameObject[] trait_2 = new GameObject[4];
     private GameObject[][] UIMatrics = new GameObject[4][];
+    private KeyCode[] keys = new KeyCode[5];
     private int[] skillSlotSelect;
     private int currentSlot;
     private int currentDepth;
     private int currentSelectSkill;
     private int previousSlot;
+    private char playerName;
 
     private Image[] skillSlotImage;
     private Image[] skillDescriptImage;
@@ -61,6 +66,7 @@ public class PrepareScene : BaseScene
         skillSetMovePos = 406;
         pannelOriginPos = 35.87f;
         pannelMovePos = 874;
+        isReady = false;
         skillBorderImage.SetActive(false);
         traitBorderImage.SetActive(false);
         descriptionTail.SetActive(false);
@@ -70,10 +76,29 @@ public class PrepareScene : BaseScene
         skillSlotSelect = new int[skillSlots.Length];
         skillDescriptImage = new Image[3];
 
+        if (isMaruUI)
+        {
+            keys[0] = KeyCode.W;
+            keys[1] = KeyCode.A;
+            keys[2] = KeyCode.S;
+            keys[3] = KeyCode.D;
+            keys[4] = KeyCode.V;
+            playerName = 'M';
+        }
+        else
+        {
+            keys[0] = KeyCode.UpArrow;
+            keys[1] = KeyCode.LeftArrow;
+            keys[2] = KeyCode.DownArrow;
+            keys[3] = KeyCode.RightArrow;
+            keys[4] = KeyCode.RightBracket;
+            playerName = 'N';
+        }
+
         for (int i = 0; i < skill.Length; i++)
         {
-            skill[i] = GameObject.Find("M_Skill_" + (i + 1));
-            skillDescript[i] = GameObject.Find("M_SkillDescript_" + (i + 1));
+            skill[i] = GameObject.Find(playerName + "_Skill_" + (i + 1));
+            skillDescript[i] = GameObject.Find(playerName + "_SkillDescript_" + (i + 1));
             skillDescriptImage[i] = skillDescript[i].transform.GetChild(0).GetComponent<Image>();
         }
 
@@ -88,18 +113,13 @@ public class PrepareScene : BaseScene
         UIMatrics[1] = skill;
         UIMatrics[2] = skillDescript;
         UIMatrics[3] = readyButton;
+
+        SetSkill();
     }
 
     void Update()
     {
         ButtonsControl();
-    }
-
-    protected override void Init()
-    {
-        base.Init();
-
-        SetSkill();
     }
 
     private void SetSlots(int curRow)
@@ -118,43 +138,46 @@ public class PrepareScene : BaseScene
     {
         SelectSlot();
 
-        if (Input.anyKeyDown)
+        if (!isReady)
         {
-            isSetPosAndSprite = false;
-            if (currentDepth != 1)
+            if (Input.anyKeyDown)
             {
-                UIMatrics[currentDepth][selectedButtonIndex].GetComponent<Image>().sprite = selectedUI.unSelectedImage;
+                isSetPosAndSprite = false;
+                if (currentDepth != 1)
+                {
+                    UIMatrics[currentDepth][selectedButtonIndex].GetComponent<Image>().sprite = selectedUI.unSelectedImage;
+                }
+            }
+
+            if (Input.GetKeyDown(keys[1]))
+            {
+                selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
+            }
+            else if (Input.GetKeyDown(keys[3]))
+            {
+                selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
+            }
+
+            if (Input.GetKeyDown(keys[0]))
+            {
+                if (currentDepth != 0)
+                {
+                    SetSlots(currentDepth - 1);
+                    currentDepth -= 1;
+                }
+            }
+
+            if (Input.GetKeyDown(keys[2]))
+            {
+                if (currentDepth < 3)
+                {
+                    SetSlots(currentDepth + 1);
+                    currentDepth += 1;
+                }
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
-        }
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (currentDepth != 0)
-            {
-                SetSlots(currentDepth - 1);
-                currentDepth -= 1;
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            if (currentDepth < 3)
-            {
-                SetSlots(currentDepth + 1);
-                currentDepth += 1;
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(keys[4]))
         {
             switch (currentDepth)
             {
@@ -253,11 +276,12 @@ public class PrepareScene : BaseScene
     {
         if (!canReady)
             return;
-        else
+
+        if (!isReady)
         {
+            isReady = true;
             //.SetEase(Ease.InOutBack)
             pannel.transform.DOLocalMoveY(pannelMovePos, 0.5f);
-            Debug.Log(UIMatrics[currentDepth][0]);
             UIMatrics[currentDepth][0].GetComponent<Image>().sprite = selectedUI.disableImage;
 
             for (int i = 0; i < skillSlotSelect.Length; i++)
@@ -265,10 +289,19 @@ public class PrepareScene : BaseScene
                 //player data send
             }
         }
+        else
+        {
+            isReady = false;
+            pannel.transform.DOLocalMoveY(pannelOriginPos, 0.5f);
+            UIMatrics[currentDepth][0].GetComponent<Image>().sprite = selectedUI.selectingImage;
+        }
     }
 
     private void SelectSlot()
     {
+        if (isReady)
+            return;
+
         if (UIMatrics[currentDepth].Length - 1 <= selectedButtonIndex)
         {
             selectedButtonIndex = UIMatrics[currentDepth].Length - 1;
@@ -345,8 +378,8 @@ public class PrepareScene : BaseScene
 
         for (int i = 0; i < skill.Length; i++)
         {
-            skill[i] = GameObject.Find("M_Skill_" + (i + 1));
-            skillDescript[i] = GameObject.Find("M_SkillDescript_" + (i + 1));
+            skill[i] = GameObject.Find(playerName + "_Skill_" + (i + 1));
+            skillDescript[i] = GameObject.Find(playerName + "_SkillDescript_" + (i + 1));
             skillDescriptImage[i] = skillDescript[i].transform.GetChild(0).GetComponent<Image>();
         }
 
@@ -376,23 +409,18 @@ public class PrepareScene : BaseScene
 
         for (int i = 0; i < trait_1.Length; i++)
         {
-            trait_1[i] = GameObject.Find("M_Trait_" + (i + 1));
-            trait_2[i] = GameObject.Find("M_Trait_" + (i + 5));
-        }
-
-        if (skillSlotSelect[currentSlot] != 0)
-        {
-            UIMatrics[1][skillSlotSelect[currentSlot] - 1].GetComponent<Image>().sprite = selectedUI.selectingImage;
+            trait_1[i] = GameObject.Find(playerName + "_Trait_" + (i + 1));
+            trait_2[i] = GameObject.Find(playerName + "_Trait_" + (i + 5));
         }
 
         if (skillSlotSelect[4 - currentSlot] != 0)
         {
             UIMatrics[1][skillSlotSelect[4 - currentSlot] - 1].GetComponent<Image>().sprite = selectedUI.disableImage;
         }
-    }
 
-    public override void Clear()
-    {
-
+        if (skillSlotSelect[currentSlot] != 0)
+        {
+            UIMatrics[1][skillSlotSelect[currentSlot] - 1].GetComponent<Image>().sprite = selectedUI.selectingImage;
+        }
     }
 }

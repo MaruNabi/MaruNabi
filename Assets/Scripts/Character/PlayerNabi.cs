@@ -248,11 +248,45 @@ public class PlayerNabi : Player
         base.PlayerMove();
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        PlayerHitBullet(collision);
+    }
+
     private void OnCollisionStay2D(Collision2D collision)
+    {
+        PlayerHitMonster(collision);
+    }
+
+    private void PlayerHitBullet(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
-            Debug.Log("Enemy Hit");
+            if (isInvincibleTime)
+                return;
+
+            isHit = true;
+            canMove = false;
+
+            if (cLife > 1)
+            {
+                cLife -= 1;
+                StartCoroutine(Ondamaged(collision.transform.position));
+            }
+            else
+            {
+                cLife -= 1;
+                StartCoroutine(Death());
+            }
+
+            UpdateLifeUI();
+        }
+    }
+
+    private void PlayerHitMonster(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
+        {
             if (isInvincibleTime)
                 return;
 
