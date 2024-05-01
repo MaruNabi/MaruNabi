@@ -54,6 +54,11 @@ public class PlayerMaru : Player
             maruLife[i] = Resources.Load<Sprite>("UI/PlayerUI/UI_Stage_MaruIcon_" + i);
         }
 
+        for (int i = 0; i < canPlayerState.Length; i++)
+        {
+            canPlayerState[i] = true;
+        }
+
         UpdateLifeUI();
 
         Managers.Pool.CreatePool(swordPrefab, 2);
@@ -68,10 +73,10 @@ public class PlayerMaru : Player
         }
 
         //Jump
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting && canJump)
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting && canPlayerState[3])
         {
             PlayerJump(cMiniJumpPower);
-            canJump = false;
+            canPlayerState[3] = false;
             isJumpingEnd = false;
         }
 
@@ -83,7 +88,7 @@ public class PlayerMaru : Player
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
             }
-            canJump = true;
+            canPlayerState[3] = true;
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -96,7 +101,7 @@ public class PlayerMaru : Player
             isLock = false;
         }
 
-        if (Input.GetKey(KeyCode.V) && canAtk)
+        if (Input.GetKey(KeyCode.V) && canPlayerState[4])
         {
             playerAnimator.SetBool("isAtk", true);
             if (!attacksNow)
@@ -113,22 +118,22 @@ public class PlayerMaru : Player
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.V) && canAtk)
+        if (Input.GetKeyUp(KeyCode.V) && canPlayerState[4])
         {
             playerAnimator.SetBool("isAtk", false);
         }
 
-        if (Input.GetKeyUp(KeyCode.A) && canDash && !isSitting)
+        if (Input.GetKeyUp(KeyCode.A) && canPlayerState[1] && !isSitting)
         {
             DoubleClickDash(true);
         }
 
-        if (Input.GetKeyUp(KeyCode.D) && canDash && !isSitting)
+        if (Input.GetKeyUp(KeyCode.D) && canPlayerState[1] && !isSitting)
         {
             DoubleClickDash(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.S) && canSit && !isJumping)
+        if (Input.GetKeyDown(KeyCode.S) && canPlayerState[2] && !isJumping)
         {
             StartCoroutine(PlayerSit());
         }
@@ -136,8 +141,8 @@ public class PlayerMaru : Player
         if (Input.GetKeyUp(KeyCode.S) && isSitting)
         {
             isSitting = false;
-            canDash = true;
-            canMove = true;
+            canPlayerState[0] = true;
+            canPlayerState[1] = true;
             playerAnimator.SetBool("isSit", false);
         }
 
@@ -214,7 +219,7 @@ public class PlayerMaru : Player
             return;
         }
 
-        if (canMove)
+        if (canPlayerState[0])
         {
             PlayerMove();
         }
@@ -271,8 +276,11 @@ public class PlayerMaru : Player
             if (isInvincibleTime)
                 return;
 
+            if (!canPlayerState[5])
+                return;
+
             isHit = true;
-            canMove = false;
+            canPlayerState[0] = false;
 
             if (cLife > 1)
             {
@@ -296,8 +304,11 @@ public class PlayerMaru : Player
             if (isInvincibleTime)
                 return;
 
+            if (!canPlayerState[5])
+                return;
+
             isHit = true;
-            canMove = false;
+            canPlayerState[0] = false;
 
             if (cLife > 1)
             {
@@ -331,14 +342,9 @@ public class PlayerMaru : Player
 
     private IEnumerator PlayerShield()
     {
-        
         playerShield.SetActive(true);
-        
-        canMove = false;
-        canDash = false;
-        canSit = false;
-        canJump = false;
-        canAtk = false;
+
+        PlayerStateTransition(false, 0);
         //Shield on
         yield return new WaitForSeconds(0.25f);
         //Shield Idle
@@ -346,11 +352,7 @@ public class PlayerMaru : Player
         //Shield Off
         playerAnimator.SetBool("isDefence", false);
         yield return new WaitForSeconds(0.25f);
-        canMove = true;
-        canDash = true;
-        canSit = true;
-        canJump = true;
-        canAtk = true;
+        PlayerStateTransition(true, 0);
         playerShield.SetActive(false);
     }
 
@@ -381,11 +383,7 @@ public class PlayerMaru : Player
             target3 = transform.position + new Vector3(6, 0, 0);
         }
 
-        canMove = false;
-        canDash = false;
-        canSit = false;
-        canJump = false;
-        canAtk = false;
+        PlayerStateTransition(false, 0);
 
         float playerGravity = rigidBody.gravityScale;
         rigidBody.gravityScale = 0f;
@@ -407,10 +405,6 @@ public class PlayerMaru : Player
         rigidBody.gravityScale = playerGravity;
         playerCollider.isTrigger = false;
 
-        canMove = true;
-        canDash = true;
-        canSit = true;
-        canJump = true;
-        canAtk = true;
+        PlayerStateTransition(true, 0);
     }
 }
