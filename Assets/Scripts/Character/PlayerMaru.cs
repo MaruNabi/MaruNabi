@@ -27,7 +27,8 @@ public class PlayerMaru : Player
     [SerializeField]
     private Image playerHpUI;
 
-    private Sprite[] maruLife = new Sprite[6];
+    private Sprite[] maruLifeSprite = new Sprite[6];
+    private int currentHp;
 
     void Start()
     {
@@ -46,12 +47,13 @@ public class PlayerMaru : Player
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
+        currentHp = cLife;
 
         reviveEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/HyperCasual/Area/Area_heal_green");
 
-        for (int i = 0; i < maruLife.Length; i++)
+        for (int i = 0; i < maruLifeSprite.Length; i++)
         {
-            maruLife[i] = Resources.Load<Sprite>("UI/PlayerUI/UI_Stage_MaruIcon_" + i);
+            maruLifeSprite[i] = Resources.Load<Sprite>("UI/PlayerUI/UI_Stage_MaruIcon_" + i);
         }
 
         for (int i = 0; i < canPlayerState.Length; i++)
@@ -177,6 +179,11 @@ public class PlayerMaru : Player
             }
         }
 
+        if (currentHp != cLife)
+        {
+            UpdateLifeUI();
+        }
+
         //Animation Script
         if (rigidBody.velocity.normalized.x == 0)
         {
@@ -261,67 +268,17 @@ public class PlayerMaru : Player
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        PlayerHitBullet(collision);
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            PlayerHit(collision.transform.position);
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        PlayerHitMonster(collision);
-    }
-
-    private void PlayerHitBullet(Collider2D collision)
-    {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
-            if (isInvincibleTime)
-                return;
-
-            if (!canPlayerState[5])
-                return;
-
-            isHit = true;
-            canPlayerState[0] = false;
-
-            if (cLife > 1)
-            {
-                cLife -= 1;
-                StartCoroutine(Ondamaged(collision.transform.position));
-            }
-            else
-            {
-                cLife -= 1;
-                StartCoroutine(Death());
-            }
-
-            UpdateLifeUI();
-        }
-    }
-
-    private void PlayerHitMonster(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
-        {
-            if (isInvincibleTime)
-                return;
-
-            if (!canPlayerState[5])
-                return;
-
-            isHit = true;
-            canPlayerState[0] = false;
-
-            if (cLife > 1)
-            {
-                cLife -= 1;
-                StartCoroutine(Ondamaged(collision.transform.position));
-            }
-            else
-            {
-                cLife -= 1;
-                StartCoroutine(Death());
-            }
-
-            UpdateLifeUI();
+            PlayerHit(collision.transform.position);
         }
     }
 
@@ -360,7 +317,8 @@ public class PlayerMaru : Player
     {
         if (cLife >= 0)
         {
-            playerHpUI.GetComponent<Image>().sprite = maruLife[cLife];
+            playerHpUI.GetComponent<Image>().sprite = maruLifeSprite[cLife];
+            currentHp = cLife;
         }
     }
 

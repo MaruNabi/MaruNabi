@@ -68,6 +68,37 @@ public class Player : MonoBehaviour
 
     private bool pastKey;
 
+    public void PlayerStateTransition(bool _set, int _index = 4)
+    {
+        for (int i = _index; i < canPlayerState.Length; i++)
+        {
+            canPlayerState[i] = _set;
+        }
+    }
+
+    public void PlayerHit(Vector2 _enemyPos)
+    {
+        if (isInvincibleTime)
+            return;
+
+        if (!canPlayerState[5])
+            return;
+
+        isHit = true;
+        canPlayerState[0] = false;
+
+        if (cLife > 1)
+        {
+            cLife -= 1;
+            StartCoroutine(Ondamaged(_enemyPos));
+        }
+        else
+        {
+            cLife -= 1;
+            StartCoroutine(Death());
+        }
+    }
+
     protected float Charging(float minimumCharging, float maximumCharging, float addCharging) //minimum, maximum, incremental
     {
         if (minimumCharging < maximumCharging)
@@ -281,13 +312,5 @@ public class Player : MonoBehaviour
         yield return new WaitUntil(() => isSitting == false);
         playerCollider.size = defaultPlayerColliderSize;
         atkPosition.transform.localPosition = defaultAtkPosition;
-    }
-
-    public void PlayerStateTransition(bool _set, int _index = 4)
-    {
-        for (int i = _index; i < canPlayerState.Length; i++)
-        {
-            canPlayerState[i] = _set;
-        }
     }
 }

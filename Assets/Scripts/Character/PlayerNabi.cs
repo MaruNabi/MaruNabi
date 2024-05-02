@@ -24,7 +24,8 @@ public class PlayerNabi : Player
     [SerializeField]
     private Image playerHpUI;
 
-    private Sprite[] nabiLife = new Sprite[6];
+    private Sprite[] nabiLifeSprite = new Sprite[6];
+    private int currentHp;
 
     void Start()
     {
@@ -42,12 +43,13 @@ public class PlayerNabi : Player
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
+        currentHp = cLife;
 
         reviveEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/HyperCasual/Area/Area_heal_green");
 
-        for (int i = 0; i < nabiLife.Length; i++)
+        for (int i = 0; i < nabiLifeSprite.Length; i++)
         {
-            nabiLife[i] = Resources.Load<Sprite>("UI/PlayerUI/UI_Stage_NabiIcon_" + i);
+            nabiLifeSprite[i] = Resources.Load<Sprite>("UI/PlayerUI/UI_Stage_NabiIcon_" + i);
         }
 
         for (int i = 0; i < canPlayerState.Length; i++)
@@ -170,6 +172,11 @@ public class PlayerNabi : Player
             }
         }
 
+        if (currentHp != cLife)
+        {
+            UpdateLifeUI();
+        }
+
         //Animation Script
         if (rigidBody.velocity.normalized.x == 0)
         {
@@ -255,67 +262,17 @@ public class PlayerNabi : Player
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        PlayerHitBullet(collision);
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            PlayerHit(collision.transform.position);
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        PlayerHitMonster(collision);
-    }
-
-    private void PlayerHitBullet(Collider2D collision)
-    {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
-            if (isInvincibleTime)
-                return;
-
-            if (!canPlayerState[5])
-                return;
-
-            isHit = true;
-            canPlayerState[0] = false;
-
-            if (cLife > 1)
-            {
-                cLife -= 1;
-                StartCoroutine(Ondamaged(collision.transform.position));
-            }
-            else
-            {
-                cLife -= 1;
-                StartCoroutine(Death());
-            }
-
-            UpdateLifeUI();
-        }
-    }
-
-    private void PlayerHitMonster(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
-        {
-            if (isInvincibleTime)
-                return;
-
-            if (!canPlayerState[5])
-                return;
-
-            isHit = true;
-            canPlayerState[0] = false;
-
-            if (cLife > 1)
-            {
-                cLife -= 1;
-                StartCoroutine(Ondamaged(collision.transform.position));
-            }
-            else
-            {
-                cLife -= 1;
-                StartCoroutine(Death());
-            }
-
-            UpdateLifeUI();
+            PlayerHit(collision.transform.position);
         }
     }
 
@@ -330,7 +287,8 @@ public class PlayerNabi : Player
     {
         if (cLife >= 0)
         {
-            playerHpUI.GetComponent<Image>().sprite = nabiLife[cLife];
+            playerHpUI.GetComponent<Image>().sprite = nabiLifeSprite[cLife];
+            currentHp = cLife;
         }
     }
 }
