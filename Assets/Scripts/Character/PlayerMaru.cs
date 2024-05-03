@@ -49,6 +49,9 @@ public class PlayerMaru : Player
         ultimateGauge = 0.0f;
         currentHp = cLife;
 
+        cMaxJumpCount = 2;
+        cJumpCount = 0;
+
         reviveEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/HyperCasual/Area/Area_heal_green");
 
         for (int i = 0; i < maruLifeSprite.Length; i++)
@@ -75,11 +78,13 @@ public class PlayerMaru : Player
         }
 
         //Jump
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting && canPlayerState[3])
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
         {
+            rigidBody.velocity = Vector2.zero;
             PlayerJump(cMiniJumpPower);
             canPlayerState[3] = false;
             isJumpingEnd = false;
+            cJumpCount++;
         }
 
         //JumpAddForce
@@ -90,6 +95,12 @@ public class PlayerMaru : Player
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
             }
+            canPlayerState[3] = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            isJumping = false;
             canPlayerState[3] = true;
         }
 

@@ -45,6 +45,9 @@ public class PlayerNabi : Player
         ultimateGauge = 0.0f;
         currentHp = cLife;
 
+        cMaxJumpCount = 1;
+        cJumpCount = 0;
+
         reviveEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/HyperCasual/Area/Area_heal_green");
 
         for (int i = 0; i < nabiLifeSprite.Length; i++)
@@ -71,11 +74,13 @@ public class PlayerNabi : Player
         }
 
         //Jump
-        if (Input.GetKeyDown(KeyCode.RightShift) && !isJumping && !isSitting && canPlayerState[3])
+        if (Input.GetKeyDown(KeyCode.RightShift) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
         {
+            rigidBody.velocity = Vector2.zero;
             PlayerJump(cMiniJumpPower);
             canPlayerState[3] = false;
             isJumpingEnd = false;
+            cJumpCount++;
         }
 
         //JumpAddForce
@@ -86,6 +91,12 @@ public class PlayerNabi : Player
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
             }
+            canPlayerState[3] = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            isJumping = false;
             canPlayerState[3] = true;
         }
 

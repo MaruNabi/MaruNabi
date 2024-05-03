@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     protected float cMaxJumpPower = 17.0f;            //Maximum Jump Force
     protected float cMiniJumpPower = MINIMUM_JUMP;    //Minimum Jump Force
+    protected float cMaxJumpCount;
+    protected float cJumpCount;
     protected bool isJumping = false;                 //Jumping State (Double Jump X)
     protected bool isJumpingEnd = true;
     protected bool isGround = true;
@@ -158,6 +160,7 @@ public class Player : MonoBehaviour
             isJumping = false;
             isJumpingEnd = true;
             isGround = true;
+            cJumpCount = 0;
             cMiniJumpPower = MINIMUM_JUMP;
             Instantiate(landingEffect, transform.position, transform.rotation);
         }
