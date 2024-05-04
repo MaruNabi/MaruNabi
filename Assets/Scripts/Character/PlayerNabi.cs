@@ -75,6 +75,8 @@ public class PlayerNabi : Player
             return;
         }
 
+        SlopeCheck();
+
         //Jump
         if (Input.GetKeyDown(KeyCode.RightShift) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
         {
@@ -184,6 +186,11 @@ public class PlayerNabi : Player
                 ultimateGauge -= 500.0f;
             }
         }
+
+        if (moveHorizontal == 0)
+            rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        else
+            rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         if (currentHp != cLife)
         {

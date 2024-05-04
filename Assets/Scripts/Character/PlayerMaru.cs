@@ -79,6 +79,8 @@ public class PlayerMaru : Player
             return;
         }
 
+        SlopeCheck();
+
         //Jump
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
         {
@@ -191,6 +193,11 @@ public class PlayerMaru : Player
                 ultimateGauge -= 500.0f;
             }
         }
+
+        if (moveHorizontal == 0)
+            rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        else
+            rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         if (currentHp != cLife)
         {

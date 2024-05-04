@@ -74,6 +74,15 @@ public class Player : MonoBehaviour
 
     private bool pastKey;
 
+    [SerializeField]
+    protected Transform slopeCheckPosition;
+    public LayerMask groundMask;
+    [SerializeField]
+    protected float slopeRayDistance;
+    protected float slopeAngle;
+    protected Vector2 slopePerp;
+    protected bool isSlope;
+
     public void PlayerStateTransition(bool _set, int _index = 4)
     {
         for (int i = _index; i < canPlayerState.Length; i++)
@@ -102,6 +111,29 @@ public class Player : MonoBehaviour
         {
             cLife -= 1;
             StartCoroutine(Death());
+        }
+    }
+
+    protected void SlopeCheck()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(slopeCheckPosition.position, Vector2.down, slopeRayDistance, groundMask);
+
+        if (hit)
+        {
+            if (hit.collider.tag == "Ground")
+                isGround = true;
+            else
+                isGround = false;
+
+            slopePerp = Vector2.Perpendicular(hit.normal).normalized;
+            slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+
+            if (slopeAngle != 0)
+                isSlope = true;
+            else
+                isSlope = false;
+
+            Debug.DrawLine(hit.point, hit.point + hit.normal, Color.blue);
         }
     }
 
@@ -156,6 +188,9 @@ public class Player : MonoBehaviour
         movement *= cSpeed;
 
         Vector3 velocityYOnly = new Vector3(0.0f, rigidBody.velocity.y, 0.0f);
+
+        if (isSlope)
+            movement *= slopePerp * -1f;
 
         rigidBody.velocity = movement + velocityYOnly;
     }
