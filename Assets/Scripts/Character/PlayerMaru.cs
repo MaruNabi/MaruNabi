@@ -12,7 +12,6 @@ public class PlayerMaru : Player
     [SerializeField]
     private GameObject skillPrefab;
 
-    private bool isLock = false;
     private bool attacksNow = false;
 
     [SerializeField]
@@ -41,6 +40,9 @@ public class PlayerMaru : Player
 
         playerShield.SetActive(false);
         reviveZone.SetActive(false);
+
+        moveLeft = KeyCode.A;
+        moveRight = KeyCode.D;
 
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
@@ -243,40 +245,6 @@ public class PlayerMaru : Player
         }
     }
 
-    protected override void PlayerMove()
-    {
-        moveHorizontal = 0.0f;
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            if (isSitting || isLock)
-            {
-                moveHorizontal = 0.0f;
-            }
-            else
-            {
-                moveHorizontal = -1.0f;
-            }
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            atkPosition.rotation = Quaternion.Euler(0, 0, 0);
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            if (isSitting || isLock)
-            {
-                moveHorizontal = 0.0f;
-            }
-            else
-            {
-                moveHorizontal = 1.0f;
-            }
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-            atkPosition.rotation = Quaternion.Euler(0, 180, 0);
-        }
-
-        base.PlayerMove();
-    }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))

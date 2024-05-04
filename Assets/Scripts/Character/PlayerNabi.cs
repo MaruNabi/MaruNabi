@@ -13,7 +13,6 @@ public class PlayerNabi : Player
     [SerializeField]
     private float coolTime;
     private float curTime;
-    private bool isLock = false;                    //Lock
     private bool isAttacksNow = false;
     [SerializeField]
     private GameObject playerBullets;               //For Pooling
@@ -37,6 +36,9 @@ public class PlayerNabi : Player
         playerCollider = GetComponent<BoxCollider2D>();
 
         reviveZone.SetActive(false);
+
+        moveLeft = KeyCode.LeftArrow;
+        moveRight = KeyCode.RightArrow;
 
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
@@ -234,41 +236,6 @@ public class PlayerNabi : Player
         {
             PlayerMove();
         }
-    }
-
-    protected override void PlayerMove()
-    {
-        moveHorizontal = 0.0f;
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            if (isSitting || isLock)
-            {
-                moveHorizontal = 0.0f;
-            }
-            else
-            {
-                moveHorizontal = -1.0f;
-            }
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            atkPosition.rotation = Quaternion.Euler(0, 0, 0);
-        }
-
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            if (isSitting || isLock)
-            {
-                moveHorizontal = 0.0f;
-            }
-            else
-            {
-                moveHorizontal = 1.0f;
-            }
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-            atkPosition.rotation = Quaternion.Euler(0, 180, 0);
-        }
-
-        base.PlayerMove();
     }
 
     private void OnTriggerStay2D(Collider2D collision)

@@ -408,6 +408,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &585197445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 585197447}
+  - component: {fileID: 585197446}
+  m_Layer: 0
+  m_Name: PlayerLayerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &585197446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585197445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947d7186a5eb99c4daa7fe8e9dddcf52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMaru: {fileID: 2060072527}
+  playerNabi: {fileID: 1172362152}
+--- !u!4 &585197447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585197445}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.4894351, y: 1.2524552, z: -0.10186925}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &662448477
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,6 +1215,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145256558}
   m_CullTransparentMesh: 1
+--- !u!114 &1172362152 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
+  m_PrefabInstance: {fileID: 3042348561589069202}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 447ddbeb00f93c343818cb8421c39e0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1251013158 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6623215531621231555, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
@@ -1974,6 +2031,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2004839542}
   m_CullTransparentMesh: 1
+--- !u!114 &2060072527 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+  m_PrefabInstance: {fileID: 6623215530456308197}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3f4cf012d92884e9da9980e1a4433a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3042348561589069202
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1993,6 +2061,14 @@ PrefabInstance:
       propertyPath: playerHpUI
       value: 
       objectReference: {fileID: 890470875}
+    - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
+      propertyPath: skillPrefab
+      value: 
+      objectReference: {fileID: 1836330853780899106, guid: 224aefd2017896b47a5b936bd4bc4e7b, type: 3}
+    - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 74006978785818252, guid: 9d3b01aed5aa600459cd245a741180c4, type: 3}
     - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: playerSkills
       value: 
@@ -2090,6 +2166,14 @@ PrefabInstance:
       propertyPath: playerHpUI
       value: 
       objectReference: {fileID: 673587519}
+    - target: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+      propertyPath: skillPrefab
+      value: 
+      objectReference: {fileID: 3658941866156007290, guid: 3276e7d03b8b22c41a90e6f698c74524, type: 3}
+    - target: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+      propertyPath: swordPrefab
+      value: 
+      objectReference: {fileID: 4187900768715722193, guid: 4c187ef928b07fd40977cf27c1f84ac4, type: 3}
     - target: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: playerSkills
       value: 

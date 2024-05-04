@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
     private bool isTimerEnd = false;
     private bool isCalledOnce = true;
 
+    protected KeyCode moveLeft;
+    protected KeyCode moveRight;
+
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField]
     [Range(0, 10)]
@@ -29,6 +32,7 @@ public class Player : MonoBehaviour
     protected bool isJumping = false;                 //Jumping State (Double Jump X)
     protected bool isJumpingEnd = true;
     protected bool isGround = true;
+    protected bool isLock = false;
 
     private const float DOUBLE_CLICK_TIME = 0.2f;
     protected float lastClickTime = -1.0f;
@@ -101,16 +105,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    protected float Charging(float minimumCharging, float maximumCharging, float addCharging) //minimum, maximum, incremental
-    {
-        if (minimumCharging < maximumCharging)
-        {
-            minimumCharging += addCharging;
-        }
-
-        return minimumCharging;
-    }
-
     protected void PlayerJump(float jumpPower)
     {
         rigidBody.AddForce(new Vector3(0, jumpPower, 0), ForceMode2D.Impulse);
@@ -122,13 +116,43 @@ public class Player : MonoBehaviour
         rigidBody.AddForce(new Vector3(0, jumpPower, 0), ForceMode2D.Impulse);
     }
 
-    protected virtual void PlayerMove()
+    protected void PlayerMove()
     {
+        moveHorizontal = 0.0f;
+
+        if (Input.GetKey(moveLeft))
+        {
+            if (isSitting || isLock)
+            {
+                moveHorizontal = 0.0f;
+            }
+            else
+            {
+                moveHorizontal = -1.0f;
+            }
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            atkPosition.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+        if (Input.GetKey(moveRight))
+        {
+            if (isSitting || isLock)
+            {
+                moveHorizontal = 0.0f;
+            }
+            else
+            {
+                moveHorizontal = 1.0f;
+            }
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            atkPosition.rotation = Quaternion.Euler(0, 180, 0);
+        }
+
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, 0.0f);
 
         if (movement.magnitude > 1)
             movement.Normalize();
-
+        
         movement *= cSpeed;
 
         Vector3 velocityYOnly = new Vector3(0.0f, rigidBody.velocity.y, 0.0f);
@@ -181,6 +205,7 @@ public class Player : MonoBehaviour
         isCalledOnce = true;
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
+        PlayerStateTransition(false, 0);
         Invoke("InvokeTimer", 10.0f);
         
         while (!isTimerEnd) //wait 10 seconds
@@ -202,7 +227,6 @@ public class Player : MonoBehaviour
 
         if (!isReviveSuccess)
         {
-            PlayerStateTransition(false);
             this.gameObject.SetActive(false);
             reviveZone.SetActive(false);
         }
@@ -218,6 +242,7 @@ public class Player : MonoBehaviour
         reviveZone.SetActive(false);
         canPlayerState[0] = true;
         cLife = 1;
+        PlayerStateTransition(true, 0);
         playerAnimator.SetBool("isDead", false);
         Instantiate(reviveEffect, transform);
         StartCoroutine(Invincible(3.0f));
