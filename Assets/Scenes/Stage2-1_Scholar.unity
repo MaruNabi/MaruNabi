@@ -5416,18 +5416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48463c0dc34d28e489f61d5053dbe38b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nabiSlider: {fileID: 544569891}
-  maruSlider: {fileID: 1036360105}
-  maruLife:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  nabiLife:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  blankHP: {fileID: 21300000, guid: bfc0091cce7542c4dad03c20488a8f4c, type: 3}
-  fillHP: {fileID: 21300000, guid: 8bdaf8b5cf59afd46ab7dac0043070ac, type: 3}
+  lerpSpeed: 0
 --- !u!4 &1154783824
 Transform:
   m_ObjectHideFlags: 0

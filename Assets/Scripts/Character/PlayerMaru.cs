@@ -12,7 +12,6 @@ public class PlayerMaru : Player
     [SerializeField]
     private GameObject skillPrefab;
 
-    private bool isLock = false;
     private bool attacksNow = false;
 
     [SerializeField]
@@ -27,7 +26,10 @@ public class PlayerMaru : Player
     [SerializeField]
     private Image playerHpUI;
 
-    private Sprite[] maruLife = new Sprite[6];
+    private Sprite[] maruLifeSprite = new Sprite[6];
+    private int currentHp;
+
+    private bool canFallDown;
 
     void Start()
     {
@@ -41,17 +43,24 @@ public class PlayerMaru : Player
         playerShield.SetActive(false);
         reviveZone.SetActive(false);
 
+        moveLeft = KeyCode.A;
+        moveRight = KeyCode.D;
+
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
+        currentHp = cLife;
+
+        cMaxJumpCount = 2;
+        cJumpCount = 0;
 
         reviveEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/HyperCasual/Area/Area_heal_green");
 
-        for (int i = 0; i < maruLife.Length; i++)
+        for (int i = 0; i < maruLifeSprite.Length; i++)
         {
-            maruLife[i] = Resources.Load<Sprite>("UI/PlayerUI/UI_Stage_MaruIcon_" + i);
+            maruLifeSprite[i] = Resources.Load<Sprite>("UI/PlayerUI/UI_Stage_MaruIcon_" + i);
         }
 
         for (int i = 0; i < canPlayerState.Length; i++)
@@ -72,12 +81,16 @@ public class PlayerMaru : Player
             return;
         }
 
+        SlopeCheck();
+
         //Jump
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting && canPlayerState[3])
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
         {
+            rigidBody.velocity = Vector2.zero;
             PlayerJump(cMiniJumpPower);
             canPlayerState[3] = false;
             isJumpingEnd = false;
+            cJumpCount++;
         }
 
         //JumpAddForce
@@ -88,6 +101,12 @@ public class PlayerMaru : Player
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
             }
+            canPlayerState[3] = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            isJumping = false;
             canPlayerState[3] = true;
         }
 
@@ -138,6 +157,12 @@ public class PlayerMaru : Player
             StartCoroutine(PlayerSit());
         }
 
+        if (Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Space) && isSitting)
+        {
+            if (canFallDown)
+                playerStandCollider.isTrigger = true;
+        }
+
         if (Input.GetKeyUp(KeyCode.S) && isSitting)
         {
             isSitting = false;
@@ -175,6 +200,16 @@ public class PlayerMaru : Player
                 StartCoroutine(PlayerShield());
                 ultimateGauge -= 500.0f;
             }
+        }
+
+        if (moveHorizontal == 0)
+            rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        else
+            rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        if (currentHp != cLife)
+        {
+            UpdateLifeUI();
         }
 
         //Animation Script
@@ -225,103 +260,19 @@ public class PlayerMaru : Player
         }
     }
 
-    protected override void PlayerMove()
-    {
-        moveHorizontal = 0.0f;
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            if (isSitting || isLock)
-            {
-                moveHorizontal = 0.0f;
-            }
-            else
-            {
-                moveHorizontal = -1.0f;
-            }
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            atkPosition.rotation = Quaternion.Euler(0, 0, 0);
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            if (isSitting || isLock)
-            {
-                moveHorizontal = 0.0f;
-            }
-            else
-            {
-                moveHorizontal = 1.0f;
-            }
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-            atkPosition.rotation = Quaternion.Euler(0, 180, 0);
-        }
-
-        base.PlayerMove();
-    }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        PlayerHitBullet(collision);
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            PlayerHit(collision.transform.position);
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        PlayerHitMonster(collision);
-    }
-
-    private void PlayerHitBullet(Collider2D collision)
-    {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
-            if (isInvincibleTime)
-                return;
-
-            if (!canPlayerState[5])
-                return;
-
-            isHit = true;
-            canPlayerState[0] = false;
-
-            if (cLife > 1)
-            {
-                cLife -= 1;
-                StartCoroutine(Ondamaged(collision.transform.position));
-            }
-            else
-            {
-                cLife -= 1;
-                StartCoroutine(Death());
-            }
-
-            UpdateLifeUI();
-        }
-    }
-
-    private void PlayerHitMonster(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
-        {
-            if (isInvincibleTime)
-                return;
-
-            if (!canPlayerState[5])
-                return;
-
-            isHit = true;
-            canPlayerState[0] = false;
-
-            if (cLife > 1)
-            {
-                cLife -= 1;
-                StartCoroutine(Ondamaged(collision.transform.position));
-            }
-            else
-            {
-                cLife -= 1;
-                StartCoroutine(Death());
-            }
-
-            UpdateLifeUI();
+            PlayerHit(collision.transform.position);
         }
     }
 
@@ -330,6 +281,14 @@ public class PlayerMaru : Player
         if (collision.transform.CompareTag("EnemyBullet"))
         {
             Destroy(collision.gameObject);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Ground"))
+        {
+            canFallDown = collision.gameObject.GetComponent<GroundObject>().canFallDown;
         }
     }
 
@@ -360,7 +319,8 @@ public class PlayerMaru : Player
     {
         if (cLife >= 0)
         {
-            playerHpUI.GetComponent<Image>().sprite = maruLife[cLife];
+            playerHpUI.GetComponent<Image>().sprite = maruLifeSprite[cLife];
+            currentHp = cLife;
         }
     }
 

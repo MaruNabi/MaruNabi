@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
     private bool isTimerEnd = false;
     private bool isCalledOnce = true;
 
+    protected KeyCode moveLeft;
+    protected KeyCode moveRight;
+
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField]
     [Range(0, 10)]
@@ -24,9 +27,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     protected float cMaxJumpPower = 17.0f;            //Maximum Jump Force
     protected float cMiniJumpPower = MINIMUM_JUMP;    //Minimum Jump Force
+    protected float cMaxJumpCount;
+    protected float cJumpCount;
     protected bool isJumping = false;                 //Jumping State (Double Jump X)
     protected bool isJumpingEnd = true;
     protected bool isGround = true;
+    protected bool isLock = false;
 
     private const float DOUBLE_CLICK_TIME = 0.2f;
     protected float lastClickTime = -1.0f;
@@ -51,6 +57,8 @@ public class Player : MonoBehaviour
     protected SpriteRenderer spriteRenderer;
     protected Animator playerAnimator;
     protected BoxCollider2D playerCollider;
+    [SerializeField]
+    protected BoxCollider2D playerStandCollider;
 
     [SerializeField]
     protected Transform atkPosition;
@@ -61,6 +69,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject landingEffect;
+    private bool isLandingEffectOnce = true;
     [SerializeField]
     private GameObject dashEffect;
 
@@ -68,14 +77,83 @@ public class Player : MonoBehaviour
 
     private bool pastKey;
 
-    protected float Charging(float minimumCharging, float maximumCharging, float addCharging) //minimum, maximum, incremental
-    {
-        if (minimumCharging < maximumCharging)
-        {
-            minimumCharging += addCharging;
-        }
+    [SerializeField]
+    protected Transform slopeCheckPosition;
+    public LayerMask groundMask;
+    [SerializeField]
+    protected float slopeRayDistance;
+    protected float slopeAngle;
+    protected Vector2 slopePerp;
+    protected bool isSlope;
 
-        return minimumCharging;
+    public void PlayerStateTransition(bool _set, int _index = 4)
+    {
+        for (int i = _index; i < canPlayerState.Length; i++)
+        {
+            canPlayerState[i] = _set;
+        }
+    }
+
+    public void PlayerHit(Vector2 _enemyPos)
+    {
+        if (isInvincibleTime)
+            return;
+
+        if (!canPlayerState[5])
+            return;
+
+        isHit = true;
+        canPlayerState[0] = false;
+
+        if (cLife > 1)
+        {
+            cLife -= 1;
+            StartCoroutine(Ondamaged(_enemyPos));
+        }
+        else
+        {
+            cLife -= 1;
+            StartCoroutine(Death());
+        }
+    }
+
+    protected void SlopeCheck()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(slopeCheckPosition.position, Vector2.down, slopeRayDistance, groundMask);
+
+        if (hit)
+        {
+            if (hit.collider.tag == "Ground")
+            {
+                isGround = true;
+                if (isLandingEffectOnce)
+                {
+                    canPlayerState[2] = true;
+                    isLandingEffectOnce = false;
+                    isJumping = false;
+                    isJumpingEnd = true;
+                    cJumpCount = 0;
+                    cMiniJumpPower = MINIMUM_JUMP;
+                    playerStandCollider.isTrigger = false;
+                    Instantiate(landingEffect, transform.position, transform.rotation);
+                }   
+            }
+            slopePerp = Vector2.Perpendicular(hit.normal).normalized;
+            slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+
+            if (slopeAngle != 0)
+                isSlope = true;
+            else
+                isSlope = false;
+
+            Debug.DrawLine(hit.point, hit.point + hit.normal, Color.blue);
+        }
+        else
+        {
+            isGround = false;
+            isLandingEffectOnce = true;
+            canPlayerState[2] = false;
+        }
     }
 
     protected void PlayerJump(float jumpPower)
@@ -89,16 +167,49 @@ public class Player : MonoBehaviour
         rigidBody.AddForce(new Vector3(0, jumpPower, 0), ForceMode2D.Impulse);
     }
 
-    protected virtual void PlayerMove()
+    protected void PlayerMove()
     {
+        moveHorizontal = 0.0f;
+
+        if (Input.GetKey(moveLeft))
+        {
+            if (isSitting || isLock)
+            {
+                moveHorizontal = 0.0f;
+            }
+            else
+            {
+                moveHorizontal = -1.0f;
+            }
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            atkPosition.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+        if (Input.GetKey(moveRight))
+        {
+            if (isSitting || isLock)
+            {
+                moveHorizontal = 0.0f;
+            }
+            else
+            {
+                moveHorizontal = 1.0f;
+            }
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            atkPosition.rotation = Quaternion.Euler(0, 180, 0);
+        }
+
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, 0.0f);
 
         if (movement.magnitude > 1)
             movement.Normalize();
-
+        
         movement *= cSpeed;
 
         Vector3 velocityYOnly = new Vector3(0.0f, rigidBody.velocity.y, 0.0f);
+
+        if (isSlope)
+            movement *= slopePerp * -1f;
 
         rigidBody.velocity = movement + velocityYOnly;
     }
@@ -120,26 +231,6 @@ public class Player : MonoBehaviour
         pastKey = key;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isJumping = false;
-            isJumpingEnd = true;
-            isGround = true;
-            cMiniJumpPower = MINIMUM_JUMP;
-            Instantiate(landingEffect, transform.position, transform.rotation);
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGround = false;
-        }
-    }
-
     protected IEnumerator Death()
     {
         isTimerEnd = false;
@@ -147,6 +238,7 @@ public class Player : MonoBehaviour
         isCalledOnce = true;
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
+        PlayerStateTransition(false, 0);
         Invoke("InvokeTimer", 10.0f);
         
         while (!isTimerEnd) //wait 10 seconds
@@ -168,7 +260,6 @@ public class Player : MonoBehaviour
 
         if (!isReviveSuccess)
         {
-            PlayerStateTransition(false);
             this.gameObject.SetActive(false);
             reviveZone.SetActive(false);
         }
@@ -184,6 +275,7 @@ public class Player : MonoBehaviour
         reviveZone.SetActive(false);
         canPlayerState[0] = true;
         cLife = 1;
+        PlayerStateTransition(true, 0);
         playerAnimator.SetBool("isDead", false);
         Instantiate(reviveEffect, transform);
         StartCoroutine(Invincible(3.0f));
@@ -281,13 +373,5 @@ public class Player : MonoBehaviour
         yield return new WaitUntil(() => isSitting == false);
         playerCollider.size = defaultPlayerColliderSize;
         atkPosition.transform.localPosition = defaultAtkPosition;
-    }
-
-    public void PlayerStateTransition(bool _set, int _index = 4)
-    {
-        for (int i = _index; i < canPlayerState.Length; i++)
-        {
-            canPlayerState[i] = _set;
-        }
     }
 }

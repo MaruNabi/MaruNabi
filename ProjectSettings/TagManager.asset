@@ -10,6 +10,7 @@ TagManager:
   - Manager
   - PoolRoot
   - EnemyBullet
+  - TempObstacle
   layers:
   - Default
   - TransparentFX

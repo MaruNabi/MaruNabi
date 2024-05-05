@@ -5,37 +5,63 @@ using UnityEngine.UI;
 
 public class PlayerUIManager : MonoBehaviour
 {
-    public Slider nabiSlider;
-    public Slider maruSlider;
+    private GameObject maruSlider;
+    private Image maruSliderImage;
+    private GameObject maruSliderEdge;
+
+    private GameObject nabiSlider;
+    private Image nabiSliderImage;
+    private GameObject nabiSliderEdge;
+
     private float currentUltimateGuageNabi = 0.0f;
     private float currentUltimateGuageMaru = 0.0f;
+    private float maxUltimateGuage = 1500f;
+    [SerializeField]
+    private float lerpSpeed;
 
     void Start()
     {
+        maruSlider = GameObject.Find("M_Ultimate_Bar");
+        maruSliderImage = maruSlider.GetComponent<Image>();
+        maruSliderEdge = GameObject.Find("M_Ultimate_Edge");
 
+        nabiSlider = GameObject.Find("N_Ultimate_Bar");
+        nabiSliderImage = nabiSlider.GetComponent<Image>();
+        nabiSliderEdge = GameObject.Find("N_Ultimate_Edge");
+
+        SliderUpdateMaru();
+        SliderUpdateNabi();
     }
 
     void Update()
     {
-        if (currentUltimateGuageNabi != PlayerNabi.ultimateGauge)
-        {
-            SliderUpdateNabi();
-        }
         if (currentUltimateGuageMaru != PlayerMaru.ultimateGauge)
         {
             SliderUpdateMaru();
+        }
+
+        if (currentUltimateGuageNabi != PlayerNabi.ultimateGauge)
+        {
+            SliderUpdateNabi();
         }
     }
 
     public void SliderUpdateNabi()
     {
-        nabiSlider.value = PlayerNabi.ultimateGauge;
+        nabiSliderImage.fillAmount = PlayerNabi.ultimateGauge / maxUltimateGuage;
         currentUltimateGuageNabi = PlayerNabi.ultimateGauge;
+
+        float edgePos = (nabiSliderImage.fillAmount - 0.5f) * 105f;
+        nabiSliderEdge.transform.localPosition = new Vector3(edgePos, 0, 0);
     }
 
     public void SliderUpdateMaru()
     {
-        maruSlider.value = PlayerMaru.ultimateGauge;
+        //maruSliderImage.fillAmount = Mathf.Lerp(maruSliderImage.fillAmount, PlayerMaru.ultimateGauge / maxUltimateGuage, lerpSpeed * Time.deltaTime);
+        maruSliderImage.fillAmount = PlayerMaru.ultimateGauge / maxUltimateGuage;
         currentUltimateGuageMaru = PlayerMaru.ultimateGauge;
+
+        float edgePos = (maruSliderImage.fillAmount - 0.5f) * 105f;
+        maruSliderEdge.transform.localPosition = new Vector3(edgePos, 0, 0);
     }
 }

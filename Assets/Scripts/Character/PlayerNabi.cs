@@ -13,7 +13,6 @@ public class PlayerNabi : Player
     [SerializeField]
     private float coolTime;
     private float curTime;
-    private bool isLock = false;                    //Lock
     private bool isAttacksNow = false;
     [SerializeField]
     private GameObject playerBullets;               //For Pooling
@@ -24,7 +23,10 @@ public class PlayerNabi : Player
     [SerializeField]
     private Image playerHpUI;
 
-    private Sprite[] nabiLife = new Sprite[6];
+    private Sprite[] nabiLifeSprite = new Sprite[6];
+    private int currentHp;
+
+    private bool canFallDown;
 
     void Start()
     {
@@ -37,17 +39,24 @@ public class PlayerNabi : Player
 
         reviveZone.SetActive(false);
 
+        moveLeft = KeyCode.LeftArrow;
+        moveRight = KeyCode.RightArrow;
+
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
+        currentHp = cLife;
+
+        cMaxJumpCount = 1;
+        cJumpCount = 0;
 
         reviveEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/HyperCasual/Area/Area_heal_green");
 
-        for (int i = 0; i < nabiLife.Length; i++)
+        for (int i = 0; i < nabiLifeSprite.Length; i++)
         {
-            nabiLife[i] = Resources.Load<Sprite>("UI/PlayerUI/UI_Stage_NabiIcon_" + i);
+            nabiLifeSprite[i] = Resources.Load<Sprite>("UI/PlayerUI/UI_Stage_NabiIcon_" + i);
         }
 
         for (int i = 0; i < canPlayerState.Length; i++)
@@ -68,12 +77,16 @@ public class PlayerNabi : Player
             return;
         }
 
+        SlopeCheck();
+
         //Jump
-        if (Input.GetKeyDown(KeyCode.RightShift) && !isJumping && !isSitting && canPlayerState[3])
+        if (Input.GetKeyDown(KeyCode.RightShift) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
         {
+            rigidBody.velocity = Vector2.zero;
             PlayerJump(cMiniJumpPower);
             canPlayerState[3] = false;
             isJumpingEnd = false;
+            cJumpCount++;
         }
 
         //JumpAddForce
@@ -84,6 +97,12 @@ public class PlayerNabi : Player
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
             }
+            canPlayerState[3] = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.RightShift))
+        {
+            isJumping = false;
             canPlayerState[3] = true;
         }
 
@@ -136,6 +155,12 @@ public class PlayerNabi : Player
         {
             StartCoroutine(PlayerSit());
         }
+        
+        if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.RightShift) && isSitting)
+        {
+            if (canFallDown)
+                playerStandCollider.isTrigger = true;
+        }
 
         if (Input.GetKeyUp(KeyCode.DownArrow) && isSitting)
         {
@@ -168,6 +193,16 @@ public class PlayerNabi : Player
                 //Animation?
                 ultimateGauge -= 500.0f;
             }
+        }
+
+        if (moveHorizontal == 0)
+            rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        else
+            rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        if (currentHp != cLife)
+        {
+            UpdateLifeUI();
         }
 
         //Animation Script
@@ -218,104 +253,36 @@ public class PlayerNabi : Player
         }
     }
 
-    protected override void PlayerMove()
-    {
-        moveHorizontal = 0.0f;
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            if (isSitting || isLock)
-            {
-                moveHorizontal = 0.0f;
-            }
-            else
-            {
-                moveHorizontal = -1.0f;
-            }
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            atkPosition.rotation = Quaternion.Euler(0, 0, 0);
-        }
-
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            if (isSitting || isLock)
-            {
-                moveHorizontal = 0.0f;
-            }
-            else
-            {
-                moveHorizontal = 1.0f;
-            }
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-            atkPosition.rotation = Quaternion.Euler(0, 180, 0);
-        }
-
-        base.PlayerMove();
-    }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
-        PlayerHitBullet(collision);
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            PlayerHit(collision.transform.position);
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        PlayerHitMonster(collision);
-    }
-
-    private void PlayerHitBullet(Collider2D collision)
-    {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
-            if (isInvincibleTime)
-                return;
-
-            if (!canPlayerState[5])
-                return;
-
-            isHit = true;
-            canPlayerState[0] = false;
-
-            if (cLife > 1)
-            {
-                cLife -= 1;
-                StartCoroutine(Ondamaged(collision.transform.position));
-            }
-            else
-            {
-                cLife -= 1;
-                StartCoroutine(Death());
-            }
-
-            UpdateLifeUI();
+            PlayerHit(collision.transform.position);
         }
     }
 
-    private void PlayerHitMonster(Collision2D collision)
+    /*private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
+        if (collision.transform.CompareTag("Ground"))
         {
-            if (isInvincibleTime)
-                return;
+            canFallDown = collision.gameObject.GetComponent<GroundObject>().canFallDown;
+            Debug.Log("canfalldown" + canFallDown);
+        }
+    }*/
 
-            if (!canPlayerState[5])
-                return;
-
-            isHit = true;
-            canPlayerState[0] = false;
-
-            if (cLife > 1)
-            {
-                cLife -= 1;
-                StartCoroutine(Ondamaged(collision.transform.position));
-            }
-            else
-            {
-                cLife -= 1;
-                StartCoroutine(Death());
-            }
-
-            UpdateLifeUI();
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Ground"))
+        {
+            canFallDown = collision.gameObject.GetComponent<GroundObject>().canFallDown;
         }
     }
 
@@ -330,7 +297,8 @@ public class PlayerNabi : Player
     {
         if (cLife >= 0)
         {
-            playerHpUI.GetComponent<Image>().sprite = nabiLife[cLife];
+            playerHpUI.GetComponent<Image>().sprite = nabiLifeSprite[cLife];
+            currentHp = cLife;
         }
     }
 }

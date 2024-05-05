@@ -30,7 +30,12 @@ public class PrepareSceneManager : BaseScene
     {
         if (maruUIManager.isReady == true && nabiUIManager.isReady == true)
         {
-            isActive = true;
+            Invoke("FinalGuessActive", 0.5f);
+        }
+        else
+        {
+            isActive = false;
+            finalGuess.SetActive(false);
         }
 
         if (isActive)
@@ -38,6 +43,11 @@ public class PrepareSceneManager : BaseScene
             finalGuess.SetActive(true);
             ButtonsControl();
         }
+    }
+
+    private void FinalGuessActive()
+    {
+        isActive = true;
     }
 
     protected override void Init()
@@ -66,10 +76,7 @@ public class PrepareSceneManager : BaseScene
 
         if (Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.RightBracket))
         {
-            if (isActive)
-            {
-                ExeFunction();
-            }
+            ExeFunction();
         }
     }
 
@@ -81,8 +88,6 @@ public class PrepareSceneManager : BaseScene
                 OnClickGameStart();
                 break;
             case 1:
-                isActive = false;
-                finalGuess.SetActive(false);
                 break;
             default:
                 Debug.LogError("Not Found Button");
