@@ -26,6 +26,8 @@ public class PlayerNabi : Player
     private Sprite[] nabiLifeSprite = new Sprite[6];
     private int currentHp;
 
+    private bool canFallDown;
+
     void Start()
     {
         characterID = false;
@@ -98,7 +100,7 @@ public class PlayerNabi : Player
             canPlayerState[3] = true;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.RightShift))
         {
             isJumping = false;
             canPlayerState[3] = true;
@@ -152,6 +154,12 @@ public class PlayerNabi : Player
         if (Input.GetKeyDown(KeyCode.DownArrow) && canPlayerState[2] && !isJumping)
         {
             StartCoroutine(PlayerSit());
+        }
+        
+        if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.RightShift) && isSitting)
+        {
+            if (canFallDown)
+                playerStandCollider.isTrigger = true;
         }
 
         if (Input.GetKeyUp(KeyCode.DownArrow) && isSitting)
@@ -258,6 +266,23 @@ public class PlayerNabi : Player
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
             PlayerHit(collision.transform.position);
+        }
+    }
+
+    /*private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Ground"))
+        {
+            canFallDown = collision.gameObject.GetComponent<GroundObject>().canFallDown;
+            Debug.Log("canfalldown" + canFallDown);
+        }
+    }*/
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Ground"))
+        {
+            canFallDown = collision.gameObject.GetComponent<GroundObject>().canFallDown;
         }
     }
 

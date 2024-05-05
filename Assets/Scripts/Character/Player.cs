@@ -57,6 +57,8 @@ public class Player : MonoBehaviour
     protected SpriteRenderer spriteRenderer;
     protected Animator playerAnimator;
     protected BoxCollider2D playerCollider;
+    [SerializeField]
+    protected BoxCollider2D playerStandCollider;
 
     [SerializeField]
     protected Transform atkPosition;
@@ -67,6 +69,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject landingEffect;
+    private bool isLandingEffectOnce = true;
     [SerializeField]
     private GameObject dashEffect;
 
@@ -121,10 +124,20 @@ public class Player : MonoBehaviour
         if (hit)
         {
             if (hit.collider.tag == "Ground")
+            {
                 isGround = true;
-            else
-                isGround = false;
-
+                if (isLandingEffectOnce)
+                {
+                    canPlayerState[2] = true;
+                    isLandingEffectOnce = false;
+                    isJumping = false;
+                    isJumpingEnd = true;
+                    cJumpCount = 0;
+                    cMiniJumpPower = MINIMUM_JUMP;
+                    playerStandCollider.isTrigger = false;
+                    Instantiate(landingEffect, transform.position, transform.rotation);
+                }   
+            }
             slopePerp = Vector2.Perpendicular(hit.normal).normalized;
             slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
@@ -134,6 +147,12 @@ public class Player : MonoBehaviour
                 isSlope = false;
 
             Debug.DrawLine(hit.point, hit.point + hit.normal, Color.blue);
+        }
+        else
+        {
+            isGround = false;
+            isLandingEffectOnce = true;
+            canPlayerState[2] = false;
         }
     }
 
@@ -210,27 +229,6 @@ public class Player : MonoBehaviour
             lastClickTime = Time.time;
         }
         pastKey = key;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isJumping = false;
-            isJumpingEnd = true;
-            isGround = true;
-            cJumpCount = 0;
-            cMiniJumpPower = MINIMUM_JUMP;
-            Instantiate(landingEffect, transform.position, transform.rotation);
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGround = false;
-        }
     }
 
     protected IEnumerator Death()

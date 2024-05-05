@@ -29,6 +29,8 @@ public class PlayerMaru : Player
     private Sprite[] maruLifeSprite = new Sprite[6];
     private int currentHp;
 
+    private bool canFallDown;
+
     void Start()
     {
         characterID = true;
@@ -155,6 +157,12 @@ public class PlayerMaru : Player
             StartCoroutine(PlayerSit());
         }
 
+        if (Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Space) && isSitting)
+        {
+            if (canFallDown)
+                playerStandCollider.isTrigger = true;
+        }
+
         if (Input.GetKeyUp(KeyCode.S) && isSitting)
         {
             isSitting = false;
@@ -273,6 +281,14 @@ public class PlayerMaru : Player
         if (collision.transform.CompareTag("EnemyBullet"))
         {
             Destroy(collision.gameObject);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Ground"))
+        {
+            canFallDown = collision.gameObject.GetComponent<GroundObject>().canFallDown;
         }
     }
 
