@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class ScholarEffects : MonoBehaviour
 {
     public GameObject smokePrefab;
-    public GameObject strawPrefab;
+    public GameObject strawParticle;
     public GameObject fanPrefab;
     public AnimatorController mouseAnimator;
 }

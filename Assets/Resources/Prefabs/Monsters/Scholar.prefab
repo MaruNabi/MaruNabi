@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smokePrefab: {fileID: 1351699654911004, guid: 879aa6d314d3ef848a01ba73a217d9ca, type: 3}
-  strawPrefab: {fileID: 6085769272412218725, guid: fdfc57db157759648975cdc263176d23, type: 3}
+  strawParticle: {fileID: 6085769272412218725, guid: fdfc57db157759648975cdc263176d23, type: 3}
   fanPrefab: {fileID: 6141675117983338419, guid: ecca77a57b57e664f90c8447031618cd, type: 3}
   mouseAnimator: {fileID: 9100000, guid: a4ff1d216d4b9ea48a14abb2acffae8e, type: 2}
 --- !u!61 &6409638710410331193
