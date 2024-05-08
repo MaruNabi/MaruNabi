@@ -17,23 +17,18 @@ public class MouseScholarLeave : MouseScholarState
 
     async UniTaskVoid ExitDelay()
     {
-        // 피격 상태일 경우 대기
-        if(stateMachine.MouseScholar.IsHit)
-            await UniTask.Delay(TimeSpan.FromSeconds(4f));
-        
-        if (stateMachine.MouseScholar.HP <= 0 && stateMachine.MouseScholar.Dead == false)
+        if (stateMachine.MouseScholar.Dead == false)
         {
-            // 스테이지 종료
-            stateMachine.MouseScholar.RoundClear();
-        }
-        else
-        {
+            // 피격 상태일 경우 대기
+            if(stateMachine.MouseScholar.IsHit)
+                await UniTask.Delay(TimeSpan.FromSeconds(4f));
+
             stateMachine.MouseScholar.SmokeEffect();
             // 재입장까지 대기 시간
             await UniTask.Delay(TimeSpan.FromSeconds(ESCAPE_TIME));
             
             stateMachine.MouseScholar.RoundEnd();
             stateMachine.MouseScholar.OnDead();
-        } 
+        }
     }
 }

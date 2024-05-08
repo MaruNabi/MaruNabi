@@ -19,7 +19,7 @@ public class MouseScholarIdle : MouseScholarState
     {
         base.OnEnter();
 
-        stateMachine.MouseScholar.Idle = true;
+        stateMachine.MouseScholar.IsIdle = true;
     }
 
     public override void OnUpdate()
@@ -53,6 +53,6 @@ public class MouseScholarIdle : MouseScholarState
         base.OnExit();
 
         elapsedTime = 0f;
-        stateMachine.MouseScholar.Idle = false;
+        stateMachine.MouseScholar.IsIdle = false;
     }
 }
