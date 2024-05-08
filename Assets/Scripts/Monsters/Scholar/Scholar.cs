@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using Mono.Cecil.Cil;
 using UnityEngine;
@@ -6,18 +7,12 @@ using TMPro;
 public class Scholar : Entity
 {
     // TODO : 결합도 낮추기
-    public ScholarManager scholarManager;
-
-    // TODO : 결합도 낮추기
     public Animator scholarAnimator;
-
     public bool Idle
     {
         get { return isIdle; }
         set { isIdle = value; }
     }
-
-    private bool isIdle;
 
     private ScholarStateMachine scholarStateMachine;
     private SpriteRenderer scholarSpriteRenderer;
@@ -25,14 +20,15 @@ public class Scholar : Entity
     private ScholarEffects scholarEffects;
     private Sequence sequence;
     private const float DAMAGE_VALUE = 10;
+    private bool isIdle;
+    
     private bool isHit;
-
     public bool IsHit
     {
         get => isHit;
         set => isHit = value;
     }
-
+    
     protected override void Init()
     {
         hpTextBox = Utils.FindChild<TMP_Text>(gameObject, "", true);
@@ -41,8 +37,8 @@ public class Scholar : Entity
 
         scholarSpriteRenderer = GetComponent<SpriteRenderer>();
         scholarAnimator = GetComponent<Animator>();
-        scholarManager = transform.parent.GetComponent<ScholarManager>();
         scholarEffects = GetComponent<ScholarEffects>();
+        entityCollider = GetComponent<Collider2D>();
 
         scholarStateMachine.Initialize("Appearance", this, scholarAnimator);
 
@@ -122,5 +118,24 @@ public class Scholar : Entity
         DOTween.KillAll(this);
         isHit = false;
         base.OnDead();
+    }
+
+    public void AttackBlocking()
+    {
+        // Enemy 태그 없애서 피격 상태로 전환 방지
+        tag = "Untagged";
+        // 총알 삭제 방지
+        entityCollider.enabled = false;
+    }
+
+    public IEnumerator SetStatePunish()
+    {
+        yield return new WaitUntil(() => scholarStateMachine != null);
+        scholarStateMachine.SetState("Punish");
+    }
+    
+    public void RoundEnd(GameObject _obj)
+    {
+        scholarStateMachine.SetState("Leave");
     }
 }
