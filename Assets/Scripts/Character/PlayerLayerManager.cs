@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerLayerManager : MonoBehaviour
 {
+    private const int START_ORDER = 10;
     public Player playerMaru;
     public Player playerNabi;
 
@@ -14,7 +15,7 @@ public class PlayerLayerManager : MonoBehaviour
 
     private List<SpriteRenderer> playerMoveList = new List<SpriteRenderer>();
     private List<SpriteRenderer> playerStopList = new List<SpriteRenderer>();
-
+    
     void Start()
     {
         mRigidBody = playerMaru.GetComponent<Rigidbody2D>();
@@ -76,7 +77,7 @@ public class PlayerLayerManager : MonoBehaviour
         {
             for (int i = 0; i < playerMoveList.Count; i++)
             {
-                playerMoveList[i].sortingOrder = 4 - i;
+                playerMoveList[i].sortingOrder = START_ORDER + 4 - i;
             }
         }
         else
@@ -86,7 +87,7 @@ public class PlayerLayerManager : MonoBehaviour
         {
             for (int i = 0; i < playerStopList.Count; i++)
             {
-                playerStopList[i].sortingOrder = 2 + i;
+                playerStopList[i].sortingOrder = START_ORDER + i;
             }
         }
         else
