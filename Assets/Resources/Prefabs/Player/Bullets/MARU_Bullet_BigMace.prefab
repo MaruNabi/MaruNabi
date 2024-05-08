@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: 9390a1175b8a6db459084bff46c72d7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -145,7 +145,6 @@ MonoBehaviour:
   rayStartPosition: {fileID: 238695619667076944}
   blinkEffect: {fileID: 4332898047454749206}
   blinkSpriteRenderer: {fileID: 2039268542874773730}
-  explosionEffect: {fileID: 8026320913011426125, guid: 4d1f1d63ee5d17747a4040108fc13579, type: 3}
 --- !u!1 &4332898047454749206
 GameObject:
   m_ObjectHideFlags: 0
