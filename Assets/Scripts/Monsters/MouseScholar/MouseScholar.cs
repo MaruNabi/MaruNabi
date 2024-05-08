@@ -3,26 +3,26 @@ using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
-using UniRx.Triggers;
-using UnityEditor.SceneManagement;
 
 public class MouseScholar : Entity
 {
     public static Action<GameObject> StageClear;
-    public static Action Punish;
+    public static Action<float> OnRoundEnd;
+    public static Action PunishProduction;
 
-    public static Action OnRoundEnd;
 
     private MouseScholarStateMachine stateMachine;
     private SpriteRenderer spriteRenderer;
+
     private ScholarEffects mouseEffects;
+
     //private TMP_Text hpText;
     private Sequence sequence;
     private GameObject mouseGO;
     private GameObject scholarGO;
     private Animator animator;
 
-    private const float DAMAGE_VALUE = 13000;
+    private const float DAMAGE_VALUE = 200;
     private bool isHit;
 
     public bool IsHit
@@ -42,7 +42,6 @@ public class MouseScholar : Entity
     protected override void Init()
     {
         Data = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER");
-        //hpText = Utils.FindChild<TMP_Text>(gameObject, "", true);
         stateMachine = Utils.GetOrAddComponent<MouseScholarStateMachine>(gameObject);
 
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -51,9 +50,6 @@ public class MouseScholar : Entity
         animator = GetComponent<Animator>();
 
         stateMachine.Initialize("Appearance", this, GetComponent<Animator>());
-        maxHP = Data.LIFE;
-        HP = maxHP;
-        //hpText.text = HP.ToString();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -79,22 +75,21 @@ public class MouseScholar : Entity
             }
         }
     }
+    
+    public void InitHp(float _hp)
+    {
+        //hpText = Utils.FindChild<TMP_Text>(gameObject, "", true);
+        HP = _hp;
+        //hpText.text = HP.ToString();
+    }
 
     public void AppearanceEffect()
     {
         GameObject smoke = Instantiate(mouseEffects.smokePrefab);
         smoke.transform.position = transform.position;
 
-        GameObject straw = Instantiate(mouseEffects.strawPrefab);
+        GameObject straw = Instantiate(mouseEffects.strawParticle);
         straw.transform.position = transform.position;
-
-        float timer = 0;
-        DOTween.To(() => timer, x => timer = x, 1f, 0.5f)
-            .OnComplete(() =>
-            {
-                Destroy(smoke);
-                Destroy(straw);
-            });
 
         sequence = DOTween.Sequence();
         sequence.OnStart(() => spriteRenderer.color = new Color(1, 1, 1, 0))
@@ -139,7 +134,7 @@ public class MouseScholar : Entity
     public void RoundEnd()
     {
         isHit = false;
-        OnRoundEnd?.Invoke();
+        OnRoundEnd?.Invoke(HP);
     }
 
     public void StageClearProduction()
@@ -164,22 +159,17 @@ public class MouseScholar : Entity
     public void JumpAnimation(Vector3 targetPos)
     {
         animator.SetTrigger("Dead");
-        
+
         GameObject smoke = null;
         DOTween.Sequence()
-            .Append(gameObject.transform.DOJump(targetPos, 3, 0, 0.6f))
-            .AppendInterval(1f)
+            .Append(gameObject.transform.DOJump(targetPos, 2, 0, 0.6f))
+            .AppendInterval(2f)
             .Append(spriteRenderer.DOFade(0, 1f))
             .JoinCallback(() =>
             {
                 smoke = Instantiate(mouseEffects.smokePrefab);
                 smoke.transform.position = transform.position;
-            });
-    }
-
-    public void StageSkip()
-    {
-        HP = 0;
-        //hpText.text = HP.ToString();
+            })
+            .OnComplete(() => Destroy(gameObject));
     }
 }

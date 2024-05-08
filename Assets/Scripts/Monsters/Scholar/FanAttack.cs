@@ -13,7 +13,7 @@ public class FanAttack : MonoBehaviour
     private void Start()
     {
         sequence = DOTween.Sequence();
-        sequence.Append(transform.DOScale(50f, 2f))
+        sequence.Append(transform.DOScale(60f, 2f))
             .OnComplete(() => Destroy(gameObject));
     }
     

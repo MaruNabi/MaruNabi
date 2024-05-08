@@ -5,6 +5,8 @@ using DG.Tweening;
 
 public abstract class Entity : MonoBehaviour
 {
+    public static Action AttackEvent;
+    
     public float HP { get; protected set; }
     public bool Dead { get; protected set; }
     public MonsterData Data { get; protected set; }

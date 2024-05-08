@@ -31,16 +31,16 @@ public class ScholarStateMachine : StateMachine<ScholarStateMachine>
         switch (_type)
         {
             case EAnimationType.Attack:
-                scholarAnimator.SetTrigger("Attack");
+                scholarAnimator?.SetTrigger("Attack");
                 break;
             case EAnimationType.Hit:
-                scholarAnimator.SetTrigger("Hit");
+                scholarAnimator?.SetTrigger("Hit");
                 break;
             case EAnimationType.Laugh:
-                scholarAnimator.SetTrigger("Laugh");
+                scholarAnimator?.SetTrigger("Laugh");
                 break;
             case EAnimationType.Angry:
-                scholarAnimator.SetTrigger("Angry");
+                scholarAnimator?.SetTrigger("Angry");
                 break;
             default:
                 break;

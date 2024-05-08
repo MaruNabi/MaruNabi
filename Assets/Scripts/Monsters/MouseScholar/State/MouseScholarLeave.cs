@@ -21,7 +21,7 @@ public class MouseScholarLeave : MouseScholarState
         {
             // 피격 상태일 경우 대기
             if(stateMachine.MouseScholar.IsHit)
-                await UniTask.Delay(TimeSpan.FromSeconds(4f));
+                await UniTask.Delay(TimeSpan.FromSeconds(2f));
 
             stateMachine.MouseScholar.SmokeEffect();
             // 재입장까지 대기 시간

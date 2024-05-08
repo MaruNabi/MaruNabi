@@ -22,7 +22,7 @@ public class Scholar : Entity
     //private TMP_Text hpTextBox;
     private ScholarEffects scholarEffects;
     private Sequence sequence;
-    private const float DAMAGE_VALUE = 10;
+    private const float DAMAGE_VALUE = 1;
     private bool isIdle;
     
     private bool isHit;
@@ -35,12 +35,12 @@ public class Scholar : Entity
     private void Start()
     {
         base.Start();
-        MouseScholar.Punish += SetStatePunish;
+        MouseScholar.PunishProduction += SetStatePunish;
     }
 
     private void OnDestroy()
     {
-        MouseScholar.Punish -= SetStatePunish;
+        MouseScholar.PunishProduction -= SetStatePunish;
     }
 
     protected override void Init()
@@ -139,5 +139,10 @@ public class Scholar : Entity
     public void SetStatePunish()
     {
         scholarStateMachine.SetState("Punish");
+    }
+
+    public void StopStateMachine()
+    {
+        scholarStateMachine.Stop();
     }
 }

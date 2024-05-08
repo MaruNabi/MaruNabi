@@ -12,7 +12,7 @@ public class MouseScholarStateMachine : StateMachine<MouseScholarStateMachine>
         base.states = new Dictionary<string, State<MouseScholarStateMachine>>{
             {"Idle",new MouseScholarIdle(this)},
             {"Appearance",new MouseScholarScholarAppearance(this)},
-            {"Fan",new MouseScholarScholarFan(this)},
+            {"Fan",new MouseScholarFan(this)},
             {"Leave",new MouseScholarLeave(this)}
         };
     }
