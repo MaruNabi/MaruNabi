@@ -14,7 +14,8 @@ public class ScholarStateMachine : StateMachine<ScholarStateMachine>
             {"Idle",new ScholarIdle(this)},
             {"Appearance",new ScholarAppearance(this)},
             {"Fan",new ScholarFan(this)},
-            {"Leave",new ScholarLeave(this)}
+            {"Leave",new ScholarLeave(this)},
+            {"Punish", new ScholarPunish(this)}
         };
     }
 
