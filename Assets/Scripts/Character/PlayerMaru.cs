@@ -29,8 +29,6 @@ public class PlayerMaru : Player
     private Sprite[] maruLifeSprite = new Sprite[6];
     private int currentHp;
 
-    private bool canFallDown;
-
     void Start()
     {
         characterID = true;
@@ -157,7 +155,10 @@ public class PlayerMaru : Player
         if (Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Space) && isSitting)
         {
             if (canFallDown)
+            {
                 playerStandCollider.isTrigger = true;
+                playerAnimator.SetBool("isDown", true);
+            }
         }
 
         if (Input.GetKeyUp(KeyCode.S) && isSitting)
@@ -219,6 +220,17 @@ public class PlayerMaru : Player
             playerAnimator.SetBool("isMove", true);
         }
 
+        if (Mathf.RoundToInt(rigidBody.velocity.normalized.y) == 0)
+        {
+            playerAnimator.SetBool("isUp", false);
+            playerAnimator.SetBool("isDown", false);
+            float index = Mathf.Round(rigidBody.velocity.normalized.y * 10) * 0.1f;
+            if (groundRay && currentGroundName != groundRay.collider.gameObject.name && Mathf.Abs(index) < 0.1f)
+            {
+                currentGroundName = groundRay.collider.gameObject.name;
+            }
+        }
+
         if (!isGround)
         {
             if (rigidBody.velocity.normalized.y > 0)
@@ -237,11 +249,11 @@ public class PlayerMaru : Player
                 playerAnimator.SetBool("isDown", false);
             }
         }
-        else
+        /*else
         {
             playerAnimator.SetBool("isUp", false);
             playerAnimator.SetBool("isDown", false);
-        }
+        }*/
     }
 
     private void FixedUpdate()
@@ -278,14 +290,6 @@ public class PlayerMaru : Player
         if (collision.transform.CompareTag("EnemyBullet"))
         {
             Destroy(collision.gameObject);
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.transform.CompareTag("Ground"))
-        {
-            canFallDown = collision.gameObject.GetComponent<GroundObject>().canFallDown;
         }
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class Player : MonoBehaviour
     protected float lastClickTime = -1.0f;
     protected bool isDoubleClicked;
 
-    private float cDashPower = 20.0f;
+    private float cDashPower = 5.0f;
     private float cDashTime = 0.2f;
     private float cDashCooldown = 2.0f;
     protected bool isDashing = false;
@@ -66,6 +67,7 @@ public class Player : MonoBehaviour
     protected Vector2 sitAtkPosition;
 
     protected GameObject reviveEffect;
+    protected bool canFallDown;
 
     [SerializeField]
     private GameObject landingEffect;
@@ -130,19 +132,20 @@ public class Player : MonoBehaviour
                 isGround = true;
                 if (isLandingEffectOnce)
                 {
-                    canPlayerState[2] = true;
+                    //canPlayerState[3] = true;
                     isLandingEffectOnce = false;
                     isJumpingEnd = true;
                     isJumping = false;
                     cJumpCount = 0;
                     cMiniJumpPower = MINIMUM_JUMP;
-                    playerStandCollider.isTrigger = false;
                     Instantiate(landingEffect, transform.position, transform.rotation);
                 }   
             }
             else if (groundRay.collider.tag == "Ground" && currentGroundName != groundRay.collider.gameObject.name)
             {
                 isGround = false;
+                playerStandCollider.isTrigger = false;
+                canFallDown = groundRay.collider.gameObject.GetComponent<GroundObject>().canFallDown;
             }
             slopePerp = Vector2.Perpendicular(groundRay.normal).normalized;
             slopeAngle = Vector2.Angle(groundRay.normal, Vector2.up);
@@ -158,7 +161,11 @@ public class Player : MonoBehaviour
         {
             isGround = false;
             isLandingEffectOnce = true;
-            canPlayerState[2] = false;
+            if (1 < cMaxJumpCount)
+                isJumping = false;
+            else
+                isJumping = true;
+            //canPlayerState[3] = false;
         }
     }
 
@@ -336,13 +343,15 @@ public class Player : MonoBehaviour
         dashEffect.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
         float originalGravity = rigidBody.gravityScale;
         rigidBody.gravityScale = 0f;
+        rigidBody.velocity = new Vector2(0.0f, 0.0f);
         if (transform.rotation.y == 0)
         {
-            rigidBody.velocity = new Vector2(-cDashPower, 0.0f);
+            transform.DOMoveX(transform.position.x - 5, 0.2f);
+            //rigidBody.velocity = new Vector2(-cDashPower, 0.0f);
         }
         else
         {
-            rigidBody.velocity = new Vector2(cDashPower, 0.0f);
+            transform.DOMoveX(transform.position.x + 5, 0.2f);
         }
         //무적 넣으려면 여기~
         yield return new WaitForSeconds(cDashTime);

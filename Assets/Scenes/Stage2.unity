@@ -4414,7 +4414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341440, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: cJumpPower
