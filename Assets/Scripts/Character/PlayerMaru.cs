@@ -88,7 +88,6 @@ public class PlayerMaru : Player
         {
             rigidBody.velocity = Vector2.zero;
             PlayerJump(cMiniJumpPower);
-            canPlayerState[3] = false;
             isJumpingEnd = false;
             cJumpCount++;
         }
@@ -101,13 +100,11 @@ public class PlayerMaru : Player
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
             }
-            canPlayerState[3] = true;
         }
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
             isJumping = false;
-            canPlayerState[3] = true;
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
@@ -234,11 +231,11 @@ public class PlayerMaru : Player
                 playerAnimator.SetBool("isUp", false);
                 playerAnimator.SetBool("isDown", true);
             }
-            /*else
+            else
             {
                 playerAnimator.SetBool("isUp", false);
                 playerAnimator.SetBool("isDown", false);
-            }*/
+            }
         }
         else
         {
