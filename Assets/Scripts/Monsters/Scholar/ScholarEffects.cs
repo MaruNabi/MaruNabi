@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,5 +9,5 @@ public class ScholarEffects : MonoBehaviour
     public GameObject smokePrefab;
     public GameObject strawPrefab;
     public GameObject fanPrefab;
-    public Sprite mouseDeadSprite;
+    public AnimatorController mouseAnimator;
 }

@@ -52,4 +52,17 @@ public class MouseManager : MonoBehaviour
             playerRigidbody2.AddForce(Vector3.left * power);
         }
     }
+
+    public void NextStage()
+    {
+        virtualCamera2.gameObject.SetActive(false);
+        virtualCamera.gameObject.SetActive(true);
+        player.transform.position = stage2StartPosition.transform.position;
+        player2.transform.position = stage2StartPosition.transform.position;
+        playerRigidbody=player.GetComponent<Rigidbody2D>();
+        playerRigidbody2=player2.GetComponent<Rigidbody2D>();
+        roundStart = true;
+        mouse.GetComponent<Mouse>().enabled = true;
+        backGroundScrolls.ForEach(scroll => scroll.SetIsStart(true));
+    }
 }

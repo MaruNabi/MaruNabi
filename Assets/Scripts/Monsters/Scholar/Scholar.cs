@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using Mono.Cecil.Cil;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
+using Sequence = DG.Tweening.Sequence;
 
 public class Scholar : Entity
 {
@@ -16,7 +19,7 @@ public class Scholar : Entity
 
     private ScholarStateMachine scholarStateMachine;
     private SpriteRenderer scholarSpriteRenderer;
-    private TMP_Text hpTextBox;
+    //private TMP_Text hpTextBox;
     private ScholarEffects scholarEffects;
     private Sequence sequence;
     private const float DAMAGE_VALUE = 10;
@@ -28,10 +31,21 @@ public class Scholar : Entity
         get => isHit;
         set => isHit = value;
     }
-    
+
+    private void Start()
+    {
+        base.Start();
+        MouseScholar.Punish += SetStatePunish;
+    }
+
+    private void OnDestroy()
+    {
+        MouseScholar.Punish -= SetStatePunish;
+    }
+
     protected override void Init()
     {
-        hpTextBox = Utils.FindChild<TMP_Text>(gameObject, "", true);
+        //hpTextBox = Utils.FindChild<TMP_Text>(gameObject, "", true);
         scholarStateMachine = Utils.GetOrAddComponent<ScholarStateMachine>(gameObject);
         Data = Utils.GetDictValue(Managers.Data.monsterDict, "SCHOLAR_MONSTER");
 
@@ -44,7 +58,7 @@ public class Scholar : Entity
 
         maxHP = Data.LIFE;
         HP = maxHP;
-        hpTextBox.text = HP.ToString();
+        //hpTextBox.text = HP.ToString();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -57,7 +71,7 @@ public class Scholar : Entity
                 isHit = true;
                 BeHitEffect();
                 OnDamage(DAMAGE_VALUE);
-                hpTextBox.text = HP.ToString();
+                //hpTextBox.text = HP.ToString();
             }
         }
     }
@@ -90,14 +104,8 @@ public class Scholar : Entity
         GameObject smoke = Instantiate(scholarEffects.smokePrefab);
         smoke.transform.position = transform.position;
         
-        float timer = 0;
-        DOTween.To(() => timer, x => timer = x, 1f, 0.4f)
-            .OnComplete(() =>
-            {
-                Destroy(smoke);
-            });
         scholarSpriteRenderer.DOFade(0, 0.4f);
-        hpTextBox.DOFade(0, 0.4f);
+        //hpTextBox.DOFade(0, 0.4f);
     }
     
     public GameObject MakeFan(Vector3 fanPosition)
@@ -128,14 +136,8 @@ public class Scholar : Entity
         entityCollider.enabled = false;
     }
 
-    public IEnumerator SetStatePunish()
+    public void SetStatePunish()
     {
-        yield return new WaitUntil(() => scholarStateMachine != null);
         scholarStateMachine.SetState("Punish");
-    }
-    
-    public void RoundEnd(GameObject _obj)
-    {
-        scholarStateMachine.SetState("Leave");
     }
 }

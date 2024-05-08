@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
 using Random = UnityEngine.Random;
@@ -14,6 +16,9 @@ public class ScholarManager : MonoBehaviour
     [SerializeField] private Transform spawnTrasnform;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private Player player;
+    [SerializeField] private Transform targetTransform;
+    [SerializeField] private Transform target2Transform;
+    [SerializeField] private NextStageWall nextStageWall;
     
     private GameObject[] scholars;
     private Sequence sequence;
@@ -30,30 +35,16 @@ public class ScholarManager : MonoBehaviour
             scholars = new GameObject[INIT_MONSTERNUM];
 
             MouseScholar.OnRoundEnd += RoundRestart;
-            MouseScholar.OnRoundClear += StageClear;
+            MouseScholar.StageClear += StageClearProduction;
         
             MakeMonsterRandomLocation(INIT_MONSTERNUM);
         }
     }
-
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            foreach (var VARIABLE in scholars)
-            {
-                if (VARIABLE.TryGetComponent<MouseScholar>(out MouseScholar mouseScholar))
-                {
-                    mouseScholar.StageSkip();
-                }
-            }
-        }
-    }
-
+    
     private void OnDestroy()
     {
         MouseScholar.OnRoundEnd -= RoundRestart;
-        MouseScholar.OnRoundClear -= StageClear;
+        MouseScholar.StageClear -= StageClearProduction;
     }
 
     private void RoundRestart()
@@ -130,34 +121,43 @@ public class ScholarManager : MonoBehaviour
         return monsterGO;
     }
 
-    private void StageClear(GameObject _obj)
+    private void StageClearProduction(GameObject _mouseScholar)
     {
-        player.PlayerStateTransition(false);
+        
+        player.PlayerStateTransition(false, 0);
+        virtualCamera.m_Follow = _mouseScholar.transform;
+        virtualCamera.m_LookAt = _mouseScholar.transform;
+        virtualCamera.gameObject.SetActive(true);
+        
+        ProductionWait(_mouseScholar).Forget();
+    }
+
+    async UniTaskVoid ProductionWait(GameObject _mouseScholar)
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(2f));
+        
+        MouseScholar.Punish?.Invoke();
+        await UniTask.Delay(TimeSpan.FromSeconds(2.3f));
         
         for (var index = 0; index < scholars.Length; index++)
         {
             var item = scholars[index];
-            if (item == _obj)
+            if (item == _mouseScholar)
             {
-                GameObject monsterGO = Instantiate(scholarPrefab, spawnTrasnform);
                 if (index == 0)
                 {
-                    monsterGO.transform.position = monsterTransformArr[1].position;
+                    Utils.GetOrAddComponent<MouseScholar>(_mouseScholar).JumpAnimation(_mouseScholar.transform.position);
                 }
                 else
                 {
-                    monsterGO.transform.position = monsterTransformArr[index-1].position;
+                    Utils.GetOrAddComponent<MouseScholar>(_mouseScholar).JumpAnimation(_mouseScholar.transform.position);
                 }
-
-                var scholar = Utils.GetOrAddComponent<Scholar>(monsterGO);
-                StartCoroutine(scholar.SetStatePunish());
             }
         }
-
-        // 연출
-        Debug.Log("클리어");
-        virtualCamera.m_Follow = _obj.transform;
-        virtualCamera.m_LookAt = _obj.transform;
-        virtualCamera.gameObject.SetActive(true);
+        
+        await UniTask.Delay(TimeSpan.FromSeconds(2f));
+        nextStageWall.isClear = true;
+        player.PlayerStateTransition(true, 0);
+        virtualCamera.gameObject.SetActive(false);
     }
 }

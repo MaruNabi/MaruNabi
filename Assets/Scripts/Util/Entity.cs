@@ -12,7 +12,7 @@ public abstract class Entity : MonoBehaviour
     protected float maxHP;
     protected Collider2D entityCollider;
     
-    private void Start()
+    protected void Start()
     {
         StartCoroutine(WaitDataManager());
     }
