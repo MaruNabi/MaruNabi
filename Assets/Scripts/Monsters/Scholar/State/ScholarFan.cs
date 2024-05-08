@@ -36,13 +36,11 @@ public class ScholarFan : ScholarState
     
     public override void OnUpdate()
     {
-        base.OnUpdate();
         elapsedTime += Time.deltaTime;
 
         if (elapsedTime >= escapeTime)
         {
             stateMachine.Scholar.DestroyFan(fan);
-            stateMachine.SetState("Leave");
         }
     }
 }

@@ -22,6 +22,10 @@ public class AttackCharm : Bullet
         {
             enemy = GameObject.FindGameObjectWithTag("Enemy").transform;
         }
+        else if (GameObject.FindGameObjectWithTag("NoBumpEnemy"))
+        {
+            enemy= GameObject.FindGameObjectWithTag("NoBumpEnemy").transform;
+        }
 
         shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Dron");
     }

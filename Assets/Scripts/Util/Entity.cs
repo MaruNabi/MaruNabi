@@ -10,6 +10,7 @@ public abstract class Entity : MonoBehaviour
     public MonsterData Data { get; protected set; }
 
     protected float maxHP;
+    protected Collider2D entityCollider;
     
     private void Start()
     {
@@ -51,5 +52,14 @@ public abstract class Entity : MonoBehaviour
     {
         Dead = true;
         Destroy(gameObject);
+    }
+    
+    public void AttackBlocking()
+    {
+        // Enemy 태그 없애서 피격 상태로 전환 방지
+        tag = "Untagged";
+        
+        // 총알 삭제 방지
+        entityCollider.enabled = false;
     }
 }

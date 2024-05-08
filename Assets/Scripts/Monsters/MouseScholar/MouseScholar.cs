@@ -5,11 +5,11 @@ using DG.Tweening;
 
 public class MouseScholar : Entity
 {
-    public static Action OnDeath;
+    public static Action<GameObject> OnRoundClear;
     public static Action OnRoundEnd;
     
-    private MouseScholarStateMachine _mouseScholarStateMachine;
-    private SpriteRenderer mouseSpriteRenderer;
+    private MouseScholarStateMachine stateMachine;
+    private SpriteRenderer spriteRenderer;
     private ScholarEffects mouseEffects;
     private TMP_Text hpText;
     private Sequence sequence;
@@ -25,11 +25,12 @@ public class MouseScholar : Entity
     {
         Data = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER");
         hpText = Utils.FindChild<TMP_Text>(gameObject, "", true);
-        _mouseScholarStateMachine = Utils.GetOrAddComponent<MouseScholarStateMachine>(gameObject);
+        stateMachine = Utils.GetOrAddComponent<MouseScholarStateMachine>(gameObject);
         
-        mouseSpriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         mouseEffects = GetComponent<ScholarEffects>();
-        _mouseScholarStateMachine.Initialize("Appearance", this, GetComponent<Animator>());
+        entityCollider = GetComponent<Collider2D>();
+        stateMachine.Initialize("Appearance", this, GetComponent<Animator>());
 
         maxHP = Data.LIFE;
         HP = maxHP;
@@ -59,7 +60,7 @@ public class MouseScholar : Entity
         straw.transform.position = transform.position;
 
         float timer = 0;
-        DOTween.To(() => timer, x => timer = x, 1f, 0.4f)
+        DOTween.To(() => timer, x => timer = x, 1f, 0.5f)
             .OnComplete(() =>
             {
                 Destroy(smoke);
@@ -67,8 +68,8 @@ public class MouseScholar : Entity
             });
         
         sequence = DOTween.Sequence();
-        sequence.OnStart(() => mouseSpriteRenderer.color = new Color(1, 1, 1, 0))
-            .Append(mouseSpriteRenderer.DOFade(1f, 1f));
+        sequence.OnStart(() => spriteRenderer.color = new Color(1, 1, 1, 0))
+            .Append(spriteRenderer.DOFade(1f, 1f));
     }
     
     public void SmokeEffect()
@@ -82,7 +83,7 @@ public class MouseScholar : Entity
             {
                 Destroy(smoke);
             });
-        mouseSpriteRenderer.DOFade(0, 0.4f);
+        spriteRenderer.DOFade(0, 0.4f);
         hpText.DOFade(0,0.4f);
     }
 
@@ -90,8 +91,8 @@ public class MouseScholar : Entity
     {
         Sequence sequence = DOTween.Sequence();
         sequence
-            .Append(mouseSpriteRenderer.DOFade(0.5f, 0.3f))
-            .Append(mouseSpriteRenderer.DOFade(1f, 0.3f));
+            .Append(spriteRenderer.DOFade(0.5f, 0.3f))
+            .Append(spriteRenderer.DOFade(1f, 0.3f));
     }
     
     public GameObject MakeFan(Vector3 fanPosition)
@@ -108,7 +109,7 @@ public class MouseScholar : Entity
     
     public override void OnDead()
     {
-        DOTween.KillAll(mouseSpriteRenderer);
+        DOTween.KillAll(spriteRenderer);
         DOTween.KillAll(this);
         base.OnDead();
     }
@@ -119,14 +120,28 @@ public class MouseScholar : Entity
         OnRoundEnd?.Invoke();
     }
 
-    public void Death()
+    public void RoundClear()
     {
-        if(sequence.IsPlaying())
-            sequence.Kill();
+        GameObject smoke = null;
+    
+        Sequence sequence = DOTween.Sequence();
+        sequence
+            .AppendInterval(2f)
+            .AppendCallback(() =>
+            {
+                smoke = Instantiate(mouseEffects.smokePrefab);
+                smoke.transform.position = transform.position;
+                spriteRenderer.sprite = mouseEffects.mouseDeadSprite;
+                OnRoundClear?.Invoke(gameObject);
+            })
+            .OnComplete(() => Destroy(smoke));
         
         Debug.Log("MouseScholar Death");
-        mouseSpriteRenderer.DOFade(100, 2f);
-        mouseSpriteRenderer.sprite = mouseEffects.mouseDeadSprite;
-        OnDeath?.Invoke();
+    }
+    
+    public void StageSkip()
+    {
+        HP = 0;
+        hpText.text = HP.ToString();
     }
 }
