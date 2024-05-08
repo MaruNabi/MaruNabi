@@ -2,7 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class MouseScholarScholarFan : MouseScholarState
+public class MouseScholarFan : MouseScholarState
 {
     private const float FAN_DELAY = 0.5f;
     private float elapsedTime;
@@ -12,7 +12,7 @@ public class MouseScholarScholarFan : MouseScholarState
     private Vector3 mousePos;
     private GameObject fan;
 
-    public MouseScholarScholarFan(MouseScholarStateMachine scholarStateMachine) : base(scholarStateMachine)
+    public MouseScholarFan(MouseScholarStateMachine scholarStateMachine) : base(scholarStateMachine)
     {
         elapsedTime = 0f;
         escapeTime = 4f;
@@ -32,6 +32,7 @@ public class MouseScholarScholarFan : MouseScholarState
         stateMachine.ChangeAnimation(EAnimationType.Attack);
         await UniTask.Delay(TimeSpan.FromSeconds(FAN_DELAY));
         fan = stateMachine.MouseScholar.MakeFan(mousePos);
+        Entity.AttackEvent?.Invoke();
     }
 
     public override void OnUpdate()
