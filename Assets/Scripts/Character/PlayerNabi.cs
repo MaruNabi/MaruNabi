@@ -26,8 +26,6 @@ public class PlayerNabi : Player
     private Sprite[] nabiLifeSprite = new Sprite[6];
     private int currentHp;
 
-    private bool canFallDown;
-
     void Start()
     {
         characterID = false;
@@ -156,7 +154,10 @@ public class PlayerNabi : Player
         if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.RightShift) && isSitting)
         {
             if (canFallDown)
+            {
                 playerStandCollider.isTrigger = true;
+                playerAnimator.SetBool("isDown", true);
+            }
         }
 
         if (Input.GetKeyUp(KeyCode.DownArrow) && isSitting)
@@ -212,13 +213,12 @@ public class PlayerNabi : Player
             playerAnimator.SetBool("isMove", true);
         }
 
-        Debug.Log(currentGroundName);
-
-        if (Mathf.RoundToInt((rigidBody.velocity.normalized.y * 100)) / 100 == 0) //Mathf.RoundToInt(rigidBody.velocity.normalized.y) == 0
+        if (Mathf.RoundToInt(rigidBody.velocity.normalized.y) == 0)
         {
             playerAnimator.SetBool("isUp", false);
             playerAnimator.SetBool("isDown", false);
-            if (groundRay && currentGroundName != groundRay.collider.gameObject.name && Mathf.RoundToInt(rigidBody.velocity.normalized.y) != 1)
+            float index = Mathf.Round(rigidBody.velocity.normalized.y * 10) * 0.1f;
+            if (groundRay && currentGroundName != groundRay.collider.gameObject.name && Mathf.Abs(index) < 0.1f)
             {
                 currentGroundName = groundRay.collider.gameObject.name;
             }
@@ -285,7 +285,7 @@ public class PlayerNabi : Player
             canFallDown = collision.gameObject.GetComponent<GroundObject>().canFallDown;
             Debug.Log("canfalldown" + canFallDown);
         }
-    }*/
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -293,7 +293,7 @@ public class PlayerNabi : Player
         {
             canFallDown = collision.gameObject.GetComponent<GroundObject>().canFallDown;
         }
-    }
+    }*/
 
     protected override IEnumerator Revive()
     {
