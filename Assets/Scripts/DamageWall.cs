@@ -9,7 +9,6 @@ public class DamageWall : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player Hit Wall");
             collision.gameObject.transform.DOJump(collision.gameObject.transform.position+Vector3.right*2f, 1f, 1, 0.35f);
         }
     }

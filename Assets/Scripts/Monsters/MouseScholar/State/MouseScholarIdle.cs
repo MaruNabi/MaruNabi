@@ -3,13 +3,13 @@ using System.Collections;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class MouseScholarScholarIdle : MouseScholarState
+public class MouseScholarIdle : MouseScholarState
 {
     private float elapsedTime;
     private float escapeTime;
     private bool isBehit;
 
-    public MouseScholarScholarIdle(MouseScholarStateMachine scholarStateMachine) : base(scholarStateMachine)
+    public MouseScholarIdle(MouseScholarStateMachine scholarStateMachine) : base(scholarStateMachine)
     {
         elapsedTime = 0f;
         escapeTime = 7f;
@@ -25,7 +25,7 @@ public class MouseScholarScholarIdle : MouseScholarState
     public override void OnUpdate()
     {
         base.OnUpdate();
-
+        
         elapsedTime += Time.deltaTime;
 
         if (elapsedTime >= escapeTime)
@@ -42,6 +42,9 @@ public class MouseScholarScholarIdle : MouseScholarState
                 stateMachine.SetState("Fan");
                 stateMachine.ChangeAnimation(EAnimationType.Laugh);
             }
+            
+            // Enemy 태그 없애서 피격 상태로 전환 방지
+            stateMachine.MouseScholar.AttackBlocking();
         }
     }
 

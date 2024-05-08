@@ -38,12 +38,6 @@ public class Mouse : Entity
         Init();
     }
 
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.Space))
-            SpawnRock();
-    }
-
     protected override void Init()
     {
         //Data = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER");
