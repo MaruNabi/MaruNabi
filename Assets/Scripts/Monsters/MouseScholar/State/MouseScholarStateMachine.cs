@@ -10,10 +10,10 @@ public class MouseScholarStateMachine : StateMachine<MouseScholarStateMachine>
     private void Awake()
     {
         base.states = new Dictionary<string, State<MouseScholarStateMachine>>{
-            {"Idle",new MouseScholarScholarIdle(this)},
+            {"Idle",new MouseScholarIdle(this)},
             {"Appearance",new MouseScholarScholarAppearance(this)},
             {"Fan",new MouseScholarScholarFan(this)},
-            {"Leave",new MouseScholarScholarLeave(this)}
+            {"Leave",new MouseScholarLeave(this)}
         };
     }
 

@@ -41,6 +41,8 @@ public class ScholarIdle : ScholarState
             {
                 stateMachine.SetState("Leave");
             }
+            
+            stateMachine.Scholar.AttackBlocking();
         }
     }
     
