@@ -10807,6 +10807,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Nabi_Test
       objectReference: {fileID: 0}
+    - target: {fileID: 3042348562188423809, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: cJumpPower
       value: 0.095
@@ -14364,7 +14368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ada53837fcad041b3701b3a8a2df5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roundStart: 1
+  roundStart: 0
   scholarPrefab: {fileID: 8878078845135146718, guid: 01f3283e653ee4641bbd1dad48a1f88a, type: 3}
   monsterTransformArr:
   - {fileID: 1469341352}

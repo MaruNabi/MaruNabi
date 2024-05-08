@@ -84,7 +84,6 @@ public class PlayerNabi : Player
         {
             rigidBody.velocity = Vector2.zero;
             PlayerJump(cMiniJumpPower);
-            canPlayerState[3] = false;
             isJumpingEnd = false;
             cJumpCount++;
         }
@@ -97,13 +96,11 @@ public class PlayerNabi : Player
                 PlayerJumping(cJumpPower);
                 cMiniJumpPower += cJumpPower;
             }
-            canPlayerState[3] = true;
         }
 
         if (Input.GetKeyUp(KeyCode.RightShift))
         {
             isJumping = false;
-            canPlayerState[3] = true;
         }
 
         if (Input.GetKeyDown(KeyCode.L))
@@ -215,6 +212,18 @@ public class PlayerNabi : Player
             playerAnimator.SetBool("isMove", true);
         }
 
+        Debug.Log(currentGroundName);
+
+        if (Mathf.RoundToInt((rigidBody.velocity.normalized.y * 100)) / 100 == 0) //Mathf.RoundToInt(rigidBody.velocity.normalized.y) == 0
+        {
+            playerAnimator.SetBool("isUp", false);
+            playerAnimator.SetBool("isDown", false);
+            if (groundRay && currentGroundName != groundRay.collider.gameObject.name && Mathf.RoundToInt(rigidBody.velocity.normalized.y) != 1)
+            {
+                currentGroundName = groundRay.collider.gameObject.name;
+            }
+        }
+
         if (!isGround)
         {
             if (rigidBody.velocity.normalized.y > 0)
@@ -227,17 +236,17 @@ public class PlayerNabi : Player
                 playerAnimator.SetBool("isUp", false);
                 playerAnimator.SetBool("isDown", true);
             }
-            /*else
+            else
             {
                 playerAnimator.SetBool("isUp", false);
                 playerAnimator.SetBool("isDown", false);
-            }*/
+            }
         }
-        else
+        /*else
         {
             playerAnimator.SetBool("isUp", false);
             playerAnimator.SetBool("isDown", false);
-        }
+        }*/
     }
 
     private void FixedUpdate()
