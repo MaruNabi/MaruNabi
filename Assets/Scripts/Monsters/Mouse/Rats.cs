@@ -19,15 +19,6 @@ public class Rats : MonoBehaviour
             .OnComplete(() => Destroy(gameObject));
     }
     
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Player Hit Rats");
-            collision.gameObject.transform.DOJump(collision.gameObject.transform.position+Vector3.left*2f, 1f, 1, 0.35f);
-        }
-    }
-    
     private void OnDestroy()
     {
         sequence.Kill();
