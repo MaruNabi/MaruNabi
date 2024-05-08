@@ -10,39 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36baaa8bdcb9d8b49b9199833965d2c3, type: 3}
-  m_Name: CM StateDrivenCameraBlends
+  m_Name: Main Camera Blends
   m_EditorClassIdentifier: 
   m_CustomBlends:
-  - m_From: '**ANY CAMERA**'
-    m_To: CM FreeLook
+  - m_From: CM vcam2D_TargetGroup_2-1
+    m_To: CM ZoomCam
     m_Blend:
       m_Style: 1
       m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-  - m_From: '**ANY CAMERA**'
-    m_To: CM FreeLook sprint
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: CM ZoomCam
+    m_To: CM vcam2D_TargetGroup_2-1
     m_Blend:
       m_Style: 1
-      m_Time: 2
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-  - m_From: '**ANY CAMERA**'
-    m_To: CM FreeLook sprint
-    m_Blend:
-      m_Style: 1
-      m_Time: 2
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
