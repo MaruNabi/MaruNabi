@@ -85,6 +85,8 @@ public class Player : MonoBehaviour
     protected float slopeAngle;
     protected Vector2 slopePerp;
     protected bool isSlope;
+    protected RaycastHit2D groundRay;
+    protected string currentGroundName;
 
     public void PlayerStateTransition(bool _set, int _index = 4)
     {
@@ -119,34 +121,38 @@ public class Player : MonoBehaviour
 
     protected void SlopeCheck()
     {
-        RaycastHit2D hit = Physics2D.Raycast(slopeCheckPosition.position, Vector2.down, slopeRayDistance, groundMask);
+        groundRay = Physics2D.Raycast(slopeCheckPosition.position, Vector2.down, slopeRayDistance, groundMask);
 
-        if (hit)
+        if (groundRay)
         {
-            if (hit.collider.tag == "Ground")
+            if (groundRay.collider.tag == "Ground" && currentGroundName == groundRay.collider.gameObject.name)
             {
                 isGround = true;
                 if (isLandingEffectOnce)
                 {
                     canPlayerState[2] = true;
                     isLandingEffectOnce = false;
-                    isJumping = false;
                     isJumpingEnd = true;
+                    isJumping = false;
                     cJumpCount = 0;
                     cMiniJumpPower = MINIMUM_JUMP;
                     playerStandCollider.isTrigger = false;
                     Instantiate(landingEffect, transform.position, transform.rotation);
                 }   
             }
-            slopePerp = Vector2.Perpendicular(hit.normal).normalized;
-            slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+            else if (groundRay.collider.tag == "Ground" && currentGroundName != groundRay.collider.gameObject.name)
+            {
+                isGround = false;
+            }
+            slopePerp = Vector2.Perpendicular(groundRay.normal).normalized;
+            slopeAngle = Vector2.Angle(groundRay.normal, Vector2.up);
 
             if (slopeAngle != 0)
                 isSlope = true;
             else
                 isSlope = false;
 
-            Debug.DrawLine(hit.point, hit.point + hit.normal, Color.blue);
+            Debug.DrawLine(groundRay.point, groundRay.point + groundRay.normal, Color.blue);
         }
         else
         {
