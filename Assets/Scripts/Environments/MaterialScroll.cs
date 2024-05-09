@@ -7,11 +7,11 @@ public class MaterialScroll : ScrollManager
 {
     [SerializeField] float speed;
     private float offset_x;
-    private Renderer renderer;
+    private Renderer scrollRenderer;
 
     private void Start()
     {
-        renderer = GetComponent<Renderer>();
+        scrollRenderer = GetComponent<Renderer>();
     }
 
     private void Update()
@@ -26,7 +26,7 @@ public class MaterialScroll : ScrollManager
     {
         offset_x += speed * Time.deltaTime;
         Vector2 offset = new Vector2(offset_x, 0);
-        renderer.material.SetTextureOffset("_MainTex", offset);
+        scrollRenderer.material.SetTextureOffset("_MainTex", offset);
     }
 
 }

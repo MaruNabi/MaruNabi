@@ -15,7 +15,7 @@ public class Rats : MonoBehaviour
         sequence = DOTween.Sequence();
         sequence
             .Append(transform.DOMoveX(transform.position.x - 25f, 2f))
-            .Join(transform.DOMoveY(transform.position.y - 2.25f, 2f))
+            .Join(transform.DOMoveY(transform.position.y - 2.61f, 2f))
             .OnComplete(() => Destroy(gameObject));
     }
     

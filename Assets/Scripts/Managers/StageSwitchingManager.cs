@@ -1,18 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
+using Input = UnityEngine.Windows.Input;
 
 public class StageSwitchingManager : MonoBehaviour
 {
-    [SerializeField] Player player1;
-    [SerializeField] Player player2;
-
-    private bool isClear;
+    [Header("Stage2로 건너뛰기")]
+    [SerializeField] private bool stage2Start;
+    [Space]
+    
+    [SerializeField] private Player player2;
+    [SerializeField] private Player player1;
+    [SerializeField] private Transform stage2SpawnPosition;
+    [SerializeField] private CinemachineVirtualCamera stage2Camera;
+    [SerializeField] private ScholarManager scholarManager;
+    [SerializeField] private MouseManager mouseManager;
+    
+    private bool isStage1Clear;
+    
+    private void Start()
+    {
+        if (stage2Start)
+        {
+            scholarManager.Stage1Start = false;
+            player1.transform.position = stage2SpawnPosition.position;
+            player2.transform.position = stage2SpawnPosition.position;
+            stage2Camera.gameObject.SetActive(true);
+            mouseManager.StageStart();
+        }
+    }
     
     private void FixedUpdate()
     {
-        if (isClear)
+        if (isStage1Clear)
         {
+            // 우측으로 강제 이동
             player1.ForcedPlayerMoveToRight();
             player2.ForcedPlayerMoveToRight();
         }
@@ -20,15 +43,23 @@ public class StageSwitchingManager : MonoBehaviour
     
     public void ForcedMove()
     {
+        // 행동 막기
         player1.PlayerStateTransition(false, 0);
         player2.PlayerStateTransition(false, 0);
 
-        isClear = true;
+        stage2Camera.gameObject.SetActive(true);
+        isStage1Clear = true;
     }
     
     public void AllowBehavior()
     {
         player1.PlayerStateTransition(true, 0);
         player2.PlayerStateTransition(true, 0);
+    }
+    
+    public void StageStart()
+    {
+        AllowBehavior();
+        mouseManager.StageStart();
     }
 }

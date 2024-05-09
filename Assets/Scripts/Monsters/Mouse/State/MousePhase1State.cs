@@ -39,10 +39,13 @@ public class MousePhase1State : State<MouseStateMachine>
         
         if (RandomizerUtil.PercentRandomizer(30))
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.HeadButt()));
+            Mouse.MovingBackGround?.Invoke(false);
+            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()));
+            Mouse.MovingBackGround?.Invoke(true);
         }
         else
         {
+            stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
             await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()));
         }
 

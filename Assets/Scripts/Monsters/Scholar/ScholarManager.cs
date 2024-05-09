@@ -6,6 +6,7 @@ using Cinemachine;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class ScholarManager : MonoBehaviour
@@ -19,7 +20,14 @@ public class ScholarManager : MonoBehaviour
     [SerializeField] private Transform spawnTrasnform;
     [SerializeField] private Player player1;
     [SerializeField] private Player player2;
-    [SerializeField] private bool roundStart;
+
+
+    private bool stage1Start = true;
+
+    public bool Stage1Start
+    {
+        set => stage1Start = value;
+    }
 
     private const int INIT_MONSTERNUM = 7;
     private int roundNum;
@@ -29,7 +37,7 @@ public class ScholarManager : MonoBehaviour
     private bool isRoundEnd;
     private bool isStageClear;
 
-    public void Start()
+    private void Start()
     {
         MouseScholar.OnRoundEnd += RoundRestart;
         MouseScholar.StageClear += StageClearProduction;
@@ -37,7 +45,7 @@ public class ScholarManager : MonoBehaviour
 
         mouseHp = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER").LIFE;
 
-        if (roundStart)
+        if (stage1Start)
         {
             roundNum = -1;
             scholars = new GameObject[INIT_MONSTERNUM];
@@ -58,7 +66,7 @@ public class ScholarManager : MonoBehaviour
         DamageDelay().Forget();
     }
 
-    async UniTaskVoid DamageDelay()
+    private async UniTaskVoid DamageDelay()
     {
         await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
         player1.PlayerHitSpecial(player1.transform.position);

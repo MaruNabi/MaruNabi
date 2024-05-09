@@ -44,17 +44,23 @@ public class MousePhase2State : State<MouseStateMachine>
 
         switch (stateMachine.Mouse.TakeOne())
         {
-            case EMousePattern.HeadButt:
-                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.HeadButt()));
+            case EMousePattern.Rush:
+                Mouse.MovingBackGround?.Invoke(false);
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()));
+                Mouse.MovingBackGround?.Invoke(true);
                 break;
             case EMousePattern.SpawnRats:
+                stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
                 await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()));
                 break;
             case EMousePattern.Rock:
+                stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
                 await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRock()));
                 break;
             case EMousePattern.Tail:
+                Mouse.MovingBackGround?.Invoke(false);
                 await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.TailAttack()));
+                Mouse.MovingBackGround?.Invoke(true);
                 break;
         }
 

@@ -6,15 +6,21 @@ using UnityEngine;
 public class WallTrigger : MonoBehaviour
 {
     [SerializeField] GameObject wall;
-    [SerializeField] MouseManager mouseManager;
+    [SerializeField] StageSwitchingManager switchingManager;
+    private int count;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            wall.SetActive(true);
             Utils.GetOrAddComponent<Player>(other.gameObject).IsTargetGround= true;
-            mouseManager.StageReady();
+            count++;
+            
+            if (count >= 2)
+            {
+                wall.SetActive(true);
+                switchingManager.StageStart();
+            }
         }
     }
 }

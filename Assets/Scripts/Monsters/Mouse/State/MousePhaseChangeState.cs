@@ -20,7 +20,7 @@ public class MousePhaseChangeState : State<MouseStateMachine>
     
     async UniTaskVoid PhaseChangeWait()
     {
-        stateMachine.Mouse.SetCanHit(false);
+        stateMachine.Mouse.AllowAttack(false);
         stateMachine.Mouse.PhaseChange = true;
         stateMachine.Mouse.PhaseChangeSprite();
         

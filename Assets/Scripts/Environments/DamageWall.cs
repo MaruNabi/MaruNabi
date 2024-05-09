@@ -5,11 +5,17 @@ using DG.Tweening;
 
 public class DamageWall : MonoBehaviour
 {
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.transform.DOJump(collision.gameObject.transform.position+Vector3.right*2f, 1f, 1, 0.35f);
+            var player = Utils.GetOrAddComponent<Player>(collision.gameObject);
+
+            if (player.IsInvincibleTime == false)
+            {
+                player.PlayerHit(transform.position);
+                collision.gameObject.transform.DOJump(collision.gameObject.transform.position+Vector3.right*2f, 1f, 1, 0.3f);
+            }
         }
     }
 }

@@ -26,20 +26,20 @@ public class ScholarStateMachine : StateMachine<ScholarStateMachine>
         base.Initialize(_stateName);
     }
     
-    public void ChangeAnimation(EAnimationType _type)
+    public void ChangeAnimation(EScholarAnimationType _type)
     {
         switch (_type)
         {
-            case EAnimationType.Attack:
+            case EScholarAnimationType.Attack:
                 scholarAnimator?.SetTrigger("Attack");
                 break;
-            case EAnimationType.Hit:
+            case EScholarAnimationType.Hit:
                 scholarAnimator?.SetTrigger("Hit");
                 break;
-            case EAnimationType.Laugh:
+            case EScholarAnimationType.Laugh:
                 scholarAnimator?.SetTrigger("Laugh");
                 break;
-            case EAnimationType.Angry:
+            case EScholarAnimationType.Angry:
                 scholarAnimator?.SetTrigger("Angry");
                 break;
             default:

@@ -108,7 +108,7 @@ public class MouseScholar : Entity
     {
         Sequence sequence = DOTween.Sequence();
         sequence
-            .Append(spriteRenderer.DOFade(0.5f, 0.3f))
+            .Append(spriteRenderer.DOFade(0.75f, 0.3f))
             .Append(spriteRenderer.DOFade(1f, 0.3f));
     }
 
@@ -141,7 +141,7 @@ public class MouseScholar : Entity
     {
         Dead = true;
         stateMachine.SetState("Leave");
-        stateMachine.ChangeAnimation(EAnimationType.Hit);
+        stateMachine.ChangeAnimation(EScholarAnimationType.Hit);
         StageClear?.Invoke(gameObject);
         GameObject smoke = null;
 

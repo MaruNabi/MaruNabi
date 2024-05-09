@@ -32,7 +32,7 @@ public class Scholar : Entity
         set => isHit = value;
     }
 
-    private void Start()
+    protected void Start()
     {
         base.Start();
         MouseScholar.PunishProduction += SetStatePunish;
@@ -95,7 +95,7 @@ public class Scholar : Entity
     {
         sequence = DOTween.Sequence();
         sequence
-            .Append(scholarSpriteRenderer.DOFade(0.5f, 0.3f))
+            .Append(scholarSpriteRenderer.DOFade(0.75f, 0.3f))
             .Append(scholarSpriteRenderer.DOFade(1f, 0.3f));
     }
     
@@ -126,14 +126,6 @@ public class Scholar : Entity
         DOTween.KillAll(this);
         isHit = false;
         base.OnDead();
-    }
-
-    public void AttackBlocking()
-    {
-        // Enemy 태그 없애서 피격 상태로 전환 방지
-        tag = "Untagged";
-        // 총알 삭제 방지
-        entityCollider.enabled = false;
     }
 
     public void SetStatePunish()
