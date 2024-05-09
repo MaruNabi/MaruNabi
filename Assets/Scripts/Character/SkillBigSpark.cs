@@ -8,6 +8,8 @@ public class SkillBigSpark : Bullet
     {
         SetBullet();
 
+        isPenetrate = true;
+
         shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Tank");
     }
 
@@ -24,6 +26,6 @@ public class SkillBigSpark : Bullet
 
         NormalBulletMovement();
 
-        ColliderCheck(false, true);
+        ColliderCheck(false);
     }
 }

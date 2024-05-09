@@ -15,6 +15,7 @@ public class Bullet : MonoBehaviour
     protected Rigidbody2D bulletRigidbody;
     protected Vector2 lockedBulletVector;
     protected float attackPower = 300f;
+    protected bool isPenetrate = false;
 
     protected string currentHit;
     protected bool isEffectOnce = true;
@@ -68,6 +69,7 @@ public class Bullet : MonoBehaviour
 
     protected void DestroyBullet()
     {
+        isOneInit = true;
         lockedBulletVector = new Vector2(0.0f, 0.0f);
         Managers.Pool.Push(Utils.GetOrAddComponent<Poolable>(this.gameObject));
     }
@@ -98,11 +100,13 @@ public class Bullet : MonoBehaviour
                     bulletRigidbody.velocity = new Vector2(speed, 0);
                 }
                 transform.rotation = Quaternion.Euler(0, angle, 0);
+                Debug.Log(bulletRigidbody.velocity);
             }
         }
 
         else
         {
+            Debug.Log("else");
             bulletRigidbody.velocity = lockedBulletVector * speed;
             angle = Mathf.Atan2(lockedBulletVector.y, lockedBulletVector.x) * Mathf.Rad2Deg;
             angle %= 360f;
@@ -110,7 +114,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    protected void ColliderCheck(bool isNormalAtk, bool isPenetrate)
+    protected void ColliderCheck(bool isNormalAtk)
     {
         if (ray.collider != null)
         {
@@ -127,6 +131,7 @@ public class Bullet : MonoBehaviour
             {
                 if ((PlayerNabi.ultimateGauge += attackPower) > 1500.0f)
                 {
+                    Debug.Log(PlayerNabi.ultimateGauge);
                     PlayerNabi.ultimateGauge = 1500.0f;
                 }
             }
@@ -134,19 +139,16 @@ public class Bullet : MonoBehaviour
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
-                Debug.Log("Hit");
             }
             else if (isEnemy && ray.collider.name != currentHit)
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
-                Debug.Log("Hit");
             }
 
             if (isEnemy && !isPenetrate)
             {
-                Invoke("DestroyBullet", 0.1f);
-                Debug.Log("Hi");
+                //Invoke("DestroyBullet", 0.1f);
                 //DestroyBullet();
             }
         }
@@ -154,6 +156,14 @@ public class Bullet : MonoBehaviour
         else if (ray.collider == null && !isNormalAtk)
         {
             isHitOnce = true;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (isEnemy && !isPenetrate)
+        {
+            DestroyBullet();
         }
     }
 
