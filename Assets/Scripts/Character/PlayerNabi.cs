@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class PlayerNabi : Player
 {
     public static float ultimateGauge;
-    [SerializeField] private GameObject bulletPrefab;                 //Bullet Prefab
-    [SerializeField] private GameObject skillPrefab;
+    private GameObject bulletPrefab;                 //Bullet Prefab
+    private GameObject skillPrefab;
     [SerializeField] private float coolTime;
     private float curTime;
     private bool isAttacksNow = false;
@@ -54,6 +54,32 @@ public class PlayerNabi : Player
         for (int i = 0; i < canPlayerState.Length; i++)
         {
             canPlayerState[i] = true;
+        }
+
+        if (PlayerSkillDataManager.nabiSkillSet != null)
+        {
+            bulletPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + PlayerSkillDataManager.nabiSkillSet[0]);
+            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + PlayerSkillDataManager.nabiSkillSet[0]);
+
+            switch (PlayerSkillDataManager.nabiSkillSet[1])
+            {
+                case 1:
+                    cMaxJumpCount = 2;
+                    break;
+                case 2:
+                    cLife += 1;
+                    break;
+                case 3:
+                    cSpeed += 2.0f;
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            bulletPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_0");
+            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_0");
         }
 
         UpdateLifeUI();

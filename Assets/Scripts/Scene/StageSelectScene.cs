@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 using TMPro;
 
-public class StageSelectScene : BaseScene
+public class StageSelectScene : MonoBehaviour
 {
     public GameObject[] stage;
     public GameObject[] slots;
@@ -51,11 +52,6 @@ public class StageSelectScene : BaseScene
     void Update()
     {
         ButtonsControl();
-    }
-
-    protected override void Init()
-    {
-        base.Init();
     }
 
     private void ButtonsControl()
@@ -173,6 +169,7 @@ public class StageSelectScene : BaseScene
                     break;
                 case 4:
                     Debug.Log("선악문 관문");
+                    SceneManager.LoadScene("StagePrepareScene");
                     break;
                 case 5:
                     Debug.Log("수호문 이야기");
@@ -203,10 +200,5 @@ public class StageSelectScene : BaseScene
             default:
                 break;
         }
-    }
-
-    public override void Clear()
-    {
-        
     }
 }

@@ -41,7 +41,6 @@ public class AttackCharm : Bullet
             foreach (GameObject found in enemyList)
             {
                 float distance = Vector3.Distance(gameObject.transform.position, found.transform.position);
-                Debug.Log(distance);
 
                 if (distance < shortDis)
                 {

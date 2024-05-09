@@ -7,6 +7,9 @@ public enum ESceneType
     GameScene,
     LoadingScene,
     TestScene,
+    StageSelectionScene,
+    StagePrepareScene,
+    Stage2,
 }
 #endregion
 

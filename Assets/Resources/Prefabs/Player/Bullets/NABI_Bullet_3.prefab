@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5769818157191031204}
   - component: {fileID: 1158627757661036608}
   m_Layer: 9
-  m_Name: NABI_Bullet_SmallSpark
+  m_Name: NABI_Bullet_3
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

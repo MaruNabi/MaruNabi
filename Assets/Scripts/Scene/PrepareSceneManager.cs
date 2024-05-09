@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
-public class PrepareSceneManager : BaseScene
+public class PrepareSceneManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject finalGuess;
@@ -15,6 +16,7 @@ public class PrepareSceneManager : BaseScene
     private int selectedButtonIndex = 0;
     private int buttonCount;
     private bool isActive;
+    private bool canStageEnter;
 
     public PrepareScene maruUIManager;
     public PrepareScene nabiUIManager;
@@ -23,22 +25,26 @@ public class PrepareSceneManager : BaseScene
     {
         buttonCount = buttons.Length;
         isActive = false;
+        canStageEnter = false;
         finalGuess.SetActive(false);
     }
 
     void Update()
     {
-        if (maruUIManager.isReady == true && nabiUIManager.isReady == true)
+        if (!canStageEnter)
         {
-            Invoke("FinalGuessActive", 0.5f);
-        }
-        else
-        {
-            isActive = false;
-            finalGuess.SetActive(false);
+            if (maruUIManager.isReady == true && nabiUIManager.isReady == true)
+            {
+                Invoke("FinalGuessActive", 0.5f);
+            }
+            else
+            {
+                isActive = false;
+                finalGuess.SetActive(false);
+            }
         }
 
-        if (isActive)
+        if (isActive && finalGuess != null)
         {
             finalGuess.SetActive(true);
             ButtonsControl();
@@ -48,11 +54,6 @@ public class PrepareSceneManager : BaseScene
     private void FinalGuessActive()
     {
         isActive = true;
-    }
-
-    protected override void Init()
-    {
-        base.Init();
     }
 
     private void ButtonsControl()
@@ -74,7 +75,7 @@ public class PrepareSceneManager : BaseScene
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.RightBracket))
+        if (Input.GetKeyDown(KeyCode.V))
         {
             ExeFunction();
         }
@@ -97,13 +98,13 @@ public class PrepareSceneManager : BaseScene
 
     public void OnClickGameStart()
     {
-        LoadingScene.nextScene = "TestScene";
+        isActive = false;
+        canStageEnter = true;
+        maruUIManager.isGameStart = true;
 
-        Managers.Scene.LoadScene(ESceneType.LoadingScene);
-    }
+        LoadingScene.nextScene = "Stage2";
 
-    public override void Clear()
-    {
-
+        SceneManager.LoadScene("LoadingScene");
+        //Managers.Scene.LoadScene(ESceneType.LoadingScene);
     }
 }
