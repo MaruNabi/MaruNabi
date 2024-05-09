@@ -510,7 +510,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
   m_PrefabInstance: {fileID: 1548519201}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1548519202}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 447ddbeb00f93c343818cb8421c39e0b, type: 3}
@@ -2001,7 +2001,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69fb2cb23e973949a8bd8d3f536a047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage2Start: 1
+  stage2Start: 0
   player2: {fileID: 498550478}
   player1: {fileID: 90012642}
   stage2SpawnPosition: {fileID: 899173450}
@@ -2827,7 +2827,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
   m_PrefabInstance: {fileID: 687464598}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 687464599}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f3f4cf012d92884e9da9980e1a4433a, type: 3}
@@ -4280,7 +4280,7 @@ PrefabInstance:
     - target: {fileID: 6623215531249211568, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 90012639}
+      objectReference: {fileID: 1548519202}
     - target: {fileID: 6623215531249211568, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: effectPos
       value: 
@@ -4363,6 +4363,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+--- !u!1 &687464599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6623215531993341440, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+  m_PrefabInstance: {fileID: 687464598}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &699805028
 GameObject:
   m_ObjectHideFlags: 0
@@ -11074,7 +11079,7 @@ PrefabInstance:
     - target: {fileID: 3042348562199166337, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 498550475}
+      objectReference: {fileID: 687464599}
     - target: {fileID: 3042348562199166337, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: effectPos
       value: 
@@ -11089,6 +11094,11 @@ PrefabInstance:
       objectReference: {fileID: 1655775621}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
+--- !u!1 &1548519202 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3042348562188423809, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
+  m_PrefabInstance: {fileID: 1548519201}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1549086478
 GameObject:
   m_ObjectHideFlags: 0

@@ -56,7 +56,7 @@ public class PlayerNabi : Player
             canPlayerState[i] = true;
         }
 
-        if (PlayerSkillDataManager.nabiSkillSet != null)
+        if (PlayerSkillDataManager.nabiSkillSet[0] != 0)
         {
             bulletPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + PlayerSkillDataManager.nabiSkillSet[0]);
             skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + PlayerSkillDataManager.nabiSkillSet[0]);
@@ -214,7 +214,7 @@ public class PlayerNabi : Player
             }
         }
 
-        if (moveHorizontal == 0 && !isDashing)
+        if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead"))
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         else
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -298,23 +298,6 @@ public class PlayerNabi : Player
             PlayerHit(collision.transform.position);
         }
     }
-
-    /*private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.transform.CompareTag("Ground"))
-        {
-            canFallDown = collision.gameObject.GetComponent<GroundObject>().canFallDown;
-            Debug.Log("canfalldown" + canFallDown);
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.transform.CompareTag("Ground"))
-        {
-            canFallDown = collision.gameObject.GetComponent<GroundObject>().canFallDown;
-        }
-    }*/
 
     protected override IEnumerator Revive()
     {
