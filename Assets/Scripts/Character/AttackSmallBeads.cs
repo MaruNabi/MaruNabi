@@ -8,6 +8,8 @@ public class AttackSmallBeads : Bullet
     {
         SetBullet();
 
+        isPenetrate = false;
+
         shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Rikochet");
     }
 
@@ -24,6 +26,6 @@ public class AttackSmallBeads : Bullet
 
         NormalBulletMovement();
 
-        ColliderCheck(true, false);
+        ColliderCheck(true);
     }
 }
