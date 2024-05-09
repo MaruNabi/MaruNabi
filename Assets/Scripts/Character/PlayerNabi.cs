@@ -78,7 +78,7 @@ public class PlayerNabi : Player
         }
         else
         {
-            bulletPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 3);
+            bulletPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 1);
             skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 1);
         }
 
@@ -289,6 +289,10 @@ public class PlayerNabi : Player
         {
             PlayerHit(collision.transform.position);
         }
+        else if (collision.gameObject.CompareTag("NoDeleteEnemyBullet"))
+        {
+            PlayerHit(collision.transform.position, false);
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -296,6 +300,10 @@ public class PlayerNabi : Player
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
             PlayerHit(collision.transform.position);
+        }
+        else if (collision.gameObject.CompareTag("NoDeleteEnemyBullet"))
+        {
+            PlayerHit(collision.transform.position, false);
         }
     }
 

@@ -299,6 +299,10 @@ public class PlayerMaru : Player
         {
             PlayerHit(collision.transform.position);
         }
+        else if (collision.gameObject.CompareTag("NoDeleteEnemyBullet"))
+        {
+            PlayerHit(collision.transform.position, false);
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -306,6 +310,10 @@ public class PlayerMaru : Player
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
         {
             PlayerHit(collision.transform.position);
+        }
+        else if (collision.gameObject.CompareTag("NoDeleteEnemyBullet"))
+        {
+            PlayerHit(collision.transform.position, false);
         }
     }
 

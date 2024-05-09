@@ -31,13 +31,12 @@ public class Mouse : Entity
         set => phaseChange = value;
     }
     
-    private const int DAMAGE_VALUE = 200;
+    private const int DAMAGE_VALUE = 400;
 
     protected override void Init()
     {
         Data = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSE_MONSTER");
         mouseStateMachine = Utils.GetOrAddComponent<MouseStateMachine>(gameObject);
-        mouseSpriteRenderer = GetComponent<SpriteRenderer>();
         mouseSpriteRenderer = GetComponent<SpriteRenderer>();
         mouseEffects = GetComponent<MouseEffects>();
         hpText = Utils.FindChild<TMP_Text>(gameObject);
@@ -70,27 +69,23 @@ public class Mouse : Entity
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // 머리에만 맞을 수 있게 콜라이더 영역 설정
         if (collision.CompareTag("Bullet"))
         {
             if (canHit)
             {
-                HitEffect();
+                BeHitEffect();
                 OnDamage(DAMAGE_VALUE);
                 hpText.text = HP.ToString();
             }
         }
     }
 
-    private void HitEffect()
+    private void BeHitEffect()
     {
-        if (sequence.IsPlaying())
-            return;
-
         sequence = DOTween.Sequence();
         sequence
-            .Append(mouseSpriteRenderer.DOFade(0.25f, 0.25f))
-            .Append(mouseSpriteRenderer.DOFade(1f, 0.25f));
+            .Append(mouseSpriteRenderer.DOFade(0.75f, 0.3f))
+            .Append(mouseSpriteRenderer.DOFade(1f, 0.3f));
     }
 
     public float Rush()
@@ -113,7 +108,7 @@ public class Mouse : Entity
         return sequence.Duration();
     }
 
-    public void RushClipEvent()
+    public void TurnClipEvent()
     {
         if (rushEvent == false)
         {
@@ -176,13 +171,13 @@ public class Mouse : Entity
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Tail);
             })
-            .AppendInterval(1f)
+            .AppendInterval(1.225f)
             .AppendCallback(() =>
             {
-                var tailSpawnPoint = transform.position + Vector3.left * 5f + Vector3.down * 0.5f;
+                var tailSpawnPoint = transform.position + Vector3.left * 4.5f + Vector3.down * 1.7f;
                 Instantiate(mouseEffects.tail, tailSpawnPoint, Quaternion.Euler(0, 0, 6.6f));
             })
-            .AppendInterval(5f);
+            .AppendInterval(0.3f);
         
         // 꼬리 공격
         return sequence.Duration();
@@ -190,7 +185,7 @@ public class Mouse : Entity
 
     public void TailClipEvent()
     {
-        AllowAttack(!rushEvent);
+        AllowAttack(!tailEvent);
         tailEvent = !tailEvent;
     }
 
@@ -199,22 +194,22 @@ public class Mouse : Entity
         return RandomizerUtil.From(behaviorGacha).TakeOne();
     }
 
-    public void PhaseChangeSprite()
+    public void PhaseChangeAnim()
     {
         if (sequence.IsPlaying())
             sequence.Kill();
 
-        var runSprite = mouseSpriteRenderer.sprite;
         // Animator Phase2로 여기서 변경
-
         sequence = DOTween.Sequence();
         sequence
-            .AppendInterval(2f)
+            .AppendInterval(3f)
             .Append(transform.DOMove(startPos, 1f))
             .OnComplete(() =>
             {
-                mouseSpriteRenderer.flipX = false;
-                mouseSpriteRenderer.sprite = runSprite;
+                mouseSpriteRenderer.color = new Color(1, 0.5f, 0.5f, 1f);
+
+                if(mouseSpriteRenderer.flipX == false)
+                    mouseSpriteRenderer.flipX = true;
             });
     }
 
@@ -246,7 +241,7 @@ public class Mouse : Entity
         else
         {
             canHit = _canHit;
-            tag = "Untagged";
+            tag = "NoDeleteEnemyBullet";
             gameObject.layer = 0;
         }
     }

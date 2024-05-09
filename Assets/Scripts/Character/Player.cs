@@ -340,6 +340,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    public bool GetIsDeadBool()
+    {
+        return playerAnimator.GetBool("isDead");
+    }
+
     private void InvokeTimer()
     {
         isTimerEnd = true;
