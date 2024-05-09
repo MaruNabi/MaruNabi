@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MouseStateMachine : StateMachine<MouseStateMachine>
@@ -27,21 +30,24 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
         base.Initialize(_stateName);
     }
 
-    public void ChangeAnimation(EAnimationType _type)
+    public void ChangeAnimation(EMouseAnimationType _type)
     {
         switch (_type)
         {
-            case EAnimationType.Attack:
-                mouseAnimator.SetTrigger("Attack");
+            case EMouseAnimationType.Run:
+                mouseAnimator.SetTrigger("Run");
                 break;
-            case EAnimationType.Hit:
-                mouseAnimator.SetTrigger("Hit");
+            case EMouseAnimationType.Rush:
+                mouseAnimator.SetBool("Rush", true);
                 break;
-            case EAnimationType.Laugh:
-                mouseAnimator.SetTrigger("Laugh");
+            case EMouseAnimationType.NoRush:
+                mouseAnimator.SetBool("Rush", false);
                 break;
-            case EAnimationType.Angry:
-                mouseAnimator.SetTrigger("Angry");
+            case EMouseAnimationType.Tail:
+                mouseAnimator.SetTrigger("Tail");
+                break;
+            case EMouseAnimationType.Crying:
+                mouseAnimator.SetTrigger("Crying");
                 break;
             default:
                 break;
@@ -50,6 +56,7 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
 
     public float GetAnimPlayTime()
     {
-        return mouseAnimator.GetCurrentAnimatorStateInfo(0).length;
+        var currentAnimatorStateInfo = mouseAnimator.GetCurrentAnimatorStateInfo(0);
+        return currentAnimatorStateInfo.length * currentAnimatorStateInfo.normalizedTime;
     }
 }

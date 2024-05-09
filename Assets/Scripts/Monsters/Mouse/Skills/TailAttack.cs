@@ -7,9 +7,11 @@ using DG.Tweening;
 public class TailAttack : MonoBehaviour
 {
     private Sequence sequence;
-
+    private Vector3 startPos;
+    
     private void Start()
     {
+        startPos = transform.position;
         Move();
     }
 
@@ -17,17 +19,8 @@ public class TailAttack : MonoBehaviour
     {
         sequence = DOTween.Sequence();
         sequence
-            .Append(transform.DOPunchPosition(Vector3.left*8f + Vector3.down, 1.5f, 1))
-            .Join(transform.DOPunchScale(Vector3.left*8f, 1.5f, 1))
+            .Append(transform.DOPunchPosition(Vector3.left*8f + Vector3.up*5f + Vector3.down, 1.5f, 1))
+            .Join(transform.DOMove(startPos, 1.5f))
             .OnComplete(() => Destroy(gameObject));
-    }
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Player Hit Tail");
-        }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Cinemachine;
 using UnityEngine;
 
 public class BackGroundScroll : ScrollManager
@@ -27,7 +28,7 @@ public class BackGroundScroll : ScrollManager
             if(backgrounds[i].position.x < scrollData.leftPosX)
             {
                 Vector3 nextPos = backgrounds[i].position;
-                nextPos = new Vector3(scrollData.rightPosX, scrollData.rightPosY, nextPos.z);
+                nextPos = new Vector3(scrollData.rightPosX, 20f, nextPos.z);
                 backgrounds[i].position = nextPos;
             }
         }

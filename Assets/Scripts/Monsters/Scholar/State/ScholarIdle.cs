@@ -35,7 +35,7 @@ public class ScholarIdle : ScholarState
             if (isBehit)
             {
                 stateMachine.SetState("Fan");
-                stateMachine.ChangeAnimation(EAnimationType.Angry);
+                stateMachine.ChangeAnimation(EScholarAnimationType.Angry);
             }
             else
             {

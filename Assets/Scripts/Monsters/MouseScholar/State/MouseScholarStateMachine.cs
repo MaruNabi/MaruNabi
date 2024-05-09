@@ -24,20 +24,20 @@ public class MouseScholarStateMachine : StateMachine<MouseScholarStateMachine>
         base.Initialize(_stateName);
     }
 
-    public void ChangeAnimation(EAnimationType _type)
+    public void ChangeAnimation(EScholarAnimationType _type)
     {
         switch (_type)
         {
-            case EAnimationType.Attack:
+            case EScholarAnimationType.Attack:
                 mouseAnimator.SetTrigger("Attack");
                 break;
-            case EAnimationType.Hit:
+            case EScholarAnimationType.Hit:
                 mouseAnimator.SetTrigger("Hit");
                 break;
-            case EAnimationType.Laugh:
+            case EScholarAnimationType.Laugh:
                 mouseAnimator.SetTrigger("Laugh");
                 break;
-            case EAnimationType.Angry:
+            case EScholarAnimationType.Angry:
                 mouseAnimator.SetTrigger("Angry");
                 break;
             default:

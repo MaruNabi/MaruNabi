@@ -29,7 +29,7 @@ public class ScholarPunish : ScholarState
     private async UniTaskVoid AttackWait()
     {
         await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.GetAnimPlayTime()));
-        stateMachine.ChangeAnimation(EAnimationType.Attack);
+        stateMachine.ChangeAnimation(EScholarAnimationType.Attack);
         await UniTask.Delay(TimeSpan.FromSeconds(ATTACK_DELAY));
         fan = stateMachine.Scholar.MakeFan(scholarPos);
     }

@@ -24,7 +24,7 @@ public enum EMovementType
     Flying
 }
 
-public enum EAnimationType
+public enum EScholarAnimationType
 {
     Idle,
     Move,
@@ -33,6 +33,17 @@ public enum EAnimationType
     Laugh,
     Die,
     Angry
+}
+
+public enum EMouseAnimationType
+{
+    Caught,
+    Run,
+    Rush,
+    Tail,
+    Crying,
+    Dead,
+    NoRush
 }
 
 public enum EMonsterName
@@ -44,7 +55,7 @@ public enum EMonsterName
 
 public enum EMousePattern
 {
-    HeadButt,
+    Rush,
     SpawnRats,
     Tail,
     Rock

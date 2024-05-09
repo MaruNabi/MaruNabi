@@ -20,7 +20,13 @@ public class MouseRunState : State<MouseStateMachine>
     
     async UniTaskVoid RunWait()
     {
+        stateMachine.ChangeAnimation(EMouseAnimationType.Run);
+        
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
+        Mouse.MovingBackGround?.Invoke(true);
+        
         await UniTask.Delay(TimeSpan.FromSeconds(RUNNNING_TIME));
+        
         if(stateMachine.Mouse.PhaseChange)
             stateMachine.SetState("Phase2");
         else

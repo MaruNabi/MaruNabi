@@ -44,6 +44,9 @@ public class Player : MonoBehaviour
     protected Vector2 sitPlayerColliderSize;
 
     protected bool isInvincibleTime = false;
+
+    public bool IsInvincibleTime => isInvincibleTime;
+
     protected bool isHit = false;
 
     [SerializeField] protected GameObject reviveZone;

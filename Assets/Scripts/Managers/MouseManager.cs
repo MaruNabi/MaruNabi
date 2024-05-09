@@ -1,66 +1,60 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Cinemachine;
-using Unity.VisualScripting;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class MouseManager : MonoBehaviour
 {
-    [SerializeField] private bool roundStart;
     [SerializeField] private float power = 10f;
     [SerializeField] private Rigidbody2D playerRigidbody;
     [SerializeField] private Rigidbody2D playerRigidbody2;
-    [SerializeField] private GameObject mouse;
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject player2;
+    [SerializeField] private Mouse mouse;
     [SerializeField] private List<ScrollManager> backGroundScrolls;
-    [SerializeField] private GameObject stage3StartPosition;
-    [SerializeField] private CinemachineVirtualCamera virtualCamera;
-    [SerializeField] private CinemachineVirtualCamera virtualCamera2;
+    [SerializeField] private SurfaceEffector2D surfaceEffector2D;
+    
+    private bool stage2Start;
+
+    public bool Stage2Start => stage2Start;
+
+    private void Start()
+    {
+        Mouse.MovingBackGround += BackGroundMove;
+    }
+
+    private void OnDestroy()
+    {
+        Mouse.MovingBackGround -= BackGroundMove;
+    }
 
     private void Update()
     {
-        if(Input.GetKey(KeyCode.F2))
-        {
-            virtualCamera2.gameObject.SetActive(true);
-            roundStart = false;
-            backGroundScrolls.ForEach(scroll =>
-            {
-                scroll.SetIsStart(false);
-            });
-            player.transform.position = stage3StartPosition.transform.position;
-            player2.transform.position = stage3StartPosition.transform.position;
-        }
-        
-        if (roundStart)
+        if (stage2Start)
         {
             playerRigidbody.AddForce(Vector3.left * power);
             playerRigidbody2.AddForce(Vector3.left * power);
         }
     }
 
-    public void StageReady()
-    {
-        backGroundScrolls.ForEach(scroll =>
-        {
-            scroll.gameObject.SetActive(true);
-        });
-        virtualCamera.gameObject.SetActive(true);
-
-        playerRigidbody=player.GetComponent<Rigidbody2D>();
-        playerRigidbody2=player2.GetComponent<Rigidbody2D>();
-    }
-
     public void StageStart()
     {
+        mouse.enabled = true;
+    }
+
+    private void BackGroundMove(bool _set)
+    {
+        ScrollDelay(_set).Forget();
+    }
+
+    async UniTaskVoid ScrollDelay(bool _set)
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
         backGroundScrolls.ForEach(scroll =>
         {
-            scroll.SetIsStart(true);
+            scroll.SetIsStart(_set);
         });
-        mouse.GetComponent<Mouse>().enabled = true;
-        roundStart = true;
+        stage2Start = _set;
+        surfaceEffector2D.enabled = _set;
     }
 }

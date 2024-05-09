@@ -12,6 +12,7 @@ TagManager:
   - EnemyBullet
   - TempObstacle
   - NoBumpEnemy
+  - NoDeleteEnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -24,8 +25,8 @@ TagManager:
   - 
   - PlayerBullet
   - PlayerShield
-  - 
-  - 
+  - Wall
+  - PassBullet
   - 
   - 
   - PostProcessing

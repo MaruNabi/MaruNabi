@@ -39,7 +39,7 @@ MonoBehaviour:
     m_To: CM vcam2D_TargetGroup_2-2
     m_Blend:
       m_Style: 1
-      m_Time: 2
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -50,7 +50,7 @@ MonoBehaviour:
     m_To: CM vcam2D_TargetGroup_2-2
     m_Blend:
       m_Style: 1
-      m_Time: 2
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []

@@ -20,7 +20,8 @@ public class MouseEnterState : State<MouseStateMachine>
 
     private async UniTaskVoid EnterWait()
     {
-        mouseTransform.DOShakeScale(2f);
+        await UniTask.Delay(TimeSpan.FromSeconds(2f));
+        mouseTransform.DOShakeScale(2f,0.25f,5);
         await UniTask.Delay(TimeSpan.FromSeconds(2f));
         stateMachine.SetState("Run");
     }
