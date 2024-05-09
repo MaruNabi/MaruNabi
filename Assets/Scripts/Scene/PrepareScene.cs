@@ -7,8 +7,7 @@ using TMPro;
 
 public class PrepareScene : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] skillSlots;
+    [SerializeField] private GameObject[] skillSlots;
     public GameObject[] readyButton = new GameObject[0];
     public GameObject skillBorderImage;
     public GameObject traitBorderImage;
@@ -23,6 +22,7 @@ public class PrepareScene : MonoBehaviour
 
     public bool isMaruUI;
     public bool isReady = false;
+    public bool isGameStart = false;
 
     private GameObject[] skill = new GameObject[3];
     private GameObject[] skillDescript = new GameObject[3];
@@ -277,6 +277,9 @@ public class PrepareScene : MonoBehaviour
         if (!canReady)
             return;
 
+        if (isGameStart)
+            return;
+
         if (!isReady)
         {
             isReady = true;
@@ -287,6 +290,14 @@ public class PrepareScene : MonoBehaviour
             for (int i = 0; i < skillSlotSelect.Length; i++)
             {
                 //player data send
+                if (isMaruUI)
+                {
+                    PlayerSkillDataManager.maruSkillSet[i] = skillSlotSelect[i];
+                }
+                else
+                {
+                    PlayerSkillDataManager.nabiSkillSet[i] = skillSlotSelect[i];
+                }
             }
         }
         else

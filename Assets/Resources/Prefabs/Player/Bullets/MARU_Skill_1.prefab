@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 5395364536565894906}
   - component: {fileID: -4364736334277289268}
   m_Layer: 9
-  m_Name: MARU_Bullet_BigSword
+  m_Name: MARU_Skill_1
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

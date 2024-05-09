@@ -6,16 +6,14 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using DG.Tweening;
 
-public class LoadingScene : BaseScene
+public class LoadingScene : MonoBehaviour
 {
     public static string nextScene;
     Dictionary<int, LoadingSceneData> loadingDataDict = new Dictionary<int, LoadingSceneData>();
     private int textRandomCount;
 
-    [SerializeField]
-    TMP_Text loadingText;
-    [SerializeField]
-    TMP_Text loadingPhrases;
+    [SerializeField] TMP_Text loadingText;
+    [SerializeField] TMP_Text loadingPhrases;
 
     void Start()
     {
@@ -33,12 +31,12 @@ public class LoadingScene : BaseScene
         loadingText.text = loadingSceneData.DIALOGUE;
     }
 
-    protected override void Init()
+    /*protected override void Init()
     {
         base.Init();
 
         SceneType = ESceneType.LoadingScene;
-    }
+    }*/
 
     IEnumerator LoadSceneProcess()
     {
@@ -71,9 +69,9 @@ public class LoadingScene : BaseScene
         }
     }
 
-    public override void Clear()
+    /*public override void Clear()
     {
         nextScene = "";
         textRandomCount = 0;
-    }
+    }*/
 }

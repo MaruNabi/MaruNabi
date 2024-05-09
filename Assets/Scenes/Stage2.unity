@@ -4441,6 +4441,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2040333373}
     m_Modifications:
+    - target: {fileID: 1070776963461674506, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+      propertyPath: m_Size.y
+      value: 1.9058406
+      objectReference: {fileID: 0}
+    - target: {fileID: 1070776963461674506, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.18622053
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623215531249211568, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 90012639}
     - target: {fileID: 6623215531249211568, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: effectPos
       value: 
@@ -4483,11 +4495,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341455, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -39.7
+      value: -39.19
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341455, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.6
+      value: 17.79
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341455, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6979,7 +6991,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1054708329}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -35.920002, y: 14.339999, z: 0}
+  m_LocalPosition: {x: -35.665, y: 15.435, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8728,7 +8740,7 @@ SurfaceEffector2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1323791815}
-  m_Enabled: 1
+  m_Enabled: 0
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
@@ -10968,6 +10980,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3042348562199166337, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 498550475}
+    - target: {fileID: 3042348562199166337, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: effectPos
       value: 
       objectReference: {fileID: 667413519}
@@ -13181,6 +13197,7 @@ GameObject:
   - component: {fileID: 1929963340}
   - component: {fileID: 1929963342}
   - component: {fileID: 1929963341}
+  - component: {fileID: 1929963343}
   m_Layer: 8
   m_Name: Wall
   m_TagString: Untagged
@@ -13212,9 +13229,9 @@ BoxCollider2D:
   m_GameObject: {fileID: 1929963339}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 079cfd7ef2be6de43bc41a040f567695, type: 2}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
@@ -13281,6 +13298,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!251 &1929963343
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929963339}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &1942951343
 GameObject:
   m_ObjectHideFlags: 0

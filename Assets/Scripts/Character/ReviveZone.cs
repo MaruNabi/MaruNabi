@@ -15,14 +15,10 @@ public class ReviveZone : MonoBehaviour
     private float fillAmountUnit;
 
     public GameObject player;
-    [SerializeField]
-    private Image reviveBarImage;
-    [SerializeField]
-    private Canvas reviveBarCanvas;
-    [SerializeField]
-    private Transform effectPos;
-    [SerializeField]
-    private GameObject successEffect;
+    [SerializeField] private Image reviveBarImage;
+    [SerializeField] private Canvas reviveBarCanvas;
+    [SerializeField] private Transform effectPos;
+    [SerializeField] private GameObject successEffect;
 
     private SpriteRenderer reviveSpriteRenderer;
 
@@ -94,7 +90,7 @@ public class ReviveZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !(player.gameObject.GetComponent<Animator>().GetBool("isDead")))
         {
             isReviving = true;
             reviveBarCanvas.gameObject.SetActive(true);

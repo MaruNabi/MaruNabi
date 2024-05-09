@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     protected bool characterID; //True : Maru, False : Nabi
     protected string characterName;
     public const int MAX_LIFE = 5;
-    protected int cLife = 5;
+    protected int cLife = 4;
     [SerializeField] [Range(0, 10)] protected float cSpeed = 6.0f; //Character Speed
     protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit
     protected const float maxUltimateGauge = 1500.0f;
@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
     protected Animator playerAnimator;
     protected BoxCollider2D playerCollider;
     [SerializeField] protected BoxCollider2D playerStandCollider;
+    [SerializeField] protected BoxCollider2D playerSideFrictionCollider;
 
     [SerializeField] protected Transform atkPosition;
     protected Vector2 defaultAtkPosition;
@@ -159,6 +160,7 @@ public class Player : MonoBehaviour
             {
                 isGround = false;
                 playerStandCollider.isTrigger = false;
+                playerSideFrictionCollider.isTrigger = false;
                 canFallDown = groundRay.collider.gameObject.GetComponent<GroundObject>().canFallDown;
             }
 
@@ -350,7 +352,8 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             playerAnimator.SetBool("isHit", false);
             isHit = false;
-            canPlayerState[0] = true;
+            if (!playerAnimator.GetBool("isDead"))
+                canPlayerState[0] = true;
             yield return new WaitForSeconds(2.5f);
         }
     }
@@ -366,7 +369,8 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             playerAnimator.SetBool("isHit", false);
             isHit = false;
-            canPlayerState[0] = true;
+            if (!playerAnimator.GetBool("isDead"))
+                canPlayerState[0] = true;
             yield return new WaitForSeconds(2.5f);
         }
     }
@@ -402,20 +406,21 @@ public class Player : MonoBehaviour
         Instantiate(dashEffect, transform.position, dashEffect.transform.rotation);
         dashEffect.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
         float originalGravity = rigidBody.gravityScale;
+        int dashDirection = 0;
         rigidBody.gravityScale = 0f;
-        rigidBody.velocity = new Vector2(0.0f, 0.0f);
+        rigidBody.velocity = Vector2.zero;
         if (transform.rotation.y == 0)
         {
-            transform.DOMoveX(transform.position.x - 5, 0.2f);
-            //rigidBody.velocity = new Vector2(-cDashPower, 0.0f);
+            dashDirection = -1;
         }
         else
         {
-            transform.DOMoveX(transform.position.x + 5, 0.2f);
+            dashDirection = 1;
         }
-
+        rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
         //무적 넣으려면 여기~
         yield return new WaitForSeconds(cDashTime);
+        rigidBody.velocity = Vector2.zero;
         rigidBody.gravityScale = originalGravity;
         isDashing = false;
         playerAnimator.SetBool("isDash", false);

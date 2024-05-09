@@ -6,22 +6,16 @@ using UnityEngine.UI;
 public class PlayerNabi : Player
 {
     public static float ultimateGauge;
-    [SerializeField]
     private GameObject bulletPrefab;                 //Bullet Prefab
-    [SerializeField]
     private GameObject skillPrefab;
-    [SerializeField]
-    private float coolTime;
+    [SerializeField] private float coolTime;
     private float curTime;
     private bool isAttacksNow = false;
-    [SerializeField]
-    private GameObject playerBullets;               //For Pooling
+    [SerializeField] private GameObject playerBullets;               //For Pooling
 
-    [SerializeField]
-    private GameObject playerSkills;
+    [SerializeField] private GameObject playerSkills;
 
-    [SerializeField]
-    private Image playerHpUI;
+    [SerializeField] private Image playerHpUI;
 
     private Sprite[] nabiLifeSprite = new Sprite[6];
     private int currentHp;
@@ -60,6 +54,32 @@ public class PlayerNabi : Player
         for (int i = 0; i < canPlayerState.Length; i++)
         {
             canPlayerState[i] = true;
+        }
+
+        if (PlayerSkillDataManager.nabiSkillSet != null)
+        {
+            bulletPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + PlayerSkillDataManager.nabiSkillSet[0]);
+            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + PlayerSkillDataManager.nabiSkillSet[0]);
+
+            switch (PlayerSkillDataManager.nabiSkillSet[1])
+            {
+                case 1:
+                    cMaxJumpCount = 2;
+                    break;
+                case 2:
+                    cLife += 1;
+                    break;
+                case 3:
+                    cSpeed += 2.0f;
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            bulletPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_0");
+            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_0");
         }
 
         UpdateLifeUI();
@@ -156,6 +176,7 @@ public class PlayerNabi : Player
             if (canFallDown)
             {
                 playerStandCollider.isTrigger = true;
+                playerSideFrictionCollider.isTrigger = true;
                 playerAnimator.SetBool("isDown", true);
             }
         }
@@ -193,7 +214,7 @@ public class PlayerNabi : Player
             }
         }
 
-        if (moveHorizontal == 0)
+        if (moveHorizontal == 0 && !isDashing)
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         else
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;

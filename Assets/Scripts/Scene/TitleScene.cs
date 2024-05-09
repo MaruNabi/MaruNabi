@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class TitleScene : BaseScene
+public class TitleScene : MonoBehaviour
 {
     [SerializeField]
     private Image[] buttons;
@@ -21,11 +22,6 @@ public class TitleScene : BaseScene
     void Update()
     {
         ButtonsControl();
-    }
-
-    protected override void Init()
-    {
-        base.Init();
     }
 
     private void ButtonsControl()
@@ -74,13 +70,10 @@ public class TitleScene : BaseScene
 
     public void OnClickGameStart()
     {
-        LoadingScene.nextScene = "TestScene";
+        //LoadingScene.nextScene = "TestScene";
 
-        Managers.Scene.LoadScene(ESceneType.LoadingScene);
-    }
+        SceneManager.LoadScene("StageSelectionScene");
 
-    public override void Clear()
-    {
-        
+        //Managers.Scene.LoadScene(ESceneType.StageSelectionScene);
     }
 }

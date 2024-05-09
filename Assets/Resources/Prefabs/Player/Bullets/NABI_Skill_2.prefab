@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 8389782726636768451}
   - component: {fileID: 1086422723301122516}
   m_Layer: 9
-  m_Name: NABI_Bullet_CurseCharm
+  m_Name: NABI_Skill_2
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

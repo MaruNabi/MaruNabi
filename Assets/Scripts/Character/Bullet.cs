@@ -136,7 +136,8 @@ public class Bullet : MonoBehaviour
 
             if (!isPenetrate)
             {
-                DestroyBullet();
+                Invoke("DestroyBullet", 0.1f);
+                //DestroyBullet();
             }
         }
 

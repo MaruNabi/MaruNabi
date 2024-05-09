@@ -12,9 +12,18 @@ EditorBuildSettings:
     path: Assets/Scenes/TestScenes/TestScene.unity
     guid: 50760cdfcf5f67a4fb2460f7c7bbe060
   - enabled: 1
+    path: Assets/Scenes/TitleScene.unity
+    guid: 70bd19f18240dfd4aa1452b8c9d9a61d
+  - enabled: 1
+    path: Assets/Scenes/StageSelectionScene.unity
+    guid: 1a15ef6207690114bb46f0edc0fc2742
+  - enabled: 1
+    path: Assets/Scenes/StagePrepareScene.unity
+    guid: e2e93b7affceee44eb5061fe8ea7cabf
+  - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: b0bdbfbe8d628504db1ac88ec9dad4b5
   - enabled: 1
-    path: Assets/Scenes/TitleScene.unity
-    guid: 70bd19f18240dfd4aa1452b8c9d9a61d
+    path: Assets/Scenes/Stage2.unity
+    guid: 4b8d1eace99f7d94eadc165297f00c55
   m_configObjects: {}

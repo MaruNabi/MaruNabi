@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class AttackCharm : Bullet
 {
+    private List<GameObject> enemyList = new List<GameObject>();
     private Transform enemy;
     float turnSpeed = 5.0f;
     Vector3 bulletDirection;
 
     private bool isInitOnce = true;
 
+    private float shortDis;
     private float bulletAngle;
     private float currentZ;
     private float newZ;
@@ -18,13 +20,34 @@ public class AttackCharm : Bullet
     {
         SetBullet();
 
-        if (GameObject.FindGameObjectWithTag("Enemy"))
+        /*if (GameObject.FindGameObjectWithTag("Enemy"))
         {
             enemy = GameObject.FindGameObjectWithTag("Enemy").transform;
         }
         else if (GameObject.FindGameObjectWithTag("NoBumpEnemy"))
         {
             enemy= GameObject.FindGameObjectWithTag("NoBumpEnemy").transform;
+        }*/
+
+        enemyList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
+        enemyList.AddRange(GameObject.FindGameObjectsWithTag("NoBumpEnemy"));
+
+        if (enemyList.Count != 0)
+        {
+            enemy = enemyList[0].transform;
+
+            shortDis = Vector3.Distance(gameObject.transform.position, enemyList[0].transform.position);
+
+            foreach (GameObject found in enemyList)
+            {
+                float distance = Vector3.Distance(gameObject.transform.position, found.transform.position);
+
+                if (distance < shortDis)
+                {
+                    enemy = found.transform;
+                    shortDis = distance;
+                }
+            }
         }
 
         shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Dron");
