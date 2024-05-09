@@ -7,6 +7,8 @@ public class SkillBigBeads : Bullet
     void OnEnable()
     {
         SetBullet(2.5f);
+
+        isPenetrate = true;
     }
 
     void Update()
@@ -20,6 +22,6 @@ public class SkillBigBeads : Bullet
 
         NormalBulletMovement();
 
-        ColliderCheck(false, true);
+        ColliderCheck(false);
     }
 }

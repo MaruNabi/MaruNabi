@@ -78,8 +78,8 @@ public class PlayerNabi : Player
         }
         else
         {
-            bulletPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_1");
-            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_1");
+            bulletPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 1);
+            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 1);
         }
 
         UpdateLifeUI();
@@ -137,7 +137,7 @@ public class PlayerNabi : Player
             if (Input.GetKey(KeyCode.RightBracket) && !isAttacksNow)
             {
                 playerAnimator.SetBool("isAtk", true);
-                if (bulletPrefab.name == "NABI_Bullet_SmallSpark")
+                if (bulletPrefab.name == "NABI_Bullet_3")
                 {
                     isAttacksNow = true;
                 }
@@ -214,7 +214,7 @@ public class PlayerNabi : Player
             }
         }
 
-        if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead"))
+        if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector)
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         else
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;

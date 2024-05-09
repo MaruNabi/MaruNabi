@@ -134,7 +134,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.008153498, y: -0.038044572}
+  m_Offset: {x: 0.008153498, y: 0.26674968}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -145,7 +145,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.96364796, y: 2.0198858}
+  m_Size: {x: 0.96364796, y: 1.410297}
   m_EdgeRadius: 0
 --- !u!1 &6623215530843284676
 GameObject:
@@ -834,8 +834,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   slopeRayDistance: 1.21
-  swordPrefab: {fileID: 7860113607635504239, guid: 7f0c28b08b053d04cbe6340d3493fb1b, type: 3}
-  skillPrefab: {fileID: 188024984029324945, guid: 49345dc96ef0d674dbd52dab887032f1, type: 3}
   playerBullets: {fileID: 0}
   playerSkills: {fileID: 0}
   playerShield: {fileID: 6623215531408078324}

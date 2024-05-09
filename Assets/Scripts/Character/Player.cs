@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     protected float lastClickTime = -1.0f;
     protected bool isDoubleClicked;
 
-    private float cDashPower = 5.0f;
+    private float cDashPower = 20.0f;
     private float cDashTime = 0.2f;
     private float cDashCooldown = 2.0f;
     protected bool isDashing = false;
@@ -82,6 +82,7 @@ public class Player : MonoBehaviour
     protected RaycastHit2D groundRay;
     protected string currentGroundName;
     protected bool isTargetGround;
+    protected bool isSurfaceEffector;
 
     public bool IsTargetGround
     {
@@ -148,6 +149,14 @@ public class Player : MonoBehaviour
             if (groundRay.collider.tag == "Ground" && currentGroundName == groundRay.collider.gameObject.name)
             {
                 isGround = true;
+                if (groundRay.collider.GetComponent<SurfaceEffector2D>().enabled)
+                {
+                    isSurfaceEffector = true;
+                }
+                else
+                {
+                    isSurfaceEffector = false;
+                }
                 if (isLandingEffectOnce)
                 {
                     //canPlayerState[3] = true;
@@ -181,6 +190,7 @@ public class Player : MonoBehaviour
         {
             isGround = false;
             isLandingEffectOnce = true;
+            isSurfaceEffector = false;
             if (1 < cMaxJumpCount)
                 isJumping = false;
             else
@@ -297,9 +307,11 @@ public class Player : MonoBehaviour
         isTimerEnd = false;
         isReviveSuccess = false;
         isCalledOnce = true;
-        Debug.Log(playerAnimator.GetBool("isDead"));
+        if (playerAnimator.GetBool("isHit"))
+            playerAnimator.SetBool("isHit", false);
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
+        PlayerStateTransition(true, 0);
         PlayerStateTransition(false, 0);
         Invoke("InvokeTimer", 10.0f);
 
@@ -429,8 +441,9 @@ public class Player : MonoBehaviour
         {
             dashDirection = 1;
         }
+        if (isSurfaceEffector && dashDirection == 1)
+            dashDirection *= 2;
         rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
-        //무적 넣으려면 여기~
         yield return new WaitForSeconds(cDashTime);
         rigidBody.velocity = Vector2.zero;
         rigidBody.gravityScale = originalGravity;
@@ -450,6 +463,7 @@ public class Player : MonoBehaviour
         sitAtkPosition = defaultAtkPosition;
         sitAtkPosition.y = defaultAtkPosition.y - 0.7f;
         playerCollider.size = sitPlayerColliderSize;
+        playerStandCollider.size = sitPlayerColliderSize;
         atkPosition.transform.localPosition = sitAtkPosition;
         if (canPlayerState[1])
         {
@@ -467,6 +481,7 @@ public class Player : MonoBehaviour
 
         yield return new WaitUntil(() => isSitting == false);
         playerCollider.size = defaultPlayerColliderSize;
+        playerStandCollider.size = defaultPlayerColliderSize;
         atkPosition.transform.localPosition = defaultAtkPosition;
     }
 }

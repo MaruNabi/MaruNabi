@@ -82,8 +82,8 @@ public class PlayerMaru : Player
         }
         else
         {
-            swordPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_1");
-            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_1");
+            swordPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 1);
+            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 1);
         }
 
         UpdateLifeUI();
@@ -190,6 +190,9 @@ public class PlayerMaru : Player
             playerAnimator.SetBool("isSit", false);
         }
 
+        if (isSitting)
+            Debug.Log(rigidBody.velocity);
+
         if (Input.GetKeyDown(KeyCode.B))
         {
             //None
@@ -221,7 +224,7 @@ public class PlayerMaru : Player
             }
         }
 
-        if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead"))
+        if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector)
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         else
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
