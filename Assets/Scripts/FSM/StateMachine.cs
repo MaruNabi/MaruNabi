@@ -71,4 +71,12 @@ public abstract class StateMachine<T> : MonoBehaviour where T : StateMachine<T>
         currentState = states[_stateName];
         currentState.OnEnter();
     }
+    
+    public void Stop()
+    {
+        if (currentState == null || isRunning == false)
+            return;
+
+        currentState.OnExit();
+    }
 }

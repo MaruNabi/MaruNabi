@@ -10,52 +10,71 @@ using Random = UnityEngine.Random;
 
 public class ScholarManager : MonoBehaviour
 {
-    [SerializeField] private bool roundStart;
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [SerializeField] private NextStageWall nextStageWall;
     [SerializeField] private GameObject scholarPrefab;
+    [SerializeField] private GameObject tree;
+    [SerializeField] private GameObject wall;
     [SerializeField] private Transform[] monsterTransformArr = new Transform[7];
     [SerializeField] private Transform spawnTrasnform;
-    [SerializeField] private CinemachineVirtualCamera virtualCamera;
-    [SerializeField] private Player player;
-    [SerializeField] private Transform targetTransform;
-    [SerializeField] private Transform target2Transform;
-    [SerializeField] private NextStageWall nextStageWall;
-    
-    private GameObject[] scholars;
-    private Sequence sequence;
+    [SerializeField] private Player player1;
+    [SerializeField] private Player player2;
+    [SerializeField] private bool roundStart;
+
     private const int INIT_MONSTERNUM = 7;
     private int roundNum;
+    private float mouseHp;
+    private GameObject[] scholars;
+    private Sequence sequence;
     private bool isRoundEnd;
     private bool isStageClear;
 
-    void Start()
+    public void Start()
     {
+        MouseScholar.OnRoundEnd += RoundRestart;
+        MouseScholar.StageClear += StageClearProduction;
+        Entity.AttackEvent += DamageAllPlayers;
+
+        mouseHp = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER").LIFE;
+
         if (roundStart)
         {
             roundNum = -1;
             scholars = new GameObject[INIT_MONSTERNUM];
 
-            MouseScholar.OnRoundEnd += RoundRestart;
-            MouseScholar.StageClear += StageClearProduction;
-        
             MakeMonsterRandomLocation(INIT_MONSTERNUM);
         }
     }
-    
+
     private void OnDestroy()
     {
         MouseScholar.OnRoundEnd -= RoundRestart;
         MouseScholar.StageClear -= StageClearProduction;
+        Entity.AttackEvent -= DamageAllPlayers;
     }
 
-    private void RoundRestart()
+    public void DamageAllPlayers()
     {
+        DamageDelay().Forget();
+    }
+
+    async UniTaskVoid DamageDelay()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
+        player1.PlayerHitSpecial(player1.transform.position);
+        player2.PlayerHitSpecial(player2.transform.position);
+    }
+
+    private void RoundRestart(float _hp)
+    {
+        mouseHp = _hp;
         MakeMonsterRandomLocation(INIT_MONSTERNUM);
     }
-    
+
     private void MakeMonsterRandomLocation(int inMonsterNum)
     {
         // 여기서 라운드 시작 취급
-        roundNum++; 
+        roundNum++;
 
         List<EMonsterName> monsters = GetRandomCombination(inMonsterNum);
 
@@ -80,7 +99,7 @@ public class ScholarManager : MonoBehaviour
     {
         if (inMonsterNum > INIT_MONSTERNUM)
             inMonsterNum = INIT_MONSTERNUM;
-        
+
         List<EMonsterName> combination = new List<EMonsterName>();
 
         int mouseNum = 1;
@@ -108,14 +127,14 @@ public class ScholarManager : MonoBehaviour
     {
         GameObject monsterGO = Instantiate(scholarPrefab, spawnTrasnform);
         monsterGO.transform.position = monsterTransformArr[idx].position;
-        
+
         if (isMouse == false)
         {
             monsterGO.AddComponent<Scholar>();
         }
         else if (isMouse)
         {
-            monsterGO.AddComponent<MouseScholar>();
+            monsterGO.AddComponent<MouseScholar>().InitHp(mouseHp);
         }
 
         return monsterGO;
@@ -123,41 +142,50 @@ public class ScholarManager : MonoBehaviour
 
     private void StageClearProduction(GameObject _mouseScholar)
     {
+        player1.PlayerStateTransition(false, 0);
+        player2.PlayerStateTransition(false, 0);
         
-        player.PlayerStateTransition(false, 0);
         virtualCamera.m_Follow = _mouseScholar.transform;
         virtualCamera.m_LookAt = _mouseScholar.transform;
         virtualCamera.gameObject.SetActive(true);
-        
+
         ProductionWait(_mouseScholar).Forget();
     }
 
     async UniTaskVoid ProductionWait(GameObject _mouseScholar)
     {
+        for (int i = 0; i < scholars.Length; i++)
+        {
+            var item = scholars[i];
+            if (item != _mouseScholar)
+            {
+                Utils.GetOrAddComponent<Scholar>(item).StopStateMachine();
+            }
+        }
+        
         await UniTask.Delay(TimeSpan.FromSeconds(2f));
-        
-        MouseScholar.Punish?.Invoke();
+        MouseScholar.PunishProduction?.Invoke();
+
         await UniTask.Delay(TimeSpan.FromSeconds(2.3f));
-        
+
         for (var index = 0; index < scholars.Length; index++)
         {
             var item = scholars[index];
             if (item == _mouseScholar)
             {
-                if (index == 0)
-                {
-                    Utils.GetOrAddComponent<MouseScholar>(_mouseScholar).JumpAnimation(_mouseScholar.transform.position);
-                }
-                else
-                {
-                    Utils.GetOrAddComponent<MouseScholar>(_mouseScholar).JumpAnimation(_mouseScholar.transform.position);
-                }
+                Utils.GetOrAddComponent<MouseScholar>(_mouseScholar).JumpAnimation(_mouseScholar.transform.position);
             }
         }
-        
-        await UniTask.Delay(TimeSpan.FromSeconds(2f));
-        nextStageWall.isClear = true;
-        player.PlayerStateTransition(true, 0);
+
+        await UniTask.Delay(TimeSpan.FromSeconds(3f));
+
+        player1.PlayerStateTransition(true, 0);
+        player2.PlayerStateTransition(true, 0);
         virtualCamera.gameObject.SetActive(false);
+
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
+        tree.transform.DOMoveX(-28f, 1.8f);
+        wall.transform.DOMoveX(-25f, 1.8f);
+        nextStageWall.isClear = true;
     }
 }

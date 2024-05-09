@@ -30,8 +30,10 @@ public class ScholarFan : ScholarState
     {
         await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.GetAnimPlayTime()));
         stateMachine.ChangeAnimation(EAnimationType.Attack);
+        
         await UniTask.Delay(TimeSpan.FromSeconds(ATTACK_DELAY));
         fan = stateMachine.Scholar.MakeFan(scholarPos);
+        Entity.AttackEvent?.Invoke();
     }
     
     public override void OnUpdate()
@@ -41,6 +43,7 @@ public class ScholarFan : ScholarState
         if (elapsedTime >= escapeTime)
         {
             stateMachine.Scholar.DestroyFan(fan);
+            stateMachine.SetState("Leave");
         }
     }
 }
