@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void PlayerHit(Vector2 _enemyPos)
+    public void PlayerHit(Vector2 _enemyPos, bool _isKnockBack = true)
     {
         if (isInvincibleTime)
             return;
@@ -110,7 +110,7 @@ public class Player : MonoBehaviour
         if (cLife > 1)
         {
             cLife -= 1;
-            StartCoroutine(Ondamaged(_enemyPos));
+            StartCoroutine(Ondamaged(_enemyPos, _isKnockBack));
         }
         else
         {
@@ -297,6 +297,7 @@ public class Player : MonoBehaviour
         isTimerEnd = false;
         isReviveSuccess = false;
         isCalledOnce = true;
+        Debug.Log(playerAnimator.GetBool("isDead"));
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
         PlayerStateTransition(false, 0);
@@ -344,14 +345,17 @@ public class Player : MonoBehaviour
         yield return null;
     }
 
-    protected IEnumerator Ondamaged(Vector2 enemyPos)
+    protected IEnumerator Ondamaged(Vector2 enemyPos, bool _isKnockBack = true)
     {
         if (isHit)
         {
             playerAnimator.SetBool("isHit", true);
             StartCoroutine(Invincible(3.0f));
-            int dir = transform.position.x - enemyPos.x > 0 ? 1 : -1;
-            rigidBody.AddForce(new Vector2(dir, 1) * 4f, ForceMode2D.Impulse);
+            if (_isKnockBack)
+            {
+                int dir = transform.position.x - enemyPos.x > 0 ? 1 : -1;
+                rigidBody.AddForce(new Vector2(dir, 1) * 4f, ForceMode2D.Impulse);
+            }
             yield return new WaitForSeconds(0.5f);
             playerAnimator.SetBool("isHit", false);
             isHit = false;

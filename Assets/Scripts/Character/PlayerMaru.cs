@@ -60,7 +60,7 @@ public class PlayerMaru : Player
             canPlayerState[i] = true;
         }
 
-        if (PlayerSkillDataManager.maruSkillSet != null)
+        if (PlayerSkillDataManager.maruSkillSet[0] != 0)
         {
             swordPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + PlayerSkillDataManager.maruSkillSet[0]);
             skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + PlayerSkillDataManager.maruSkillSet[0]);
@@ -221,7 +221,7 @@ public class PlayerMaru : Player
             }
         }
 
-        if (moveHorizontal == 0 && !isDashing)
+        if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead"))
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         else
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;

@@ -21,6 +21,7 @@ public class Bullet : MonoBehaviour
     private bool isHitOnce = true;
     private float angle;
     private bool isOneInit = true;
+    private bool isEnemy = false;
 
     [SerializeField]
     private Transform rayStartPosition;
@@ -46,6 +47,7 @@ public class Bullet : MonoBehaviour
         bulletRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         bulletDestroyCoroutine = BulletDestroy(bulletHoldingTime);
         isEffectOnce = true;
+        isEnemy = false;
         StartCoroutine(bulletDestroyCoroutine);
     }
 
@@ -112,31 +114,39 @@ public class Bullet : MonoBehaviour
     {
         if (ray.collider != null)
         {
-            if (ray.collider.tag == "Enemy" && isNormalAtk)
+            if (ray.collider.tag == "Enemy" || ray.collider.tag == "NoBumpEnemy")
+            {
+                isEnemy = true;
+            }
+            else
+            {
+                isEnemy = false;
+            }
+
+            if (isEnemy && isNormalAtk)
             {
                 if ((PlayerNabi.ultimateGauge += attackPower) > 1500.0f)
                 {
                     PlayerNabi.ultimateGauge = 1500.0f;
                 }
             }
-
-            else if (ray.collider.tag == "Enemy" && !isNormalAtk && isHitOnce)
+            else if (isEnemy && !isNormalAtk && isHitOnce)
+            {
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                Debug.Log("Hit");
+            }
+            else if (isEnemy && ray.collider.name != currentHit)
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
                 Debug.Log("Hit");
             }
 
-            else if (ray.collider.tag == "Enemy" && ray.collider.name != currentHit)
-            {
-                isHitOnce = false;
-                currentHit = ray.collider.name;
-                Debug.Log("Hit");
-            }
-
-            if (!isPenetrate)
+            if (isEnemy && !isPenetrate)
             {
                 Invoke("DestroyBullet", 0.1f);
+                Debug.Log("Hi");
                 //DestroyBullet();
             }
         }
