@@ -7,24 +7,18 @@ using DG.Tweening;
 public class PlayerMaru : Player
 {
     public static float ultimateGauge;
-    [SerializeField]
-    private GameObject swordPrefab;
-    [SerializeField]
-    private GameObject skillPrefab;
+    [SerializeField] private GameObject swordPrefab;
+    [SerializeField] private GameObject skillPrefab;
 
     private bool attacksNow = false;
 
-    [SerializeField]
-    private GameObject playerBullets;
+    [SerializeField] private GameObject playerBullets;
 
-    [SerializeField]
-    private GameObject playerSkills;
+    [SerializeField] private GameObject playerSkills;
 
-    [SerializeField]
-    private GameObject playerShield;
+    [SerializeField] private GameObject playerShield;
 
-    [SerializeField]
-    private Image playerHpUI;
+    [SerializeField] private Image playerHpUI;
 
     private Sprite[] maruLifeSprite = new Sprite[6];
     private int currentHp;
@@ -157,6 +151,7 @@ public class PlayerMaru : Player
             if (canFallDown)
             {
                 playerStandCollider.isTrigger = true;
+                playerSideFrictionCollider.isTrigger = true;
                 playerAnimator.SetBool("isDown", true);
             }
         }
@@ -200,7 +195,7 @@ public class PlayerMaru : Player
             }
         }
 
-        if (moveHorizontal == 0)
+        if (moveHorizontal == 0 && !isDashing)
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         else
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;

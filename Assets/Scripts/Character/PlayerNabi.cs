@@ -6,22 +6,16 @@ using UnityEngine.UI;
 public class PlayerNabi : Player
 {
     public static float ultimateGauge;
-    [SerializeField]
-    private GameObject bulletPrefab;                 //Bullet Prefab
-    [SerializeField]
-    private GameObject skillPrefab;
-    [SerializeField]
-    private float coolTime;
+    [SerializeField] private GameObject bulletPrefab;                 //Bullet Prefab
+    [SerializeField] private GameObject skillPrefab;
+    [SerializeField] private float coolTime;
     private float curTime;
     private bool isAttacksNow = false;
-    [SerializeField]
-    private GameObject playerBullets;               //For Pooling
+    [SerializeField] private GameObject playerBullets;               //For Pooling
 
-    [SerializeField]
-    private GameObject playerSkills;
+    [SerializeField] private GameObject playerSkills;
 
-    [SerializeField]
-    private Image playerHpUI;
+    [SerializeField] private Image playerHpUI;
 
     private Sprite[] nabiLifeSprite = new Sprite[6];
     private int currentHp;
@@ -156,6 +150,7 @@ public class PlayerNabi : Player
             if (canFallDown)
             {
                 playerStandCollider.isTrigger = true;
+                playerSideFrictionCollider.isTrigger = true;
                 playerAnimator.SetBool("isDown", true);
             }
         }
@@ -193,7 +188,7 @@ public class PlayerNabi : Player
             }
         }
 
-        if (moveHorizontal == 0)
+        if (moveHorizontal == 0 && !isDashing)
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         else
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
