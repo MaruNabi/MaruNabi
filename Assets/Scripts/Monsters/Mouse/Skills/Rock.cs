@@ -26,4 +26,16 @@ public class Rock : MonoBehaviour
     {
         sequence.Kill();
     }
+    
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            var player = Utils.GetOrAddComponent<Player>(other.gameObject);
+            if (player.IsInvincibleTime == false && player.GetIsDeadBool() == false)
+            {
+                player.PlayerHit(transform.position, false);
+            }
+        }
+    }
 }

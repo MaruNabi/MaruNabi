@@ -37,10 +37,10 @@ public class MousePhase1State : State<MouseStateMachine>
     {
         await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
         
-        if (RandomizerUtil.PercentRandomizer(30))
+        if (RandomizerUtil.PercentRandomizer(100))
         {
             Mouse.MovingBackGround?.Invoke(false);
-            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()));
+            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.TailAttack()));
             Mouse.MovingBackGround?.Invoke(true);
         }
         else

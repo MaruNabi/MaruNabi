@@ -146,7 +146,7 @@ public class Bullet : MonoBehaviour
             if (isEnemy && !isPenetrate)
             {
                 Invoke("DestroyBullet", 0.1f);
-                Debug.Log("Hi");
+                //Debug.Log("Hi");
                 //DestroyBullet();
             }
         }

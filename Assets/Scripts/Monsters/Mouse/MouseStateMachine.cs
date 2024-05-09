@@ -49,6 +49,9 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
             case EMouseAnimationType.Crying:
                 mouseAnimator.SetTrigger("Crying");
                 break;
+            case EMouseAnimationType.Dead:
+                mouseAnimator.SetTrigger("Dead");
+                break;
             default:
                 break;
         }
