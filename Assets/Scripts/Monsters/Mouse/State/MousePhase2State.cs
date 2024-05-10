@@ -25,6 +25,7 @@ public class MousePhase2State : State<MouseStateMachine>
     public override void OnEnter()
     {
         base.OnEnter();
+        Debug.Log("Phase2");
         RandomPattern().Forget();
     }
 
@@ -46,20 +47,20 @@ public class MousePhase2State : State<MouseStateMachine>
         {
             case EMousePattern.Rush:
                 Mouse.MovingBackGround?.Invoke(false);
-                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()));
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()), cancellationToken: cts.Token);
                 Mouse.MovingBackGround?.Invoke(true);
                 break;
             case EMousePattern.SpawnRats:
                 stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
-                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()));
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()), cancellationToken: cts.Token);
                 break;
             case EMousePattern.Rock:
                 stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
-                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRock()));
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRock()), cancellationToken: cts.Token);
                 break;
             case EMousePattern.Tail:
                 Mouse.MovingBackGround?.Invoke(false);
-                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.TailAttack()));
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.TailAttack()), cancellationToken: cts.Token);
                 Mouse.MovingBackGround?.Invoke(true);
                 break;
         }

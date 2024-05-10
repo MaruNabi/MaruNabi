@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 
 public class MouseManager : MonoBehaviour
 {
-    [SerializeField] private float power = 10f;
+    [SerializeField] private float power = 15f;
     [SerializeField] private Rigidbody2D playerRigidbody;
     [SerializeField] private Rigidbody2D playerRigidbody2;
     [SerializeField] private Mouse mouse;

@@ -980,7 +980,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &189562267
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2001,7 +2001,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69fb2cb23e973949a8bd8d3f536a047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage2Start: 1
+  stage2Start: 0
   player2: {fileID: 498550478}
   player1: {fileID: 90012642}
   stage2SpawnPosition: {fileID: 899173450}
@@ -10502,6 +10502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96684c8b7c2630c43b25a52e6b8c4067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStart: 0
 --- !u!95 &1481620056
 Animator:
   serializedVersion: 5
@@ -10537,6 +10538,7 @@ MonoBehaviour:
   rats: {fileID: 9057137620132636138, guid: 1538938f234e81749b129d0ae632f658, type: 3}
   rock: {fileID: 6802807905514965621, guid: 4bf9376963fe1de47ad88351f9aa7bca, type: 3}
   tail: {fileID: 2226452831998538414, guid: 6e3bdedc418830a46b4c543ff8125597, type: 3}
+  smokePrefab: {fileID: 1351699654911004, guid: 879aa6d314d3ef848a01ba73a217d9ca, type: 3}
 --- !u!61 &1481620059
 BoxCollider2D:
   m_ObjectHideFlags: 0
