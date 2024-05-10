@@ -24,6 +24,7 @@ public class Mouse : Entity
     private bool phaseChange;
     private bool rushEvent;
     private bool tailEvent;
+    public bool isStart;
 
     public bool PhaseChange
     {
@@ -49,10 +50,10 @@ public class Mouse : Entity
         HP = maxHP;
         hpText.text = HP.ToString();
 
-        behaviorGacha.Add(EMousePattern.Rush, 10);
-        behaviorGacha.Add(EMousePattern.SpawnRats, 10);
-        behaviorGacha.Add(EMousePattern.Rock, 10);
-        behaviorGacha.Add(EMousePattern.Tail, 70);
+        behaviorGacha.Add(EMousePattern.Rush, 35);
+        behaviorGacha.Add(EMousePattern.SpawnRats, 15);
+        behaviorGacha.Add(EMousePattern.Rock, 25);
+        behaviorGacha.Add(EMousePattern.Tail, 25);
 
         mouseStateMachine.Initialize("Enter", this, GetComponent<Animator>());
     }
@@ -177,7 +178,7 @@ public class Mouse : Entity
                 var tailSpawnPoint = transform.position + Vector3.left * 4.5f + Vector3.down * 1.7f;
                 Instantiate(mouseEffects.tail, tailSpawnPoint, Quaternion.Euler(0, 0, 6.6f));
             })
-            .AppendInterval(0.3f);
+            .AppendInterval(0.25f);
         
         // 꼬리 공격
         return sequence.Duration();
@@ -194,36 +195,56 @@ public class Mouse : Entity
         return RandomizerUtil.From(behaviorGacha).TakeOne();
     }
 
-    public void PhaseChangeAnim()
+    public void PhaseChangeSequence()
     {
+        transform.DOKill();
+        
         if (sequence.IsPlaying())
             sequence.Kill();
 
-        // Animator Phase2로 여기서 변경
+        rushEvent = false;
+        tailEvent = false;
+        isStart = false;
+        AllowAttack(false);
+        MovingBackGround?.Invoke(false);
+        
+        // Animator Phase2 변경
         sequence = DOTween.Sequence();
         sequence
-            .AppendInterval(3f)
-            .Append(transform.DOMove(startPos, 1f))
-            .OnComplete(() =>
+            .AppendInterval(2f)
+            .AppendCallback(() =>
             {
                 mouseSpriteRenderer.color = new Color(1, 0.5f, 0.5f, 1f);
-
-                if(mouseSpriteRenderer.flipX == false)
+                if (mouseSpriteRenderer.flipX == false)
                     mouseSpriteRenderer.flipX = true;
-            });
+            })
+            .Append(transform.DOMove(startPos, 1f));
+    }
+    
+    public void SmokeEffect()
+    {
+        GameObject smoke = Instantiate(mouseEffects.smokePrefab);
+        smoke.transform.position = transform.position;
+        mouseSpriteRenderer.DOFade(0, 0.4f);
     }
 
     public override void OnDead()
     {
+        transform.DOKill();
         if (sequence.IsPlaying())
             sequence.Kill();
 
+        
+        
         sequence = DOTween.Sequence();
         sequence
-            .AppendInterval(2f)
             .Append(transform.DOMove(startPos, 1f))
+            .AppendInterval(2f)
+            .AppendCallback(() => mouseStateMachine.ChangeAnimation(EMouseAnimationType.Dead))
+            .AppendInterval(1f)
             .AppendCallback(() => { 
                 Debug.Log("죽음");
+                SmokeEffect();
                 //스테이지 클리어 여기서 죽음 애니메이션
                 })
             .AppendInterval(2f)

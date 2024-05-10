@@ -100,13 +100,13 @@ public class Bullet : MonoBehaviour
                     bulletRigidbody.velocity = new Vector2(speed, 0);
                 }
                 transform.rotation = Quaternion.Euler(0, angle, 0);
-                Debug.Log(bulletRigidbody.velocity);
+                //Debug.Log(bulletRigidbody.velocity);
             }
         }
 
         else
         {
-            Debug.Log("else");
+            //Debug.Log("else");
             bulletRigidbody.velocity = lockedBulletVector * speed;
             angle = Mathf.Atan2(lockedBulletVector.y, lockedBulletVector.x) * Mathf.Rad2Deg;
             angle %= 360f;
@@ -131,7 +131,7 @@ public class Bullet : MonoBehaviour
             {
                 if ((PlayerNabi.ultimateGauge += attackPower) > 1500.0f)
                 {
-                    Debug.Log(PlayerNabi.ultimateGauge);
+                    //Debug.Log(PlayerNabi.ultimateGauge);
                     PlayerNabi.ultimateGauge = 1500.0f;
                 }
             }

@@ -15,14 +15,18 @@ public class MouseRunState : State<MouseStateMachine>
     public override void OnEnter()
     {
         base.OnEnter();
+        Debug.Log("Run");
         RunWait().Forget();
     }
     
     async UniTaskVoid RunWait()
     {
-        stateMachine.ChangeAnimation(EMouseAnimationType.Run);
+        if (stateMachine.Mouse.isStart == false)
+        {
+            stateMachine.Mouse.isStart = true;
+            stateMachine.ChangeAnimation(EMouseAnimationType.Run);
+        }
         
-        await UniTask.Delay(TimeSpan.FromSeconds(0.1f));
         Mouse.MovingBackGround?.Invoke(true);
         
         await UniTask.Delay(TimeSpan.FromSeconds(RUNNNING_TIME));
