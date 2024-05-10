@@ -22,7 +22,7 @@ public class AttackSmallSword : Sword
 
         swordDistance = new Vector2(MAX_DISTANCE, 0);
 
-        attackPower = 50.0f;
+        attackPower = 300.0f;
         canHit = true;
     }
 
@@ -146,17 +146,14 @@ public class AttackSmallSword : Sword
         if (MAX_DISTANCE - Vector3.Distance(transform.position, swordPosition) >= 3.1f)
         {
             finalAttackPower = attackPower * 2.5f;
-            Debug.Log("2.5น่");
         }
         else if (MAX_DISTANCE - Vector3.Distance(transform.position, swordPosition) < 2.3f)
         {
             finalAttackPower = attackPower * 1f;
-            Debug.Log("1น่");
         }
         else
         {
             finalAttackPower = attackPower * 1.5f;
-            Debug.Log("1.5น่");
         }
     }
 }

@@ -44,7 +44,6 @@ public class ReviveZone : MonoBehaviour
         StartCoroutine(ReviveZoneBlink());
         reviveBarImage.fillAmount = 0.0f;       //reviveBarImage Init
         fillAmountUnit = 1.0f / reviveTime * 0.02f;
-        Debug.Log("deathCount" + deathCount);
     }
 
     void Update()
