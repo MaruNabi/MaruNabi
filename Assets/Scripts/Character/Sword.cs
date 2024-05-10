@@ -12,7 +12,7 @@ public class Sword : MonoBehaviour
     protected Rigidbody2D swordRigidbody;
     protected SpriteRenderer swordSpriteRenderer;
     protected Vector2 lockedSwordVector;
-    protected float attackPower;
+    protected float attackPower = 300f;
 
     [SerializeField]
     private Transform rayStartPosition;

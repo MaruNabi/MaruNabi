@@ -23,7 +23,7 @@ public class AttackSmallMaze : Sword
         SetSword(1f);
 
         swordDistance = new Vector2(MAX_DISTANCE, MAX_DISTANCE);
-        attackPower = 100.0f;
+        attackPower = 400.0f;
         wayPoints = new Vector3[3];
     }
 

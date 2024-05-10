@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SkillCurseCharm : Bullet
 {
+    private List<GameObject> enemyList = new List<GameObject>();
     private Transform enemy;
     private float turnSpeed = 5.0f;
     private Vector3 bulletDirection;
@@ -11,6 +12,7 @@ public class SkillCurseCharm : Bullet
     private bool isInitOnce = true;
     protected bool isHitEnemy = false;
 
+    private float shortDis;
     private float bulletAngle;
     private float currentZ;
     private float newZ;
@@ -24,9 +26,27 @@ public class SkillCurseCharm : Bullet
     {
         SetBullet();
 
-        if (GameObject.FindGameObjectWithTag("Enemy"))
+        isPenetrate = false;
+
+        enemyList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
+        enemyList.AddRange(GameObject.FindGameObjectsWithTag("NoBumpEnemy"));
+
+        if (enemyList.Count != 0)
         {
-            enemy = GameObject.FindGameObjectWithTag("Enemy").transform;
+            enemy = enemyList[0].transform;
+
+            shortDis = Vector3.Distance(gameObject.transform.position, enemyList[0].transform.position);
+
+            foreach (GameObject found in enemyList)
+            {
+                float distance = Vector3.Distance(gameObject.transform.position, found.transform.position);
+
+                if (distance < shortDis)
+                {
+                    enemy = found.transform;
+                    shortDis = distance;
+                }
+            }
         }
 
         curseCharmAnimator = GetComponent<Animator>();
@@ -105,7 +125,7 @@ public class SkillCurseCharm : Bullet
     {
         if (ray.collider != null)
         {
-            if (ray.collider.tag == "Enemy")
+            if (ray.collider.tag == "Enemy" || ray.collider.tag == "NoBumpEnemy")
             {
                 curseCharmAnimator.SetBool("isHit", true);
                 isHitEnemy = true;

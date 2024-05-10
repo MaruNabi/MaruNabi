@@ -149,9 +149,12 @@ public class Player : MonoBehaviour
             if (groundRay.collider.tag == "Ground" && currentGroundName == groundRay.collider.gameObject.name)
             {
                 isGround = true;
-                if (groundRay.collider.GetComponent<SurfaceEffector2D>().enabled)
+                if (groundRay.collider.GetComponent<SurfaceEffector2D>())
                 {
-                    isSurfaceEffector = true;
+                    if (groundRay.collider.GetComponent<SurfaceEffector2D>().enabled)
+                    {
+                        isSurfaceEffector = true;
+                    }
                 }
                 else
                 {
@@ -253,7 +256,7 @@ public class Player : MonoBehaviour
 
         Vector3 velocityYOnly = new Vector3(0.0f, rigidBody.velocity.y, 0.0f);
 
-        if (isSlope)
+        if (isSlope && !isSurfaceEffector)
             movement *= slopePerp * -1f;
 
         rigidBody.velocity = movement + velocityYOnly;
@@ -311,7 +314,6 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", false);
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
-        PlayerStateTransition(true, 0);
         PlayerStateTransition(false, 0);
         Invoke("InvokeTimer", 10.0f);
 
