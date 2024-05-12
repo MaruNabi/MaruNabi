@@ -465,7 +465,6 @@ public class Player : MonoBehaviour
         sitAtkPosition = defaultAtkPosition;
         sitAtkPosition.y = defaultAtkPosition.y - 0.7f;
         playerCollider.size = sitPlayerColliderSize;
-        playerStandCollider.size = sitPlayerColliderSize;
         atkPosition.transform.localPosition = sitAtkPosition;
         if (canPlayerState[1])
         {
@@ -483,7 +482,6 @@ public class Player : MonoBehaviour
 
         yield return new WaitUntil(() => isSitting == false);
         playerCollider.size = defaultPlayerColliderSize;
-        playerStandCollider.size = defaultPlayerColliderSize;
         atkPosition.transform.localPosition = defaultAtkPosition;
     }
 }
