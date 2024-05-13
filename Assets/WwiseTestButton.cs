@@ -7,8 +7,8 @@ public class WwiseTestButton : MonoBehaviour
     public void OnClick(string name)
     {
         AkSoundEngine.PostEvent(name, gameObject);
-        
-        // ¼Ò¸®¸¦ ¼ø°£ÀûÀ¸·Î ¹Ù²Ù°Ô ÇØÁÖ´Â ½ºÀ§Ä¡ ÄÚµå
+
+        // ì†Œë¦¬ë¥¼ ìˆœê°„ì ìœ¼ë¡œ ë°”ê¾¸ê²Œ í•´ì£¼ëŠ” ìŠ¤ìœ„ì¹˜ ì½”ë“œ
         //AkSoundEngine.SetSwitch("Dirt", "PlayerFootStep_Dirt", gameObject);
     }
 }

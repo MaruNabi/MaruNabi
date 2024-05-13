@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{B4E8D074-ED02-4331-B58D-1FC64383868A}" SchemaVersion="119">
 	<Events>
-		<WorkUnit Name="Default Work Unit" ID="{B4E8D074-ED02-4331-B58D-1FC64383868A}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{B4E8D074-ED02-4331-B58D-1FC64383868A}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="New_Event" ID="{A923CD2D-D271-45AF-BFB4-1599D65E79F4}">
+					<ChildrenList>
+						<Action Name="" ID="{3FA73BC2-375F-4901-9E45-7A6A4B171251}" ShortID="363780409">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="IceGem_Blast" ID="{FC62AB1F-29B0-40D3-91CF-429A2FE58AE1}" WorkUnitID="{DF0B2B84-8861-4C56-B42B-1492DF11C0C9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
 	</Events>
 </WwiseDocument>

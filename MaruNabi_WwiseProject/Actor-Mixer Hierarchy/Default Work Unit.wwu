@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{DF0B2B84-8861-4C56-B42B-1492DF11C0C9}" SchemaVersion="119">
 	<AudioObjects>
-		<WorkUnit Name="Default Work Unit" ID="{DF0B2B84-8861-4C56-B42B-1492DF11C0C9}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{DF0B2B84-8861-4C56-B42B-1492DF11C0C9}" PersistMode="Standalone">
+			<ChildrenList>
+				<ActorMixer Name="New Actor-Mixer" ID="{873EA7B6-60A6-4BFE-B3F7-13CF3355B678}" ShortID="457319046">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F255B1C6-BDA0-44BE-9A41-CAC566861F53}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{A23427B9-B3D5-438D-9021-A096B8F4E115}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="IceGem_Blast" ID="{FC62AB1F-29B0-40D3-91CF-429A2FE58AE1}" ShortID="136865980">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{F255B1C6-BDA0-44BE-9A41-CAC566861F53}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{A23427B9-B3D5-438D-9021-A096B8F4E115}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="IceGem_Blast" ID="{A7F48C59-740E-4D9D-A604-B7BEE5059295}">
+									<Language>SFX</Language>
+									<AudioFile>IceGem_Blast.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="314256584"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="IceGem_Blast" ID="{A7F48C59-740E-4D9D-A604-B7BEE5059295}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+			</ChildrenList>
+		</WorkUnit>
 	</AudioObjects>
 </WwiseDocument>

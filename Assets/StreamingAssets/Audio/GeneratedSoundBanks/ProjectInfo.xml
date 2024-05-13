@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo>
+	<Project Name="MaruNabi_WwiseProject" GUID="{4DA9A107-1D7A-4EAA-8450-308A66181011}" Generator="2023.1.3.8471"/>
+	<CacheRoot>../../../../MaruNabi_WwiseProject/.cache</CacheRoot>
+	<Platforms>
+		<Platform Name="Mac" GUID="{A7BE9DBF-454E-4820-958D-A2A1D4063D86}" BasePlatform="Mac" BasePlatformGUID="{9C6217D5-DD11-4795-87C1-6CE02853C540}" Path="../../../../MaruNabi_WwiseProject/GeneratedSoundBanks/Mac"/>
+		<Platform Name="Windows" GUID="{594096AD-C58A-46EE-803C-C49CC701260A}" BasePlatform="Windows" BasePlatformGUID="{6E0CB257-C6C8-4C5C-8366-2740DFC441EB}" Path="../../../../MaruNabi_WwiseProject/GeneratedSoundBanks/Windows"/>
+	</Platforms>
+	<Languages>
+		<Language Name="English(US)" Id="684519430" GUID="{32D44D83-49B8-4D77-881D-812D4249D05C}" Default="true" UseAsStandIn="true"/>
+	</Languages>
+	<FileHash>{76C4D391-13A7-A152-A2E8-9B14789C003C}</FileHash>
+</ProjectInfo>
