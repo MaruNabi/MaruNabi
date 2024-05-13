@@ -73,3 +73,40 @@ crashlytics-build.properties
 
 workspace.xml
 .idea/
+
+## ---------------- ##
+##   WWise stuff    ##
+## ---------------- ##
+
+# project stuff
+WWiseProject/.cache/
+WWiseProject/*.prof
+WwiseProject/*_WwiseProject.*.validationcache
+WwiseProject/*_WwiseProject.*.wsettings
+WwiseProject/**/*.akd
+
+# Wsise folder stuff
+Assets/Wwise/LauncherInfo.json
+Assets/Wwise/LauncherInfo.json.meta
+Assets/WwiseSettings.xml
+
+# build stuff (unsure?)
+# Assets/Wwise/Deployment/Plugins/Windows/**/*.meta
+
+# WWise Picker (editor)
+# from https://www.audiokinetic.com/library/edge/?source=Unity&id=unity__troubleshooting.html
+# >> Do not keep AkWwiseProjectData.asset under version control! 
+# >> This is a temporary cache file for the Wwise project data, 
+# >> so as to avoid having the Wwise Picker continuously parse the Work Unit files.
+Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset*
+
+# notes:
+# 1) if any other files go in Assets/Wwise/Editor/ProjectData/ besides AkWwiseProjectData.asset*,
+#    then don't ignore Assets/Wwise/Editor/ProjectData.meta. If AkWwiseProjectData.asset is the only item in there,
+#    then, it's OK to ignore this file.
+# 
+# Assets/Wwise/Editor/ProjectData.meta
+
+## --------------- ##
+## End WWise Stuff ##
+## --------------- ##
