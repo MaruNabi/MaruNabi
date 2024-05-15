@@ -83,6 +83,7 @@ public class Player : MonoBehaviour
     protected string currentGroundName;
     protected bool isTargetGround;
     protected bool isSurfaceEffector;
+    protected bool canChangeSkillSet;
 
     public bool IsTargetGround
     {
@@ -140,6 +141,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    protected void SurfaceEffectorCheck()
+    {
+        if (isGround && groundRay.collider.GetComponent<SurfaceEffector2D>().enabled)
+            isSurfaceEffector = true;
+        else
+            isSurfaceEffector = false;
+    }
+
     protected void SlopeCheck()
     {
         groundRay = Physics2D.Raycast(slopeCheckPosition.position, Vector2.down, slopeRayDistance, groundMask);
@@ -149,17 +158,6 @@ public class Player : MonoBehaviour
             if (groundRay.collider.tag == "Ground" && currentGroundName == groundRay.collider.gameObject.name)
             {
                 isGround = true;
-                if (groundRay.collider.GetComponent<SurfaceEffector2D>())
-                {
-                    if (groundRay.collider.GetComponent<SurfaceEffector2D>().enabled)
-                    {
-                        isSurfaceEffector = true;
-                    }
-                }
-                else
-                {
-                    isSurfaceEffector = false;
-                }
                 if (isLandingEffectOnce)
                 {
                     //canPlayerState[3] = true;
@@ -232,6 +230,9 @@ public class Player : MonoBehaviour
             atkPosition.rotation = Quaternion.Euler(0, 0, 0);
         }
 
+        if (!(Input.GetKey(moveLeft)) && !(Input.GetKey(moveRight)))
+            moveHorizontal = 0.0f;
+
         if (Input.GetKey(moveRight))
         {
             if (isSitting || isLock)
@@ -256,10 +257,22 @@ public class Player : MonoBehaviour
 
         Vector3 velocityYOnly = new Vector3(0.0f, rigidBody.velocity.y, 0.0f);
 
-        if (isSlope && !isSurfaceEffector)
-            movement *= slopePerp * -1f;
-
-        rigidBody.velocity = movement + velocityYOnly;
+        if (isSurfaceEffector)
+        {
+            if (moveHorizontal == 0.0f)
+            {
+                return;
+            }
+            else
+            {
+                //rigidBody.velocity = movement + velocityYOnly;
+                rigidBody.AddForce((movement).normalized, ForceMode2D.Impulse);
+            }
+        }
+        else
+        {
+            rigidBody.velocity = movement + velocityYOnly;
+        }
     }
 
     public void ForcedPlayerMoveToRight()

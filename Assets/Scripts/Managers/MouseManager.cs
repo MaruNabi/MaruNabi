@@ -30,11 +30,7 @@ public class MouseManager : MonoBehaviour
 
     private void Update()
     {
-        if (stage2Start)
-        {
-            playerRigidbody.AddForce(Vector3.left * power);
-            playerRigidbody2.AddForce(Vector3.left * power);
-        }
+        
     }
 
     public void StageStart()
