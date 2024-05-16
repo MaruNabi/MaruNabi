@@ -88,10 +88,10 @@ public class PlayerNabi : Player
         }
         else
         {
-            bulletPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 3);
-            skillPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 3);
-            bulletPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 1);
-            skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 1);
+            bulletPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 1);
+            skillPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 1);
+            bulletPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 2);
+            skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 2);
         }
 
         UpdateLifeUI();

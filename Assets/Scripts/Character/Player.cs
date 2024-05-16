@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     protected bool characterID; //True : Maru, False : Nabi
     protected string characterName;
     public const int MAX_LIFE = 5;
-    protected int cLife = 4;
+    protected int cLife = 3;
     [SerializeField] [Range(0, 10)] protected float cSpeed = 6.0f; //Character Speed
     protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit
     protected const float maxUltimateGauge = 1500.0f;
@@ -143,8 +143,10 @@ public class Player : MonoBehaviour
 
     protected void SurfaceEffectorCheck()
     {
-        if (isGround && groundRay.collider.GetComponent<SurfaceEffector2D>().enabled)
-            isSurfaceEffector = true;
+        if (isGround && groundRay.collider.GetComponent<SurfaceEffector2D>())
+        {
+            isSurfaceEffector = groundRay.collider.GetComponent<SurfaceEffector2D>().enabled;
+        }
         else
             isSurfaceEffector = false;
     }

@@ -91,10 +91,10 @@ public class PlayerMaru : Player
         }
         else
         {
-            swordPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 3);
-            skillPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 3);
-            swordPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 1);
-            skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 1);
+            swordPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 1);
+            skillPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 1);
+            swordPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 2);
+            skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 2);
         }
 
         UpdateLifeUI();
