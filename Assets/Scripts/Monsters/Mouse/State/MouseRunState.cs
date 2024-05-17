@@ -20,17 +20,12 @@ public class MouseRunState : State<MouseStateMachine>
     }
     
     async UniTaskVoid RunWait()
-    {
-        if (stateMachine.Mouse.isStart == false)
+    {        
+        if(stateMachine.GetAnimName("Mouse_Run") == false)
         {
-            stateMachine.Mouse.isStart = true;
+            Mouse.MovingBackGround?.Invoke(true);
             stateMachine.ChangeAnimation(EMouseAnimationType.Run);
         }
-        
-        if(stateMachine.GetAnimName("Mouse_Run") == false)
-            stateMachine.ChangeAnimation(EMouseAnimationType.Run);
-        
-        Mouse.MovingBackGround?.Invoke(true);
         
         await UniTask.Delay(TimeSpan.FromSeconds(RUNNNING_TIME));
         

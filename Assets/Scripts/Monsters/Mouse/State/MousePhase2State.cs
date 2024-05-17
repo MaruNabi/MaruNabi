@@ -9,22 +9,17 @@ using UnityEngine;
 
 public class MousePhase2State : State<MouseStateMachine>
 {
-    private Transform mouseTransform;
-    
-    private float randomPatternPercent;
-    private bool isPhase2;
-    
     CancellationTokenSource cts;
-    
+
     public MousePhase2State(MouseStateMachine mouseStateMachine) : base(mouseStateMachine)
     {
-        randomPatternPercent = 40f;
         cts = new CancellationTokenSource();
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
+        stateMachine.Mouse.PatternPercent = 40f;
         Debug.Log("Phase2");
         RandomPattern().Forget();
     }
@@ -32,13 +27,18 @@ public class MousePhase2State : State<MouseStateMachine>
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if(stateMachine.Mouse.CheckDead())
+        if (stateMachine.Mouse.CheckDead() && stateMachine.Mouse.Dead == false)
         {
-            cts.Cancel();
             stateMachine.SetState("Dead");
         }
     }
-    
+
+    public override void OnExit()
+    {
+        base.OnExit();
+        cts.Cancel();
+    }
+
     public async UniTaskVoid RandomPattern()
     {
         await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: cts.Token);
@@ -50,6 +50,11 @@ public class MousePhase2State : State<MouseStateMachine>
                 await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()), cancellationToken: cts.Token);
                 Mouse.MovingBackGround?.Invoke(true);
                 break;
+            case EMousePattern.Tail:
+                Mouse.MovingBackGround?.Invoke(false);
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.TailAttack()), cancellationToken: cts.Token);
+                Mouse.MovingBackGround?.Invoke(true);
+                break;
             case EMousePattern.SpawnRats:
                 stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
                 await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()), cancellationToken: cts.Token);
@@ -58,22 +63,11 @@ public class MousePhase2State : State<MouseStateMachine>
                 stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
                 await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRock()), cancellationToken: cts.Token);
                 break;
-            case EMousePattern.Tail:
-                Mouse.MovingBackGround?.Invoke(false);
-                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.TailAttack()), cancellationToken: cts.Token);
-                Mouse.MovingBackGround?.Invoke(true);
-                break;
         }
-
-        // ¿¬¼Ó °ø°Ý È®·ü
-        if (RandomizerUtil.PercentRandomizer(randomPatternPercent))
+        if (RandomizerUtil.PercentRandomizer(stateMachine.Mouse.PatternPercent))
         {
-            randomPatternPercent -= 20f;
-
-            if (randomPatternPercent <= 10)
-                randomPatternPercent = 10f;
-
-            RandomPattern().Forget();
+            Debug.Log("ë ˆì¸ ê³ 2");
+            stateMachine.SetState("Serise");
         }
         else
         {

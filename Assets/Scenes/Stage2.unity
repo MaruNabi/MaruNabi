@@ -2498,9 +2498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69fb2cb23e973949a8bd8d3f536a047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage2Start: 0
-  player2: {fileID: 498550478}
-  player1: {fileID: 90012642}
+  skipToStage2: 1
   stage2SpawnPosition: {fileID: 899173450}
   stage2Camera: {fileID: 1706814427}
   zoomCamera: {fileID: 183033501}

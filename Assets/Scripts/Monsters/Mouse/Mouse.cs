@@ -6,9 +6,9 @@ using TMPro;
 
 public class Mouse : Entity
 {
-    public static Action<bool> MovingBackGround; 
-    public static Action<GameObject> StageClear; 
-    
+    public static Action<bool> MovingBackGround;
+    public static Action<GameObject> StageClear;
+
     private MouseEffects mouseEffects;
     private MouseStateMachine mouseStateMachine;
     private SpriteRenderer mouseSpriteRenderer;
@@ -26,12 +26,16 @@ public class Mouse : Entity
     private bool tailEvent;
     public bool isStart;
 
+    private float patternPercent;
+    public float PatternPercent { get => patternPercent; set => patternPercent = value; }
+
     public bool PhaseChange
     {
         get => phaseChange;
         set => phaseChange = value;
     }
-    
+  
+
     private const int DAMAGE_VALUE = 400;
 
     protected override void Init()
@@ -40,13 +44,14 @@ public class Mouse : Entity
         mouseStateMachine = Utils.GetOrAddComponent<MouseStateMachine>(gameObject);
         mouseSpriteRenderer = GetComponent<SpriteRenderer>();
         mouseEffects = GetComponent<MouseEffects>();
-        
+
         behaviorGacha = new Dictionary<EMousePattern, int>();
         sequence = DOTween.Sequence();
 
         startPos = transform.position;
         maxHP = Data.LIFE;
         HP = maxHP;
+        patternPercent = 30f;
 
         behaviorGacha.Add(EMousePattern.Rush, 35);
         behaviorGacha.Add(EMousePattern.SpawnRats, 15);
@@ -58,7 +63,7 @@ public class Mouse : Entity
 
     public bool CheckPhaseChangeHp()
     {
-        return HP <= maxHP/2;
+        return HP <= maxHP / 2;
     }
 
     public bool CheckDead()
@@ -80,17 +85,16 @@ public class Mouse : Entity
 
     private void BeHitEffect()
     {
-        sequence = DOTween.Sequence();
-        sequence
+        var hitSequence = DOTween.Sequence();
+        hitSequence
             .Append(mouseSpriteRenderer.DOFade(0.75f, 0.3f))
             .Append(mouseSpriteRenderer.DOFade(1f, 0.3f));
     }
 
     public float Rush()
     {
-        if (sequence.IsPlaying())
-            return 0;
-        
+        StopSequence();
+
         sequence = DOTween.Sequence();
         sequence
             .OnStart(() =>
@@ -116,7 +120,7 @@ public class Mouse : Entity
         {
             transform.DOMove(startPos, 1f).SetEase(Ease.InCubic);
         }
-        
+
         mouseSpriteRenderer.flipX = rushEvent;
         AllowAttack(!rushEvent);
         rushEvent = !rushEvent;
@@ -124,8 +128,7 @@ public class Mouse : Entity
 
     public float SpawnRats()
     {
-        if (sequence.IsPlaying())
-            return 0;
+        StopSequence();
 
         sequence = DOTween.Sequence();
         sequence
@@ -142,8 +145,7 @@ public class Mouse : Entity
 
     public float SpawnRock()
     {
-        if (sequence.IsPlaying())
-            return 0;
+        StopSequence();
 
         sequence = DOTween.Sequence();
         sequence
@@ -160,8 +162,7 @@ public class Mouse : Entity
 
     public float TailAttack()
     {
-        if (sequence.IsPlaying())
-            return 0;
+        StopSequence();
 
         sequence = DOTween.Sequence();
         sequence
@@ -176,7 +177,7 @@ public class Mouse : Entity
                 Instantiate(mouseEffects.tail, tailSpawnPoint, Quaternion.Euler(0, 0, 6.6f));
             })
             .AppendInterval(0.25f);
-        
+
         // 꼬리 공격
         return sequence.Duration();
     }
@@ -192,23 +193,21 @@ public class Mouse : Entity
         return RandomizerUtil.From(behaviorGacha).TakeOne();
     }
 
-    public void PhaseChangeSequence()
+    public float PhaseChangeSequence()
     {
-        transform.DOKill();
-        
-        if (sequence.IsPlaying())
-            sequence.Kill();
+        // Phase2 변경
+        StopSequence();
+        ProductionWaitSetting();
+        phaseChange = true;
+        patternPercent = 40f;
 
-        rushEvent = false;
-        tailEvent = false;
-        AllowAttack(false);
-        MovingBackGround?.Invoke(false);
-        mouseStateMachine.ChangeAnimation(EMouseAnimationType.Dead);
-        mouseSpriteRenderer.color = new Color(1, 0.5f, 0.5f, 1f);
-        tag = "Untagged";
-        // Animator Phase2 변경
         sequence = DOTween.Sequence();
         sequence
+            .OnStart(() =>
+            {
+                mouseStateMachine.ChangeAnimation(EMouseAnimationType.Dead);
+                mouseSpriteRenderer.color = new Color(1, 0.5f, 0.5f, 1f);
+            })
             .AppendInterval(2f)
             .AppendCallback(() =>
             {
@@ -217,8 +216,19 @@ public class Mouse : Entity
                     mouseSpriteRenderer.flipX = true;
             })
             .Append(transform.DOMove(startPos, 1f));
+
+        return sequence.Duration();
     }
-    
+
+    private void ProductionWaitSetting()
+    {
+        canHit = false;
+        tag = "Untagged";
+        gameObject.layer = 0;
+        rushEvent = false;
+        tailEvent = false;
+    }
+
     public void SmokeEffect()
     {
         GameObject smoke = Instantiate(mouseEffects.smokePrefab);
@@ -228,31 +238,29 @@ public class Mouse : Entity
 
     public override void OnDead()
     {
-        transform.DOKill();
-        if (sequence.IsPlaying())
-            sequence.Kill();
-
-        AllowAttack(false);
-        tag= "Untagged";
+        StopSequence();
+        ProductionWaitSetting();
         StageClear?.Invoke(gameObject);
-        
+
+        Dead = true;
+
         sequence = DOTween.Sequence();
         sequence
             .Append(transform.DOMove(startPos, 1f))
             .AppendInterval(2f)
             .AppendCallback(() => mouseStateMachine.ChangeAnimation(EMouseAnimationType.Dead))
             .AppendInterval(1f)
-            .AppendCallback(() => { 
-                
+            .AppendCallback(() =>
+            {
+
                 SmokeEffect();
                 //스테이지 클리어 여기서 죽음 애니메이션
-                })
+            })
             .AppendInterval(2f)
             .OnComplete(() =>
             {
-                Debug.Log("죽음"); 
+                Debug.Log("죽음");
                 StageClear?.Invoke(gameObject);
-                tag= "Untagged";
             });
     }
 
@@ -269,6 +277,28 @@ public class Mouse : Entity
             canHit = _canHit;
             tag = "NoDeleteEnemyBullet";
             gameObject.layer = 0;
+        }
+    }
+
+    public void StopSequence()
+    {
+        AllowAttack(false);
+
+        if (sequence.IsPlaying())
+            sequence.Kill();
+
+        transform.DOKill();
+    }
+
+    public void MinusRandomPecent(float _value)
+    {
+        if(patternPercent - _value < 10)
+        {
+            patternPercent = 10;
+        }
+        else
+        {
+            patternPercent -= _value;
         }
     }
 }

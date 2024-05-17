@@ -9,21 +9,18 @@ using UnityEngine;
 
 public class MousePhase1State : State<MouseStateMachine>
 {
-    private Transform mouseTransform;
-    private float randomPatternPercent;
-    private bool isPhase2;
-
     CancellationTokenSource cts;
     
     public MousePhase1State(MouseStateMachine mouseStateMachine) : base(mouseStateMachine)
     {
-        randomPatternPercent = 30f;
         cts = new CancellationTokenSource();
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
+        stateMachine.Mouse.PatternPercent = 30f;
+        Debug.Log("Phase1");
         RandomPattern().Forget();
     }
     
@@ -32,10 +29,14 @@ public class MousePhase1State : State<MouseStateMachine>
         base.OnUpdate();
         if (stateMachine.Mouse.CheckPhaseChangeHp() && stateMachine.Mouse.PhaseChange == false)
         {
-            cts.Cancel();
-            stateMachine.Mouse.PhaseChange = true;
             stateMachine.SetState("PhaseChange");
         }
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+        cts.Cancel();
     }
     
     public async UniTaskVoid RandomPattern()
@@ -45,24 +46,22 @@ public class MousePhase1State : State<MouseStateMachine>
         if (RandomizerUtil.PercentRandomizer(100))
         {
             Mouse.MovingBackGround?.Invoke(false);
-            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()), cancellationToken: cts.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()));
             Mouse.MovingBackGround?.Invoke(true);
         }
         else
         {
             stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
-            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()), cancellationToken: cts.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()));
         }
 
-        // ¿¬¼Ó °ø°Ý È®·ü
-        if (RandomizerUtil.PercentRandomizer(randomPatternPercent))
+        if (RandomizerUtil.PercentRandomizer(stateMachine.Mouse.PatternPercent))
         {
-            randomPatternPercent -= 15f;
+            stateMachine.Mouse.MinusRandomPecent(15f);
 
-            if (randomPatternPercent <= 10)
-                randomPatternPercent = 10f;
+            stateMachine.SetState("Serise");
 
-            RandomPattern().Forget();
+            Debug.Log("ë ˆì¸ ê³ ");
         }
         else
         {
