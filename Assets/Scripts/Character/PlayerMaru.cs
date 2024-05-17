@@ -21,6 +21,7 @@ public class PlayerMaru : Player
     [SerializeField] private Image playerHpUI;
 
     private Sprite[] maruLifeSprite = new Sprite[6];
+    
     private int currentHp;
 
     void Start()
@@ -82,8 +83,8 @@ public class PlayerMaru : Player
         }
         else
         {
-            swordPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 3);
-            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 3);
+            swordPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 1);
+            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 1);
         }
 
         UpdateLifeUI();

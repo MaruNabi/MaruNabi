@@ -62,4 +62,11 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
         var currentAnimatorStateInfo = mouseAnimator.GetCurrentAnimatorStateInfo(0);
         return currentAnimatorStateInfo.length * currentAnimatorStateInfo.normalizedTime;
     }
+    
+    public bool GetAnimName(string _name)
+    {
+        var currentAnimatorStateInfo = mouseAnimator.GetCurrentAnimatorStateInfo(0);
+        return currentAnimatorStateInfo.IsName(_name);
+    }
+
 }

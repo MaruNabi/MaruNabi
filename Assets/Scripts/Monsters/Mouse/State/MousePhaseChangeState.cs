@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class MousePhaseChangeState : State<MouseStateMachine>
 {
-    private const float RUNNNING_TIME = 3f;
+    private const float RUNNNING_TIME = 2.75f;
     
     public MousePhaseChangeState(MouseStateMachine mouseStateMachine) : base(mouseStateMachine) { }
 
@@ -16,7 +16,6 @@ public class MousePhaseChangeState : State<MouseStateMachine>
         base.OnEnter();
         Debug.Log("PhaseChange");
         stateMachine.Mouse.PhaseChangeSequence();
-        stateMachine.ChangeAnimation(EMouseAnimationType.Dead);
         PhaseChangeWait().Forget();
     }
     

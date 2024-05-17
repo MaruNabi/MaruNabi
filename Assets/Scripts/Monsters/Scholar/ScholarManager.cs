@@ -194,6 +194,6 @@ public class ScholarManager : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         tree.transform.DOMoveX(-28f, 1.8f);
         wall.transform.DOMoveX(-25f, 1.8f);
-        nextStageWall.isClear = true;
+        nextStageWall.isStage1Clear = true;
     }
 }

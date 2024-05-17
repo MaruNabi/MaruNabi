@@ -14,6 +14,7 @@ public class StageSwitchingManager : MonoBehaviour
     [SerializeField] private Player player1;
     [SerializeField] private Transform stage2SpawnPosition;
     [SerializeField] private CinemachineVirtualCamera stage2Camera;
+    [SerializeField] private CinemachineVirtualCamera zoomCamera;
     [SerializeField] private ScholarManager scholarManager;
     [SerializeField] private MouseManager mouseManager;
     
@@ -61,5 +62,18 @@ public class StageSwitchingManager : MonoBehaviour
     {
         AllowBehavior();
         mouseManager.StageStart();
+    }
+    
+    public void ZoomIn(GameObject _target)
+    {
+        zoomCamera.Follow = _target.transform;
+        zoomCamera.Priority = 20;
+        zoomCamera.gameObject.SetActive(true);
+    }
+    
+    public void ZoomOut()
+    {
+        zoomCamera.gameObject.SetActive(false);
+        
     }
 }

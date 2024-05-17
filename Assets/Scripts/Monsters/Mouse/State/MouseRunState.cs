@@ -27,6 +27,9 @@ public class MouseRunState : State<MouseStateMachine>
             stateMachine.ChangeAnimation(EMouseAnimationType.Run);
         }
         
+        if(stateMachine.GetAnimName("Mouse_Run") == false)
+            stateMachine.ChangeAnimation(EMouseAnimationType.Run);
+        
         Mouse.MovingBackGround?.Invoke(true);
         
         await UniTask.Delay(TimeSpan.FromSeconds(RUNNNING_TIME));
