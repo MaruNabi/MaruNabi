@@ -21,7 +21,7 @@ public class MousePhase2State : State<MouseStateMachine>
         base.OnEnter();
         stateMachine.Mouse.PatternPercent = 40f;
         Debug.Log("Phase2");
-        RandomPattern().Forget();
+        RandomPattern(cts.Token).Forget();
     }
 
     public override void OnUpdate()
@@ -29,49 +29,61 @@ public class MousePhase2State : State<MouseStateMachine>
         base.OnUpdate();
         if (stateMachine.Mouse.CheckDead() && stateMachine.Mouse.Dead == false)
         {
-            stateMachine.SetState("Dead");
+            cts.Cancel();
+            stateMachine.Mouse.OnDead();
         }
     }
 
-    public override void OnExit()
+    private async UniTask RandomPattern(CancellationToken token)
     {
-        base.OnExit();
-        cts.Cancel();
-    }
 
-    public async UniTaskVoid RandomPattern()
-    {
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: cts.Token);
+        try
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: token);
 
-        switch (stateMachine.Mouse.TakeOne())
-        {
-            case EMousePattern.Rush:
-                Mouse.MovingBackGround?.Invoke(false);
-                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()), cancellationToken: cts.Token);
-                Mouse.MovingBackGround?.Invoke(true);
-                break;
-            case EMousePattern.Tail:
-                Mouse.MovingBackGround?.Invoke(false);
-                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.TailAttack()), cancellationToken: cts.Token);
-                Mouse.MovingBackGround?.Invoke(true);
-                break;
-            case EMousePattern.SpawnRats:
-                stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
-                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()), cancellationToken: cts.Token);
-                break;
-            case EMousePattern.Rock:
-                stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
-                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRock()), cancellationToken: cts.Token);
-                break;
+            switch (stateMachine.Mouse.TakeOne())
+            {
+                case EMousePattern.Rush:
+                    token.ThrowIfCancellationRequested();
+                    Mouse.MovingBackGround?.Invoke(false);
+                    await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()), cancellationToken: token);
+                    token.ThrowIfCancellationRequested();
+                    Mouse.MovingBackGround?.Invoke(true);
+                    break;
+                case EMousePattern.Tail:
+                    token.ThrowIfCancellationRequested();
+                    Mouse.MovingBackGround?.Invoke(false);
+                    await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.TailAttack()), cancellationToken: token);
+                    token.ThrowIfCancellationRequested();
+                    Mouse.MovingBackGround?.Invoke(true);
+                    break;
+                case EMousePattern.SpawnRats:
+                    stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
+                    await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()), cancellationToken: token);
+                    break;
+                case EMousePattern.Rock:
+                    stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
+                    await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRock()), cancellationToken: token);
+                    break;
+            }
+            
+            token.ThrowIfCancellationRequested();
+            
+            if (RandomizerUtil.PercentRandomizer(stateMachine.Mouse.PatternPercent))
+            {
+                stateMachine.Mouse.MinusRandomPecent(20f);
+
+                await RandomPattern(token);
+            }
+            else
+            {
+                stateMachine.SetState("Run");
+            }
         }
-        if (RandomizerUtil.PercentRandomizer(stateMachine.Mouse.PatternPercent))
+        catch (OperationCanceledException)
         {
-            Debug.Log("레츠고2");
-            stateMachine.SetState("Serise");
-        }
-        else
-        {
-            stateMachine.SetState("Run");
+            // Handle the cancellation if needed
+            Debug.Log("RandomPattern cancelled");
         }
     }
 }

@@ -24,7 +24,7 @@ public class Mouse : Entity
     private bool phaseChange;
     private bool rushEvent;
     private bool tailEvent;
-    public bool isStart;
+    private bool isPhaseChanging;
 
     private float patternPercent;
     public float PatternPercent { get => patternPercent; set => patternPercent = value; }
@@ -51,7 +51,6 @@ public class Mouse : Entity
         startPos = transform.position;
         maxHP = Data.LIFE;
         HP = maxHP;
-        patternPercent = 30f;
 
         behaviorGacha.Add(EMousePattern.Rush, 35);
         behaviorGacha.Add(EMousePattern.SpawnRats, 15);
@@ -112,6 +111,9 @@ public class Mouse : Entity
 
     public void TurnClipEvent()
     {
+        if (isPhaseChanging)
+            return;
+        
         if (rushEvent == false)
         {
             transform.DOMove(transform.position - new Vector3(14f, 1.5f, 0), 1f).SetEase(Ease.InCubic);
@@ -184,6 +186,9 @@ public class Mouse : Entity
 
     public void TailClipEvent()
     {
+        if (Dead)
+            return;
+        
         AllowAttack(!tailEvent);
         tailEvent = !tailEvent;
     }
@@ -205,6 +210,7 @@ public class Mouse : Entity
         sequence
             .OnStart(() =>
             {
+                isPhaseChanging = true;
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Dead);
                 mouseSpriteRenderer.color = new Color(1, 0.5f, 0.5f, 1f);
             })
@@ -215,7 +221,8 @@ public class Mouse : Entity
                 if (mouseSpriteRenderer.flipX == false)
                     mouseSpriteRenderer.flipX = true;
             })
-            .Append(transform.DOMove(startPos, 1f));
+            .Append(transform.DOMove(startPos, 1f))
+            .OnComplete(() => isPhaseChanging = false);
 
         return sequence.Duration();
     }
@@ -233,7 +240,6 @@ public class Mouse : Entity
     {
         GameObject smoke = Instantiate(mouseEffects.smokePrefab);
         smoke.transform.position = transform.position;
-        mouseSpriteRenderer.DOFade(0.5f, 0.4f);
     }
 
     public override void OnDead()
@@ -241,20 +247,14 @@ public class Mouse : Entity
         StopSequence();
         ProductionWaitSetting();
         StageClear?.Invoke(gameObject);
-
         Dead = true;
-
+        
         sequence = DOTween.Sequence();
         sequence
-            .Append(transform.DOMove(startPos, 1f))
-            .AppendInterval(2f)
-            .AppendCallback(() => mouseStateMachine.ChangeAnimation(EMouseAnimationType.Dead))
             .AppendInterval(1f)
             .AppendCallback(() =>
             {
-
                 SmokeEffect();
-                //스테이지 클리어 여기서 죽음 애니메이션
             })
             .AppendInterval(2f)
             .OnComplete(() =>
@@ -283,11 +283,9 @@ public class Mouse : Entity
     public void StopSequence()
     {
         AllowAttack(false);
-
-        if (sequence.IsPlaying())
-            sequence.Kill();
-
+        sequence.Kill();
         transform.DOKill();
+        mouseStateMachine.ChangeAnimation(EMouseAnimationType.NoRush);
     }
 
     public void MinusRandomPecent(float _value)

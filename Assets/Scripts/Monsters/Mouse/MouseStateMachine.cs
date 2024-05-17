@@ -16,11 +16,9 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
         base.states = new Dictionary<string, State<MouseStateMachine>>{
             {"Enter",new MouseEnterState(this)},
             {"Run",new MouseRunState(this)},
-            {"Serise",new MouseSeriesAttack(this)},
             {"Phase1",new MousePhase1State(this)},
             {"PhaseChange",new MousePhaseChangeState(this)},
             {"Phase2",new MousePhase2State(this)},
-            {"Dead",new MouseDeadState(this)},
         };
     }
 
@@ -63,11 +61,4 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
         var currentAnimatorStateInfo = mouseAnimator.GetCurrentAnimatorStateInfo(0);
         return currentAnimatorStateInfo.length * currentAnimatorStateInfo.normalizedTime;
     }
-    
-    public bool GetAnimName(string _name)
-    {
-        var currentAnimatorStateInfo = mouseAnimator.GetCurrentAnimatorStateInfo(0);
-        return currentAnimatorStateInfo.IsName(_name);
-    }
-
 }
