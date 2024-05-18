@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class TutorialCamera : MonoBehaviour
 {
+    [SerializeField] private float leftEndSize = 11;
+    public float rightEndSize;
+
+    public bool isSubStageMove = false;
+
     private Vector3 cameraPosition = new Vector3(0, 0, -10);
 
     private Transform playerMaruTransform;
     private Transform playerNabiTransform;
-
-    [SerializeField] private Vector2 mapSize;
-    [SerializeField] private Vector2 center;
 
     private float averagePlayerPosition;
     private float cameraMoveSpeed = 50.0f;
@@ -28,7 +30,10 @@ public class TutorialCamera : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CameraMoveAndLimit();
+        if (!isSubStageMove)
+        {
+            CameraMoveAndLimit();
+        }
     }
 
     private void CameraMoveAndLimit()
@@ -36,9 +41,11 @@ public class TutorialCamera : MonoBehaviour
         averagePlayerPosition = (playerMaruTransform.position.x + playerNabiTransform.position.x) / 2.0f;
         cameraPosition.x = averagePlayerPosition;
         transform.position = Vector3.Lerp(transform.position, cameraPosition, Time.deltaTime * cameraMoveSpeed);
+        
+        float leftM = -leftEndSize + cameraWidth;
+        float rightM = rightEndSize - cameraWidth;
 
-        float lx = mapSize.x - cameraWidth;
-        float clampX = Mathf.Clamp(transform.position.x, -lx + center.x, lx + center.x);
+        float clampX = Mathf.Clamp(transform.position.x, leftM, rightM);
 
         transform.position = new Vector3(clampX, 0, -10f);
     }
@@ -46,6 +53,6 @@ public class TutorialCamera : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(center, mapSize * 2);
+        Gizmos.DrawLine(new Vector2(leftEndSize - cameraWidth, 0), new Vector2(rightEndSize - cameraWidth, 0));
     }
 }
