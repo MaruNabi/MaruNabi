@@ -10,8 +10,8 @@ public class TutorialScene : MonoBehaviour
 
     private TutorialCamera tutorialCamera;
 
-    private GameObject playerMaruTransform;
-    private GameObject playerNabiTransform;
+    private GameObject playerMaru;
+    private GameObject playerNabi;
     private float averagePlayerTransform;
     private Vector3 cameraPosition = new Vector3(0, 0, -10);
 
@@ -30,8 +30,8 @@ public class TutorialScene : MonoBehaviour
 
         dummy2.SetActive(false);
 
-        playerMaruTransform = GameObject.Find("Maru_Test");
-        playerNabiTransform = GameObject.Find("Nabi_Test");
+        playerMaru = GameObject.Find("Maru_Test");
+        playerNabi = GameObject.Find("Nabi_Test");
     }
 
     void Update()
@@ -70,7 +70,7 @@ public class TutorialScene : MonoBehaviour
     {
         tutorialCamera.isSubStageMove = true;
 
-        averagePlayerTransform = (playerMaruTransform.transform.position.x + playerNabiTransform.transform.position.x) / 2.0f;
+        averagePlayerTransform = (playerMaru.transform.position.x + playerNabi.transform.position.x) / 2.0f;
         cameraPosition.x = averagePlayerTransform;
         mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, cameraPosition, Time.deltaTime * smoothCameraMoveSpeed);
 

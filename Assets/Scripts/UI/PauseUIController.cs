@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using TMPro;
 
-public class TitleScene : MonoBehaviour
+public class PauseUIController : MonoBehaviour
 {
     [SerializeField] private Image[] buttons;
     private int selectedButtonIndex = 0;
@@ -24,11 +24,11 @@ public class TitleScene : MonoBehaviour
 
     private void ButtonsControl()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.D))
         {
             selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
         }
@@ -49,29 +49,20 @@ public class TitleScene : MonoBehaviour
 
     private void ExeFunction()
     {
-        switch(selectedButtonIndex)
+        switch (selectedButtonIndex)
         {
             case 0:
-                OnClickGameStart();
+                PauseUI.isGamePaused = false;
                 break;
             case 1:
+                Debug.Log("다시 하기");
                 break;
             case 2:
-                break;
-            case 3:
+                Debug.Log("돌아가기");
                 break;
             default:
                 Debug.LogError("Not Found Button");
                 break;
         }
-    }
-
-    public void OnClickGameStart()
-    {
-        //LoadingScene.nextScene = "TestScene";
-
-        SceneManager.LoadScene("StageSelectionScene");
-
-        //Managers.Scene.LoadScene(ESceneType.StageSelectionScene);
     }
 }

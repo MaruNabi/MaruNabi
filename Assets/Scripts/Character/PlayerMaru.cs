@@ -116,6 +116,9 @@ public class PlayerMaru : Player
             return;
         }
 
+        if (PauseUI.isGamePaused)
+            return;
+
         SlopeCheck();
 
         SurfaceEffectorCheck();

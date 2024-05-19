@@ -113,6 +113,9 @@ public class PlayerNabi : Player
             return;
         }
 
+        if (PauseUI.isGamePaused)
+            return;
+
         SlopeCheck();
 
         SurfaceEffectorCheck();
