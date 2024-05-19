@@ -39,7 +39,7 @@ public class MousePhase1State : State<MouseStateMachine>
         try
         {
             // Cancelled token will throw OperationCanceledException here
-            await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.75f), cancellationToken: token);
 
             if (RandomizerUtil.PercentRandomizer(100))
             {

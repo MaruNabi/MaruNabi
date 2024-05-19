@@ -54,6 +54,9 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
             case EMouseAnimationType.Clear:
                 mouseAnimator.SetBool("Clear",true);
                 break;
+            case EMouseAnimationType.StopCrying:
+                mouseAnimator.SetTrigger("StopCrying");
+                break;
         }
     }
 

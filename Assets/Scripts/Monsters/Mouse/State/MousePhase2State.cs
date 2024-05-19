@@ -39,14 +39,14 @@ public class MousePhase2State : State<MouseStateMachine>
 
         try
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.75f), cancellationToken: token);
 
             switch (stateMachine.Mouse.TakeOne())
             {
                 case EMousePattern.Rush:
                     token.ThrowIfCancellationRequested();
                     Mouse.MovingBackGround?.Invoke(false);
-                    await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()), cancellationToken: token);
+                    await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush2()), cancellationToken: token);
                     token.ThrowIfCancellationRequested();
                     Mouse.MovingBackGround?.Invoke(true);
                     break;

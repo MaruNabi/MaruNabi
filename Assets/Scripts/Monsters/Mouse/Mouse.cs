@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using TMPro;
+using UnityEditor.Animations;
+using Random = UnityEngine.Random;
 
 public class Mouse : Entity
 {
@@ -26,6 +27,7 @@ public class Mouse : Entity
     private bool rushEvent;
     private bool tailEvent;
     private bool isPhaseChanging;
+    [SerializeField] private AnimatorController phase2Animator;
     
     private float patternPercent;
     public float PatternPercent { get => patternPercent; set => patternPercent = value; }
@@ -40,6 +42,7 @@ public class Mouse : Entity
         mouseStateMachine = Utils.GetOrAddComponent<MouseStateMachine>(gameObject);
         mouseSpriteRenderer = GetComponent<SpriteRenderer>();
         mouseEffects = GetComponent<MouseEffects>();
+        mouseAnimator = GetComponent<Animator>();
         
         behaviorGacha = new Dictionary<EMousePattern, int>();
         sequence = DOTween.Sequence();
@@ -96,7 +99,26 @@ public class Mouse : Entity
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Rush);
             })
-            .AppendInterval(5f)
+            .AppendInterval(3.75f)
+            .OnComplete(() =>
+            {
+                mouseStateMachine.ChangeAnimation(EMouseAnimationType.NoRush);
+            });
+
+        return sequence.Duration();
+    }
+
+    public float Rush2()
+    {
+        StopSequence();
+
+        sequence = DOTween.Sequence();
+        sequence
+            .OnStart(() =>
+            {
+                mouseStateMachine.ChangeAnimation(EMouseAnimationType.Rush);
+            })
+            .AppendInterval(3.5f)
             .OnComplete(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.NoRush);
@@ -120,6 +142,24 @@ public class Mouse : Entity
         }
 
         mouseSpriteRenderer.flipX = rushEvent;
+        AllowAttack(!rushEvent);
+        rushEvent = !rushEvent;
+    }
+    
+    public void Turn2ClipEvent()
+    {
+        if (isPhaseChanging)
+            return;
+        
+        if (rushEvent == false)
+        {
+            transform.DOMove(transform.position - new Vector3(14f, 1.5f, 0), 1f).SetEase(Ease.InCubic);
+        }
+        else
+        {
+            transform.DOMove(startPos, 1f).SetEase(Ease.InCubic);
+        }
+        
         AllowAttack(!rushEvent);
         rushEvent = !rushEvent;
     }
@@ -150,7 +190,7 @@ public class Mouse : Entity
             .Append(transform.DOShakeRotation(1f))
             .AppendCallback(() =>
             {
-                var rockSpawnPoint = transform.position + Vector3.up * 10f;
+                var rockSpawnPoint = transform.position + Vector3.up * 10f + Random.Range(-10f, 1) * Vector3.right;
                 Instantiate(mouseEffects.rock, rockSpawnPoint, Quaternion.identity);
             })
             .AppendInterval(3f);
@@ -168,13 +208,12 @@ public class Mouse : Entity
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Tail);
             })
-            .AppendInterval(1.225f)
+            .AppendInterval(1.25f)
             .AppendCallback(() =>
             {
-                var tailSpawnPoint = transform.position + Vector3.left * 4.5f + Vector3.down * 1.7f;
+                var tailSpawnPoint = transform.position + Vector3.left * 4.5f + Vector3.down * 2f;
                 Instantiate(mouseEffects.tail, tailSpawnPoint, Quaternion.Euler(0, 0, 6.6f));
-            })
-            .AppendInterval(0.25f);
+            });
 
         // 꼬리 공격
         return sequence.Duration();
@@ -209,8 +248,7 @@ public class Mouse : Entity
             .OnStart(() =>
             {
                 isPhaseChanging = true;
-                mouseStateMachine.ChangeAnimation(EMouseAnimationType.Dead);
-                mouseSpriteRenderer.color = new Color(1, 0.5f, 0.5f, 1f);
+                mouseAnimator.runtimeAnimatorController = phase2Animator;
             })
             .AppendInterval(2f)
             .AppendCallback(() =>

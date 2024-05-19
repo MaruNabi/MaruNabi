@@ -4581,6 +4581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96684c8b7c2630c43b25a52e6b8c4067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  phase2Animator: {fileID: 0}
 --- !u!212 &648890266
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11690,6 +11691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96684c8b7c2630c43b25a52e6b8c4067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  phase2Animator: {fileID: 9100000, guid: 5a5b99c5e19326046bb4b0e8cde8f0a4, type: 2}
 --- !u!95 &1481620056
 Animator:
   serializedVersion: 5
