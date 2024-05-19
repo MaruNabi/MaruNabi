@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class MaterialScroll : ScrollManager
 {
-    [SerializeField] float speed;
     private float offset_x;
     private Renderer scrollRenderer;
-
+    [SerializeField] private bool isSkyMaterial;
+    public bool IsSkyMaterial => isSkyMaterial;
+    
     private void Start()
     {
         scrollRenderer = GetComponent<Renderer>();
@@ -28,5 +29,4 @@ public class MaterialScroll : ScrollManager
         Vector2 offset = new Vector2(offset_x, 0);
         scrollRenderer.material.SetTextureOffset("_MainTex", offset);
     }
-
 }

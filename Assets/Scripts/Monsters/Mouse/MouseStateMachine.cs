@@ -51,7 +51,8 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
             case EMouseAnimationType.Dead:
                 mouseAnimator.SetTrigger("Dead");
                 break;
-            default:
+            case EMouseAnimationType.Clear:
+                mouseAnimator.SetBool("Clear",true);
                 break;
         }
     }

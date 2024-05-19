@@ -7,6 +7,7 @@ using TMPro;
 public class Mouse : Entity
 {
     public static Action<bool> MovingBackGround;
+    public static Action Phase2;
     public static Action<GameObject> StageClear;
 
     private MouseEffects mouseEffects;
@@ -25,16 +26,11 @@ public class Mouse : Entity
     private bool rushEvent;
     private bool tailEvent;
     private bool isPhaseChanging;
-
+    
     private float patternPercent;
     public float PatternPercent { get => patternPercent; set => patternPercent = value; }
 
-    public bool PhaseChange
-    {
-        get => phaseChange;
-        set => phaseChange = value;
-    }
-  
+    public bool PhaseChange => phaseChange;
 
     private const int DAMAGE_VALUE = 400;
 
@@ -44,7 +40,7 @@ public class Mouse : Entity
         mouseStateMachine = Utils.GetOrAddComponent<MouseStateMachine>(gameObject);
         mouseSpriteRenderer = GetComponent<SpriteRenderer>();
         mouseEffects = GetComponent<MouseEffects>();
-
+        
         behaviorGacha = new Dictionary<EMousePattern, int>();
         sequence = DOTween.Sequence();
 
@@ -203,6 +199,8 @@ public class Mouse : Entity
         // Phase2 변경
         StopSequence();
         ProductionWaitSetting();
+        Phase2?.Invoke();
+        
         phaseChange = true;
         patternPercent = 40f;
 
@@ -248,6 +246,9 @@ public class Mouse : Entity
         ProductionWaitSetting();
         StageClear?.Invoke(gameObject);
         Dead = true;
+        
+        mouseStateMachine.ChangeAnimation(EMouseAnimationType.Dead);
+        mouseStateMachine.ChangeAnimation(EMouseAnimationType.Clear);
         
         sequence = DOTween.Sequence();
         sequence

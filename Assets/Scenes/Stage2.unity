@@ -167,9 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd14f364c5c392e42b650e76741e9e31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 8
-  playerRigidbody: {fileID: 498550480}
-  playerRigidbody2: {fileID: 90012644}
+  phase2Speed: 5
   mouse: {fileID: 1481620055}
   backGroundScrolls:
   - {fileID: 1549086481}
@@ -507,11 +505,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447ddbeb00f93c343818cb8421c39e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &90012644 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 3042348562188423819, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
-  m_PrefabInstance: {fileID: 1548519201}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &91578467
 GameObject:
   m_ObjectHideFlags: 0
@@ -3193,11 +3186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f3f4cf012d92884e9da9980e1a4433a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &498550480 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 6623215531993341453, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
-  m_PrefabInstance: {fileID: 687464598}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &502418158
 GameObject:
   m_ObjectHideFlags: 0
@@ -4593,7 +4581,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96684c8b7c2630c43b25a52e6b8c4067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isStart: 0
 --- !u!212 &648890266
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5612,6 +5599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.3
+  isSkyMaterial: 0
 --- !u!252 &805346330
 SurfaceEffector2D:
   m_ObjectHideFlags: 0
@@ -9834,6 +9822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.0025
+  isSkyMaterial: 0
 --- !u!212 &1285004055
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10065,6 +10054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.3
+  isSkyMaterial: 0
 --- !u!114 &1323791821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11700,7 +11690,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96684c8b7c2630c43b25a52e6b8c4067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isStart: 0
 --- !u!95 &1481620056
 Animator:
   serializedVersion: 5
@@ -12383,6 +12372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.0025
+  isSkyMaterial: 1
 --- !u!1 &1550821952
 GameObject:
   m_ObjectHideFlags: 3

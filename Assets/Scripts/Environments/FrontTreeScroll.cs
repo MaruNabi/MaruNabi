@@ -5,14 +5,12 @@ using UnityEngine;
 
 public class FrontTreeScroll : ScrollManager
 {
-    [SerializeField] private float speed;
     [SerializeField] private Transform[] backgrounds;
     private ScrollData scrollData;
 
     private void Start()
     {
         scrollData = new ScrollData(Camera.main.orthographicSize * Camera.main.aspect + 10f, Camera.main.orthographicSize, backgrounds.Length);
-        //backgrounds[0].position = new Vector3(scrollData.leftPosX, backgrounds[0].position.y, backgrounds[0].position.z);
     }
 
     private void Update()

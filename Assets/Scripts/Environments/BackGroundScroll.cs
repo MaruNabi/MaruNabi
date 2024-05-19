@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BackGroundScroll : ScrollManager
 {
-    [SerializeField] private float speed;
     [SerializeField] private Transform[] backgrounds;
     private ScrollData scrollData;
 
