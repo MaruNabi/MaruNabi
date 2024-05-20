@@ -7,8 +7,12 @@ using DG.Tweening;
 public class PlayerMaru : Player
 {
     public static float ultimateGauge;
-    private GameObject swordPrefab;
-    private GameObject skillPrefab;
+    private GameObject swordPrefab_1;
+    private GameObject swordPrefab_2;
+    private GameObject currentSwordPrefab;
+    private GameObject skillPrefab_1;
+    private GameObject skillPrefab_2;
+    private GameObject currentSkillPrefab;
 
     private bool attacksNow = false;
 
@@ -19,6 +23,7 @@ public class PlayerMaru : Player
     [SerializeField] private GameObject playerShield;
 
     [SerializeField] private Image playerHpUI;
+    [SerializeField] private GameObject skillChangeUI;
 
     private Sprite[] maruLifeSprite = new Sprite[6];
     
@@ -48,6 +53,7 @@ public class PlayerMaru : Player
 
         cMaxJumpCount = 1;
         cJumpCount = 0;
+        canChangeSkillSet = true;
 
         reviveEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/HyperCasual/Area/Area_heal_green");
 
@@ -63,8 +69,11 @@ public class PlayerMaru : Player
 
         if (PlayerSkillDataManager.maruSkillSet[0] != 0)
         {
-            swordPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + PlayerSkillDataManager.maruSkillSet[0]);
-            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + PlayerSkillDataManager.maruSkillSet[0]);
+            swordPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + PlayerSkillDataManager.maruSkillSet[0]);
+            skillPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + PlayerSkillDataManager.maruSkillSet[0]);
+
+            swordPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + PlayerSkillDataManager.maruSkillSet[2]);
+            skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + PlayerSkillDataManager.maruSkillSet[2]);
 
             switch (PlayerSkillDataManager.maruSkillSet[1])
             {
@@ -83,14 +92,22 @@ public class PlayerMaru : Player
         }
         else
         {
-            swordPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 1);
-            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 1);
+            swordPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 2);
+            skillPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 2);
+            swordPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 3);
+            skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 3);
         }
 
         UpdateLifeUI();
 
-        Managers.Pool.CreatePool(swordPrefab, 2);
-        Managers.Pool.CreatePool(skillPrefab, 2);
+        Managers.Pool.CreatePool(swordPrefab_1, 2);
+        Managers.Pool.CreatePool(skillPrefab_1, 2);
+
+        Managers.Pool.CreatePool(swordPrefab_2, 2);
+        Managers.Pool.CreatePool(skillPrefab_2, 2);
+
+        currentSwordPrefab = swordPrefab_1;
+        currentSkillPrefab = skillPrefab_1;
     }
 
     void Update()
@@ -100,7 +117,12 @@ public class PlayerMaru : Player
             return;
         }
 
+        if (PauseUI.isGamePaused)
+            return;
+
         SlopeCheck();
+
+        SurfaceEffectorCheck();
 
         //Jump
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
@@ -142,7 +164,7 @@ public class PlayerMaru : Player
             if (!attacksNow)
             {
                 attacksNow = true;
-                GameObject swordObject = Managers.Pool.Pop(swordPrefab, playerBullets.transform).gameObject;
+                GameObject swordObject = Managers.Pool.Pop(currentSwordPrefab, playerBullets.transform).gameObject;
                 swordObject.transform.position = atkPosition.position;
                 swordObject.transform.rotation = transform.rotation;
             }
@@ -191,7 +213,7 @@ public class PlayerMaru : Player
             playerAnimator.SetBool("isSit", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && canPlayerState[4])
         {
             //None
             if (ultimateGauge < 500.0f)
@@ -202,11 +224,11 @@ public class PlayerMaru : Player
             else if (ultimateGauge == maxUltimateGauge)
             {
                 StartCoroutine(PlayerSit(true));
-                GameObject skillObject = Managers.Pool.Pop(skillPrefab, playerSkills.transform).gameObject;
+                GameObject skillObject = Managers.Pool.Pop(currentSkillPrefab, playerSkills.transform).gameObject;
                 skillObject.transform.position = atkPosition.position;
                 skillObject.transform.rotation = transform.rotation;
 
-                if (skillPrefab.name == "MARU_Skill_1")
+                if (currentSkillPrefab.name == "MARU_Skill_1")
                 {
                     StartCoroutine(MaruSkillBigSword());
                 }
@@ -222,10 +244,42 @@ public class PlayerMaru : Player
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Tab) && canChangeSkillSet)
+        {
+            canChangeSkillSet = false;
+            canPlayerState[4] = false;
+            skillChangeUI.GetComponent<PlayerSkillChange>().SkillChangeImage();
+            currentSwordPrefab = swordPrefab_2;
+            currentSkillPrefab = skillPrefab_2;
+            switch (PlayerSkillDataManager.maruSkillSet[3])
+            {
+                case 1:
+                    cMaxJumpCount = 2;
+                    cSpeed = 6.0f;
+                    break;
+                case 2:
+                    cMaxJumpCount = 1;
+                    cSpeed = 6.0f;
+                    cLife += 1;
+                    break;
+                case 3:
+                    cMaxJumpCount = 1;
+                    cSpeed = 8.0f;
+                    break;
+                default:
+                    break;
+            }
+            canPlayerState[4] = true;
+        }
+
         if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector)
+        {
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        }
         else
+        {
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
 
         if (currentHp != cLife)
         {
@@ -334,7 +388,7 @@ public class PlayerMaru : Player
     {
         playerShield.SetActive(true);
 
-        PlayerStateTransition(false, 0);
+        PlayerStateTransition(false);
         //Shield on
         yield return new WaitForSeconds(0.25f);
         //Shield Idle
@@ -342,7 +396,7 @@ public class PlayerMaru : Player
         //Shield Off
         playerAnimator.SetBool("isDefence", false);
         yield return new WaitForSeconds(0.25f);
-        PlayerStateTransition(true, 0);
+        PlayerStateTransition(true);
         playerShield.SetActive(false);
     }
 
