@@ -6,8 +6,13 @@ using UnityEngine.UI;
 public class PlayerNabi : Player
 {
     public static float ultimateGauge;
-    private GameObject bulletPrefab;                 //Bullet Prefab
-    private GameObject skillPrefab;
+    private GameObject bulletPrefab_1;                 //Bullet Prefab
+    private GameObject bulletPrefab_2;
+    private GameObject currentBulletPrefab;
+    private GameObject skillPrefab_1;
+    private GameObject skillPrefab_2;
+    private GameObject currentSkillPrefab;
+
     [SerializeField] private float coolTime;
     private float curTime;
     private bool isAttacksNow = false;
@@ -16,6 +21,7 @@ public class PlayerNabi : Player
     [SerializeField] private GameObject playerSkills;
 
     [SerializeField] private Image playerHpUI;
+    [SerializeField] private GameObject skillChangeUI;
 
     private Sprite[] nabiLifeSprite = new Sprite[6];
     private int currentHp;
@@ -43,6 +49,7 @@ public class PlayerNabi : Player
 
         cMaxJumpCount = 1;
         cJumpCount = 0;
+        canChangeSkillSet = true;
 
         reviveEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/HyperCasual/Area/Area_heal_green");
 
@@ -58,8 +65,11 @@ public class PlayerNabi : Player
 
         if (PlayerSkillDataManager.nabiSkillSet[0] != 0)
         {
-            bulletPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + PlayerSkillDataManager.nabiSkillSet[0]);
-            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + PlayerSkillDataManager.nabiSkillSet[0]);
+            bulletPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + PlayerSkillDataManager.nabiSkillSet[0]);
+            skillPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + PlayerSkillDataManager.nabiSkillSet[0]);
+
+            bulletPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + PlayerSkillDataManager.nabiSkillSet[2]);
+            skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + PlayerSkillDataManager.nabiSkillSet[2]);
 
             switch (PlayerSkillDataManager.nabiSkillSet[1])
             {
@@ -78,14 +88,22 @@ public class PlayerNabi : Player
         }
         else
         {
-            bulletPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 3);
-            skillPrefab = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 3);
+            bulletPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 1);
+            skillPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 1);
+            bulletPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 2);
+            skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 2);
         }
 
         UpdateLifeUI();
 
-        Managers.Pool.CreatePool(bulletPrefab, 20);
-        Managers.Pool.CreatePool(skillPrefab, 5);
+        Managers.Pool.CreatePool(bulletPrefab_1, 20);
+        Managers.Pool.CreatePool(skillPrefab_1, 5);
+
+        Managers.Pool.CreatePool(bulletPrefab_2, 20);
+        Managers.Pool.CreatePool(skillPrefab_2, 5);
+
+        currentBulletPrefab = bulletPrefab_1;
+        currentSkillPrefab = skillPrefab_1;
     }
 
     void Update()
@@ -95,7 +113,12 @@ public class PlayerNabi : Player
             return;
         }
 
+        if (PauseUI.isGamePaused)
+            return;
+
         SlopeCheck();
+
+        SurfaceEffectorCheck();
 
         //Jump
         if (Input.GetKeyDown(KeyCode.RightShift) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
@@ -137,11 +160,11 @@ public class PlayerNabi : Player
             if (Input.GetKey(KeyCode.RightBracket) && !isAttacksNow)
             {
                 playerAnimator.SetBool("isAtk", true);
-                if (bulletPrefab.name == "NABI_Bullet_3")
+                if (currentBulletPrefab.name == "NABI_Bullet_3")
                 {
                     isAttacksNow = true;
                 }
-                GameObject bulletObject = Managers.Pool.Pop(bulletPrefab, playerBullets.transform).gameObject;
+                GameObject bulletObject = Managers.Pool.Pop(currentBulletPrefab, playerBullets.transform).gameObject;
                 bulletObject.transform.position = atkPosition.position;
                 bulletObject.transform.rotation = transform.rotation;
             }
@@ -189,7 +212,7 @@ public class PlayerNabi : Player
             playerAnimator.SetBool("isSit", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftBracket))
+        if (Input.GetKeyDown(KeyCode.LeftBracket) && canPlayerState[4])
         {
             //None
             if (ultimateGauge < 500.0f)
@@ -200,7 +223,7 @@ public class PlayerNabi : Player
             else if (ultimateGauge == maxUltimateGauge)
             {
                 StartCoroutine(PlayerSit(true));
-                GameObject skillObject = Managers.Pool.Pop(skillPrefab, playerSkills.transform).gameObject;
+                GameObject skillObject = Managers.Pool.Pop(currentSkillPrefab, playerSkills.transform).gameObject;
                 skillObject.transform.position = atkPosition.position;
                 skillObject.transform.rotation = transform.rotation;
 
@@ -212,6 +235,34 @@ public class PlayerNabi : Player
                 //Animation?
                 ultimateGauge -= 500.0f;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Equals) && canChangeSkillSet)
+        {
+            canChangeSkillSet = false;
+            canPlayerState[4] = false;
+            skillChangeUI.GetComponent<PlayerSkillChange>().SkillChangeImage();
+            currentBulletPrefab = bulletPrefab_2;
+            currentSkillPrefab = skillPrefab_2;
+            switch (PlayerSkillDataManager.nabiSkillSet[3])
+            {
+                case 1:
+                    cMaxJumpCount = 2;
+                    cSpeed = 6.0f;
+                    break;
+                case 2:
+                    cMaxJumpCount = 1;
+                    cSpeed = 6.0f;
+                    cLife += 1;
+                    break;
+                case 3:
+                    cMaxJumpCount = 1;
+                    cSpeed = 8.0f;
+                    break;
+                default:
+                    break;
+            }
+            canPlayerState[4] = true;
         }
 
         if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector)
