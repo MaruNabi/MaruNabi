@@ -46,7 +46,9 @@ public enum EMouseAnimationType
     Tail,
     Crying,
     Dead,
-    NoRush
+    NoRush,
+    Clear,
+    StopCrying
 }
 
 public enum EMonsterName

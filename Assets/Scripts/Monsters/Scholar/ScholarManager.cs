@@ -24,16 +24,18 @@ public class ScholarManager : MonoBehaviour
 
     private bool stage1Start = true;
 
+
     public bool Stage1Start
     {
         set => stage1Start = value;
     }
 
     private const int INIT_MONSTERNUM = 7;
-    private int roundNum;
-    private float mouseHp;
     private GameObject[] scholars;
     private Sequence sequence;
+    private int roundNum;
+    private float mouseHp;
+    private float[] strawOparcity;
     private bool isRoundEnd;
     private bool isStageClear;
 
@@ -42,8 +44,9 @@ public class ScholarManager : MonoBehaviour
         MouseScholar.OnRoundEnd += RoundRestart;
         MouseScholar.StageClear += StageClearProduction;
         Entity.AttackEvent += DamageAllPlayers;
-
         mouseHp = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER").LIFE;
+
+        strawOparcity = new[] { 0.1f, 0.3f, 0.5f, 0.6f, 0.77f, 0.84f, 0.89f, 0.92f, 0.95f, 0.98f };
 
         if (stage1Start)
         {
@@ -82,7 +85,9 @@ public class ScholarManager : MonoBehaviour
     private void MakeMonsterRandomLocation(int inMonsterNum)
     {
         // 여기서 라운드 시작 취급
-        roundNum++;
+
+        if (roundNum < 10)
+            roundNum++;
 
         List<EMonsterName> monsters = GetRandomCombination(inMonsterNum);
 
@@ -142,7 +147,7 @@ public class ScholarManager : MonoBehaviour
         }
         else if (isMouse)
         {
-            monsterGO.AddComponent<MouseScholar>().InitHp(mouseHp);
+            monsterGO.AddComponent<MouseScholar>().RoundSetting(mouseHp, strawOparcity[roundNum]);
         }
 
         return monsterGO;
@@ -152,7 +157,7 @@ public class ScholarManager : MonoBehaviour
     {
         player1.PlayerStateTransition(false, 0);
         player2.PlayerStateTransition(false, 0);
-        
+
         virtualCamera.m_Follow = _mouseScholar.transform;
         virtualCamera.m_LookAt = _mouseScholar.transform;
         virtualCamera.gameObject.SetActive(true);
@@ -170,7 +175,7 @@ public class ScholarManager : MonoBehaviour
                 Utils.GetOrAddComponent<Scholar>(item).StopStateMachine();
             }
         }
-        
+
         await UniTask.Delay(TimeSpan.FromSeconds(2f));
         MouseScholar.PunishProduction?.Invoke();
 
@@ -194,6 +199,6 @@ public class ScholarManager : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         tree.transform.DOMoveX(-28f, 1.8f);
         wall.transform.DOMoveX(-25f, 1.8f);
-        nextStageWall.isClear = true;
+        nextStageWall.isStage1Clear = true;
     }
 }

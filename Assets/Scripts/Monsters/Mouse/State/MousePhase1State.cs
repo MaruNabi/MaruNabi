@@ -9,64 +9,80 @@ using UnityEngine;
 
 public class MousePhase1State : State<MouseStateMachine>
 {
-    private Transform mouseTransform;
-    private float randomPatternPercent;
-    private bool isPhase2;
-
     CancellationTokenSource cts;
-    
+
     public MousePhase1State(MouseStateMachine mouseStateMachine) : base(mouseStateMachine)
     {
-        randomPatternPercent = 30f;
         cts = new CancellationTokenSource();
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
-        RandomPattern().Forget();
+        stateMachine.Mouse.PatternPercent = 30f;
+        Debug.Log("Phase1");
+        RandomPattern(cts.Token).Forget();
     }
-    
+
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if (stateMachine.Mouse.CheckPhaseChangeHp() && stateMachine.Mouse.PhaseChange == false)
+        if (stateMachine.Mouse.CheckPhaseChangeHp() && !stateMachine.Mouse.PhaseChange)
         {
             cts.Cancel();
-            stateMachine.Mouse.PhaseChange = true;
             stateMachine.SetState("PhaseChange");
         }
     }
-    
-    public async UniTaskVoid RandomPattern()
+
+    private async UniTask RandomPattern(CancellationToken token)
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: cts.Token);
-        
-        if (RandomizerUtil.PercentRandomizer(30))
+        try
         {
-            Mouse.MovingBackGround?.Invoke(false);
-            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()), cancellationToken: cts.Token);
-            Mouse.MovingBackGround?.Invoke(true);
-        }
-        else
-        {
-            stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
-            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()), cancellationToken: cts.Token);
-        }
+            // Cancelled token will throw OperationCanceledException here
+            await UniTask.Delay(TimeSpan.FromSeconds(0.75f), cancellationToken: token);
 
-        // 연속 공격 확률
-        if (RandomizerUtil.PercentRandomizer(randomPatternPercent))
-        {
-            randomPatternPercent -= 15f;
+            if (RandomizerUtil.PercentRandomizer(100))
+            {
+                // Check for cancellation before invoking the event
+                token.ThrowIfCancellationRequested();
+                
+                Mouse.MovingBackGround?.Invoke(false);
+                
+                // Delay with cancellation token
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()), cancellationToken: token);
+                
+                // Check for cancellation after the delay
+                token.ThrowIfCancellationRequested();
+                
+                Mouse.MovingBackGround?.Invoke(true);
+            }
+            else
+            {
+                stateMachine.ChangeAnimation(EMouseAnimationType.Crying);
+                
+                // Delay with cancellation token
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.SpawnRats()), cancellationToken: token);
+            }
 
-            if (randomPatternPercent <= 10)
-                randomPatternPercent = 10f;
+            // Check for cancellation before proceeding with recursion or state change
+            token.ThrowIfCancellationRequested();
 
-            RandomPattern().Forget();
+            if (RandomizerUtil.PercentRandomizer(stateMachine.Mouse.PatternPercent))
+            {
+                stateMachine.Mouse.MinusRandomPecent(15f);
+                
+                // Await the recursive call to properly handle the cancellation token
+                await RandomPattern(token);
+            }
+            else
+            {
+                stateMachine.SetState("Run");
+            }
         }
-        else
+        catch (OperationCanceledException)
         {
-            stateMachine.SetState("Run");
+            // Handle the cancellation if needed
+            Debug.Log("RandomPattern cancelled");
         }
     }
 }

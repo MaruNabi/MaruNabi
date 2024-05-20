@@ -26,6 +26,7 @@ public class PlayerMaru : Player
     [SerializeField] private GameObject skillChangeUI;
 
     private Sprite[] maruLifeSprite = new Sprite[6];
+    
     private int currentHp;
 
     void Start()

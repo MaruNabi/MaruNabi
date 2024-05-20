@@ -9,14 +9,10 @@ public class MouseScholar : Entity
     public static Action<GameObject> StageClear;
     public static Action<float> OnRoundEnd;
     public static Action PunishProduction;
-
-
+    
     private MouseScholarStateMachine stateMachine;
     private SpriteRenderer spriteRenderer;
-
     private ScholarEffects mouseEffects;
-
-    //private TMP_Text hpText;
     private Sequence sequence;
     private GameObject mouseGO;
     private GameObject scholarGO;
@@ -24,14 +20,10 @@ public class MouseScholar : Entity
 
     private const float DAMAGE_VALUE = 200;
     private bool isHit;
-
-    public bool IsHit
-    {
-        get => isHit;
-        set => isHit = value;
-    }
-
+    public bool IsHit => isHit;
+    
     private bool isIdle;
+    private float strawOparcity;
 
     public bool IsIdle
     {
@@ -69,18 +61,16 @@ public class MouseScholar : Entity
                 else
                 {
                     HP = 0;
-                    //hpText.text = HP.ToString();
                     StageClearProduction();
                 }
             }
         }
     }
     
-    public void InitHp(float _hp)
+    public void RoundSetting(float _hp, float _oparcity)
     {
-        //hpText = Utils.FindChild<TMP_Text>(gameObject, "", true);
         HP = _hp;
-        //hpText.text = HP.ToString();
+        strawOparcity = _oparcity;
     }
 
     public void AppearanceEffect()
@@ -89,6 +79,7 @@ public class MouseScholar : Entity
         smoke.transform.position = transform.position;
 
         GameObject straw = Instantiate(mouseEffects.strawParticle);
+        straw.GetComponent<StrawOparcity>().SetOparcity(strawOparcity);
         straw.transform.position = transform.position;
 
         sequence = DOTween.Sequence();
@@ -101,7 +92,6 @@ public class MouseScholar : Entity
         GameObject smoke = Instantiate(mouseEffects.smokePrefab);
         smoke.transform.position = transform.position;
         spriteRenderer.DOFade(0, 0.4f);
-        //hpText.DOFade(0, 0.4f);
     }
 
     private void BeHitEffect()

@@ -19,7 +19,6 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
             {"Phase1",new MousePhase1State(this)},
             {"PhaseChange",new MousePhaseChangeState(this)},
             {"Phase2",new MousePhase2State(this)},
-            {"Dead",new MouseDeadState(this)},
         };
     }
 
@@ -52,7 +51,11 @@ public class MouseStateMachine : StateMachine<MouseStateMachine>
             case EMouseAnimationType.Dead:
                 mouseAnimator.SetTrigger("Dead");
                 break;
-            default:
+            case EMouseAnimationType.Clear:
+                mouseAnimator.SetBool("Clear",true);
+                break;
+            case EMouseAnimationType.StopCrying:
+                mouseAnimator.SetTrigger("StopCrying");
                 break;
         }
     }

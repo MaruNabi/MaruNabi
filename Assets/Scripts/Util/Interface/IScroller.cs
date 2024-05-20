@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IScroller
 {
     public void SetIsStart(bool _isStart);
+    public void SetSpeed(float _speed);
 }
