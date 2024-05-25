@@ -51,6 +51,14 @@ public enum EMouseAnimationType
     StopCrying
 }
 
+public enum EFoxAnimationType
+{
+    Idle,
+    Laugh,
+    Die,
+    Attack
+}
+
 public enum EMonsterName
 {
     Mouse = 0,      // ¡„
