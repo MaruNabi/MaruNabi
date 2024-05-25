@@ -13,6 +13,7 @@ TagManager:
   - TempObstacle
   - NoBumpEnemy
   - NoDeleteEnemyBullet
+  - Wall
   layers:
   - Default
   - TransparentFX

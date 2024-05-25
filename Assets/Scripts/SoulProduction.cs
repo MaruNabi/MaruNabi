@@ -9,21 +9,21 @@ public class SoulProduction : MonoBehaviour
     [SerializeField] Transform target;
     [SerializeField] CinemachineVirtualCamera zoomCamera;
     [SerializeField] CinemachineVirtualCamera stage3Camera;
-    [SerializeField] private Animator _animator;
+
     SpriteRenderer spriteRenderer;
     private Sequence sequence2;
-    
-    // Start is called before the first frame update
-    void Start()
+
+    public void StartProduction()
     {
-        spriteRenderer=GetComponent<SpriteRenderer>();
-        
+        spriteRenderer = GetComponent<SpriteRenderer>();
         zoomCamera.gameObject.SetActive(true);
-        
+
         Sequence sequence = DOTween.Sequence();
+
         sequence
             .Append(spriteRenderer.DOFade(1, 1f))
-            .Join(transform.DOMoveY(transform.position.y+2f, 1f))
+            .Join(transform.DOMoveY(transform.position.y + 5f, 1f))
+            .AppendInterval(0.5f)
             .Append(transform.DOMove(target.position, 6f))
             .JoinCallback(() =>
             {
@@ -31,17 +31,22 @@ public class SoulProduction : MonoBehaviour
                 sequence2
                     .Append(transform.DOMoveY(transform.position.y - 2f, 1))
                     .Append(transform.DOMoveY(transform.position.y + 2f, 1))
+                    .AppendCallback(() => { stage3Camera.Priority = 21; })
                     .Append(transform.DOMoveY(transform.position.y - 2f, 1))
+                    .Append(transform.DOMoveY(transform.position.y + 2f, 1))
                     .AppendCallback(() => sequence.Kill())
-                    .Join(transform.DOMove(target.position, 2f))
-                    .AppendCallback(() =>
-                    {
-                        stage3Camera.Priority = 100;
-                        stage3Camera.gameObject.SetActive(true);
-                        
-                    })
-                    .AppendInterval(1f)
-                    .OnComplete(() => _animator.enabled= true);
+                    .Join(transform.DOMove(target.position, 1f))
+                    .Join(spriteRenderer.DOFade(0,1f))
+                    .AppendInterval(1f);
             });
+    }
+    
+    public void ClearProduction()
+    {
+        Sequence sequence = DOTween.Sequence();
+
+        sequence
+            .Append(spriteRenderer.DOFade(1, 1f))
+            .Join(transform.DOMoveY(transform.position.y + 10f, 3f));
     }
 }
