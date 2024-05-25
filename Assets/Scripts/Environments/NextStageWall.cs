@@ -1,15 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.Serialization;
 
 public class NextStageWall : MonoBehaviour
 {
     [SerializeField] StageSwitchingManager switchingManager;
+    [FormerlySerializedAs("virtualCamera")] [SerializeField] CinemachineStoryboard storyboardCamera;
 
     public bool isStage1Clear;
     public bool isStage2Clear;
+    public bool isStage3Clear;
     
     private Collider2D wallCollider;
     
@@ -20,7 +24,20 @@ public class NextStageWall : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isStage2Clear)
+        if (isStage3Clear)
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                wallCollider.isTrigger = true;
+                switchingManager.ForcedMove();
+                DOTween.To(() => 0, x=> storyboardCamera.m_Alpha = x,1f, 2f)
+                    .OnComplete(() =>
+                    {
+                        switchingManager.Stage3ClearProduction();
+                    });
+            }
+        }
+        else if (isStage2Clear)
         {
             if (collision.gameObject.CompareTag("Player"))
             {

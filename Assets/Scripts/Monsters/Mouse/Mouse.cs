@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEditor.Animations;
 using Random = UnityEngine.Random;
+using Sequence = DG.Tweening.Sequence;
 
 public class Mouse : Entity
 {
@@ -27,6 +30,8 @@ public class Mouse : Entity
     private bool rushEvent;
     private bool tailEvent;
     private bool isPhaseChanging;
+    private bool stageStart;
+    public bool StageStart { set => stageStart = value; }
     [SerializeField] private AnimatorController phase2Animator;
     
     private float patternPercent;
@@ -35,7 +40,7 @@ public class Mouse : Entity
     public bool PhaseChange => phaseChange;
 
     private const int DAMAGE_VALUE = 400;
-
+    
     protected override void Init()
     {
         Data = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSE_MONSTER");
@@ -56,7 +61,13 @@ public class Mouse : Entity
         behaviorGacha.Add(EMousePattern.Rock, 25);
         behaviorGacha.Add(EMousePattern.Tail, 25);
 
-        mouseStateMachine.Initialize("Enter", this, GetComponent<Animator>());
+        if(stageStart)
+            mouseStateMachine.Initialize("Enter", this, GetComponent<Animator>());
+        else
+        {
+            mouseStateMachine.Initialize("Dead", this, GetComponent<Animator>());
+            OnDead();
+        }
     }
 
     public bool CheckPhaseChangeHp()
@@ -99,7 +110,7 @@ public class Mouse : Entity
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Rush);
             })
-            .AppendInterval(3.75f)
+            .AppendInterval(4.75f)
             .OnComplete(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.NoRush);
@@ -272,10 +283,14 @@ public class Mouse : Entity
         tailEvent = false;
     }
 
-    public void SmokeEffect()
+    async UniTaskVoid SmokeEffect()
     {
-        GameObject smoke = Instantiate(mouseEffects.smokePrefab);
-        smoke.transform.position = transform.position;
+        for (int i = 0; i < 6; i++)
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
+            GameObject smoke = Instantiate(mouseEffects.smokePrefab);
+            smoke.transform.position = transform.position + Random.insideUnitSphere * 1.25f;
+        }
     }
 
     public override void OnDead()
@@ -284,16 +299,17 @@ public class Mouse : Entity
         ProductionWaitSetting();
         StageClear?.Invoke(gameObject);
         Dead = true;
-        
+        mouseAnimator.runtimeAnimatorController = phase2Animator;
         mouseStateMachine.ChangeAnimation(EMouseAnimationType.Dead);
         mouseStateMachine.ChangeAnimation(EMouseAnimationType.Clear);
+        SmokeEffect().Forget();
         
         sequence = DOTween.Sequence();
         sequence
             .AppendInterval(1f)
             .AppendCallback(() =>
             {
-                SmokeEffect();
+                
             })
             .AppendInterval(2f)
             .OnComplete(() =>

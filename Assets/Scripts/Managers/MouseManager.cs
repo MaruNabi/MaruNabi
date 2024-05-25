@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,15 +8,21 @@ public class MouseManager : MonoBehaviour
 {
     [SerializeField] private float phase2Speed;
     [SerializeField] private Mouse mouse;
+    [SerializeField] private GameObject mouseProduction;
     [SerializeField] private List<ScrollManager> backGroundScrolls;
     [SerializeField] private SurfaceEffector2D surfaceEffector2D;
     [SerializeField] private StageSwitchingManager stageSwitchingManager;
+    [SerializeField] private NextStageWall nextStageWall;
+    [SerializeField] private GameObject wallTrigger;
     
     private bool stage2Start;
     private bool productionEnd;
-
-    public bool Stage2Start => stage2Start;
-
+    public bool Stage2Start
+    {
+        set => stage2Start = value;
+    }
+    public Mouse Mouse => mouse;
+    
     private void Start()
     {
         Mouse.MovingBackGround += BackGroundMove;
@@ -37,6 +39,13 @@ public class MouseManager : MonoBehaviour
     
     public void StageStart()
     {
+        mouse.enabled = true;
+        mouse.StageStart = true;
+    }
+    
+    public void ProductionSkip()
+    {
+        wallTrigger.SetActive(false);
         mouse.enabled = true;
     }
 
@@ -56,6 +65,9 @@ public class MouseManager : MonoBehaviour
         {
             ZoomOutDelay().Forget();
         }
+
+        mouse.GetComponent<SpriteRenderer>().flipX = mouseProduction.GetComponent<SpriteRenderer>().flipX;
+        nextStageWall.isStage3Clear = true;
     }
 
     private async UniTaskVoid ZoomOutDelay()
@@ -88,7 +100,6 @@ public class MouseManager : MonoBehaviour
     private void EffectorSpeedUp()
     {
         surfaceEffector2D.speed -= phase2Speed;
-
         foreach (ScrollManager scroll in backGroundScrolls)
         {
             if (scroll is MaterialScroll)
