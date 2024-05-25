@@ -8,9 +8,10 @@ public class WallTrigger : MonoBehaviour
 {
     [SerializeField] GameObject wall;
     [SerializeField] StageSwitchingManager switchingManager;
+    [SerializeField] private int stageNumber;
     private Collider2D collider2D;
     private int count;
-
+    
     private void Start()
     {
         collider2D = GetComponent<Collider2D>();
@@ -25,9 +26,21 @@ public class WallTrigger : MonoBehaviour
             
             if (count >= 2)
             {
-                wall.SetActive(true);
-                switchingManager.StageStart();
-                collider2D.enabled = false;
+                switch (stageNumber)
+                {
+                    case 1:
+                        wall.SetActive(true);
+                        collider2D.enabled = false;
+                        switchingManager.StageStart(1);
+                        break;
+                    case 2:
+                        wall.SetActive(true);
+                        collider2D.enabled = false;
+                        switchingManager.StageStart(2);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }

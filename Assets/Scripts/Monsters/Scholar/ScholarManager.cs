@@ -25,7 +25,7 @@ public class ScholarManager : MonoBehaviour
     private bool stage1Start = true;
 
 
-    public bool Stage1Start
+    public bool StageStart
     {
         set => stage1Start = value;
     }
