@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &6046774
 Rigidbody2D:
   serializedVersion: 4
@@ -1472,7 +1472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1091188092
 Transform:
   m_ObjectHideFlags: 0
@@ -2985,7 +2985,7 @@ GameObject:
   - component: {fileID: 1793226188}
   - component: {fileID: 1793226191}
   m_Layer: 6
-  m_Name: Ground (3)
+  m_Name: Ground_Slope
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3782,6 +3782,10 @@ PrefabInstance:
     - target: {fileID: 6623215531993341440, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: m_Name
       value: Maru_Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623215531993341440, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341442, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: m_IsTrigger

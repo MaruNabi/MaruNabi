@@ -15,6 +15,7 @@ public class Managers : MonoBehaviour
     public static PoolManager Pool { get { return Instance.pool; } }
     public static ResourceManager Resource { get { return Instance.resource; } }
     public static SceneLoader Scene { get { return Instance.scene; } }
+    public static InputManager Input { get { return Instance.input; } }
     // public static InputManager Input { get { return Instance._input; } }
     // public static SoundManager Sound { get { return Instance._sound; } }
     // public static UIManager UI { get { return Instance._ui; } }
@@ -23,6 +24,7 @@ public class Managers : MonoBehaviour
     PoolManager pool = new PoolManager();
     ResourceManager resource = new ResourceManager();
     SceneLoader scene = new SceneLoader();
+    InputManager input = new InputManager();
     // InputManager _input = new InputManager();
     // SoundManager _sound = new SoundManager();
     // UIManager _ui = new UIManager();
@@ -61,5 +63,10 @@ public class Managers : MonoBehaviour
         //UI.Clear();
         Scene.Clear();
         Pool.Clear();
+    }
+
+    void Update()
+    {
+        input.OnUpdate();
     }
 }

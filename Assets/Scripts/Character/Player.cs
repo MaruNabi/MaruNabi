@@ -141,6 +141,24 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void PlayerStateChange(bool _isSet, params System.Action[] _actions)
+    {
+        if (_isSet)
+        {
+            for (int i = 0; i < _actions.Length; i++)
+            {
+                Managers.Input.keyAction += _actions[i];
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _actions.Length; i++)
+            {
+                Managers.Input.keyAction -= _actions[i];
+            }
+        }
+    }
+
     protected void SurfaceEffectorCheck()
     {
         if (isGround && groundRay.collider.GetComponent<SurfaceEffector2D>())
@@ -173,7 +191,7 @@ public class Player : MonoBehaviour
             }
             else if (groundRay.collider.tag == "Ground" && currentGroundName != groundRay.collider.gameObject.name)
             {
-                isGround = false;
+                isGround = true; //false
                 playerStandCollider.isTrigger = false;
                 playerSideFrictionCollider.isTrigger = false;
                 canFallDown = groundRay.collider.gameObject.GetComponent<GroundObject>().canFallDown;
@@ -267,7 +285,6 @@ public class Player : MonoBehaviour
             }
             else
             {
-                //rigidBody.velocity = movement + velocityYOnly;
                 rigidBody.AddForce((movement).normalized, ForceMode2D.Impulse);
             }
         }
