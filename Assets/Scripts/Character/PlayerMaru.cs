@@ -41,8 +41,8 @@ public class PlayerMaru : Player
         playerShield.SetActive(false);
         reviveZone.SetActive(false);
 
-        moveLeft = KeyCode.A;
-        moveRight = KeyCode.D;
+        moveLeftKey = KeyCode.A;
+        moveRightKey = KeyCode.D;
 
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;

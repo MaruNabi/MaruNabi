@@ -37,8 +37,8 @@ public class PlayerNabi : Player
 
         reviveZone.SetActive(false);
 
-        moveLeft = KeyCode.LeftArrow;
-        moveRight = KeyCode.RightArrow;
+        moveLeftKey = KeyCode.LeftArrow;
+        moveRightKey = KeyCode.RightArrow;
 
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
@@ -102,17 +102,19 @@ public class PlayerNabi : Player
         Managers.Pool.CreatePool(bulletPrefab_2, 20);
         Managers.Pool.CreatePool(skillPrefab_2, 5);
 
-        Managers.Input.keyAction -= OnKeyboard;
-        Managers.Input.keyAction += OnKeyboard;
-
+        Managers.Input.keyAction -= PlayerMove;
         Managers.Input.keyAction -= OnPlayerAttack;
-        Managers.Input.keyAction += OnPlayerAttack;
-
         Managers.Input.keyAction -= OnPlayerDash;
-        Managers.Input.keyAction += OnPlayerDash;
-
         Managers.Input.keyAction -= OnPlayerJump;
+        Managers.Input.keyAction -= OnPlayerSit;
+        Managers.Input.keyAction -= OnPlayerSkillChange;
+
+        Managers.Input.keyAction += PlayerMove;
+        Managers.Input.keyAction += OnPlayerAttack;
+        Managers.Input.keyAction += OnPlayerDash;
         Managers.Input.keyAction += OnPlayerJump;
+        Managers.Input.keyAction += OnPlayerSit;
+        Managers.Input.keyAction += OnPlayerSkillChange;
 
         currentBulletPrefab = bulletPrefab_1;
         currentSkillPrefab = skillPrefab_1;
@@ -137,7 +139,7 @@ public class PlayerNabi : Player
             OnPlayerInit();
         }
 
-        if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector) //isDead는 Slope에서 죽으면 밀려야 하기 때문 NeedConfirm
+        if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector) //isDead는 Slope에서 죽으면 밀려야 하기 때문
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         else
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -202,7 +204,7 @@ public class PlayerNabi : Player
 
         if (canPlayerState[0])
         {
-            PlayerMove();
+            //PlayerMove();
         }
     }
 
@@ -257,6 +259,7 @@ public class PlayerNabi : Player
         playerAnimator.SetBool("isSit", false);
         isAttacksNow = false;
         playerAnimator.SetBool("isAtk", false);
+        //PlayerMove();
     }
 
     private void OnPlayerKeyUp()
@@ -277,6 +280,11 @@ public class PlayerNabi : Player
             playerAnimator.SetBool("isAtk", false);
         }
     }
+
+    /*protected override void OnPlayerMove()
+    {
+        PlayerMove();
+    }*/
 
     private void OnPlayerJump()
     {
@@ -390,10 +398,7 @@ public class PlayerNabi : Player
             canPlayerState[1] = true;
             playerAnimator.SetBool("isSit", false);
         }
-    }
 
-    private void OnKeyboard()
-    {
         if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.RightShift) && isSitting)
         {
             if (canFallDown)
@@ -403,7 +408,10 @@ public class PlayerNabi : Player
                 playerAnimator.SetBool("isDown", true);
             }
         }
+    }
 
+    private void OnPlayerSkillChange()
+    {
         if (Input.GetKeyDown(KeyCode.Equals) && canChangeSkillSet)
         {
             canChangeSkillSet = false;

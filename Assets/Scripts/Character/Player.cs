@@ -16,8 +16,8 @@ public class Player : MonoBehaviour
     private bool isTimerEnd = false;
     private bool isCalledOnce = true;
 
-    protected KeyCode moveLeft;
-    protected KeyCode moveRight;
+    protected KeyCode moveLeftKey;
+    protected KeyCode moveRightKey;
 
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField] [Range(0, 10)] protected float cJumpPower = 0.03f; //Incremental Jump Force
@@ -141,7 +141,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void PlayerStateChange(bool _isSet, params System.Action[] _actions)
+    public void PlayerInputControl(bool _isSet, params System.Action[] _actions)
     {
         if (_isSet)
         {
@@ -235,7 +235,7 @@ public class Player : MonoBehaviour
     {
         moveHorizontal = 0.0f;
 
-        if (Input.GetKey(moveLeft))
+        if (Input.GetKey(moveLeftKey))
         {
             if (isSitting || isLock)
             {
@@ -250,10 +250,10 @@ public class Player : MonoBehaviour
             atkPosition.rotation = Quaternion.Euler(0, 0, 0);
         }
 
-        if (!(Input.GetKey(moveLeft)) && !(Input.GetKey(moveRight)))
+        if (!(Input.GetKey(moveLeftKey)) && !(Input.GetKey(moveRightKey)))
             moveHorizontal = 0.0f;
 
-        if (Input.GetKey(moveRight))
+        if (Input.GetKey(moveRightKey))
         {
             if (isSitting || isLock)
             {
@@ -326,6 +326,7 @@ public class Player : MonoBehaviour
             isDoubleClicked = true;
             lastClickTime = -1.0f;
             playerAnimator.SetBool("isDash", true);
+            PlayerInputControl(false, PlayerMove);
             StartCoroutine(PlayerDash());
         }
         else
