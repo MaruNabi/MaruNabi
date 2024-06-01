@@ -39,6 +39,9 @@ public class PlayerNabi : Player
 
         moveLeftKey = KeyCode.LeftArrow;
         moveRightKey = KeyCode.RightArrow;
+        jumpKey = KeyCode.RightShift;
+        lockKey = KeyCode.L;
+        sitKey = KeyCode.DownArrow;
 
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
@@ -102,14 +105,14 @@ public class PlayerNabi : Player
         Managers.Pool.CreatePool(bulletPrefab_2, 20);
         Managers.Pool.CreatePool(skillPrefab_2, 5);
 
-        Managers.Input.keyAction -= PlayerMove;
+        Managers.Input.keyAction -= OnPlayerMove;
         Managers.Input.keyAction -= OnPlayerAttack;
         Managers.Input.keyAction -= OnPlayerDash;
         Managers.Input.keyAction -= OnPlayerJump;
         Managers.Input.keyAction -= OnPlayerSit;
         Managers.Input.keyAction -= OnPlayerSkillChange;
 
-        Managers.Input.keyAction += PlayerMove;
+        Managers.Input.keyAction += OnPlayerMove;
         Managers.Input.keyAction += OnPlayerAttack;
         Managers.Input.keyAction += OnPlayerDash;
         Managers.Input.keyAction += OnPlayerJump;
@@ -254,12 +257,12 @@ public class PlayerNabi : Player
         isLock = false;
         isAttacksNow = false;
         isSitting = false;
-        canPlayerState[0] = true;
-        canPlayerState[1] = true;
+        //canPlayerState[0] = true;
+        //canPlayerState[1] = true;
         playerAnimator.SetBool("isSit", false);
         isAttacksNow = false;
         playerAnimator.SetBool("isAtk", false);
-        //PlayerMove();
+        moveHorizontal = 0.0f;
     }
 
     private void OnPlayerKeyUp()
@@ -286,7 +289,7 @@ public class PlayerNabi : Player
         PlayerMove();
     }*/
 
-    private void OnPlayerJump()
+    /*private void OnPlayerJump()
     {
         //Jump
         if (Input.GetKeyDown(KeyCode.RightShift) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
@@ -310,21 +313,14 @@ public class PlayerNabi : Player
         {
             isJumping = false;
         }
-    }
+    }*/
 
-    private void OnPlayerAttack()
+    protected override void OnPlayerAttack()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            isLock = true;
-        }
-        else if (!(Input.GetKey(KeyCode.L)))
-        {
-            isLock = false;
-        }
+        base.OnPlayerAttack();
 
         //ToDo : getkey and curtime switch
-        if (curTime <= 0 && canPlayerState[4])
+        if (curTime <= 0) //canPlayerState[4]
         {
             if (Input.GetKey(KeyCode.RightBracket) && !isAttacksNow)
             {
@@ -346,7 +342,7 @@ public class PlayerNabi : Player
         }
         curTime -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.LeftBracket) && canPlayerState[4])
+        if (Input.GetKeyDown(KeyCode.LeftBracket)) //canPlayerState[4]
         {
             //None
             if (ultimateGauge < 500.0f)
@@ -372,7 +368,7 @@ public class PlayerNabi : Player
         }
     }
 
-    private void OnPlayerDash()
+    /*private void OnPlayerDash()
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow) && canPlayerState[1] && !isSitting)
         {
@@ -383,9 +379,9 @@ public class PlayerNabi : Player
         {
             DoubleClickDash(false);
         }
-    }
+    }*/
 
-    private void OnPlayerSit()
+    /*private void OnPlayerSit()
     {
         if (Input.GetKeyDown(KeyCode.DownArrow) && canPlayerState[2] && !isJumping)
         {
@@ -408,14 +404,14 @@ public class PlayerNabi : Player
                 playerAnimator.SetBool("isDown", true);
             }
         }
-    }
+    }*/
 
-    private void OnPlayerSkillChange()
+    protected override void OnPlayerSkillChange()
     {
         if (Input.GetKeyDown(KeyCode.Equals) && canChangeSkillSet)
         {
             canChangeSkillSet = false;
-            canPlayerState[4] = false;
+            //canPlayerState[4] = false;
             skillChangeUI.GetComponent<PlayerSkillChange>().SkillChangeImage();
             currentBulletPrefab = bulletPrefab_2;
             currentSkillPrefab = skillPrefab_2;
@@ -437,7 +433,7 @@ public class PlayerNabi : Player
                 default:
                     break;
             }
-            canPlayerState[4] = true;
+            //canPlayerState[4] = true;
         }
     }
 }

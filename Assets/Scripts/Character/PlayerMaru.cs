@@ -43,6 +43,9 @@ public class PlayerMaru : Player
 
         moveLeftKey = KeyCode.A;
         moveRightKey = KeyCode.D;
+        jumpKey = KeyCode.Space;
+        lockKey = KeyCode.LeftControl;
+        sitKey = KeyCode.S;
 
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
@@ -122,7 +125,7 @@ public class PlayerMaru : Player
 
         SurfaceEffectorCheck();
 
-        //Jump
+        /*//Jump
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
         {
             rigidBody.velocity = Vector2.zero;
@@ -144,7 +147,7 @@ public class PlayerMaru : Player
         if (Input.GetKeyUp(KeyCode.Space))
         {
             isJumping = false;
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
@@ -339,7 +342,7 @@ public class PlayerMaru : Player
 
         if (canPlayerState[0])
         {
-            PlayerMove();
+            OnPlayerMove();
         }
     }
 

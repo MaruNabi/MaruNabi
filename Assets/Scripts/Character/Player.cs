@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
 
     protected KeyCode moveLeftKey;
     protected KeyCode moveRightKey;
+    protected KeyCode jumpKey;
+    protected KeyCode lockKey;
+    protected KeyCode sitKey;
 
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField] [Range(0, 10)] protected float cJumpPower = 0.03f; //Incremental Jump Force
@@ -37,6 +40,7 @@ public class Player : MonoBehaviour
     private float cDashPower = 20.0f;
     private float cDashTime = 0.2f;
     private float cDashCooldown = 2.0f;
+    protected bool isDashCoolEnd = true;
     protected bool isDashing = false;
 
     protected bool isSitting = false;
@@ -231,7 +235,7 @@ public class Player : MonoBehaviour
         rigidBody.AddForce(new Vector3(0, jumpPower, 0), ForceMode2D.Impulse);
     }
 
-    protected void PlayerMove()
+    protected void OnPlayerMove()
     {
         moveHorizontal = 0.0f;
 
@@ -319,14 +323,94 @@ public class Player : MonoBehaviour
         rigidBody.velocity = movement + velocityYOnly;
     }
 
-    protected void DoubleClickDash(bool key)
+    protected void OnPlayerJump()
+    {
+        if (Input.GetKeyDown(jumpKey) && !isJumping && !isSitting && cJumpCount < cMaxJumpCount && !isLock) //canPlayerState[3]
+        {
+            rigidBody.velocity = Vector2.zero;
+            PlayerJump(cMiniJumpPower);
+            isJumpingEnd = false;
+            cJumpCount++;
+        }
+
+        //JumpAddForce
+        if (Input.GetKey(jumpKey) && !isJumpingEnd && !isSitting && !isLock)
+        {
+            if (cMiniJumpPower < cMaxJumpPower)
+            {
+                PlayerJumping(cJumpPower);
+                cMiniJumpPower += cJumpPower;
+            }
+        }
+        else if (!(Input.GetKey(jumpKey)))
+        {
+            isJumping = false;
+        }
+    }
+
+    protected virtual void OnPlayerAttack()
+    {
+        if (Input.GetKeyDown(lockKey))
+        {
+            isLock = true;
+        }
+        else if (!(Input.GetKey(lockKey)))
+        {
+            isLock = false;
+        }
+    }
+
+    protected void OnPlayerDash()
+    {
+        if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock) //canPlayerState[1]
+        {
+            DoubleClickDash(true);
+        }
+
+        if (Input.GetKeyDown(moveRightKey) && !isSitting && !isLock) //canPlayerState[1]
+        {
+            DoubleClickDash(false);
+        }
+    }
+
+    protected void OnPlayerSit()
+    {
+        if (Input.GetKeyDown(sitKey) && !isJumping) //canPlayerState[2]
+        {
+            StartCoroutine(PlayerSit());
+        }
+        else if (!(Input.GetKey(sitKey)) && isSitting) //Input.GetKeyUp(KeyCode.DownArrow)
+        {
+            isSitting = false;
+            //canPlayerState[0] = true;
+            //canPlayerState[1] = true;
+            playerAnimator.SetBool("isSit", false);
+        }
+
+        if (Input.GetKey(sitKey) && Input.GetKeyDown(jumpKey) && isSitting && !isLock)
+        {
+            if (canFallDown)
+            {
+                playerStandCollider.isTrigger = true;
+                playerSideFrictionCollider.isTrigger = true;
+                playerAnimator.SetBool("isDown", true);
+            }
+        }
+    }
+
+    protected virtual void OnPlayerSkillChange()
+    {
+
+    }
+
+    protected void DoubleClickDash(bool key) //Maru 변경 이후 private로 변경
     {
         if ((Time.time - lastClickTime) < DOUBLE_CLICK_TIME && pastKey == key)
         {
             isDoubleClicked = true;
             lastClickTime = -1.0f;
             playerAnimator.SetBool("isDash", true);
-            PlayerInputControl(false, PlayerMove);
+            PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
             StartCoroutine(PlayerDash());
         }
         else
@@ -388,7 +472,7 @@ public class Player : MonoBehaviour
     protected virtual IEnumerator Revive()
     {
         reviveZone.SetActive(false);
-        canPlayerState[0] = true;
+        //canPlayerState[0] = true;
         cLife = 1;
         PlayerStateTransition(true, 0);
         playerAnimator.SetBool("isDead", false);
@@ -460,8 +544,9 @@ public class Player : MonoBehaviour
 
     private IEnumerator PlayerDash()
     {
-        canPlayerState[1] = false;
+        //canPlayerState[1] = false;
         isDashing = true;
+        isDashCoolEnd = false;
         Instantiate(dashEffect, transform.position, dashEffect.transform.rotation);
         dashEffect.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
         float originalGravity = rigidBody.gravityScale;
@@ -483,38 +568,49 @@ public class Player : MonoBehaviour
         rigidBody.velocity = Vector2.zero;
         rigidBody.gravityScale = originalGravity;
         isDashing = false;
+        PlayerInputControl(true, OnPlayerMove, OnPlayerAttack, OnPlayerJump, OnPlayerSit);
         playerAnimator.SetBool("isDash", false);
         yield return new WaitForSeconds(cDashCooldown);
-        canPlayerState[1] = true;
+        isDashCoolEnd = true;
+        PlayerInputControl(true, OnPlayerDash);
+        //canPlayerState[1] = true;
     }
 
     protected IEnumerator PlayerSit(bool isTimeLimit = false, float time = 0.5f)
     {
         isSitting = true;
         playerAnimator.SetBool("isSit", true);
-        canPlayerState[1] = false;
-        canPlayerState[0] = false;
+        PlayerInputControl(false, OnPlayerJump, OnPlayerDash);
+        //canPlayerState[1] = false;
+        //canPlayerState[0] = false;
         defaultAtkPosition = atkPosition.transform.localPosition;
         sitAtkPosition = defaultAtkPosition;
         sitAtkPosition.y = defaultAtkPosition.y - 0.7f;
         playerCollider.size = sitPlayerColliderSize;
         atkPosition.transform.localPosition = sitAtkPosition;
-        if (canPlayerState[1])
+        //if (canPlayerState[1])
+        //{
+            //canPlayerState[1] = false;
+        //}
+        if (isDashCoolEnd)
         {
-            canPlayerState[1] = false;
+            Managers.Input.keyAction -= OnPlayerDash;
         }
 
         if (isTimeLimit)
         {
             yield return new WaitForSeconds(time);
             isSitting = false;
-            canPlayerState[1] = true;
-            canPlayerState[0] = true;
+            PlayerInputControl(true, OnPlayerJump, OnPlayerDash);
+            //canPlayerState[1] = true;
+            //canPlayerState[0] = true;
             playerAnimator.SetBool("isSit", false);
         }
 
         yield return new WaitUntil(() => isSitting == false);
+        PlayerInputControl(true, OnPlayerJump, OnPlayerDash);
         playerCollider.size = defaultPlayerColliderSize;
         atkPosition.transform.localPosition = defaultAtkPosition;
+        playerAnimator.SetBool("isSit", false);
     }
 }
