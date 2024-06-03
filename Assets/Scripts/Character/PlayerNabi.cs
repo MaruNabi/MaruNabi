@@ -125,9 +125,6 @@ public class PlayerNabi : Player
 
     void Update()
     {
-        //if (isDashing)
-            //return;
-
         if (PauseUI.isGamePaused)
             return;
 
@@ -137,8 +134,7 @@ public class PlayerNabi : Player
 
         if (InputManager.isNeedInit)
         {
-            InputManager.isNeedInit = false;
-            Debug.Log("Init!");
+            //InputManager.isNeedInit = false;
             OnPlayerInit();
         }
 
@@ -198,19 +194,6 @@ public class PlayerNabi : Player
         }*/
     }
 
-    private void FixedUpdate()
-    {
-        if (isDashing)
-        {
-            return;
-        }
-
-        if (canPlayerState[0])
-        {
-            //PlayerMove();
-        }
-    }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
@@ -257,63 +240,10 @@ public class PlayerNabi : Player
         isLock = false;
         isAttacksNow = false;
         isSitting = false;
-        //canPlayerState[0] = true;
-        //canPlayerState[1] = true;
         playerAnimator.SetBool("isSit", false);
-        isAttacksNow = false;
         playerAnimator.SetBool("isAtk", false);
         moveHorizontal = 0.0f;
     }
-
-    private void OnPlayerKeyUp()
-    {
-        if (Input.GetKeyUp(KeyCode.RightShift))
-        {
-            isJumping = false;
-        }
-
-        /*if (Input.GetKeyUp(KeyCode.L))
-        {
-            isLock = false;
-        }*/
-
-        if (Input.GetKeyUp(KeyCode.RightBracket))
-        {
-            isAttacksNow = false;
-            playerAnimator.SetBool("isAtk", false);
-        }
-    }
-
-    /*protected override void OnPlayerMove()
-    {
-        PlayerMove();
-    }*/
-
-    /*private void OnPlayerJump()
-    {
-        //Jump
-        if (Input.GetKeyDown(KeyCode.RightShift) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
-        {
-            rigidBody.velocity = Vector2.zero;
-            PlayerJump(cMiniJumpPower);
-            isJumpingEnd = false;
-            cJumpCount++;
-        }
-
-        //JumpAddForce
-        if (Input.GetKey(KeyCode.RightShift) && !isJumpingEnd && !isSitting)
-        {
-            if (cMiniJumpPower < cMaxJumpPower)
-            {
-                PlayerJumping(cJumpPower);
-                cMiniJumpPower += cJumpPower;
-            }
-        }
-        else if (!(Input.GetKey(KeyCode.RightShift)))
-        {
-            isJumping = false;
-        }
-    }*/
 
     protected override void OnPlayerAttack()
     {
@@ -352,7 +282,7 @@ public class PlayerNabi : Player
             //Special Move
             else if (ultimateGauge == maxUltimateGauge)
             {
-                StartCoroutine(PlayerSit(true));
+                //StartCoroutine(PlayerSit(true));
                 GameObject skillObject = Managers.Pool.Pop(currentSkillPrefab, playerSkills.transform).gameObject;
                 skillObject.transform.position = atkPosition.position;
                 skillObject.transform.rotation = transform.rotation;
@@ -367,44 +297,6 @@ public class PlayerNabi : Player
             }
         }
     }
-
-    /*private void OnPlayerDash()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && canPlayerState[1] && !isSitting)
-        {
-            DoubleClickDash(true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.RightArrow) && canPlayerState[1] && !isSitting)
-        {
-            DoubleClickDash(false);
-        }
-    }*/
-
-    /*private void OnPlayerSit()
-    {
-        if (Input.GetKeyDown(KeyCode.DownArrow) && canPlayerState[2] && !isJumping)
-        {
-            StartCoroutine(PlayerSit());
-        }
-        else if (!(Input.GetKey(KeyCode.DownArrow)) && isSitting) //Input.GetKeyUp(KeyCode.DownArrow)
-        {
-            isSitting = false;
-            canPlayerState[0] = true;
-            canPlayerState[1] = true;
-            playerAnimator.SetBool("isSit", false);
-        }
-
-        if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.RightShift) && isSitting)
-        {
-            if (canFallDown)
-            {
-                playerStandCollider.isTrigger = true;
-                playerSideFrictionCollider.isTrigger = true;
-                playerAnimator.SetBool("isDown", true);
-            }
-        }
-    }*/
 
     protected override void OnPlayerSkillChange()
     {
@@ -433,7 +325,6 @@ public class PlayerNabi : Player
                 default:
                     break;
             }
-            //canPlayerState[4] = true;
         }
     }
 }

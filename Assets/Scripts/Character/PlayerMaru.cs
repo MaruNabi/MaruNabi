@@ -109,15 +109,26 @@ public class PlayerMaru : Player
         Managers.Pool.CreatePool(swordPrefab_2, 2);
         Managers.Pool.CreatePool(skillPrefab_2, 2);
 
+        Managers.Input.keyAction -= OnPlayerMove;
+        Managers.Input.keyAction -= OnPlayerAttack;
+        Managers.Input.keyAction -= OnPlayerDash;
+        Managers.Input.keyAction -= OnPlayerJump;
+        Managers.Input.keyAction -= OnPlayerSit;
+        Managers.Input.keyAction -= OnPlayerSkillChange;
+
+        Managers.Input.keyAction += OnPlayerMove;
+        Managers.Input.keyAction += OnPlayerAttack;
+        Managers.Input.keyAction += OnPlayerDash;
+        Managers.Input.keyAction += OnPlayerJump;
+        Managers.Input.keyAction += OnPlayerSit;
+        Managers.Input.keyAction += OnPlayerSkillChange;
+
         currentSwordPrefab = swordPrefab_1;
         currentSkillPrefab = skillPrefab_1;
     }
 
     void Update()
     {
-        if (isDashing)
-            return;
-
         if (PauseUI.isGamePaused)
             return;
 
@@ -125,162 +136,16 @@ public class PlayerMaru : Player
 
         SurfaceEffectorCheck();
 
-        /*//Jump
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
+        if (InputManager.isNeedInit)
         {
-            rigidBody.velocity = Vector2.zero;
-            PlayerJump(cMiniJumpPower);
-            isJumpingEnd = false;
-            cJumpCount++;
-        }
-
-        //JumpAddForce
-        if (Input.GetKey(KeyCode.Space) && !isJumpingEnd && !isSitting)
-        {
-            if (cMiniJumpPower < cMaxJumpPower)
-            {
-                PlayerJumping(cJumpPower);
-                cMiniJumpPower += cJumpPower;
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            isJumping = false;
-        }*/
-
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            isLock = true;
-        }
-
-        else if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            isLock = false;
-        }
-
-        if (Input.GetKey(KeyCode.V) && canPlayerState[4])
-        {
-            playerAnimator.SetBool("isAtk", true);
-            if (!attacksNow)
-            {
-                attacksNow = true;
-                GameObject swordObject = Managers.Pool.Pop(currentSwordPrefab, playerBullets.transform).gameObject;
-                swordObject.transform.position = atkPosition.position;
-                swordObject.transform.rotation = transform.rotation;
-            }
-
-            if (playerBullets.transform.childCount == 0)
-            {
-                attacksNow = false;
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.V) && canPlayerState[4])
-        {
-            playerAnimator.SetBool("isAtk", false);
-        }
-
-        if (Input.GetKeyUp(KeyCode.A) && canPlayerState[1] && !isSitting)
-        {
-            DoubleClickDash(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.D) && canPlayerState[1] && !isSitting)
-        {
-            DoubleClickDash(false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.S) && canPlayerState[2] && !isJumping)
-        {
-            StartCoroutine(PlayerSit());
-        }
-
-        if (Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Space) && isSitting)
-        {
-            if (canFallDown)
-            {
-                playerStandCollider.isTrigger = true;
-                playerSideFrictionCollider.isTrigger = true;
-                playerAnimator.SetBool("isDown", true);
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.S) && isSitting)
-        {
-            isSitting = false;
-            canPlayerState[0] = true;
-            canPlayerState[1] = true;
-            playerAnimator.SetBool("isSit", false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.B) && canPlayerState[4])
-        {
-            //None
-            if (ultimateGauge < 500.0f)
-            {
-                return;
-            }
-            //Special Move
-            else if (ultimateGauge == maxUltimateGauge)
-            {
-                StartCoroutine(PlayerSit(true));
-                GameObject skillObject = Managers.Pool.Pop(currentSkillPrefab, playerSkills.transform).gameObject;
-                skillObject.transform.position = atkPosition.position;
-                skillObject.transform.rotation = transform.rotation;
-
-                if (currentSkillPrefab.name == "MARU_Skill_1")
-                {
-                    StartCoroutine(MaruSkillBigSword());
-                }
-
-                ultimateGauge = 0.0f;
-            }
-            //Ability
-            else
-            {
-                playerAnimator.SetBool("isDefence", true);
-                StartCoroutine(PlayerShield());
-                ultimateGauge -= 500.0f;
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Tab) && canChangeSkillSet)
-        {
-            canChangeSkillSet = false;
-            canPlayerState[4] = false;
-            skillChangeUI.GetComponent<PlayerSkillChange>().SkillChangeImage();
-            currentSwordPrefab = swordPrefab_2;
-            currentSkillPrefab = skillPrefab_2;
-            switch (PlayerSkillDataManager.maruSkillSet[3])
-            {
-                case 1:
-                    cMaxJumpCount = 2;
-                    cSpeed = 6.0f;
-                    break;
-                case 2:
-                    cMaxJumpCount = 1;
-                    cSpeed = 6.0f;
-                    cLife += 1;
-                    break;
-                case 3:
-                    cMaxJumpCount = 1;
-                    cSpeed = 8.0f;
-                    break;
-                default:
-                    break;
-            }
-            canPlayerState[4] = true;
+            InputManager.isNeedInit = false;
+            OnPlayerInit();
         }
 
         if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector)
-        {
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-        }
         else
-        {
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        }
 
         if (currentHp != cLife)
         {
@@ -331,19 +196,6 @@ public class PlayerMaru : Player
             playerAnimator.SetBool("isUp", false);
             playerAnimator.SetBool("isDown", false);
         }*/
-    }
-
-    private void FixedUpdate()
-    {
-        if (isDashing)
-        {
-            return;
-        }
-
-        if (canPlayerState[0])
-        {
-            OnPlayerMove();
-        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -407,6 +259,105 @@ public class PlayerMaru : Player
         {
             playerHpUI.GetComponent<Image>().sprite = maruLifeSprite[cLife];
             currentHp = cLife;
+        }
+    }
+
+    private void OnPlayerInit()
+    {
+        isJumping = false;
+        isLock = false;
+        isSitting = false;
+        playerAnimator.SetBool("isSit", false);
+        playerAnimator.SetBool("isAtk", false);
+        if (!isDashing)
+        {
+            moveHorizontal = 0.0f;
+        }
+    }
+
+    protected override void OnPlayerAttack()
+    {
+        base.OnPlayerAttack();
+
+        if (Input.GetKey(KeyCode.V)) //canPlayerState[4]
+        {
+            playerAnimator.SetBool("isAtk", true);
+            if (!attacksNow)
+            {
+                attacksNow = true;
+                GameObject swordObject = Managers.Pool.Pop(currentSwordPrefab, playerBullets.transform).gameObject;
+                swordObject.transform.position = atkPosition.position;
+                swordObject.transform.rotation = transform.rotation;
+            }
+
+            if (playerBullets.transform.childCount == 0)
+            {
+                attacksNow = false;
+            }
+        }
+        else if (!(Input.GetKey(KeyCode.V)))
+        {
+            playerAnimator.SetBool("isAtk", false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.B)) //canPlayerState[4]
+        {
+            //None
+            if (ultimateGauge < 500.0f)
+            {
+                return;
+            }
+            //Special Move
+            else if (ultimateGauge == maxUltimateGauge)
+            {
+                StartCoroutine(PlayerSit(true));
+                GameObject skillObject = Managers.Pool.Pop(currentSkillPrefab, playerSkills.transform).gameObject;
+                skillObject.transform.position = atkPosition.position;
+                skillObject.transform.rotation = transform.rotation;
+
+                if (currentSkillPrefab.name == "MARU_Skill_1")
+                {
+                    StartCoroutine(MaruSkillBigSword());
+                }
+
+                ultimateGauge = 0.0f;
+            }
+            //Ability
+            else
+            {
+                playerAnimator.SetBool("isDefence", true);
+                StartCoroutine(PlayerShield());
+                ultimateGauge -= 500.0f;
+            }
+        }
+    }
+
+    protected override void OnPlayerSkillChange()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab) && canChangeSkillSet)
+        {
+            canChangeSkillSet = false;
+            skillChangeUI.GetComponent<PlayerSkillChange>().SkillChangeImage();
+            currentSwordPrefab = swordPrefab_2;
+            currentSkillPrefab = skillPrefab_2;
+            switch (PlayerSkillDataManager.maruSkillSet[3])
+            {
+                case 1:
+                    cMaxJumpCount = 2;
+                    cSpeed = 6.0f;
+                    break;
+                case 2:
+                    cMaxJumpCount = 1;
+                    cSpeed = 6.0f;
+                    cLife += 1;
+                    break;
+                case 3:
+                    cMaxJumpCount = 1;
+                    cSpeed = 8.0f;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

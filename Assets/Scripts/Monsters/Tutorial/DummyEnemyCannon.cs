@@ -12,7 +12,7 @@ public class DummyEnemyCannon : MonoBehaviour
 
     void Start()
     {
-        cannonBallPrefab = Resources.Load<GameObject>("Prefabs/Tutorial/DummyCannonBall");
+        cannonBallPrefab = Resources.Load<GameObject>("Prefabs/Tutorial/Tut_Bullet");
     }
 
     void OnEnable()

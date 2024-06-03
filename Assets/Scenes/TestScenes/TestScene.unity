@@ -3658,6 +3658,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Nabi_Test
       objectReference: {fileID: 0}
+    - target: {fileID: 3042348562188423809, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: playerHpUI
       value: 
@@ -3785,7 +3789,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341440, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341442, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: m_IsTrigger

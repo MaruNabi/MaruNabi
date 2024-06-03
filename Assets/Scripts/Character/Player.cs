@@ -10,9 +10,10 @@ public class Player : MonoBehaviour
     public const int MAX_LIFE = 5;
     public int cLife = 3;
     [SerializeField] [Range(0, 10)] protected float cSpeed = 6.0f; //Character Speed
-    protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit
+    protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
     protected const float maxUltimateGauge = 1500.0f;
     public static bool isReviveSuccess = false;
+    private bool canHit = true;
     private bool isTimerEnd = false;
     private bool isCalledOnce = true;
 
@@ -39,7 +40,7 @@ public class Player : MonoBehaviour
 
     private float cDashPower = 20.0f;
     private float cDashTime = 0.2f;
-    private float cDashCooldown = 2.0f;
+    private float cDashCooldown = 1.0f;
     protected bool isDashCoolEnd = true;
     protected bool isDashing = false;
 
@@ -89,12 +90,14 @@ public class Player : MonoBehaviour
     protected bool isSurfaceEffector;
     protected bool canChangeSkillSet;
 
+    private bool isForcedInputChange = false;
+
     public bool IsTargetGround
     {
         set => isTargetGround = value;
     }
 
-    public void PlayerStateTransition(bool _set, int _index = 4)
+    public void PlayerStateTransition(bool _set, int _index = 4) //사용 끝나면 삭제
     {
         for (int i = _index; i < canPlayerState.Length; i++)
         {
@@ -107,11 +110,12 @@ public class Player : MonoBehaviour
         if (isInvincibleTime)
             return;
 
-        if (!canPlayerState[5])
+        if (!canHit) //!canPlayerState[5]
             return;
 
         isHit = true;
-        canPlayerState[0] = false;
+        //canPlayerState[0] = false;
+        PlayerInputControl(false, OnPlayerMove);
 
         if (cLife > 1)
         {
@@ -127,11 +131,12 @@ public class Player : MonoBehaviour
 
     public void PlayerHitSpecial(Vector2 _enemyPos)
     {
-        if (!canPlayerState[5])
+        if (!canHit)
             return;
 
         isHit = true;
-        canPlayerState[0] = false;
+        //canPlayerState[0] = false;
+        PlayerInputControl(false, OnPlayerMove);
 
         if (cLife > 1)
         {
@@ -147,20 +152,47 @@ public class Player : MonoBehaviour
 
     public void PlayerInputControl(bool _isSet, params System.Action[] _actions)
     {
-        if (_isSet)
+        if (!isForcedInputChange)
         {
-            for (int i = 0; i < _actions.Length; i++)
+            if (_isSet)
             {
-                Managers.Input.keyAction += _actions[i];
+                for (int i = 0; i < _actions.Length; i++)
+                {
+                    Managers.Input.keyAction += _actions[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < _actions.Length; i++)
+                {
+                    Managers.Input.keyAction -= _actions[i];
+                }
             }
         }
-        else
-        {
-            for (int i = 0; i < _actions.Length; i++)
-            {
-                Managers.Input.keyAction -= _actions[i];
-            }
-        }
+    }
+
+    public void PlayerInputEnable()
+    {
+        Managers.Input.keyAction += OnPlayerMove;
+        Managers.Input.keyAction += OnPlayerAttack;
+        Managers.Input.keyAction += OnPlayerDash;
+        Managers.Input.keyAction += OnPlayerJump;
+        Managers.Input.keyAction += OnPlayerSit;
+        Managers.Input.keyAction += OnPlayerSkillChange;
+        canHit = true;
+        isForcedInputChange = false;
+    }
+
+    public void PlayerInputDisable()
+    {
+        Managers.Input.keyAction -= OnPlayerMove;
+        Managers.Input.keyAction -= OnPlayerAttack;
+        Managers.Input.keyAction -= OnPlayerDash;
+        Managers.Input.keyAction -= OnPlayerJump;
+        Managers.Input.keyAction -= OnPlayerSit;
+        Managers.Input.keyAction -= OnPlayerSkillChange;
+        canHit = false;
+        isForcedInputChange = true;
     }
 
     protected void SurfaceEffectorCheck()
@@ -252,10 +284,12 @@ public class Player : MonoBehaviour
 
             transform.rotation = Quaternion.Euler(0, 0, 0);
             atkPosition.rotation = Quaternion.Euler(0, 0, 0);
+
+            PlayerMovement();
         }
 
-        if (!(Input.GetKey(moveLeftKey)) && !(Input.GetKey(moveRightKey)))
-            moveHorizontal = 0.0f;
+        //if (!(Input.GetKey(moveLeftKey)) && !(Input.GetKey(moveRightKey)))
+            //moveHorizontal = 0.0f;
 
         if (Input.GetKey(moveRightKey))
         {
@@ -270,8 +304,15 @@ public class Player : MonoBehaviour
 
             transform.rotation = Quaternion.Euler(0, 180, 0);
             atkPosition.rotation = Quaternion.Euler(0, 180, 0);
+
+            PlayerMovement();
         }
 
+        
+    }
+
+    private void PlayerMovement()
+    {
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, 0.0f);
 
         if (movement.magnitude > 1)
@@ -302,7 +343,7 @@ public class Player : MonoBehaviour
     {
         if (isTargetGround)
             return;
-        
+
         moveHorizontal = 1.0f;
 
         transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -362,12 +403,12 @@ public class Player : MonoBehaviour
 
     protected void OnPlayerDash()
     {
-        if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock) //canPlayerState[1]
+        if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
         {
             DoubleClickDash(true);
         }
 
-        if (Input.GetKeyDown(moveRightKey) && !isSitting && !isLock) //canPlayerState[1]
+        if (Input.GetKeyDown(moveRightKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
         {
             DoubleClickDash(false);
         }
@@ -403,14 +444,13 @@ public class Player : MonoBehaviour
 
     }
 
-    protected void DoubleClickDash(bool key) //Maru 변경 이후 private로 변경
+    private void DoubleClickDash(bool key) 
     {
         if ((Time.time - lastClickTime) < DOUBLE_CLICK_TIME && pastKey == key)
         {
             isDoubleClicked = true;
             lastClickTime = -1.0f;
             playerAnimator.SetBool("isDash", true);
-            PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
             StartCoroutine(PlayerDash());
         }
         else
@@ -431,7 +471,7 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", false);
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
-        PlayerStateTransition(false, 0);
+        PlayerInputDisable(); //PlayerStateTransition(false, 0);
         Invoke("InvokeTimer", 10.0f);
 
         while (!isTimerEnd) //wait 10 seconds
@@ -474,7 +514,7 @@ public class Player : MonoBehaviour
         reviveZone.SetActive(false);
         //canPlayerState[0] = true;
         cLife = 1;
-        PlayerStateTransition(true, 0);
+        PlayerInputEnable(); //PlayerStateTransition(true, 0);
         playerAnimator.SetBool("isDead", false);
         Instantiate(reviveEffect, transform);
         StartCoroutine(Invincible(3.0f));
@@ -496,7 +536,7 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", false);
             isHit = false;
             if (!playerAnimator.GetBool("isDead"))
-                canPlayerState[0] = true;
+                PlayerInputControl(true, OnPlayerMove);//canPlayerState[0] = true;
             yield return new WaitForSeconds(2.5f);
         }
     }
@@ -513,7 +553,7 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", false);
             isHit = false;
             if (!playerAnimator.GetBool("isDead"))
-                canPlayerState[0] = true;
+                PlayerInputControl(true, OnPlayerMove); //canPlayerState[0] = true;
             yield return new WaitForSeconds(2.5f);
         }
     }
@@ -545,7 +585,9 @@ public class Player : MonoBehaviour
     private IEnumerator PlayerDash()
     {
         //canPlayerState[1] = false;
+        PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
         isDashing = true;
+        moveHorizontal = 0.0f;
         isDashCoolEnd = false;
         Instantiate(dashEffect, transform.position, dashEffect.transform.rotation);
         dashEffect.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
@@ -564,12 +606,15 @@ public class Player : MonoBehaviour
         if (isSurfaceEffector && dashDirection == 1)
             dashDirection *= 2;
         rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
+        Debug.Log("before " + rigidBody.velocity);
+        //rigidBody.AddForce(new Vector2(dashDirection * 20, 0.0f), ForceMode2D.Impulse);
         yield return new WaitForSeconds(cDashTime);
+        Debug.Log("after " + rigidBody.velocity);
         rigidBody.velocity = Vector2.zero;
         rigidBody.gravityScale = originalGravity;
         isDashing = false;
-        PlayerInputControl(true, OnPlayerMove, OnPlayerAttack, OnPlayerJump, OnPlayerSit);
         playerAnimator.SetBool("isDash", false);
+        PlayerInputControl(true, OnPlayerMove, OnPlayerAttack, OnPlayerJump, OnPlayerSit);
         yield return new WaitForSeconds(cDashCooldown);
         isDashCoolEnd = true;
         PlayerInputControl(true, OnPlayerDash);
@@ -601,7 +646,6 @@ public class Player : MonoBehaviour
         {
             yield return new WaitForSeconds(time);
             isSitting = false;
-            PlayerInputControl(true, OnPlayerJump, OnPlayerDash);
             //canPlayerState[1] = true;
             //canPlayerState[0] = true;
             playerAnimator.SetBool("isSit", false);
