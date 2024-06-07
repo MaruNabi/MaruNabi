@@ -7,8 +7,6 @@ public class SkillBigBeads : Bullet
     void OnEnable()
     {
         SetBullet(2.5f);
-
-        isPenetrate = true;
     }
 
     void Update()

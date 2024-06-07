@@ -11,8 +11,9 @@ public class Player : MonoBehaviour
     public int cLife = 3;
     [SerializeField] [Range(0, 10)] protected float cSpeed = 6.0f; //Character Speed
     protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
-    protected const float maxUltimateGauge = 1500.0f;
+    protected const float maxUltimateGauge = 2500.0f;
     public static bool isReviveSuccess = false;
+    public static bool isDead;
     private bool canHit = true;
     private bool isTimerEnd = false;
     private bool isCalledOnce = true;
@@ -73,6 +74,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject landingEffect;
     private bool isLandingEffectOnce = true;
     [SerializeField] private GameObject dashEffect;
+    protected int dashDirection;
 
     protected float moveHorizontal = 0.0f;
 
@@ -173,18 +175,22 @@ public class Player : MonoBehaviour
 
     public void PlayerInputEnable()
     {
-        Managers.Input.keyAction += OnPlayerMove;
-        Managers.Input.keyAction += OnPlayerAttack;
-        Managers.Input.keyAction += OnPlayerDash;
-        Managers.Input.keyAction += OnPlayerJump;
-        Managers.Input.keyAction += OnPlayerSit;
-        Managers.Input.keyAction += OnPlayerSkillChange;
-        canHit = true;
-        isForcedInputChange = false;
+        if (isForcedInputChange)
+        {
+            Managers.Input.keyAction += OnPlayerMove;
+            Managers.Input.keyAction += OnPlayerAttack;
+            Managers.Input.keyAction += OnPlayerDash;
+            Managers.Input.keyAction += OnPlayerJump;
+            Managers.Input.keyAction += OnPlayerSit;
+            Managers.Input.keyAction += OnPlayerSkillChange;
+            canHit = true;
+            isForcedInputChange = false;
+        }
     }
 
     public void PlayerInputDisable()
     {
+        Debug.Log("Disabled");
         Managers.Input.keyAction -= OnPlayerMove;
         Managers.Input.keyAction -= OnPlayerAttack;
         Managers.Input.keyAction -= OnPlayerDash;
@@ -307,8 +313,6 @@ public class Player : MonoBehaviour
 
             PlayerMovement();
         }
-
-        
     }
 
     private void PlayerMovement()
@@ -451,6 +455,7 @@ public class Player : MonoBehaviour
             isDoubleClicked = true;
             lastClickTime = -1.0f;
             playerAnimator.SetBool("isDash", true);
+            PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
             StartCoroutine(PlayerDash());
         }
         else
@@ -494,6 +499,9 @@ public class Player : MonoBehaviour
 
         if (!isReviveSuccess)
         {
+            //Real Dead
+            //Destroy(gameObject);
+            isDead = true;
             this.gameObject.SetActive(false);
             reviveZone.SetActive(false);
         }
@@ -585,16 +593,15 @@ public class Player : MonoBehaviour
     private IEnumerator PlayerDash()
     {
         //canPlayerState[1] = false;
-        PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
         isDashing = true;
         moveHorizontal = 0.0f;
         isDashCoolEnd = false;
         Instantiate(dashEffect, transform.position, dashEffect.transform.rotation);
         dashEffect.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
         float originalGravity = rigidBody.gravityScale;
-        int dashDirection = 0;
+        dashDirection = 0;
         rigidBody.gravityScale = 0f;
-        rigidBody.velocity = Vector2.zero;
+        //rigidBody.velocity = Vector2.zero;
         if (transform.rotation.y == 0)
         {
             dashDirection = -1;
@@ -605,11 +612,8 @@ public class Player : MonoBehaviour
         }
         if (isSurfaceEffector && dashDirection == 1)
             dashDirection *= 2;
-        rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
-        Debug.Log("before " + rigidBody.velocity);
-        //rigidBody.AddForce(new Vector2(dashDirection * 20, 0.0f), ForceMode2D.Impulse);
+        //rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
         yield return new WaitForSeconds(cDashTime);
-        Debug.Log("after " + rigidBody.velocity);
         rigidBody.velocity = Vector2.zero;
         rigidBody.gravityScale = originalGravity;
         isDashing = false;

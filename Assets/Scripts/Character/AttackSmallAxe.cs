@@ -105,12 +105,12 @@ public class AttackSmallAxe : Sword
         while (true)
         {
             isHitOnce = true;
-            AxeHit();
+            NormalHit();
             yield return new WaitForSeconds(0.125f);
         }
     }
 
-    private void AxeHit()
+    /*private void AxeHit()
     {
         if (ray.collider != null)
         {
@@ -138,5 +138,5 @@ public class AttackSmallAxe : Sword
         {
             isHitOnce = true;
         }
-    }
+    }*/
 }

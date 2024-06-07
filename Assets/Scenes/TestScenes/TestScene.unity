@@ -887,6 +887,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseUI: {fileID: 1091188091}
+  playerMaru: {fileID: 2060072527}
+  playerNabi: {fileID: 1172362152}
 --- !u!1 &673587517
 GameObject:
   m_ObjectHideFlags: 0

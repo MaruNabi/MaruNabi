@@ -13,10 +13,8 @@ public class SkillBigMace : Sword
 
     private bool isPositionSet = false;
 
-    [SerializeField]
-    private GameObject blinkEffect;
-    [SerializeField]
-    private SpriteRenderer blinkSpriteRenderer;
+    [SerializeField] private GameObject blinkEffect;
+    [SerializeField] private SpriteRenderer blinkSpriteRenderer;
 
     private GameObject explosionEffect;
 
@@ -49,7 +47,7 @@ public class SkillBigMace : Sword
 
         StartCoroutine(SkillMaceMovement());
 
-        BigMaceHit();
+        SkillHit();
     }
 
     private IEnumerator SkillMaceMovement()
@@ -119,31 +117,6 @@ public class SkillBigMace : Sword
             spriteRenderer.color = new Color(1, 1, 1, 0.6f);
             yield return new WaitForSeconds(0.15f);
             remainingTime = Time.time - startTime;
-        }
-    }
-
-    private void BigMaceHit()
-    {
-        if (ray.collider != null)
-        {
-            if (ray.collider.tag == "Enemy" && isHitOnce)
-            {
-                isHitOnce = false;
-                currentHit = ray.collider.name;
-                Debug.Log("Hit");
-            }
-
-            else if (ray.collider.name != currentHit)
-            {
-                isHitOnce = false;
-                currentHit = ray.collider.name;
-                Debug.Log("Hit");
-            }
-        }
-
-        else if (ray.collider == null)
-        {
-            isHitOnce = true;
         }
     }
 }

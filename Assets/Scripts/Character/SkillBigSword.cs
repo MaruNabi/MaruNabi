@@ -47,31 +47,6 @@ public class SkillBigSword : Sword
     {
         base.AttackInstantiate();
 
-        BigSwordHit();
-    }
-
-    private void BigSwordHit()
-    {
-        if (ray.collider != null)
-        {
-            if (ray.collider.tag == "Enemy" && isHitOnce)
-            {
-                isHitOnce = false;
-                currentHit = ray.collider.name;
-                Debug.Log("Hit");
-            }
-
-            else if (ray.collider.name != currentHit)
-            {
-                isHitOnce = false;
-                currentHit = ray.collider.name;
-                Debug.Log("Hit");
-            }
-        }
-
-        else if (ray.collider == null)
-        {
-            isHitOnce = true;
-        }
+        SkillHit();
     }
 }

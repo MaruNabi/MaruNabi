@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class PauseUI : MonoBehaviour
 {
-    public static bool isGamePaused = false;
+    public static bool isGamePaused;
+    public static bool isSetOnce = false;
 
     public GameObject pauseUI;
+
+    [SerializeField] private Player playerMaru;
+    [SerializeField] private Player playerNabi;
 
     void Start()
     {
@@ -18,18 +22,28 @@ public class PauseUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             isGamePaused = true;
+            isSetOnce = false;
         }
 
-        if (isGamePaused)
+        if (!isSetOnce)
         {
-            pauseUI.SetActive(true);
-            Time.timeScale = 0;
-        }
+            if (isGamePaused)
+            {
+                isSetOnce = true;
+                pauseUI.SetActive(true);
+                Time.timeScale = 0;
+                playerMaru.PlayerInputDisable();
+                playerNabi.PlayerInputDisable();
+            }
 
-        if (!isGamePaused)
-        {
-            pauseUI.SetActive(false);
-            Time.timeScale = 1f;
+            if (!isGamePaused)
+            {
+                isSetOnce = true;
+                pauseUI.SetActive(false);
+                Time.timeScale = 1f;
+                playerMaru.PlayerInputEnable();
+                playerNabi.PlayerInputEnable();
+            }
         }
     }
 }

@@ -29,8 +29,6 @@ public class AttackCharm : Bullet
             enemy= GameObject.FindGameObjectWithTag("NoBumpEnemy").transform;
         }*/
 
-        isPenetrate = false;
-
         enemyList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
         enemyList.AddRange(GameObject.FindGameObjectsWithTag("NoBumpEnemy"));
 

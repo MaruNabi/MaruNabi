@@ -34,6 +34,7 @@ public class PlayerNabi : Player
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
+        isDead = false;
 
         reviveZone.SetActive(false);
 
@@ -125,9 +126,6 @@ public class PlayerNabi : Player
 
     void Update()
     {
-        if (PauseUI.isGamePaused)
-            return;
-
         SlopeCheck();
 
         SurfaceEffectorCheck();
@@ -137,6 +135,9 @@ public class PlayerNabi : Player
             //InputManager.isNeedInit = false;
             OnPlayerInit();
         }
+
+        if (isDashing)
+            rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
 
         if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector) //isDead는 Slope에서 죽으면 밀려야 하기 때문
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
@@ -275,7 +276,7 @@ public class PlayerNabi : Player
         if (Input.GetKeyDown(KeyCode.LeftBracket)) //canPlayerState[4]
         {
             //None
-            if (ultimateGauge < 500.0f)
+            if (ultimateGauge < 830.0f)
             {
                 return;
             }

@@ -13091,6 +13091,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseUI: {fileID: 1094702841}
+  playerMaru: {fileID: 498550478}
+  playerNabi: {fileID: 90012642}
 --- !u!1001 &1548519201
 PrefabInstance:
   m_ObjectHideFlags: 0

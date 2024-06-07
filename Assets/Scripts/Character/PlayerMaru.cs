@@ -37,6 +37,7 @@ public class PlayerMaru : Player
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
+        isDead = false;
 
         playerShield.SetActive(false);
         reviveZone.SetActive(false);
@@ -129,9 +130,6 @@ public class PlayerMaru : Player
 
     void Update()
     {
-        if (PauseUI.isGamePaused)
-            return;
-
         SlopeCheck();
 
         SurfaceEffectorCheck();
@@ -141,6 +139,9 @@ public class PlayerMaru : Player
             InputManager.isNeedInit = false;
             OnPlayerInit();
         }
+
+        if (isDashing)
+            rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
 
         if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector)
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
@@ -303,7 +304,7 @@ public class PlayerMaru : Player
         if (Input.GetKeyDown(KeyCode.B)) //canPlayerState[4]
         {
             //None
-            if (ultimateGauge < 500.0f)
+            if (ultimateGauge < 830.0f)
             {
                 return;
             }

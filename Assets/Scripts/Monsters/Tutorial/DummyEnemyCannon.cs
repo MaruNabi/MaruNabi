@@ -27,7 +27,7 @@ public class DummyEnemyCannon : MonoBehaviour
         if (curTime > 1.5)
         {
             GameObject cannonBall = Instantiate(cannonBallPrefab);
-            cannonBall.transform.position = transform.position;
+            cannonBall.transform.position = transform.position - new Vector3(1.5f, 0.0f, 0.0f);
             curTime = 0;
         }
     }

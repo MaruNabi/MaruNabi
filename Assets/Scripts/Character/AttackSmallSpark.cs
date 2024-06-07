@@ -22,7 +22,6 @@ public class AttackSmallSpark : Bullet
         sparkSpriteRenderer = GetComponent<SpriteRenderer>();
         sparkStartPosition = GameObject.Find("NabiBulletPosition");
         playerPosition = GameObject.Find("Nabi_Test");
-        isPenetrate = false;
     }
 
     void Update()
