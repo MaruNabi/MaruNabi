@@ -8,8 +8,6 @@ public class SkillBigSpark : Bullet
     {
         SetBullet();
 
-        isPenetrate = true;
-
         shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Tank");
     }
 

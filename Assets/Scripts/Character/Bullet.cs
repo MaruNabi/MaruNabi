@@ -14,8 +14,7 @@ public class Bullet : MonoBehaviour
     protected LayerMask isLayer;
     protected Rigidbody2D bulletRigidbody;
     protected Vector2 lockedBulletVector;
-    protected float attackPower = 300f;
-    protected bool isPenetrate = false;
+    protected float attackPower = 300.0f;
 
     protected string currentHit;
     protected bool isEffectOnce = true;
@@ -64,6 +63,8 @@ public class Bullet : MonoBehaviour
         isOneInit = true;
         yield return new WaitForSeconds(bulletHoldingTime);
         lockedBulletVector = new Vector2(0.0f, 0.0f);
+        angle = 0.0f;
+        bulletRigidbody.velocity = Vector2.zero;
         Managers.Pool.Push(Utils.GetOrAddComponent<Poolable>(this.gameObject));
     }
 
@@ -114,64 +115,46 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    protected void ColliderCheck(bool isNormalAtk)
+    protected void ColliderCheck(bool _isNormalAtk)
     {
         if (ray.collider != null)
         {
             if (ray.collider.tag == "Enemy" || ray.collider.tag == "NoBumpEnemy")
-            {
                 isEnemy = true;
-            }
             else
-            {
                 isEnemy = false;
-            }
 
-            if (isEnemy && isNormalAtk)
+            if (isEnemy && _isNormalAtk)
             {
                 PlayerNabi.ultimateGauge += attackPower;
                 
-                if (PlayerNabi.ultimateGauge < 1500.0f)
+                if (PlayerNabi.ultimateGauge >= 2500.0f)
                 {
-                    ray.collider.GetComponent<Entity>().OnDamage(attackPower);
+                    PlayerNabi.ultimateGauge = 2500.0f;
                 }
-                else
-                {
-                    PlayerNabi.ultimateGauge = 1500.0f;
-                    ray.collider.GetComponent<Entity>().OnDamage(attackPower);
-                }
-            }
-            else if (isEnemy && !isNormalAtk && isHitOnce)
-            {
-                isHitOnce = false;
-                currentHit = ray.collider.name;
-                //special attack monster damage
-            }
-            else if (isEnemy && ray.collider.name != currentHit)
-            {
-                isHitOnce = false;
-                currentHit = ray.collider.name;
-                //special attack monster damage
-            }
 
-            if (isEnemy && !isPenetrate)
+                ray.collider.GetComponent<Entity>().OnDamage(attackPower);
+                StartCoroutine(bulletDestroyCoroutine);
+            }
+            else if (isEnemy && !_isNormalAtk && isHitOnce)
             {
-                //Invoke("DestroyBullet", 0.1f);
-                //DestroyBullet();
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                ray.collider.GetComponent<Entity>().OnDamage(attackPower * 2);
+                //special attack monster damage
+            }
+            else if (isEnemy && ray.collider.name != currentHit && !_isNormalAtk && isHitOnce)
+            {
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                ray.collider.GetComponent<Entity>().OnDamage(attackPower * 2);
+                //special attack monster damage
             }
         }
 
-        else if (ray.collider == null && !isNormalAtk)
+        else if (ray.collider == null && !_isNormalAtk)
         {
             isHitOnce = true;
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (isEnemy && !isPenetrate)
-        {
-            DestroyBullet();
         }
     }
 

@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class SkillBigAxeElement : MonoBehaviour
 {
-    [SerializeField]
-    private Transform axeRayStartPosition;
-
-    [SerializeField]
-    private LayerMask isLayer;
+    [SerializeField] private Transform axeRayStartPosition;
+    [SerializeField] private LayerMask isLayer;
 
     private RaycastHit2D rayAxe;
     private float rayDistance = 0.9f;
     private bool isHitOnce = true;
     private string currentHit;
+    private bool isEnemy = false;
+
+    private float attackPower = 300.0f;
 
     void Update()
     {
@@ -23,6 +23,7 @@ public class SkillBigAxeElement : MonoBehaviour
 
     private void OnDisable()
     {
+        isEnemy = false;
         currentHit = "";
     }
 
@@ -37,18 +38,23 @@ public class SkillBigAxeElement : MonoBehaviour
     {
         if (rayAxe.collider != null)
         {
-            if (rayAxe.collider.tag == "Enemy" && isHitOnce)
+            if (rayAxe.collider.tag == "Enemy" || rayAxe.collider.tag == "NoBumpEnemy")
+                isEnemy = true;
+            else
+                isEnemy = false;
+
+            if (isEnemy && isHitOnce)
             {
                 isHitOnce = false;
                 currentHit = rayAxe.collider.name;
-                Debug.Log("Hit");
+                rayAxe.collider.GetComponent<Entity>().OnDamage(attackPower * 2);
             }
 
-            else if (rayAxe.collider.name != currentHit)
+            else if (isEnemy && rayAxe.collider.name != currentHit)
             {
                 isHitOnce = false;
                 currentHit = rayAxe.collider.name;
-                Debug.Log("Hit");
+                rayAxe.collider.GetComponent<Entity>().OnDamage(attackPower * 2);
             }
         }
 

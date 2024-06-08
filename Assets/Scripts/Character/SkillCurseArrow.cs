@@ -12,8 +12,6 @@ public class SkillCurseArrow : Bullet
     private Color originColor = new Color(1, 1, 1, 1);
     private Color fadeColor = new Color(1, 1, 1, 0);
 
-    private string enemyName;
-
     private void OnEnable()
     {
         arrowSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -33,12 +31,13 @@ public class SkillCurseArrow : Bullet
     private void OnDisable()
     {
         transform.localPosition = originPosition;
-        enemyName = "";
     }
 
     protected override void AttackInstantiate()
     {
         base.AttackInstantiate();
+
+        ColliderCheck(false);
     }
 
     private IEnumerator ArrowShoot()
@@ -49,7 +48,7 @@ public class SkillCurseArrow : Bullet
         transform.DOLocalMove(new Vector3(0.6f, 0, 0), 0.3f).SetEase(Ease.InQuad);
         yield return new WaitForSeconds(0.3f);
 
-        enemyName = ray.collider.name;
-        Debug.Log(enemyName + "Hit");
+        //enemyName = ray.collider.name;
+        //ray.collider.GetComponent<Entity>().OnDamage(attackPower * 2);
     }
 }

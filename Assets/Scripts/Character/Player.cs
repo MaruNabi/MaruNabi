@@ -10,14 +10,19 @@ public class Player : MonoBehaviour
     public const int MAX_LIFE = 5;
     public int cLife = 3;
     [SerializeField] [Range(0, 10)] protected float cSpeed = 6.0f; //Character Speed
-    protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit
-    protected const float maxUltimateGauge = 1500.0f;
+    protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
+    protected const float maxUltimateGauge = 2500.0f;
     public static bool isReviveSuccess = false;
+    public static bool isDead;
+    private bool canHit = true;
     private bool isTimerEnd = false;
     private bool isCalledOnce = true;
 
-    protected KeyCode moveLeft;
-    protected KeyCode moveRight;
+    protected KeyCode moveLeftKey;
+    protected KeyCode moveRightKey;
+    protected KeyCode jumpKey;
+    protected KeyCode lockKey;
+    protected KeyCode sitKey;
 
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField] [Range(0, 10)] protected float cJumpPower = 0.03f; //Incremental Jump Force
@@ -36,7 +41,8 @@ public class Player : MonoBehaviour
 
     private float cDashPower = 20.0f;
     private float cDashTime = 0.2f;
-    private float cDashCooldown = 2.0f;
+    private float cDashCooldown = 1.0f;
+    protected bool isDashCoolEnd = true;
     protected bool isDashing = false;
 
     protected bool isSitting = false;
@@ -68,6 +74,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject landingEffect;
     private bool isLandingEffectOnce = true;
     [SerializeField] private GameObject dashEffect;
+    protected int dashDirection;
 
     protected float moveHorizontal = 0.0f;
 
@@ -85,12 +92,14 @@ public class Player : MonoBehaviour
     protected bool isSurfaceEffector;
     protected bool canChangeSkillSet;
 
+    private bool isForcedInputChange = false;
+
     public bool IsTargetGround
     {
         set => isTargetGround = value;
     }
 
-    public void PlayerStateTransition(bool _set, int _index = 4)
+    public void PlayerStateTransition(bool _set, int _index = 4) //사용 끝나면 삭제
     {
         for (int i = _index; i < canPlayerState.Length; i++)
         {
@@ -103,11 +112,12 @@ public class Player : MonoBehaviour
         if (isInvincibleTime)
             return;
 
-        if (!canPlayerState[5])
+        if (!canHit) //!canPlayerState[5]
             return;
 
         isHit = true;
-        canPlayerState[0] = false;
+        //canPlayerState[0] = false;
+        PlayerInputControl(false, OnPlayerMove);
 
         if (cLife > 1)
         {
@@ -123,11 +133,12 @@ public class Player : MonoBehaviour
 
     public void PlayerHitSpecial(Vector2 _enemyPos)
     {
-        if (!canPlayerState[5])
+        if (!canHit)
             return;
 
         isHit = true;
-        canPlayerState[0] = false;
+        //canPlayerState[0] = false;
+        PlayerInputControl(false, OnPlayerMove);
 
         if (cLife > 1)
         {
@@ -139,6 +150,54 @@ public class Player : MonoBehaviour
             cLife -= 1;
             StartCoroutine(Death());
         }
+    }
+
+    public void PlayerInputControl(bool _isSet, params System.Action[] _actions)
+    {
+        if (!isForcedInputChange)
+        {
+            if (_isSet)
+            {
+                for (int i = 0; i < _actions.Length; i++)
+                {
+                    Managers.Input.keyAction += _actions[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < _actions.Length; i++)
+                {
+                    Managers.Input.keyAction -= _actions[i];
+                }
+            }
+        }
+    }
+
+    public void PlayerInputEnable()
+    {
+        if (isForcedInputChange)
+        {
+            Managers.Input.keyAction += OnPlayerMove;
+            Managers.Input.keyAction += OnPlayerAttack;
+            Managers.Input.keyAction += OnPlayerDash;
+            Managers.Input.keyAction += OnPlayerJump;
+            Managers.Input.keyAction += OnPlayerSit;
+            Managers.Input.keyAction += OnPlayerSkillChange;
+            canHit = true;
+            isForcedInputChange = false;
+        }
+    }
+
+    public void PlayerInputDisable()
+    {
+        Managers.Input.keyAction -= OnPlayerMove;
+        Managers.Input.keyAction -= OnPlayerAttack;
+        Managers.Input.keyAction -= OnPlayerDash;
+        Managers.Input.keyAction -= OnPlayerJump;
+        Managers.Input.keyAction -= OnPlayerSit;
+        Managers.Input.keyAction -= OnPlayerSkillChange;
+        canHit = false;
+        isForcedInputChange = true;
     }
 
     protected void SurfaceEffectorCheck()
@@ -173,7 +232,7 @@ public class Player : MonoBehaviour
             }
             else if (groundRay.collider.tag == "Ground" && currentGroundName != groundRay.collider.gameObject.name)
             {
-                isGround = false;
+                isGround = true; //false
                 playerStandCollider.isTrigger = false;
                 playerSideFrictionCollider.isTrigger = false;
                 canFallDown = groundRay.collider.gameObject.GetComponent<GroundObject>().canFallDown;
@@ -213,11 +272,11 @@ public class Player : MonoBehaviour
         rigidBody.AddForce(new Vector3(0, jumpPower, 0), ForceMode2D.Impulse);
     }
 
-    protected void PlayerMove()
+    protected void OnPlayerMove()
     {
         moveHorizontal = 0.0f;
 
-        if (Input.GetKey(moveLeft))
+        if (Input.GetKey(moveLeftKey))
         {
             if (isSitting || isLock)
             {
@@ -230,12 +289,14 @@ public class Player : MonoBehaviour
 
             transform.rotation = Quaternion.Euler(0, 0, 0);
             atkPosition.rotation = Quaternion.Euler(0, 0, 0);
+
+            PlayerMovement();
         }
 
-        if (!(Input.GetKey(moveLeft)) && !(Input.GetKey(moveRight)))
-            moveHorizontal = 0.0f;
+        //if (!(Input.GetKey(moveLeftKey)) && !(Input.GetKey(moveRightKey)))
+            //moveHorizontal = 0.0f;
 
-        if (Input.GetKey(moveRight))
+        if (Input.GetKey(moveRightKey))
         {
             if (isSitting || isLock)
             {
@@ -248,8 +309,13 @@ public class Player : MonoBehaviour
 
             transform.rotation = Quaternion.Euler(0, 180, 0);
             atkPosition.rotation = Quaternion.Euler(0, 180, 0);
-        }
 
+            PlayerMovement();
+        }
+    }
+
+    private void PlayerMovement()
+    {
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, 0.0f);
 
         if (movement.magnitude > 1)
@@ -267,7 +333,6 @@ public class Player : MonoBehaviour
             }
             else
             {
-                //rigidBody.velocity = movement + velocityYOnly;
                 rigidBody.AddForce((movement).normalized, ForceMode2D.Impulse);
             }
         }
@@ -281,7 +346,7 @@ public class Player : MonoBehaviour
     {
         if (isTargetGround)
             return;
-        
+
         moveHorizontal = 1.0f;
 
         transform.rotation = Quaternion.Euler(0, 180, 0);
@@ -302,13 +367,94 @@ public class Player : MonoBehaviour
         rigidBody.velocity = movement + velocityYOnly;
     }
 
-    protected void DoubleClickDash(bool key)
+    protected void OnPlayerJump()
+    {
+        if (Input.GetKeyDown(jumpKey) && !isJumping && !isSitting && cJumpCount < cMaxJumpCount && !isLock) //canPlayerState[3]
+        {
+            rigidBody.velocity = Vector2.zero;
+            PlayerJump(cMiniJumpPower);
+            isJumpingEnd = false;
+            cJumpCount++;
+        }
+
+        //JumpAddForce
+        if (Input.GetKey(jumpKey) && !isJumpingEnd && !isSitting && !isLock)
+        {
+            if (cMiniJumpPower < cMaxJumpPower)
+            {
+                PlayerJumping(cJumpPower);
+                cMiniJumpPower += cJumpPower;
+            }
+        }
+        else if (!(Input.GetKey(jumpKey)))
+        {
+            isJumping = false;
+        }
+    }
+
+    protected virtual void OnPlayerAttack()
+    {
+        if (Input.GetKeyDown(lockKey))
+        {
+            isLock = true;
+        }
+        else if (!(Input.GetKey(lockKey)))
+        {
+            isLock = false;
+        }
+    }
+
+    protected void OnPlayerDash()
+    {
+        if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
+        {
+            DoubleClickDash(true);
+        }
+
+        if (Input.GetKeyDown(moveRightKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
+        {
+            DoubleClickDash(false);
+        }
+    }
+
+    protected void OnPlayerSit()
+    {
+        if (Input.GetKeyDown(sitKey) && !isJumping) //canPlayerState[2]
+        {
+            StartCoroutine(PlayerSit());
+        }
+        else if (!(Input.GetKey(sitKey)) && isSitting) //Input.GetKeyUp(KeyCode.DownArrow)
+        {
+            isSitting = false;
+            //canPlayerState[0] = true;
+            //canPlayerState[1] = true;
+            playerAnimator.SetBool("isSit", false);
+        }
+
+        if (Input.GetKey(sitKey) && Input.GetKeyDown(jumpKey) && isSitting && !isLock)
+        {
+            if (canFallDown)
+            {
+                playerStandCollider.isTrigger = true;
+                playerSideFrictionCollider.isTrigger = true;
+                playerAnimator.SetBool("isDown", true);
+            }
+        }
+    }
+
+    protected virtual void OnPlayerSkillChange()
+    {
+
+    }
+
+    private void DoubleClickDash(bool key) 
     {
         if ((Time.time - lastClickTime) < DOUBLE_CLICK_TIME && pastKey == key)
         {
             isDoubleClicked = true;
             lastClickTime = -1.0f;
             playerAnimator.SetBool("isDash", true);
+            PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
             StartCoroutine(PlayerDash());
         }
         else
@@ -329,7 +475,7 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", false);
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
-        PlayerStateTransition(false, 0);
+        PlayerInputDisable(); //PlayerStateTransition(false, 0);
         Invoke("InvokeTimer", 10.0f);
 
         while (!isTimerEnd) //wait 10 seconds
@@ -352,6 +498,9 @@ public class Player : MonoBehaviour
 
         if (!isReviveSuccess)
         {
+            //Real Dead
+            //Destroy(gameObject);
+            isDead = true;
             this.gameObject.SetActive(false);
             reviveZone.SetActive(false);
         }
@@ -370,9 +519,9 @@ public class Player : MonoBehaviour
     protected virtual IEnumerator Revive()
     {
         reviveZone.SetActive(false);
-        canPlayerState[0] = true;
+        //canPlayerState[0] = true;
         cLife = 1;
-        PlayerStateTransition(true, 0);
+        PlayerInputEnable(); //PlayerStateTransition(true, 0);
         playerAnimator.SetBool("isDead", false);
         Instantiate(reviveEffect, transform);
         StartCoroutine(Invincible(3.0f));
@@ -394,7 +543,7 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", false);
             isHit = false;
             if (!playerAnimator.GetBool("isDead"))
-                canPlayerState[0] = true;
+                PlayerInputControl(true, OnPlayerMove);//canPlayerState[0] = true;
             yield return new WaitForSeconds(2.5f);
         }
     }
@@ -411,7 +560,7 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", false);
             isHit = false;
             if (!playerAnimator.GetBool("isDead"))
-                canPlayerState[0] = true;
+                PlayerInputControl(true, OnPlayerMove); //canPlayerState[0] = true;
             yield return new WaitForSeconds(2.5f);
         }
     }
@@ -442,14 +591,16 @@ public class Player : MonoBehaviour
 
     private IEnumerator PlayerDash()
     {
-        canPlayerState[1] = false;
+        //canPlayerState[1] = false;
         isDashing = true;
+        moveHorizontal = 0.0f;
+        isDashCoolEnd = false;
         Instantiate(dashEffect, transform.position, dashEffect.transform.rotation);
         dashEffect.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
         float originalGravity = rigidBody.gravityScale;
-        int dashDirection = 0;
+        dashDirection = 0;
         rigidBody.gravityScale = 0f;
-        rigidBody.velocity = Vector2.zero;
+        //rigidBody.velocity = Vector2.zero;
         if (transform.rotation.y == 0)
         {
             dashDirection = -1;
@@ -460,43 +611,53 @@ public class Player : MonoBehaviour
         }
         if (isSurfaceEffector && dashDirection == 1)
             dashDirection *= 2;
-        rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
+        //rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
         yield return new WaitForSeconds(cDashTime);
         rigidBody.velocity = Vector2.zero;
         rigidBody.gravityScale = originalGravity;
         isDashing = false;
         playerAnimator.SetBool("isDash", false);
+        PlayerInputControl(true, OnPlayerMove, OnPlayerAttack, OnPlayerJump, OnPlayerSit);
         yield return new WaitForSeconds(cDashCooldown);
-        canPlayerState[1] = true;
+        isDashCoolEnd = true;
+        PlayerInputControl(true, OnPlayerDash);
+        //canPlayerState[1] = true;
     }
 
     protected IEnumerator PlayerSit(bool isTimeLimit = false, float time = 0.5f)
     {
         isSitting = true;
         playerAnimator.SetBool("isSit", true);
-        canPlayerState[1] = false;
-        canPlayerState[0] = false;
+        PlayerInputControl(false, OnPlayerJump, OnPlayerDash);
+        //canPlayerState[1] = false;
+        //canPlayerState[0] = false;
         defaultAtkPosition = atkPosition.transform.localPosition;
         sitAtkPosition = defaultAtkPosition;
         sitAtkPosition.y = defaultAtkPosition.y - 0.7f;
         playerCollider.size = sitPlayerColliderSize;
         atkPosition.transform.localPosition = sitAtkPosition;
-        if (canPlayerState[1])
+        //if (canPlayerState[1])
+        //{
+            //canPlayerState[1] = false;
+        //}
+        if (isDashCoolEnd)
         {
-            canPlayerState[1] = false;
+            Managers.Input.keyAction -= OnPlayerDash;
         }
 
         if (isTimeLimit)
         {
             yield return new WaitForSeconds(time);
             isSitting = false;
-            canPlayerState[1] = true;
-            canPlayerState[0] = true;
+            //canPlayerState[1] = true;
+            //canPlayerState[0] = true;
             playerAnimator.SetBool("isSit", false);
         }
 
         yield return new WaitUntil(() => isSitting == false);
+        PlayerInputControl(true, OnPlayerJump, OnPlayerDash);
         playerCollider.size = defaultPlayerColliderSize;
         atkPosition.transform.localPosition = defaultAtkPosition;
+        playerAnimator.SetBool("isSit", false);
     }
 }

@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &6046774
 Rigidbody2D:
   serializedVersion: 4
@@ -887,6 +887,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseUI: {fileID: 1091188091}
+  playerMaru: {fileID: 2060072527}
+  playerNabi: {fileID: 1172362152}
 --- !u!1 &673587517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,7 +1474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1091188092
 Transform:
   m_ObjectHideFlags: 0
@@ -2985,7 +2987,7 @@ GameObject:
   - component: {fileID: 1793226188}
   - component: {fileID: 1793226191}
   m_Layer: 6
-  m_Name: Ground (3)
+  m_Name: Ground_Slope
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3658,6 +3660,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Nabi_Test
       objectReference: {fileID: 0}
+    - target: {fileID: 3042348562188423809, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: playerHpUI
       value: 
@@ -3782,6 +3788,10 @@ PrefabInstance:
     - target: {fileID: 6623215531993341440, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: m_Name
       value: Maru_Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623215531993341440, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341442, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: m_IsTrigger

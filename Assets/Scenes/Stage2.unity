@@ -445,7 +445,7 @@ RectTransform:
   m_Children:
   - {fileID: 1975103494}
   m_Father: {fileID: 1094702842}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -3012,7 +3012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skipToStage2: 0
-  skipToStage3: 1
+  skipToStage3: 0
   stage2Camera: {fileID: 1706814427}
   stage3Camera: {fileID: 75040047}
   zoomCamera: {fileID: 183033501}
@@ -5244,7 +5244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &636038033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8423,6 +8423,7 @@ RectTransform:
   - {fileID: 975201633}
   - {fileID: 411417436}
   - {fileID: 1094702842}
+  - {fileID: 546856568}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9209,7 +9210,6 @@ Transform:
   - {fileID: 496782582}
   - {fileID: 655707643}
   - {fileID: 834760284}
-
   - {fileID: 75140595}
   - {fileID: 2070004179}
   - {fileID: 186837639}
@@ -12977,7 +12977,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 6.45
+  orthographic size: 5.9
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -13001,7 +13001,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1548292386}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -37.42049, y: -44.94086, z: -10}
+  m_LocalPosition: {x: -37.41171, y: 14.158999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13091,6 +13091,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseUI: {fileID: 1094702841}
+  playerMaru: {fileID: 498550478}
+  playerNabi: {fileID: 90012642}
 --- !u!1001 &1548519201
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16848,7 +16850,7 @@ RectTransform:
   m_Children:
   - {fileID: 2053856809}
   m_Father: {fileID: 1094702842}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
