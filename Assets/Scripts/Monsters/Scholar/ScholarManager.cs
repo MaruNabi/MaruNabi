@@ -144,10 +144,12 @@ public class ScholarManager : MonoBehaviour
         if (isMouse == false)
         {
             monsterGO.AddComponent<Scholar>();
+            monsterGO.gameObject.name = "Scholar";
         }
         else if (isMouse)
         {
             monsterGO.AddComponent<MouseScholar>().RoundSetting(mouseHp, strawOparcity[roundNum]);
+            monsterGO.gameObject.name = "MouseScholar";
         }
 
         return monsterGO;

@@ -12,35 +12,50 @@ public class StageSwitchingManager : MonoBehaviour
     [SerializeField] private bool skipToStage3;
     [Space]
 
+    [Header("CAMERAS")]
     [SerializeField] private CinemachineVirtualCamera stage2Camera;
     [SerializeField] private CinemachineVirtualCamera stage3Camera;
     [SerializeField] private CinemachineVirtualCamera zoomCamera;
+    [Space]
     
+    [Header("MANAGERS")]
     [SerializeField] private ScholarManager scholarManager;
     [SerializeField] private MouseManager mouseManager;
     [SerializeField] private FoxManager foxManager;
+    [Space]
+
+    [Header("SPAWN POINTS")]
     [SerializeField] private Transform stage2SpawnPoint;
     [SerializeField] private Transform stage3SpawnPoint;
-    [SerializeField] private Transform targetGroup;
-    private List<Player> players;
+    [Space]
 
+    [SerializeField] private Transform targetGroup;
+    
+    private List<Player> players;
     private bool isStageClear;
+    public int StageNumber { get; private set; }
 
     private void Start()
     {
         players = GameObject.FindGameObjectsWithTag("Player").Select(x => x.GetComponent<Player>()).ToList();
-
+        StageNumber = 1;
+        
         if (skipToStage3)
         {
-            scholarManager.StageStart = false;
-            players.ForEach(player => player.transform.position = stage2SpawnPoint.position);
-            stage2Camera.gameObject.SetActive(true);
-            mouseManager.ProductionSkip();
+            StageNumber = 3;
+            scholarManager.gameObject.SetActive(false);
+            mouseManager.gameObject.SetActive(false);
+            foxManager.gameObject.SetActive(true);
+            foxManager.StageSkip().Forget();
+            stage3Camera.gameObject.SetActive(true);
+            players.ForEach(player => player.transform.position = stage3SpawnPoint.position + Vector3.right * 5f);
+            
             Debug.Log("스킵");
         }
         else if (skipToStage2)
         {
-            scholarManager.StageStart = false;
+            StageNumber = 2;
+            scholarManager.gameObject.SetActive(false);
             players.ForEach(player => player.transform.position = stage2SpawnPoint.position);
             stage2Camera.gameObject.SetActive(true);
             mouseManager.StageStart();
@@ -80,13 +95,15 @@ public class StageSwitchingManager : MonoBehaviour
     {
         switch (_stageNumber)
         {
-            case 1:
-                AllowBehavior();
-                mouseManager.StageStart();
-                break;
             case 2:
                 AllowBehavior();
+                mouseManager.StageStart();
+                StageNumber = 2;
+                break;
+            case 3:
+                AllowBehavior();
                 foxManager.StageStart().Forget();
+                StageNumber = 3;
                 break;
             default:
                 break;
