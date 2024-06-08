@@ -96,10 +96,10 @@ public class PlayerMaru : Player
         }
         else
         {
-            swordPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 2);
-            skillPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 2);
-            swordPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 3);
-            skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 3);
+            swordPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 1);
+            skillPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 1);
+            swordPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Bullet_" + 2);
+            skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 2);
         }
 
         UpdateLifeUI();
@@ -242,7 +242,7 @@ public class PlayerMaru : Player
     {
         playerShield.SetActive(true);
 
-        PlayerStateTransition(false);
+        //PlayerStateTransition(false);
         //Shield on
         yield return new WaitForSeconds(0.25f);
         //Shield Idle
@@ -250,7 +250,7 @@ public class PlayerMaru : Player
         //Shield Off
         playerAnimator.SetBool("isDefence", false);
         yield return new WaitForSeconds(0.25f);
-        PlayerStateTransition(true);
+        //PlayerStateTransition(true);
         playerShield.SetActive(false);
     }
 

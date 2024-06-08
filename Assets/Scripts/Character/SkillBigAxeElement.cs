@@ -38,28 +38,6 @@ public class SkillBigAxeElement : MonoBehaviour
     {
         if (rayAxe.collider != null)
         {
-            if (rayAxe.collider.tag == "Enemy" && isHitOnce)
-            {
-                isHitOnce = false;
-                currentHit = rayAxe.collider.name;
-                Debug.Log("Hit");
-            }
-
-            else if (rayAxe.collider.name != currentHit)
-            {
-                isHitOnce = false;
-                currentHit = rayAxe.collider.name;
-                Debug.Log("Hit");
-            }
-        }
-
-        else if (rayAxe.collider == null)
-        {
-            isHitOnce = true;
-        }
-
-        if (rayAxe.collider != null)
-        {
             if (rayAxe.collider.tag == "Enemy" || rayAxe.collider.tag == "NoBumpEnemy")
                 isEnemy = true;
             else

@@ -190,7 +190,6 @@ public class Player : MonoBehaviour
 
     public void PlayerInputDisable()
     {
-        Debug.Log("Disabled");
         Managers.Input.keyAction -= OnPlayerMove;
         Managers.Input.keyAction -= OnPlayerAttack;
         Managers.Input.keyAction -= OnPlayerDash;
