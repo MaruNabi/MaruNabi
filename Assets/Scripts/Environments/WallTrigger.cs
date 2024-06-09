@@ -31,12 +31,12 @@ public class WallTrigger : MonoBehaviour
                     case 1:
                         wall.SetActive(true);
                         collider2D.enabled = false;
-                        switchingManager.StageStart(1);
+                        switchingManager.StageStart(2);
                         break;
                     case 2:
                         wall.SetActive(true);
                         collider2D.enabled = false;
-                        switchingManager.StageStart(2);
+                        switchingManager.StageStart(3);
                         break;
                     default:
                         break;
