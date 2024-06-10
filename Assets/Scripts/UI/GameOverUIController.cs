@@ -2,24 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 using TMPro;
 
-public class PauseUIController : MonoBehaviour
+public class GameOverUIController : MonoBehaviour
 {
+    private const int TEXT_TARGET_Y = 130;
+
     [SerializeField] private Image[] buttons;
     private int selectedButtonIndex = 0;
     private int buttonCount;
-
     [SerializeField] private Sprite selectedSprite, unSelectedSprite;
+
+    [SerializeField] private TMP_Text text;
+    [SerializeField] private TMP_Text buttonText1, buttonText2;
+    private bool isSetEnd = false;
 
     void Start()
     {
         buttonCount = buttons.Length;
+        StartCoroutine("GameOverInit");
     }
 
     void Update()
     {
-        ButtonsControl();
+        if (isSetEnd)
+            ButtonsControl();
     }
 
     private void ButtonsControl()
@@ -52,18 +60,24 @@ public class PauseUIController : MonoBehaviour
         switch (selectedButtonIndex)
         {
             case 0:
-                Stage2UI.isGamePaused = false;
-                Stage2UI.isSetOnce = false;
+                Debug.Log("다시하기");
                 break;
             case 1:
-                Debug.Log("다시 하기");
-                break;
-            case 2:
                 Debug.Log("돌아가기");
                 break;
             default:
                 Debug.LogError("Not Found Button");
                 break;
         }
+    }
+
+    private IEnumerator GameOverInit()
+    {
+        text.transform.DOScale(Vector3.one * 2.5f, 0.5f).SetEase(Ease.InExpo).From();
+        yield return new WaitForSeconds(0.8f);
+        buttonText1.DOFade(1, 0.5f);
+        buttonText2.DOFade(1, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        isSetEnd = true;
     }
 }

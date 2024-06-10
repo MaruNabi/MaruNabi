@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
     protected const float maxUltimateGauge = 2500.0f;
     public static bool isReviveSuccess = false;
-    public static bool isDead;
+    public static bool isDead = false;
     private bool canHit = true;
     private bool isTimerEnd = false;
     private bool isCalledOnce = true;
@@ -92,7 +92,8 @@ public class Player : MonoBehaviour
     protected bool isSurfaceEffector;
     protected bool canChangeSkillSet;
 
-    private bool isForcedInputChange = false;
+    private bool isForcedInputChanged = false;
+    private bool isInputChanged = false;
 
     public bool IsTargetGround
     {
@@ -154,7 +155,7 @@ public class Player : MonoBehaviour
 
     public void PlayerInputControl(bool _isSet, params System.Action[] _actions)
     {
-        if (!isForcedInputChange)
+        if (!isForcedInputChanged)
         {
             if (_isSet)
             {
@@ -175,7 +176,22 @@ public class Player : MonoBehaviour
 
     public void PlayerInputEnable()
     {
-        if (isForcedInputChange)
+        if (isInputChanged)
+        {
+            PlayerInputControl(true, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit, OnPlayerSkillChange);
+            isInputChanged = false;
+        }
+    }
+
+    public void PlayerInputDisable()
+    {
+        PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit, OnPlayerSkillChange);
+        isInputChanged = true;
+    }
+
+    public void PlayerForcedInputEnable()
+    {
+        if (isForcedInputChanged)
         {
             Managers.Input.keyAction += OnPlayerMove;
             Managers.Input.keyAction += OnPlayerAttack;
@@ -184,11 +200,11 @@ public class Player : MonoBehaviour
             Managers.Input.keyAction += OnPlayerSit;
             Managers.Input.keyAction += OnPlayerSkillChange;
             canHit = true;
-            isForcedInputChange = false;
+            isForcedInputChanged = false;
         }
     }
 
-    public void PlayerInputDisable()
+    public void PlayerForcedInputDisable()
     {
         Managers.Input.keyAction -= OnPlayerMove;
         Managers.Input.keyAction -= OnPlayerAttack;
@@ -197,7 +213,7 @@ public class Player : MonoBehaviour
         Managers.Input.keyAction -= OnPlayerSit;
         Managers.Input.keyAction -= OnPlayerSkillChange;
         canHit = false;
-        isForcedInputChange = true;
+        isForcedInputChanged = true;
     }
 
     protected void SurfaceEffectorCheck()
@@ -475,7 +491,7 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", false);
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
-        PlayerInputDisable(); //PlayerStateTransition(false, 0);
+        PlayerForcedInputDisable(); //PlayerStateTransition(false, 0);
         Invoke("InvokeTimer", 10.0f);
 
         while (!isTimerEnd) //wait 10 seconds
@@ -521,7 +537,7 @@ public class Player : MonoBehaviour
         reviveZone.SetActive(false);
         //canPlayerState[0] = true;
         cLife = 1;
-        PlayerInputEnable(); //PlayerStateTransition(true, 0);
+        PlayerForcedInputEnable(); //PlayerStateTransition(true, 0);
         playerAnimator.SetBool("isDead", false);
         Instantiate(reviveEffect, transform);
         StartCoroutine(Invincible(3.0f));

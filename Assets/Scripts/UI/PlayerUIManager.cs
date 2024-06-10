@@ -16,7 +16,6 @@ public class PlayerUIManager : MonoBehaviour
     private float currentUltimateGuageNabi = 0.0f;
     private float currentUltimateGuageMaru = 0.0f;
     private float maxUltimateGuage = 2500f;
-    [SerializeField] private float lerpSpeed;
 
     void Start()
     {
