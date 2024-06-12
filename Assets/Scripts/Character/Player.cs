@@ -95,6 +95,8 @@ public class Player : MonoBehaviour
     private bool isForcedInputChanged = false;
     private bool isInputChanged = false;
 
+    public int CLife { get { return cLife; } }
+
     public bool IsTargetGround
     {
         set => isTargetGround = value;
@@ -214,6 +216,24 @@ public class Player : MonoBehaviour
         Managers.Input.keyAction -= OnPlayerSkillChange;
         canHit = false;
         isForcedInputChanged = true;
+    }
+
+    public IEnumerator PlayerUpAnimation(float _remainingTime)
+    {
+        playerAnimator.SetBool("isUp", true);
+        playerAnimator.SetBool("isDown", false);
+        yield return new WaitForSeconds(_remainingTime);
+        playerAnimator.SetBool("isUp", false);
+        playerAnimator.SetBool("isDown", false);
+    }
+
+    public IEnumerator PlayerDownAnimation(float _remainingTime)
+    {
+        playerAnimator.SetBool("isUp", false);
+        playerAnimator.SetBool("isDown", true);
+        yield return new WaitForSeconds(_remainingTime);
+        playerAnimator.SetBool("isUp", false);
+        playerAnimator.SetBool("isDown", false);
     }
 
     protected void SurfaceEffectorCheck()
