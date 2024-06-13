@@ -8,6 +8,8 @@ using MoreMountains.Feedbacks;
 
 public class AttackSmallSword : Sword
 {
+    private const float SWORD_ATTACK_POWER = 145.0f;
+
     private const float MAX_DISTANCE = 4.0f;
 
     private float finalAttackPower;
@@ -18,11 +20,15 @@ public class AttackSmallSword : Sword
 
     private void OnEnable()
     {
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = SWORD_ATTACK_POWER * 2.3f;
+        else
+            attackPower = SWORD_ATTACK_POWER;
+
         SetSword(1f);
 
         swordDistance = new Vector2(MAX_DISTANCE, 0);
 
-        attackPower = 300.0f;
         canHit = true;
     }
 

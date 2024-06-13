@@ -328,7 +328,7 @@ public class PlayerMaru : Player
             {
                 playerAnimator.SetBool("isDefence", true);
                 StartCoroutine(PlayerShield());
-                ultimateGauge -= 500.0f;
+                ultimateGauge -= 830.0f;
             }
         }
     }

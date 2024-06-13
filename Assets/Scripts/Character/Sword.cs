@@ -10,7 +10,7 @@ public class Sword : MonoBehaviour
     protected Rigidbody2D swordRigidbody;
     protected SpriteRenderer swordSpriteRenderer;
     protected Vector2 lockedSwordVector;
-    public float attackPower = 300.0f;
+    public float attackPower;
 
     [SerializeField] private Transform rayStartPosition;
 
@@ -117,14 +117,14 @@ public class Sword : MonoBehaviour
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
-                ray.collider.GetComponent<Entity>().OnDamage(attackPower * 2);
+                ray.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
 
             else if (isEnemy && ray.collider.name != currentHit)
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
-                ray.collider.GetComponent<Entity>().OnDamage(attackPower * 2);
+                ray.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
         }
 

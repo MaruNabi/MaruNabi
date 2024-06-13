@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SkillBigSword : Sword
 {
+    private const float SSWORD_ATTACK_POWER = 500.0f;
+
     private GameObject bigSwordPosition;
     private GameObject playerPosition;
 
@@ -20,6 +22,11 @@ public class SkillBigSword : Sword
 
     private void OnEnable()
     {
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = SSWORD_ATTACK_POWER * 2.3f;
+        else
+            attackPower = SSWORD_ATTACK_POWER;
+
         SetSword();
     }
 

@@ -7,6 +7,8 @@ using DG.Tweening;
 
 public class AttackSmallMaze : Sword
 {
+    private const float MACE_ATTACK_POWER = 400.0f;
+
     private const float MAX_DISTANCE = 2.0f;
 
     private Vector3 lookDir;
@@ -20,6 +22,11 @@ public class AttackSmallMaze : Sword
 
     private void OnEnable()
     {
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = MACE_ATTACK_POWER * 2.3f;
+        else
+            attackPower = MACE_ATTACK_POWER;
+
         SetSword(1f);
 
         swordDistance = new Vector2(MAX_DISTANCE, MAX_DISTANCE);

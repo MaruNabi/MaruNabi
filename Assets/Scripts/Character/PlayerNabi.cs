@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerNabi : Player
 {
     public static float ultimateGauge;
+    public static bool isNabiTraitActivated;
     private GameObject bulletPrefab_1;                 //Bullet Prefab
     private GameObject bulletPrefab_2;
     private GameObject currentBulletPrefab;
@@ -25,6 +26,7 @@ public class PlayerNabi : Player
 
     private Sprite[] nabiLifeSprite = new Sprite[6];
     private int currentHp;
+    public int NabiTraitScore { get; private set; }
 
     void Start()
     {
@@ -35,6 +37,8 @@ public class PlayerNabi : Player
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
         isDead = false;
+        isNabiTraitActivated = false;
+        NabiTraitScore = 0;
 
         reviveZone.SetActive(false);
 
@@ -293,8 +297,8 @@ public class PlayerNabi : Player
             //Ability
             else
             {
-                //Animation?
-                ultimateGauge -= 500.0f;
+                StartCoroutine("NabiTraitActive");
+                ultimateGauge -= 830.0f;
             }
         }
     }
@@ -327,5 +331,13 @@ public class PlayerNabi : Player
                     break;
             }
         }
+    }
+
+    private IEnumerator NabiTraitActive()
+    {
+        isNabiTraitActivated = true;
+        NabiTraitScore += 1;
+        yield return new WaitForSeconds(1f);
+        isNabiTraitActivated = false;
     }
 }
