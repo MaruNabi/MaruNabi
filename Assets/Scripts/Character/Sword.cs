@@ -5,7 +5,6 @@ using DG.Tweening;
 
 public class Sword : MonoBehaviour
 {
-    public static float totalDamage = 0;
     [SerializeField] protected float rayDistance;
     [SerializeField] protected LayerMask isLayer;
     protected Rigidbody2D swordRigidbody;
@@ -83,7 +82,6 @@ public class Sword : MonoBehaviour
                 if (PlayerMaru.ultimateGauge >= 2500.0f)
                     PlayerMaru.ultimateGauge = 2500.0f;
 
-                totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
 
@@ -96,7 +94,6 @@ public class Sword : MonoBehaviour
                 if (PlayerMaru.ultimateGauge >= 2500.0f)
                     PlayerMaru.ultimateGauge = 2500.0f;
 
-                totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
         }
@@ -120,7 +117,6 @@ public class Sword : MonoBehaviour
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
-                totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
 
@@ -128,7 +124,6 @@ public class Sword : MonoBehaviour
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
-                totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
         }

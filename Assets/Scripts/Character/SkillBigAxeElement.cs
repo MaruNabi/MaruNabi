@@ -54,7 +54,6 @@ public class SkillBigAxeElement : MonoBehaviour
             {
                 isHitOnce = false;
                 currentHit = rayAxe.collider.name;
-                Sword.totalDamage += attackPower;
                 rayAxe.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
 
@@ -62,7 +61,6 @@ public class SkillBigAxeElement : MonoBehaviour
             {
                 isHitOnce = false;
                 currentHit = rayAxe.collider.name;
-                Sword.totalDamage += attackPower;
                 rayAxe.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
         }

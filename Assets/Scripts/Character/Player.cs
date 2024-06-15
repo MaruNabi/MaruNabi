@@ -95,6 +95,8 @@ public class Player : MonoBehaviour
     private bool isForcedInputChanged = false;
     private bool isInputChanged = false;
 
+    public int CLife { get { return cLife; } }
+
     public bool IsTargetGround
     {
         set => isTargetGround = value;
