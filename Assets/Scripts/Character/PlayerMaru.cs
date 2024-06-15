@@ -47,6 +47,9 @@ public class PlayerMaru : Player
         jumpKey = KeyCode.Space;
         lockKey = KeyCode.LeftControl;
         sitKey = KeyCode.S;
+        normalAtkKey = KeyCode.V;
+        specialAtkKey = KeyCode.B;
+        skillChangeKey = KeyCode.Tab;
 
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
@@ -280,7 +283,7 @@ public class PlayerMaru : Player
     {
         base.OnPlayerAttack();
 
-        if (Input.GetKey(KeyCode.V)) //canPlayerState[4]
+        if (Input.GetKey(normalAtkKey)) //canPlayerState[4]
         {
             playerAnimator.SetBool("isAtk", true);
             if (!attacksNow)
@@ -296,12 +299,12 @@ public class PlayerMaru : Player
                 attacksNow = false;
             }
         }
-        else if (!(Input.GetKey(KeyCode.V)))
+        else if (!(Input.GetKey(normalAtkKey)))
         {
             playerAnimator.SetBool("isAtk", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.B)) //canPlayerState[4]
+        if (Input.GetKeyDown(specialAtkKey)) //canPlayerState[4]
         {
             //None
             if (ultimateGauge < 830.0f)
@@ -335,7 +338,7 @@ public class PlayerMaru : Player
 
     protected override void OnPlayerSkillChange()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && canChangeSkillSet)
+        if (Input.GetKeyDown(skillChangeKey) && canChangeSkillSet)
         {
             canChangeSkillSet = false;
             skillChangeUI.GetComponent<PlayerSkillChange>().SkillChangeImage();
