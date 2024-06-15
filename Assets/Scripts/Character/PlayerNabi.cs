@@ -47,9 +47,6 @@ public class PlayerNabi : Player
         jumpKey = KeyCode.RightShift;
         lockKey = KeyCode.L;
         sitKey = KeyCode.DownArrow;
-        normalAtkKey = KeyCode.RightBracket;
-        specialAtkKey = KeyCode.LeftBracket;
-        skillChangeKey = KeyCode.Equals;
 
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
@@ -260,7 +257,7 @@ public class PlayerNabi : Player
         //ToDo : getkey and curtime switch
         if (curTime <= 0) //canPlayerState[4]
         {
-            if (Input.GetKey(normalAtkKey) && !isAttacksNow)
+            if (Input.GetKey(KeyCode.RightBracket) && !isAttacksNow)
             {
                 playerAnimator.SetBool("isAtk", true);
                 if (currentBulletPrefab.name == "NABI_Bullet_3")
@@ -271,7 +268,7 @@ public class PlayerNabi : Player
                 bulletObject.transform.position = atkPosition.position;
                 bulletObject.transform.rotation = transform.rotation;
             }
-            else if (!(Input.GetKey(normalAtkKey)))
+            else if (!(Input.GetKey(KeyCode.RightBracket)))
             {
                 isAttacksNow = false;
                 playerAnimator.SetBool("isAtk", false);
@@ -280,7 +277,7 @@ public class PlayerNabi : Player
         }
         curTime -= Time.deltaTime;
 
-        if (Input.GetKeyDown(specialAtkKey)) //canPlayerState[4]
+        if (Input.GetKeyDown(KeyCode.LeftBracket)) //canPlayerState[4]
         {
             //None
             if (ultimateGauge < 830.0f)
@@ -308,7 +305,7 @@ public class PlayerNabi : Player
 
     protected override void OnPlayerSkillChange()
     {
-        if (Input.GetKeyDown(skillChangeKey) && canChangeSkillSet)
+        if (Input.GetKeyDown(KeyCode.Equals) && canChangeSkillSet)
         {
             canChangeSkillSet = false;
             //canPlayerState[4] = false;

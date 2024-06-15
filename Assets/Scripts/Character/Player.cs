@@ -23,9 +23,6 @@ public class Player : MonoBehaviour
     protected KeyCode jumpKey;
     protected KeyCode lockKey;
     protected KeyCode sitKey;
-    protected KeyCode normalAtkKey;
-    protected KeyCode specialAtkKey;
-    protected KeyCode skillChangeKey;
 
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField] [Range(0, 10)] protected float cJumpPower = 0.03f; //Incremental Jump Force
@@ -490,6 +487,8 @@ public class Player : MonoBehaviour
         {
             isDoubleClicked = true;
             lastClickTime = -1.0f;
+            playerAnimator.SetBool("isDash", true);
+            PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
             StartCoroutine(PlayerDash());
         }
         else
@@ -626,8 +625,6 @@ public class Player : MonoBehaviour
 
     private IEnumerator PlayerDash()
     {
-        playerAnimator.SetBool("isDash", true);
-        PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
         //canPlayerState[1] = false;
         isDashing = true;
         moveHorizontal = 0.0f;
