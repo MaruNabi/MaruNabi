@@ -6,6 +6,7 @@ using System;
 
 public class Bullet : MonoBehaviour
 {
+    public static float totalDamage = 0;
     [SerializeField]
     protected float speed;
     [SerializeField]
@@ -133,7 +134,7 @@ public class Bullet : MonoBehaviour
                     PlayerNabi.ultimateGauge = 2500.0f;
                 }
 
-                Debug.Log("attackPower" + attackPower);
+                totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
                 StartCoroutine(bulletDestroyCoroutine);
             }
@@ -141,6 +142,7 @@ public class Bullet : MonoBehaviour
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
+                totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
                 //special attack monster damage
             }
@@ -148,6 +150,7 @@ public class Bullet : MonoBehaviour
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
+                totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
                 //special attack monster damage
             }
