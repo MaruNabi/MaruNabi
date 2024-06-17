@@ -73,4 +73,11 @@ public enum EMousePattern
     Tail,
     Rock
 }
+
+public enum ETigerBitePosition
+{
+    Left,
+    Middle,
+    Right
+}
 #endregion
