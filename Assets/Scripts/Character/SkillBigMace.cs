@@ -5,6 +5,8 @@ using DG.Tweening;
 
 public class SkillBigMace : Sword
 {
+    private const float SMACE_ATTACK_POWER = 1100.0f;
+
     private Vector3 spawnPosition;
     private Vector3 maceDistance = new Vector3(2, 10, 0);
     private Vector3 blinkEffectPosition;
@@ -13,15 +15,18 @@ public class SkillBigMace : Sword
 
     private bool isPositionSet = false;
 
-    [SerializeField]
-    private GameObject blinkEffect;
-    [SerializeField]
-    private SpriteRenderer blinkSpriteRenderer;
+    [SerializeField] private GameObject blinkEffect;
+    [SerializeField] private SpriteRenderer blinkSpriteRenderer;
 
     private GameObject explosionEffect;
 
     private void OnEnable()
     {
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = SMACE_ATTACK_POWER * 2.3f;
+        else
+            attackPower = SMACE_ATTACK_POWER;
+
         SetSword(2f);
 
         explosionEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/MaceExploEff");
@@ -49,7 +54,7 @@ public class SkillBigMace : Sword
 
         StartCoroutine(SkillMaceMovement());
 
-        BigMaceHit();
+        SkillHit();
     }
 
     private IEnumerator SkillMaceMovement()
@@ -119,31 +124,6 @@ public class SkillBigMace : Sword
             spriteRenderer.color = new Color(1, 1, 1, 0.6f);
             yield return new WaitForSeconds(0.15f);
             remainingTime = Time.time - startTime;
-        }
-    }
-
-    private void BigMaceHit()
-    {
-        if (ray.collider != null)
-        {
-            if (ray.collider.tag == "Enemy" && isHitOnce)
-            {
-                isHitOnce = false;
-                currentHit = ray.collider.name;
-                Debug.Log("Hit");
-            }
-
-            else if (ray.collider.name != currentHit)
-            {
-                isHitOnce = false;
-                currentHit = ray.collider.name;
-                Debug.Log("Hit");
-            }
-        }
-
-        else if (ray.collider == null)
-        {
-            isHitOnce = true;
         }
     }
 }

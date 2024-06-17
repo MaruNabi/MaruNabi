@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SkillCurseCharm : Bullet
 {
+    private const float SCHARM_ATTACK_POWER = 800.0f;
+
     private List<GameObject> enemyList = new List<GameObject>();
     private Transform enemy;
     private float turnSpeed = 5.0f;
@@ -24,9 +26,12 @@ public class SkillCurseCharm : Bullet
 
     void OnEnable()
     {
-        SetBullet();
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = SCHARM_ATTACK_POWER * 2.3f;
+        else
+            attackPower = SCHARM_ATTACK_POWER;
 
-        isPenetrate = false;
+        SetBullet();
 
         enemyList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
         enemyList.AddRange(GameObject.FindGameObjectsWithTag("NoBumpEnemy"));
@@ -60,7 +65,6 @@ public class SkillCurseCharm : Bullet
             isInitOnce = false;
             transform.rotation = Quaternion.Euler(0, 0, -180);
         }
-
         else if (transform.rotation != Quaternion.Euler(0, 0, 0) && isInitOnce && enemy != null)
         {
             isInitOnce = false;
@@ -71,7 +75,6 @@ public class SkillCurseCharm : Bullet
         {
             AttackInstantiate();
         }
-
         else
         {
             bulletRigidbody.velocity = new Vector2(0, 0);

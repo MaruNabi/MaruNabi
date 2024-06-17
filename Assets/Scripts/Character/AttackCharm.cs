@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AttackCharm : Bullet
 {
+    private const float CHARM_ATTACK_POWER = 45.0f;
+
     private List<GameObject> enemyList = new List<GameObject>();
     private Transform enemy;
     float turnSpeed = 5.0f;
@@ -18,6 +20,11 @@ public class AttackCharm : Bullet
 
     void OnEnable()
     {
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = CHARM_ATTACK_POWER * 2.3f;
+        else
+            attackPower = CHARM_ATTACK_POWER;
+
         SetBullet();
 
         /*if (GameObject.FindGameObjectWithTag("Enemy"))
@@ -28,8 +35,6 @@ public class AttackCharm : Bullet
         {
             enemy= GameObject.FindGameObjectWithTag("NoBumpEnemy").transform;
         }*/
-
-        isPenetrate = false;
 
         enemyList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
         enemyList.AddRange(GameObject.FindGameObjectsWithTag("NoBumpEnemy"));

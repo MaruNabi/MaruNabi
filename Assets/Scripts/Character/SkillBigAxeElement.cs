@@ -4,25 +4,33 @@ using UnityEngine;
 
 public class SkillBigAxeElement : MonoBehaviour
 {
-    [SerializeField]
-    private Transform axeRayStartPosition;
+    private const float SAXE_ATTACK_POWER = 160.0f;
 
-    [SerializeField]
-    private LayerMask isLayer;
+    [SerializeField] private Transform axeRayStartPosition;
+    [SerializeField] private LayerMask isLayer;
 
     private RaycastHit2D rayAxe;
     private float rayDistance = 0.9f;
     private bool isHitOnce = true;
     private string currentHit;
+    private bool isEnemy = false;
+
+    private float attackPower;
 
     void Update()
     {
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = SAXE_ATTACK_POWER * 2.3f;
+        else
+            attackPower = SAXE_ATTACK_POWER;
+
         DrawRayAxe();
         BigAxeHit();
     }
 
     private void OnDisable()
     {
+        isEnemy = false;
         currentHit = "";
     }
 
@@ -37,18 +45,25 @@ public class SkillBigAxeElement : MonoBehaviour
     {
         if (rayAxe.collider != null)
         {
-            if (rayAxe.collider.tag == "Enemy" && isHitOnce)
+            if (rayAxe.collider.tag == "Enemy" || rayAxe.collider.tag == "NoBumpEnemy")
+                isEnemy = true;
+            else
+                isEnemy = false;
+
+            if (isEnemy && isHitOnce)
             {
                 isHitOnce = false;
                 currentHit = rayAxe.collider.name;
-                Debug.Log("Hit");
+                Sword.totalDamage += attackPower;
+                rayAxe.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
 
-            else if (rayAxe.collider.name != currentHit)
+            else if (isEnemy && rayAxe.collider.name != currentHit)
             {
                 isHitOnce = false;
                 currentHit = rayAxe.collider.name;
-                Debug.Log("Hit");
+                Sword.totalDamage += attackPower;
+                rayAxe.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
         }
 

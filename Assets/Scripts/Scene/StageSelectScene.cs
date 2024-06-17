@@ -27,6 +27,9 @@ public class StageSelectScene : MonoBehaviour
     private float slotMovePos;
     private float slotOriginPos;
 
+    private bool isPadMoveOnce;
+    private bool isPad;
+
     private Color originColor = new Color(1, 1, 1, 1);
     private Color disableColor = new Color(1, 1, 1, 0);
 
@@ -36,6 +39,10 @@ public class StageSelectScene : MonoBehaviour
         currentDepth = 0;
         slotMovePos = -347;
         slotOriginPos = -463.82f;
+
+        //isPad = KeyData.isMaruPad;
+        isPad = true;
+        isPadMoveOnce = true;
 
         for (int i = 0; i < stageName.Length; i++)
         {
@@ -58,50 +65,107 @@ public class StageSelectScene : MonoBehaviour
     {
         SelectSlotNum();
 
-        if (Input.anyKeyDown)
+        if (isPad)
         {
-            isSetPos = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
-        }
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (currentDepth != 0)
+            if (Input.GetAxis("Horizontal_J1") == 0)
             {
-                currentDepth -= 1;
-                buttonCount = stageMatrics[currentDepth].Length;
+                isSetPos = false;
+                isPadMoveOnce = true;
+            }
+
+            if (Input.GetAxis("Horizontal_J1") == 1 && isPadMoveOnce)
+            {
+                selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
+                isPadMoveOnce = false;
+            }
+                
+            else if (Input.GetAxis("Horizontal_J1") == -1 && isPadMoveOnce)
+            {
+                selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
+                isPadMoveOnce = false;
+            }
+
+            if (Input.GetAxis("Vertical_J1") == 1 && isPadMoveOnce)
+            {
+                if (currentDepth != 0)
+                {
+                    currentDepth -= 1;
+                    buttonCount = stageMatrics[currentDepth].Length;
+                    isPadMoveOnce = false;
+                }
+            }
+            else if (Input.GetAxis("Vertical_J1") == -1 && isPadMoveOnce)
+            {
+                if (currentDepth < 1)
+                {
+                    currentDepth += 1;
+                    buttonCount = stageMatrics[currentDepth].Length;
+                    isPadMoveOnce = false;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Joystick1Button5))
+            {
+                switch (currentDepth)
+                {
+                    case 0:
+                        StageFunction();
+                        break;
+                    case 1:
+                        SlotFunction();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else
         {
-            if (currentDepth < 1)
+            if (Input.anyKeyDown)
             {
-                currentDepth += 1;
-                buttonCount = stageMatrics[currentDepth].Length;
+                isSetPos = false;
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            switch (currentDepth)
+            if (Input.GetKeyDown(KeyCode.A))
             {
-                case 0:
-                    StageFunction();
-                    break;
-                case 1:
-                    SlotFunction();
-                    break;
-                default:
-                    break;
-            }    
+                selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
+            }
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                if (currentDepth != 0)
+                {
+                    currentDepth -= 1;
+                    buttonCount = stageMatrics[currentDepth].Length;
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                if (currentDepth < 1)
+                {
+                    currentDepth += 1;
+                    buttonCount = stageMatrics[currentDepth].Length;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                switch (currentDepth)
+                {
+                    case 0:
+                        StageFunction();
+                        break;
+                    case 1:
+                        SlotFunction();
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 

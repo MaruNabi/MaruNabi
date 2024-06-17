@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AttackSmallSpark : Bullet
 {
+    private const float SPARK_ATTACK_POWER = 80.0f;
+
     private bool isRelease = false;
     private bool isSetOnce = true;
     private float bulletAngle;
@@ -22,7 +24,6 @@ public class AttackSmallSpark : Bullet
         sparkSpriteRenderer = GetComponent<SpriteRenderer>();
         sparkStartPosition = GameObject.Find("NabiBulletPosition");
         playerPosition = GameObject.Find("Nabi_Test");
-        isPenetrate = false;
     }
 
     void Update()
@@ -40,6 +41,10 @@ public class AttackSmallSpark : Bullet
         {
             if (isSetOnce)
             {
+                if (PlayerNabi.isNabiTraitActivated)
+                    attackPower = SPARK_ATTACK_POWER * 2.3f;
+                else
+                    attackPower = SPARK_ATTACK_POWER;
                 isSetOnce = false;
                 SetBullet();
                 shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Shotgun");

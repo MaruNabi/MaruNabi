@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class AttackSmallBeads : Bullet
 {
+    private const float BEADS_ATTACK_POWER = 55.0f;
+
     void OnEnable()
     {
-        SetBullet();
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = BEADS_ATTACK_POWER * 2.3f;
+        else
+            attackPower = BEADS_ATTACK_POWER;
 
-        isPenetrate = false;
+        SetBullet();
 
         shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Rikochet");
     }

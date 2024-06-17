@@ -52,7 +52,8 @@ public class PauseUIController : MonoBehaviour
         switch (selectedButtonIndex)
         {
             case 0:
-                PauseUI.isGamePaused = false;
+                Stage2UI.isGamePaused = false;
+                Stage2UI.isSetOnce = false;
                 break;
             case 1:
                 Debug.Log("다시 하기");
