@@ -60,19 +60,17 @@ public class Scholar : Entity
         HP = maxHP;
         //hpTextBox.text = HP.ToString();
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    
+    public override void OnDamage(float _damage)
     {
-        // 총알에 맞았을 때
-        if (collision.gameObject.tag == "Bullet")
+        isHit = true;
+        BeHitEffect();
+        HP -= _damage;
+    
+        if (HP <= 0)
         {
-            if (Idle)
-            {
-                isHit = true;
-                BeHitEffect();
-                OnDamage(DAMAGE_VALUE);
-                //hpTextBox.text = HP.ToString();
-            }
+            HP = 0;
+            OnDead();
         }
     }
 

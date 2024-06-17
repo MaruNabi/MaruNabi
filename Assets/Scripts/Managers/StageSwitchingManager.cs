@@ -64,6 +64,7 @@ public class StageSwitchingManager : MonoBehaviour
     {
         players = GameObject.FindGameObjectsWithTag("Player").Select(x => x.GetComponent<Player>()).ToList();
         StageNumber = 1;
+        
 
         if (skipToStage4)
         {
@@ -95,6 +96,14 @@ public class StageSwitchingManager : MonoBehaviour
             players.ForEach(player => player.transform.position = stage2SpawnPoint.position);
             stage2Camera.gameObject.SetActive(true);
             mouseManager.StageStart();
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            players.ForEach(player => player.ReviveCheat());
         }
     }
 

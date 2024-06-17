@@ -16,8 +16,8 @@ public class BongsanMask : Entity
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Sequence sequence;
+    
     private bool isStart;
-
     private float time;
     private float disappearTime;
     

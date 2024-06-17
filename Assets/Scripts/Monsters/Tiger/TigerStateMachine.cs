@@ -8,13 +8,18 @@ using UnityEngine;
 public class TigerStateMachine : StateMachine<TigerStateMachine>
 {
     public Tiger tiger { get; private set; }
-    private Animator animator;
 
     private void Awake()
     {
         base.states = new Dictionary<string, State<TigerStateMachine>>{
-            {"Enter",new TigerEnterState(this)},
             {"Phase1",new TigerPhase1State(this)},
+            {"Phase2",new TigerPhase2State(this)},
+            {"Phase3",new TigerPhase3State(this)},
+            {"SideAtk1",new TigerSideAttackState(this)},
+            {"DiagonalAtk",new TigerDiagonalAttackState(this)},
+            {"BiteAtk",new TigerBiteAttackState(this)},
+            {"PhaseChange",new TigerPhaseChange(this)},
+            {"StageClear",new TigerStageClearState(this)},
         };
     }
 

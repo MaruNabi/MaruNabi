@@ -33,10 +33,10 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1737846034782830729}
-    m_Position: {x: 170, y: 210, z: 0}
+    m_Position: {x: 230, y: 170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8711041870876656974}
-    m_Position: {x: 240, y: 280, z: 0}
+    m_Position: {x: 520, y: 120, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -44,7 +44,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ExitPosition: {x: 250, y: 20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1737846034782830729}
 --- !u!91 &9100000
@@ -53,7 +53,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Tiger_AnimController
+  m_Name: Tiger_Phase1_AnimController
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
@@ -116,7 +116,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f75bb9838809f444ea567f9c44db985a, type: 2}
+  m_Motion: {fileID: 7400000, guid: c6cff2634ea4b9d4bb97dcd575fa831c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

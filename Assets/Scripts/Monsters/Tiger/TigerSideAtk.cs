@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class TigerSideAtk : MonoBehaviour
+public class TigerSideAtk : MonoBehaviour, IDelete
 {
     Sequence sequence;
     Animator animator;
+    SpriteRenderer spriteRenderer;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     
     public void Move(bool _isRight)
@@ -42,5 +44,18 @@ public class TigerSideAtk : MonoBehaviour
                 player.PlayerHit(transform.position, false);
             }
         }
+    }
+
+    public void Delete()
+    {
+        Debug.Log("Delete");
+        if(spriteRenderer == null) 
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        
+        sequence.Kill();
+        sequence = DOTween.Sequence();
+        sequence
+            .Append(spriteRenderer.DOFade(0, 0.5f))
+            .OnComplete(() => Destroy(gameObject));
     }
 }
