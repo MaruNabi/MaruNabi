@@ -61,9 +61,22 @@ public class MouseScholar : Entity
                 else
                 {
                     HP = 0;
-                    StageClearProduction();
+
                 }
             }
+        }
+    }
+    
+    public override void OnDamage(float _damage)
+    {
+        isHit = true;
+        BeHitEffect();
+        HP -= _damage;
+    
+        if (HP <= 0)
+        {
+            HP = 0;
+            StageClearProduction();
         }
     }
     

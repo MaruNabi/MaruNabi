@@ -80,15 +80,15 @@ public class Mouse : Entity
         return HP <= 0;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public override void OnDamage(float _damage)
     {
-        if (collision.CompareTag("Bullet"))
+        BeHitEffect();
+        HP -= _damage;
+    
+        if (HP <= 0)
         {
-            if (canHit)
-            {
-                BeHitEffect();
-                OnDamage(DAMAGE_VALUE);
-            }
+            HP = 0;
+            OnDead();
         }
     }
 
