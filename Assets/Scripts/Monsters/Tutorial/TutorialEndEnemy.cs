@@ -11,7 +11,7 @@ public class TutorialEndEnemy : MonoBehaviour
     {
         if (isMaruIn)
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.anyKeyDown)
             {
                 Debug.Log("NextScene");
             }
@@ -19,7 +19,7 @@ public class TutorialEndEnemy : MonoBehaviour
 
         if (isNabiIn)
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.anyKeyDown)
             {
                 Debug.Log("NextScene");
             }

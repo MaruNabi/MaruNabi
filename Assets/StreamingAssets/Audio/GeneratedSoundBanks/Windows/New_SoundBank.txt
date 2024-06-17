@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	3050945240	New_Event			\Default Work Unit\New_Event	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	314256584	IceGem_Blast	C:\GitHub\MaruNabi\MaruNabi_WwiseProject\.cache\Windows\SFX\IceGem_Blast_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\New Actor-Mixer\IceGem_Blast		286292
+
