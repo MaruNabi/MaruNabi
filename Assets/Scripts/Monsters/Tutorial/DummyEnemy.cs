@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DummyEnemy : MonoBehaviour
+public class DummyEnemy : Entity
 {
     [SerializeField] private int dummyHp;
     private SpriteRenderer dummySpriteRenderer;
 
-    void Start()
+    protected override void Init()
     {
         dummySpriteRenderer = GetComponent<SpriteRenderer>();
+        HP = dummyHp;
     }
 
     void Update()

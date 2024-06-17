@@ -5,17 +5,15 @@ using DG.Tweening;
 
 public class Sword : MonoBehaviour
 {
-    [SerializeField]
-    protected float rayDistance;
-    [SerializeField]
-    protected LayerMask isLayer;
+    public static float totalDamage = 0;
+    [SerializeField] protected float rayDistance;
+    [SerializeField] protected LayerMask isLayer;
     protected Rigidbody2D swordRigidbody;
     protected SpriteRenderer swordSpriteRenderer;
     protected Vector2 lockedSwordVector;
-    protected float attackPower = 300f;
+    public float attackPower;
 
-    [SerializeField]
-    private Transform rayStartPosition;
+    [SerializeField] private Transform rayStartPosition;
 
     protected RaycastHit2D ray;
     protected GameObject swordReturnPosition;
@@ -26,10 +24,13 @@ public class Sword : MonoBehaviour
     protected Vector2 targetVec;
     protected Vector2 swordDistance = new Vector2(0, 0);
 
+    protected string currentHit;
     protected bool isActive = false;
     protected bool isLoop = true;
     protected bool isHitOnce = true;
-    protected string currentHit;
+    protected bool isEnemy = false;
+
+    private KeyCode lockKey;
 
     BulletVectorManager bulletVec = new BulletVectorManager();
 
@@ -38,7 +39,12 @@ public class Sword : MonoBehaviour
         if (bulletDestroyCoroutine != null)
             StopCoroutine(bulletDestroyCoroutine);
 
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (KeyData.isMaruPad)
+            lockKey = KeyCode.Joystick1Button4;
+        else
+            lockKey = KeyCode.LeftControl;
+
+        if (Input.GetKey(lockKey))
             lockedSwordVector = bulletVec.GetDirectionalInputMaru();
 
         swordRigidbody = GetComponent<Rigidbody2D>();
@@ -47,6 +53,7 @@ public class Sword : MonoBehaviour
         swordRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         swordReturnPosition = GameObject.Find("MaruBulletPosition");
         bulletDestroyCoroutine = BulletDestroy(bulletHoldingTime);
+        isEnemy = false;
         StartCoroutine(bulletDestroyCoroutine);
     }
 
@@ -68,24 +75,67 @@ public class Sword : MonoBehaviour
     {
         if (ray.collider != null)
         {
-            if (ray.collider.tag == "Enemy" && isHitOnce)
+            if (ray.collider.tag == "Enemy" || ray.collider.tag == "NoBumpEnemy")
+                isEnemy = true;
+            else
+                isEnemy = false;
+
+            if (isEnemy && isHitOnce)
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
-                if ((PlayerMaru.ultimateGauge += attackPower) > 1500.0f)
-                {
-                    PlayerMaru.ultimateGauge = 1500.0f;
-                }
+                PlayerMaru.ultimateGauge += attackPower;
+
+                if (PlayerMaru.ultimateGauge >= 2500.0f)
+                    PlayerMaru.ultimateGauge = 2500.0f;
+
+                totalDamage += attackPower;
+                ray.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
 
-            else if (ray.collider.name != currentHit)
+            else if (isEnemy && ray.collider.name != currentHit)
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
-                if ((PlayerMaru.ultimateGauge += attackPower) > 1500.0f)
-                {
-                    PlayerMaru.ultimateGauge = 1500.0f;
-                }
+                PlayerMaru.ultimateGauge += attackPower;
+
+                if (PlayerMaru.ultimateGauge >= 2500.0f)
+                    PlayerMaru.ultimateGauge = 2500.0f;
+
+                totalDamage += attackPower;
+                ray.collider.GetComponent<Entity>().OnDamage(attackPower);
+            }
+        }
+
+        else if (ray.collider == null)
+        {
+            isHitOnce = true;
+        }
+    }
+
+    protected void SkillHit()
+    {
+        if (ray.collider != null)
+        {
+            if (ray.collider.tag == "Enemy" || ray.collider.tag == "NoBumpEnemy")
+                isEnemy = true;
+            else
+                isEnemy = false;
+
+            if (isEnemy && isHitOnce)
+            {
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                totalDamage += attackPower;
+                ray.collider.GetComponent<Entity>().OnDamage(attackPower);
+            }
+
+            else if (isEnemy && ray.collider.name != currentHit)
+            {
+                isHitOnce = false;
+                currentHit = ray.collider.name;
+                totalDamage += attackPower;
+                ray.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
         }
 

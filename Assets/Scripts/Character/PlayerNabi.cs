@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerNabi : Player
 {
     public static float ultimateGauge;
+    public static bool isNabiTraitActivated;
     private GameObject bulletPrefab_1;                 //Bullet Prefab
     private GameObject bulletPrefab_2;
     private GameObject currentBulletPrefab;
@@ -24,7 +25,10 @@ public class PlayerNabi : Player
     [SerializeField] private GameObject skillChangeUI;
 
     private Sprite[] nabiLifeSprite = new Sprite[6];
+    private string selectedPadName;
     private int currentHp;
+    private bool isPad;
+    public int NabiTraitScore { get; private set; }
 
     void Start()
     {
@@ -34,11 +38,13 @@ public class PlayerNabi : Player
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
+        isDead = false;
+        isNabiTraitActivated = false;
+        NabiTraitScore = 0;
 
         reviveZone.SetActive(false);
 
-        moveLeft = KeyCode.LeftArrow;
-        moveRight = KeyCode.RightArrow;
+        PlayerKeySetting();
 
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
@@ -102,170 +108,40 @@ public class PlayerNabi : Player
         Managers.Pool.CreatePool(bulletPrefab_2, 20);
         Managers.Pool.CreatePool(skillPrefab_2, 5);
 
+        Managers.Input.keyAction -= OnPlayerMove;
+        Managers.Input.keyAction -= OnPlayerAttack;
+        Managers.Input.keyAction -= OnPlayerDash;
+        Managers.Input.keyAction -= OnPlayerJump;
+        Managers.Input.keyAction -= OnPlayerSit;
+        Managers.Input.keyAction -= OnPlayerSkillChange;
+
+        Managers.Input.keyAction += OnPlayerMove;
+        Managers.Input.keyAction += OnPlayerAttack;
+        Managers.Input.keyAction += OnPlayerDash;
+        Managers.Input.keyAction += OnPlayerJump;
+        Managers.Input.keyAction += OnPlayerSit;
+        Managers.Input.keyAction += OnPlayerSkillChange;
+
         currentBulletPrefab = bulletPrefab_1;
         currentSkillPrefab = skillPrefab_1;
     }
 
     void Update()
     {
-        if (isDashing)
-        {
-            return;
-        }
-
-        if (PauseUI.isGamePaused)
-            return;
-
         SlopeCheck();
 
         SurfaceEffectorCheck();
 
-        //Jump
-        if (Input.GetKeyDown(KeyCode.RightShift) && !isJumping && !isSitting && canPlayerState[3] && cJumpCount < cMaxJumpCount)
+        if (InputManager.isNeedInit)
         {
-            rigidBody.velocity = Vector2.zero;
-            PlayerJump(cMiniJumpPower);
-            isJumpingEnd = false;
-            cJumpCount++;
+            //InputManager.isNeedInit = false;
+            OnPlayerInit();
         }
 
-        //JumpAddForce
-        if (Input.GetKey(KeyCode.RightShift) && !isJumpingEnd && !isSitting)
-        {
-            if (cMiniJumpPower < cMaxJumpPower)
-            {
-                PlayerJumping(cJumpPower);
-                cMiniJumpPower += cJumpPower;
-            }
-        }
+        if (isDashing)
+            rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
 
-        if (Input.GetKeyUp(KeyCode.RightShift))
-        {
-            isJumping = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            isLock = true;
-        }
-        
-        else if (Input.GetKeyUp(KeyCode.L))
-        {
-            isLock = false;
-        }
-
-        //ToDo : getkey and curtime switch
-        if (curTime <= 0 && canPlayerState[4])
-        {
-            if (Input.GetKey(KeyCode.RightBracket) && !isAttacksNow)
-            {
-                playerAnimator.SetBool("isAtk", true);
-                if (currentBulletPrefab.name == "NABI_Bullet_3")
-                {
-                    isAttacksNow = true;
-                }
-                GameObject bulletObject = Managers.Pool.Pop(currentBulletPrefab, playerBullets.transform).gameObject;
-                bulletObject.transform.position = atkPosition.position;
-                bulletObject.transform.rotation = transform.rotation;
-            }
-            curTime = coolTime;
-        }
-        curTime -= Time.deltaTime;
-
-        if (Input.GetKeyUp(KeyCode.RightBracket))
-        {
-            isAttacksNow = false;
-            playerAnimator.SetBool("isAtk", false);
-            //Playeranimator isatk false
-        }
-
-        if (Input.GetKeyUp(KeyCode.LeftArrow) && canPlayerState[1] && !isSitting)
-        {
-            DoubleClickDash(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.RightArrow) && canPlayerState[1] && !isSitting)
-        {
-            DoubleClickDash(false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow) && canPlayerState[2] && !isJumping)
-        {
-            StartCoroutine(PlayerSit());
-        }
-        
-        if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.RightShift) && isSitting)
-        {
-            if (canFallDown)
-            {
-                playerStandCollider.isTrigger = true;
-                playerSideFrictionCollider.isTrigger = true;
-                playerAnimator.SetBool("isDown", true);
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.DownArrow) && isSitting)
-        {
-            isSitting = false;
-            canPlayerState[0] = true;
-            canPlayerState[1] = true;
-            playerAnimator.SetBool("isSit", false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftBracket) && canPlayerState[4])
-        {
-            //None
-            if (ultimateGauge < 500.0f)
-            {
-                return;
-            }
-            //Special Move
-            else if (ultimateGauge == maxUltimateGauge)
-            {
-                StartCoroutine(PlayerSit(true));
-                GameObject skillObject = Managers.Pool.Pop(currentSkillPrefab, playerSkills.transform).gameObject;
-                skillObject.transform.position = atkPosition.position;
-                skillObject.transform.rotation = transform.rotation;
-
-                ultimateGauge = 0.0f;
-            }
-            //Ability
-            else
-            {
-                //Animation?
-                ultimateGauge -= 500.0f;
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Equals) && canChangeSkillSet)
-        {
-            canChangeSkillSet = false;
-            canPlayerState[4] = false;
-            skillChangeUI.GetComponent<PlayerSkillChange>().SkillChangeImage();
-            currentBulletPrefab = bulletPrefab_2;
-            currentSkillPrefab = skillPrefab_2;
-            switch (PlayerSkillDataManager.nabiSkillSet[3])
-            {
-                case 1:
-                    cMaxJumpCount = 2;
-                    cSpeed = 6.0f;
-                    break;
-                case 2:
-                    cMaxJumpCount = 1;
-                    cSpeed = 6.0f;
-                    cLife += 1;
-                    break;
-                case 3:
-                    cMaxJumpCount = 1;
-                    cSpeed = 8.0f;
-                    break;
-                default:
-                    break;
-            }
-            canPlayerState[4] = true;
-        }
-
-        if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector)
+        if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector) //isDead는 Slope에서 죽으면 밀려야 하기 때문
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
         else
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -321,19 +197,6 @@ public class PlayerNabi : Player
         }*/
     }
 
-    private void FixedUpdate()
-    {
-        if (isDashing)
-        {
-            return;
-        }
-
-        if (canPlayerState[0])
-        {
-            PlayerMove();
-        }
-    }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
@@ -371,6 +234,256 @@ public class PlayerNabi : Player
         {
             playerHpUI.GetComponent<Image>().sprite = nabiLifeSprite[cLife];
             currentHp = cLife;
+        }
+    }
+
+    private void OnPlayerInit()
+    {
+        isJumping = false;
+        isLock = false;
+        isAttacksNow = false;
+        isSitting = false;
+        playerAnimator.SetBool("isSit", false);
+        playerAnimator.SetBool("isAtk", false);
+        if (!isDashing)
+        {
+            moveHorizontal = 0.0f;
+        }
+    }
+
+    protected override void OnPlayerMove()
+    {
+        base.OnPlayerMove();
+
+        if (!isPad)
+        {
+            if (Input.GetKey(moveLeftKey))
+            {
+                if (isSitting || isLock)
+                {
+                    moveHorizontal = 0.0f;
+                }
+                else
+                {
+                    moveHorizontal = -1.0f;
+                }
+
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                atkPosition.rotation = Quaternion.Euler(0, 0, 0);
+
+                PlayerMovement();
+            }
+
+            //if (!(Input.GetKey(moveLeftKey)) && !(Input.GetKey(moveRightKey)))
+            //moveHorizontal = 0.0f;
+
+            if (Input.GetKey(moveRightKey))
+            {
+                if (isSitting || isLock)
+                {
+                    moveHorizontal = 0.0f;
+                }
+                else
+                {
+                    moveHorizontal = 1.0f;
+                }
+
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                atkPosition.rotation = Quaternion.Euler(0, 180, 0);
+
+                PlayerMovement();
+            }
+        }
+        else
+        {
+            if (Input.GetAxis(selectedPadName) > 0)
+            {
+                if (isSitting || isLock)
+                {
+                    moveHorizontal = 0.0f;
+                }
+                else
+                {
+                    moveHorizontal = 1.0f;
+                }
+
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                atkPosition.rotation = Quaternion.Euler(0, 180, 0);
+
+                PlayerMovement();
+            }
+
+            if (Input.GetAxis(selectedPadName) < 0)
+            {
+                if (isSitting || isLock)
+                {
+                    moveHorizontal = 0.0f;
+                }
+                else
+                {
+                    moveHorizontal = -1.0f;
+                }
+
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                atkPosition.rotation = Quaternion.Euler(0, 0, 0);
+
+                PlayerMovement();
+            }
+        }
+    }
+
+    protected override void OnPlayerDash()
+    {
+        if (!isPad)
+        {
+            if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
+            {
+                DoubleClickDash(true);
+            }
+
+            if (Input.GetKeyDown(moveRightKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
+            {
+                DoubleClickDash(false);
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(dashKey) && !isSitting && !isLock && isDashCoolEnd)
+            {
+                StartCoroutine("PlayerDash");
+            }
+        }
+    }
+
+    protected override void OnPlayerAttack()
+    {
+        base.OnPlayerAttack();
+
+        //ToDo : getkey and curtime switch
+        if (curTime <= 0) //canPlayerState[4]
+        {
+            if (Input.GetKey(normalAtkKey) && !isAttacksNow)
+            {
+                playerAnimator.SetBool("isAtk", true);
+                if (currentBulletPrefab.name == "NABI_Bullet_3")
+                {
+                    isAttacksNow = true;
+                }
+                GameObject bulletObject = Managers.Pool.Pop(currentBulletPrefab, playerBullets.transform).gameObject;
+                bulletObject.transform.position = atkPosition.position;
+                bulletObject.transform.rotation = transform.rotation;
+            }
+            else if (!(Input.GetKey(normalAtkKey)))
+            {
+                isAttacksNow = false;
+                playerAnimator.SetBool("isAtk", false);
+            }
+            curTime = coolTime;
+        }
+        curTime -= Time.deltaTime;
+
+        if (Input.GetKeyDown(specialAtkKey)) //canPlayerState[4]
+        {
+            //None
+            if (ultimateGauge < 830.0f)
+            {
+                return;
+            }
+            //Special Move
+            else if (ultimateGauge == maxUltimateGauge)
+            {
+                //StartCoroutine(PlayerSit(true));
+                GameObject skillObject = Managers.Pool.Pop(currentSkillPrefab, playerSkills.transform).gameObject;
+                skillObject.transform.position = atkPosition.position;
+                skillObject.transform.rotation = transform.rotation;
+
+                ultimateGauge = 0.0f;
+            }
+            //Ability
+            else
+            {
+                StartCoroutine("NabiTraitActive");
+                ultimateGauge -= 830.0f;
+            }
+        }
+    }
+
+    protected override void OnPlayerSkillChange()
+    {
+        if (Input.GetKeyDown(skillChangeKey) && canChangeSkillSet)
+        {
+            canChangeSkillSet = false;
+            //canPlayerState[4] = false;
+            skillChangeUI.GetComponent<PlayerSkillChange>().SkillChangeImage();
+            currentBulletPrefab = bulletPrefab_2;
+            currentSkillPrefab = skillPrefab_2;
+            switch (PlayerSkillDataManager.nabiSkillSet[3])
+            {
+                case 1:
+                    cMaxJumpCount = 2;
+                    cSpeed = 6.0f;
+                    break;
+                case 2:
+                    cMaxJumpCount = 1;
+                    cSpeed = 6.0f;
+                    cLife += 1;
+                    break;
+                case 3:
+                    cMaxJumpCount = 1;
+                    cSpeed = 8.0f;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private IEnumerator NabiTraitActive()
+    {
+        isNabiTraitActivated = true;
+        NabiTraitScore += 1;
+        yield return new WaitForSeconds(1f);
+        isNabiTraitActivated = false;
+    }
+
+    private void PlayerKeySetting()
+    {
+        if (!KeyData.isNabiPad)
+        {
+            isPad = false;
+            moveLeftKey = KeyCode.LeftArrow;
+            moveRightKey = KeyCode.RightArrow;
+            jumpKey = KeyCode.RightShift;
+            lockKey = KeyCode.L;
+            sitKey = KeyCode.DownArrow;
+            normalAtkKey = KeyCode.RightBracket;
+            specialAtkKey = KeyCode.LeftBracket;
+            skillChangeKey = KeyCode.Equals;
+        }
+        else if (KeyData.isNabiPad)
+        {
+            isPad = true;
+            selectedPadName = "Horizontal_J1";
+            jumpKey = KeyCode.Joystick1Button3;
+            lockKey = KeyCode.Joystick1Button4;
+            sitKey = KeyCode.Joystick1Button9;
+            normalAtkKey = KeyCode.Joystick1Button5;
+            specialAtkKey = KeyCode.Joystick1Button0;
+            skillChangeKey = KeyCode.Joystick1Button1;
+            dashKey = KeyCode.Joystick1Button2;
+        }
+
+        if (KeyData.isBothPad)
+        {
+            isPad = true;
+            selectedPadName = "Horizontal_J2";
+            jumpKey = KeyCode.Joystick2Button3;
+            lockKey = KeyCode.Joystick2Button4;
+            sitKey = KeyCode.Joystick2Button9;
+            normalAtkKey = KeyCode.Joystick2Button5;
+            specialAtkKey = KeyCode.Joystick2Button0;
+            skillChangeKey = KeyCode.Joystick2Button1;
+            dashKey = KeyCode.Joystick2Button2;
         }
     }
 }

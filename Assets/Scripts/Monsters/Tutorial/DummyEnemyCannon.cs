@@ -12,7 +12,7 @@ public class DummyEnemyCannon : MonoBehaviour
 
     void Start()
     {
-        cannonBallPrefab = Resources.Load<GameObject>("Prefabs/Tutorial/DummyCannonBall");
+        cannonBallPrefab = Resources.Load<GameObject>("Prefabs/Tutorial/Tut_Bullet");
     }
 
     void OnEnable()
@@ -27,7 +27,7 @@ public class DummyEnemyCannon : MonoBehaviour
         if (curTime > 1.5)
         {
             GameObject cannonBall = Instantiate(cannonBallPrefab);
-            cannonBall.transform.position = transform.position;
+            cannonBall.transform.position = transform.position - new Vector3(1.5f, 0.0f, 0.0f);
             curTime = 0;
         }
     }

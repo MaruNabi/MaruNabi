@@ -8,6 +8,8 @@ using MoreMountains.Feedbacks;
 
 public class AttackSmallSword : Sword
 {
+    private const float SWORD_ATTACK_POWER = 145.0f;
+
     private const float MAX_DISTANCE = 4.0f;
 
     private float finalAttackPower;
@@ -18,11 +20,15 @@ public class AttackSmallSword : Sword
 
     private void OnEnable()
     {
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = SWORD_ATTACK_POWER * 2.3f;
+        else
+            attackPower = SWORD_ATTACK_POWER;
+
         SetSword(1f);
 
         swordDistance = new Vector2(MAX_DISTANCE, 0);
 
-        attackPower = 300.0f;
         canHit = true;
     }
 
@@ -113,25 +119,36 @@ public class AttackSmallSword : Sword
     {
         if (ray.collider != null)
         {
-            if (ray.collider.tag == "Enemy" && isHitOnce)
+            if (ray.collider.tag == "Enemy" || ray.collider.tag == "NoBumpEnemy")
+                isEnemy = true;
+            else
+                isEnemy = false;
+
+            if (isEnemy && isHitOnce)
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
                 DistancePerDamage();
-                if ((PlayerMaru.ultimateGauge += finalAttackPower) > 1500.0f)
-                {
-                    PlayerMaru.ultimateGauge = 1500.0f;
-                }
+                PlayerMaru.ultimateGauge += finalAttackPower;
+
+                if (PlayerMaru.ultimateGauge >= 2500.0f)
+                    PlayerMaru.ultimateGauge = 2500.0f;
+
+                totalDamage += finalAttackPower;
+                ray.collider.GetComponent<Entity>().OnDamage(finalAttackPower);
             }
             else if (ray.collider.name != currentHit && ray.collider.name != "")
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
                 DistancePerDamage();
-                if ((PlayerMaru.ultimateGauge += finalAttackPower) > 1500.0f)
-                {
-                    PlayerMaru.ultimateGauge = 1500.0f;
-                }
+                PlayerMaru.ultimateGauge += finalAttackPower;
+
+                if (PlayerMaru.ultimateGauge >= 2500.0f)
+                    PlayerMaru.ultimateGauge = 2500.0f;
+
+                totalDamage += finalAttackPower;
+                ray.collider.GetComponent<Entity>().OnDamage(finalAttackPower);
             }
         }
 

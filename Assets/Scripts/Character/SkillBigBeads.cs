@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class SkillBigBeads : Bullet
 {
+    private const float SBEADS_ATTACK_POWER = 450.0f;
+
     void OnEnable()
     {
-        SetBullet(2.5f);
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = SBEADS_ATTACK_POWER * 2.3f;
+        else
+            attackPower = SBEADS_ATTACK_POWER;
 
-        isPenetrate = true;
+        SetBullet(2.5f);
     }
 
     void Update()

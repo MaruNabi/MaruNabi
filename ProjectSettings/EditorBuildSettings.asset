@@ -15,6 +15,12 @@ EditorBuildSettings:
     path: Assets/Scenes/TitleScene.unity
     guid: 70bd19f18240dfd4aa1452b8c9d9a61d
   - enabled: 1
+    path: Assets/Scenes/PlayerLinkScene.unity
+    guid: a8828c5b3b1f62b4bb6cdfb4a545b269
+  - enabled: 1
+    path: Assets/Scenes/TutorialScene.unity
+    guid: b1ca5646b027b70449d469501cb11641
+  - enabled: 1
     path: Assets/Scenes/StageSelectionScene.unity
     guid: 1a15ef6207690114bb46f0edc0fc2742
   - enabled: 1

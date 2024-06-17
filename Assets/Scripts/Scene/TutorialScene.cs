@@ -46,9 +46,9 @@ public class TutorialScene : MonoBehaviour
         if (isSubStage2Start)
         {
             mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, cameraPosition, Time.deltaTime * smoothCameraMoveSpeed);
-            if (PlayerMaru.ultimateGauge != 500.0f)
+            if (PlayerMaru.ultimateGauge != 850.0f)
             {
-                PlayerMaru.ultimateGauge = 500.0f;
+                PlayerMaru.ultimateGauge = 850.0f;
             }
         }
 

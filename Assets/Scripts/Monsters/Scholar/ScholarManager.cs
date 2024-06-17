@@ -38,6 +38,7 @@ public class ScholarManager : MonoBehaviour
     private float[] strawOparcity;
     private bool isRoundEnd;
     private bool isStageClear;
+    public float MouseHp { get { return mouseHp; } private set { } }
 
     private void Start()
     {
