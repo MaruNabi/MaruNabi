@@ -19,11 +19,8 @@ public class TitleScene : MonoBehaviour
     {
         isActiveInformation = true;
         buttonCount = buttons.Length;
-        if (Managers.Data == null)
-            Debug.Log("Hi");
-        else
-            Debug.Log("B");
-        //Managers.Sound.PlayBGM("Title");
+        Managers.Sound.PlayBGM("Title");
+        Managers.Sound.SetBGMVolume(1);
     }
 
     void Update()

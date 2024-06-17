@@ -123,6 +123,7 @@ public class Player : MonoBehaviour
         if (!canHit) //!canPlayerState[5]
             return;
 
+        Managers.Sound.PlaySFX("Hit");
         isHit = true;
         //canPlayerState[0] = false;
         PlayerInputControl(false, OnPlayerMove);
@@ -144,6 +145,7 @@ public class Player : MonoBehaviour
         if (!canHit)
             return;
 
+        Managers.Sound.PlaySFX("Hit");
         isHit = true;
         //canPlayerState[0] = false;
         PlayerInputControl(false, OnPlayerMove);
@@ -268,6 +270,7 @@ public class Player : MonoBehaviour
                     isJumping = false;
                     cJumpCount = 0;
                     cMiniJumpPower = MINIMUM_JUMP;
+                    Managers.Sound.PlaySFX("Landing");
                     Instantiate(landingEffect, transform.position, transform.rotation);
                 }
             }
@@ -413,6 +416,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(jumpKey) && !isJumping && !isSitting && cJumpCount < cMaxJumpCount && !isLock) //canPlayerState[3]
         {
             rigidBody.velocity = Vector2.zero;
+            Managers.Sound.PlaySFX("Jump");
             PlayerJump(cMiniJumpPower);
             isJumpingEnd = false;
             cJumpCount++;
@@ -539,6 +543,7 @@ public class Player : MonoBehaviour
         {
             //Real Dead
             //Destroy(gameObject);
+            Managers.Sound.PlaySFX("Dead");
             isDead = true;
             this.gameObject.SetActive(false);
             reviveZone.SetActive(false);
@@ -558,6 +563,7 @@ public class Player : MonoBehaviour
     protected virtual IEnumerator Revive()
     {
         reviveZone.SetActive(false);
+        Managers.Sound.PlaySFX("Revive");
         //canPlayerState[0] = true;
         cLife = 1;
         PlayerForcedInputEnable(); //PlayerStateTransition(true, 0);
@@ -637,6 +643,7 @@ public class Player : MonoBehaviour
     protected IEnumerator PlayerDash()
     {
         playerAnimator.SetBool("isDash", true);
+        Managers.Sound.PlaySFX("Dash");
         PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
         //canPlayerState[1] = false;
         isDashing = true;

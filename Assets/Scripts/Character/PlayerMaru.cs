@@ -440,6 +440,7 @@ public class PlayerMaru : Player
     {
         if (Input.GetKeyDown(skillChangeKey) && canChangeSkillSet)
         {
+            Managers.Sound.PlaySFX("Transition");
             canChangeSkillSet = false;
             skillChangeUI.GetComponent<PlayerSkillChange>().SkillChangeImage();
             currentSwordPrefab = swordPrefab_2;

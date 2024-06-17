@@ -412,6 +412,7 @@ public class PlayerNabi : Player
     {
         if (Input.GetKeyDown(skillChangeKey) && canChangeSkillSet)
         {
+            Managers.Sound.PlaySFX("Transition");
             canChangeSkillSet = false;
             //canPlayerState[4] = false;
             skillChangeUI.GetComponent<PlayerSkillChange>().SkillChangeImage();
