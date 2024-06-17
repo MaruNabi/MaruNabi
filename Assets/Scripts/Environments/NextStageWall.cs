@@ -9,11 +9,13 @@ using UnityEngine.Serialization;
 public class NextStageWall : MonoBehaviour
 {
     [SerializeField] StageSwitchingManager switchingManager;
-    [FormerlySerializedAs("virtualCamera")] [SerializeField] CinemachineStoryboard storyboardCamera;
+    [SerializeField] CinemachineStoryboard storyboardCamera;
 
     public bool isStage1Clear;
     public bool isStage2Clear;
     public bool isStage3Clear;
+    public bool isStage4Clear;
+
     
     private Collider2D wallCollider;
     
@@ -24,7 +26,12 @@ public class NextStageWall : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isStage3Clear)
+        if (isStage4Clear)
+        {
+            wallCollider.isTrigger = true;
+            switchingManager.Stage4Start();
+        }
+        else if(isStage3Clear)
         {
             if (collision.gameObject.CompareTag("Player"))
             {
