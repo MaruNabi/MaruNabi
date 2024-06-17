@@ -8889,7 +8889,7 @@ PrefabInstance:
     - target: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: skillChangeUI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 441932262}
     - target: {fileID: 6623215531993341455, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -21067,7 +21067,7 @@ PrefabInstance:
     - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: skillChangeUI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1961815882}
     - target: {fileID: 3042348562188423818, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: m_RootOrder
       value: 1
