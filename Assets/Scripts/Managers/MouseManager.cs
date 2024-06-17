@@ -58,7 +58,7 @@ public class MouseManager : MonoBehaviour
             {
                 item.GetComponent<Player>().PlayerStateTransition(false,0);
             }
-            stageSwitchingManager.ZoomIn(_target);
+            stageSwitchingManager.ZoomIn(_target,2);
             productionEnd = true;
         }
         else
