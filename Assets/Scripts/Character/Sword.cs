@@ -24,12 +24,13 @@ public class Sword : MonoBehaviour
     protected Vector2 targetVec;
     protected Vector2 swordDistance = new Vector2(0, 0);
 
+    protected string currentHit;
     protected bool isActive = false;
     protected bool isLoop = true;
     protected bool isHitOnce = true;
-    protected string currentHit;
-
     protected bool isEnemy = false;
+
+    private KeyCode lockKey;
 
     BulletVectorManager bulletVec = new BulletVectorManager();
 
@@ -38,7 +39,12 @@ public class Sword : MonoBehaviour
         if (bulletDestroyCoroutine != null)
             StopCoroutine(bulletDestroyCoroutine);
 
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (KeyData.isMaruPad)
+            lockKey = KeyCode.Joystick1Button4;
+        else
+            lockKey = KeyCode.LeftControl;
+
+        if (Input.GetKey(lockKey))
             lockedSwordVector = bulletVec.GetDirectionalInputMaru();
 
         swordRigidbody = GetComponent<Rigidbody2D>();

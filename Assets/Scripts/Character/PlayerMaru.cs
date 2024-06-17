@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 
 public class PlayerMaru : Player
 {
@@ -26,8 +27,10 @@ public class PlayerMaru : Player
     [SerializeField] private GameObject skillChangeUI;
 
     private Sprite[] maruLifeSprite = new Sprite[6];
-    
+
+    private string selectedPadName;
     private int currentHp;
+    private bool isPad;
 
     void Start()
     {
@@ -42,14 +45,7 @@ public class PlayerMaru : Player
         playerShield.SetActive(false);
         reviveZone.SetActive(false);
 
-        moveLeftKey = KeyCode.A;
-        moveRightKey = KeyCode.D;
-        jumpKey = KeyCode.Space;
-        lockKey = KeyCode.LeftControl;
-        sitKey = KeyCode.S;
-        normalAtkKey = KeyCode.V;
-        specialAtkKey = KeyCode.B;
-        skillChangeKey = KeyCode.Tab;
+        PlayerKeySetting();
 
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
@@ -279,6 +275,110 @@ public class PlayerMaru : Player
         }
     }
 
+    protected override void OnPlayerMove()
+    {
+        base.OnPlayerMove();
+
+        if (!isPad)
+        {
+            if (Input.GetKey(moveLeftKey))
+            {
+                if (isSitting || isLock)
+                {
+                    moveHorizontal = 0.0f;
+                }
+                else
+                {
+                    moveHorizontal = -1.0f;
+                }
+
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                atkPosition.rotation = Quaternion.Euler(0, 0, 0);
+
+                PlayerMovement();
+            }
+
+            //if (!(Input.GetKey(moveLeftKey)) && !(Input.GetKey(moveRightKey)))
+            //moveHorizontal = 0.0f;
+
+            if (Input.GetKey(moveRightKey))
+            {
+                if (isSitting || isLock)
+                {
+                    moveHorizontal = 0.0f;
+                }
+                else
+                {
+                    moveHorizontal = 1.0f;
+                }
+
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                atkPosition.rotation = Quaternion.Euler(0, 180, 0);
+
+                PlayerMovement();
+            }
+        }
+        else
+        {
+            if (Input.GetAxis(selectedPadName) > 0)
+            {
+                if (isSitting || isLock)
+                {
+                    moveHorizontal = 0.0f;
+                }
+                else
+                {
+                    moveHorizontal = 1.0f;
+                }
+
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                atkPosition.rotation = Quaternion.Euler(0, 180, 0);
+
+                PlayerMovement();
+            }
+
+            if (Input.GetAxis(selectedPadName) < 0)
+            {
+                if (isSitting || isLock)
+                {
+                    moveHorizontal = 0.0f;
+                }
+                else
+                {
+                    moveHorizontal = -1.0f;
+                }
+
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                atkPosition.rotation = Quaternion.Euler(0, 0, 0);
+
+                PlayerMovement();
+            }
+        }
+    }
+
+    protected override void OnPlayerDash()
+    {
+        if (!isPad)
+        {
+            if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
+            {
+                DoubleClickDash(true);
+            }
+
+            if (Input.GetKeyDown(moveRightKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
+            {
+                DoubleClickDash(false);
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(dashKey) && !isSitting && !isLock && isDashCoolEnd)
+            {
+                StartCoroutine("PlayerDash");
+            }
+        }
+    }
+
     protected override void OnPlayerAttack()
     {
         base.OnPlayerAttack();
@@ -374,14 +474,14 @@ public class PlayerMaru : Player
         if (transform.rotation.y == 0)
         {
             target1 = transform.position - new Vector3(5, 0, 0);
-            target2 = transform.position + new Vector3(4, 0, 0);
-            target3 = transform.position - new Vector3(6, 0, 0);
+            target2 = transform.position + new Vector3(10, 0, 0);
+            target3 = transform.position - new Vector3(5, 0, 0);
         }
         else
         {
             target1 = transform.position + new Vector3(5, 0, 0);
-            target2 = transform.position - new Vector3(4, 0, 0);
-            target3 = transform.position + new Vector3(6, 0, 0);
+            target2 = transform.position - new Vector3(10, 0, 0);
+            target3 = transform.position + new Vector3(5, 0, 0);
         }
 
         PlayerStateTransition(false, 0);
@@ -407,5 +507,33 @@ public class PlayerMaru : Player
         playerCollider.isTrigger = false;
 
         PlayerStateTransition(true, 0);
+    }
+
+    private void PlayerKeySetting()
+    {
+        if (!KeyData.isMaruPad)
+        {
+            isPad = false;
+            moveLeftKey = KeyCode.A;
+            moveRightKey = KeyCode.D;
+            jumpKey = KeyCode.Space;
+            lockKey = KeyCode.LeftControl;
+            sitKey = KeyCode.S;
+            normalAtkKey = KeyCode.V;
+            specialAtkKey = KeyCode.B;
+            skillChangeKey = KeyCode.Tab;
+        }
+        else if (KeyData.isMaruPad)
+        {
+            isPad = true;
+            selectedPadName = "Horizontal_J1";
+            jumpKey = KeyCode.Joystick1Button3;
+            lockKey = KeyCode.Joystick1Button4;
+            sitKey = KeyCode.Joystick1Button9;
+            normalAtkKey = KeyCode.Joystick1Button5;
+            specialAtkKey = KeyCode.Joystick1Button0;
+            skillChangeKey = KeyCode.Joystick1Button1;
+            dashKey = KeyCode.Joystick1Button2;
+        }
     }
 }

@@ -23,6 +23,7 @@ public class Bullet : MonoBehaviour
     private float angle;
     private bool isOneInit = true;
     private bool isEnemy = false;
+    private KeyCode lockKey;
 
     [SerializeField]
     private Transform rayStartPosition;
@@ -40,7 +41,14 @@ public class Bullet : MonoBehaviour
         if (bulletDestroyCoroutine != null)
             StopCoroutine(bulletDestroyCoroutine);
 
-        if (Input.GetKey(KeyCode.L))
+        if (KeyData.isNabiPad && !KeyData.isBothPad)
+            lockKey = KeyCode.Joystick1Button4;
+        else if (KeyData.isBothPad)
+            lockKey = KeyCode.Joystick2Button4;
+        else if (!KeyData.isNabiPad)
+            lockKey = KeyCode.L;
+
+        if (Input.GetKey(lockKey))
             lockedBulletVector = bulletVec.GetDirectionalInputNabi();
 
         bulletRigidbody = GetComponent<Rigidbody2D>();
@@ -102,13 +110,11 @@ public class Bullet : MonoBehaviour
                     bulletRigidbody.velocity = new Vector2(speed, 0);
                 }
                 transform.rotation = Quaternion.Euler(0, angle, 0);
-                //Debug.Log(bulletRigidbody.velocity);
             }
         }
 
         else
         {
-            //Debug.Log("else");
             bulletRigidbody.velocity = lockedBulletVector * speed;
             angle = Mathf.Atan2(lockedBulletVector.y, lockedBulletVector.x) * Mathf.Rad2Deg;
             angle %= 360f;
@@ -144,7 +150,6 @@ public class Bullet : MonoBehaviour
                 currentHit = ray.collider.name;
                 totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
-                //special attack monster damage
             }
             else if (isEnemy && ray.collider.name != currentHit && !_isNormalAtk && isHitOnce)
             {
@@ -152,7 +157,6 @@ public class Bullet : MonoBehaviour
                 currentHit = ray.collider.name;
                 totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
-                //special attack monster damage
             }
         }
 

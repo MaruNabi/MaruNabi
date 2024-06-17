@@ -12,7 +12,7 @@ public class InputManager
 
     public void OnUpdate()
     {
-        if (Input.anyKey == false)
+        if (Input.anyKey == false && Input.GetAxis("Horizontal_J1") == 0.0f)
         {
             if (isChangeOnce)
             {

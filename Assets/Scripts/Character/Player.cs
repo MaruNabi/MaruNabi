@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     protected KeyCode normalAtkKey;
     protected KeyCode specialAtkKey;
     protected KeyCode skillChangeKey;
+    protected KeyCode dashKey;
 
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField] [Range(0, 10)] protected float cJumpPower = 0.03f; //Incremental Jump Force
@@ -309,11 +310,11 @@ public class Player : MonoBehaviour
         rigidBody.AddForce(new Vector3(0, jumpPower, 0), ForceMode2D.Impulse);
     }
 
-    protected void OnPlayerMove()
+    protected virtual void OnPlayerMove()
     {
         moveHorizontal = 0.0f;
 
-        if (Input.GetKey(moveLeftKey))
+        /*if (Input.GetKey(moveLeftKey))
         {
             if (isSitting || isLock)
             {
@@ -348,10 +349,10 @@ public class Player : MonoBehaviour
             atkPosition.rotation = Quaternion.Euler(0, 180, 0);
 
             PlayerMovement();
-        }
+        }*/
     }
 
-    private void PlayerMovement()
+    protected void PlayerMovement()
     {
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, 0.0f);
 
@@ -441,9 +442,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    protected void OnPlayerDash()
+    protected virtual void OnPlayerDash()
     {
-        if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
+        /*if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
         {
             DoubleClickDash(true);
         }
@@ -451,7 +452,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(moveRightKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
         {
             DoubleClickDash(false);
-        }
+        }*/
     }
 
     protected void OnPlayerSit()
@@ -484,7 +485,7 @@ public class Player : MonoBehaviour
 
     }
 
-    private void DoubleClickDash(bool key) 
+    protected void DoubleClickDash(bool key) 
     {
         if ((Time.time - lastClickTime) < DOUBLE_CLICK_TIME && pastKey == key)
         {
@@ -624,7 +625,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private IEnumerator PlayerDash()
+    protected IEnumerator PlayerDash()
     {
         playerAnimator.SetBool("isDash", true);
         PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
@@ -657,7 +658,8 @@ public class Player : MonoBehaviour
         PlayerInputControl(true, OnPlayerMove, OnPlayerAttack, OnPlayerJump, OnPlayerSit);
         yield return new WaitForSeconds(cDashCooldown);
         isDashCoolEnd = true;
-        PlayerInputControl(true, OnPlayerDash);
+        if (!isSitting)
+            PlayerInputControl(true, OnPlayerDash);
         //canPlayerState[1] = true;
     }
 
