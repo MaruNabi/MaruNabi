@@ -753,9 +753,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uB9C8\uB8E8\uB294 'V' \uB098\uBE44\uB294 ']'\uD0A4\uB97C \uB20C\uB7EC
-    \uACF5\uACA9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4. \n\n\uC67C\uCABD 'ctrl',
-    'L' \uD0A4\uB97C \uB20C\uB7EC \uC6C0\uC9C1\uC784\uC744 \uACE0\uC815\uD558\uACE0
-    \uBC1C\uC0AC \uBC29\uD5A5\uC744 \uC870\uC815\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    \uACF5\uACA9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4. (\uD328\uB4DC : RT)\n\n\uC67C\uCABD
+    'ctrl', 'L' \uD0A4\uB97C \uB20C\uB7EC \uC6C0\uC9C1\uC784\uC744 \uACE0\uC815\uD558\uACE0
+    \uBC1C\uC0AC \uBC29\uD5A5\uC744 \uC870\uC815\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
+    (\uD328\uB4DC : LT)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
@@ -1258,7 +1259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: cJumpPower
-      value: 0.05
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: playerHpUI
@@ -1407,7 +1408,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 304966723}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 166.42, y: 0.27150044, z: 0}
+  m_LocalPosition: {x: 166.18, y: -0.4, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1668,8 +1669,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB9C8\uB8E8\uB294 'A', 'D' \uB098\uBE44\uB294 '\u2190', '\u2192' \uD0A4\uB97C
-    \uB20C\uB7EC \uC774\uB3D9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4. "
+  m_text: "\uB9C8\uB8E8\uB294 'A', 'D' \uB098\uBE44\uB294 '\u2190', '\u2192' \uD0A4(\uD328\uB4DC
+    : \uC67C\uCABD \uC870\uC774\uC2A4\uD2F1)\uB97C \uB20C\uB7EC \uC774\uB3D9\uD560
+    \uC218 \uC788\uC2B5\uB2C8\uB2E4. "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
@@ -2602,9 +2604,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uB9C8\uB8E8\uB294 'Space' \uB098\uBE44\uB294 \uC624\uB978\uCABD 'Shift'
     \uD0A4\uB97C \uB20C\uB7EC \uC810\uD504\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n\uB204\uB974\uB294
-    \uC2DC\uAC04\uC5D0 \uB530\uB77C \uC810\uD504 \uB192\uC774\uAC00 \uB2EC\uB77C\uC9D1\uB2C8\uB2E4.\n\n\uB610,
-    \uC774\uB3D9\uD0A4\uB97C \uBE60\uB974\uAC8C \uB450 \uBC88 \uB20C\uB7EC \uB300\uC2DC\uB97C
-    \uC0AC\uC6A9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    \uC2DC\uAC04\uC5D0 \uB530\uB77C \uC810\uD504 \uB192\uC774\uAC00 \uB2EC\uB77C\uC9D1\uB2C8\uB2E4.
+    (\uD328\uB4DC : Y)\n\n\uB610, \uC774\uB3D9\uD0A4\uB97C \uBE60\uB974\uAC8C \uB450
+    \uBC88 \uB20C\uB7EC \uB300\uC2DC\uB97C \uC0AC\uC6A9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
+    (\uD328\uB4DC : X)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
@@ -3702,7 +3705,7 @@ GameObject:
   - component: {fileID: 1010746137}
   - component: {fileID: 1010746138}
   m_Layer: 0
-  m_Name: OkHwang
+  m_Name: Nine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3716,8 +3719,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1010746133}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 166.36325, y: -2.16, z: 0}
-  m_LocalScale: {x: 1.96, y: 1.96, z: 1.96}
+  m_LocalPosition: {x: 166.36325, y: -2.61, z: 0}
+  m_LocalScale: {x: 1.06, y: 1.06, z: 1.06}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1419071876}
@@ -3764,7 +3767,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 47d456651a2932241bc25401e7dc838c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4c673831981a861498e58f31157ee1f2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3792,7 +3795,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.55, y: 1.74}
+    oldSize: {x: 1.6, y: 2.4}
     newSize: {x: 1.55, y: 1.74}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -5895,7 +5898,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48463c0dc34d28e489f61d5053dbe38b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpSpeed: 0.5
 --- !u!1 &1750240680
 GameObject:
   m_ObjectHideFlags: 0
@@ -5996,7 +5998,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uACF5\uACA9\uC744 \uD1B5\uD574 \uC5BB\uC740 \uAC8C\uC774\uC9C0\uB85C
     \uB9C8\uB8E8\uB294 'B' \uD0A4\uB97C \uB20C\uB7EC \uAC8C\uC774\uC9C0\uB97C \uC18C\uBAA8\uD574
-    \uC7A0\uC2DC\uB3D9\uC548 \uBC29\uC5B4\uB97C \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    \uC7A0\uC2DC\uB3D9\uC548 \uBC29\uC5B4\uB97C \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
+    (\uD328\uB4DC : A)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
@@ -6059,7 +6062,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -1.2133179, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -6373,7 +6376,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC67C\uCABD\uC758 \uB354\uBBF8\uB97C \uACF5\uACA9\uD558\uC5EC \uAC8C\uC774\uC9C0\uB97C
     \uCC44\uC6B0\uACE0 'B', '['\uD0A4\uB97C \uD1B5\uD574 \uD2B9\uC218 \uAE30\uC220\uC744
-    \uC0AC\uC6A9\uD574 \uBCF4\uC2ED\uC2DC\uC624."
+    \uC0AC\uC6A9\uD574 \uBCF4\uC2ED\uC2DC\uC624. (\uD328\uB4DC : A)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
@@ -6676,7 +6679,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uC549\uC740 \uC0C1\uD0DC('S', '\u2193')\uC5D0\uC11C \uC810\uD504\uD0A4\uB97C
-    \uB204\uB974\uBA74 \uBC11\uC73C\uB85C \uB0B4\uB824\uAC08 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    \uB204\uB974\uBA74 \uBC11\uC73C\uB85C \uB0B4\uB824\uAC08 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n(\uD328\uB4DC
+    : \uC6B0\uCE21 \uC870\uC774\uC2A4\uD2F1 \uB204\uB974\uAE30)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
@@ -7283,7 +7287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: cJumpPower
-      value: 0.05
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: playerHpUI

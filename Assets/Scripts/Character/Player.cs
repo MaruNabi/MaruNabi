@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
     protected const float maxUltimateGauge = 2500.0f;
     public static bool isReviveSuccess = false;
-    public static bool isDead;
+    public static bool isDead = false;
     private bool canHit = true;
     private bool isTimerEnd = false;
     private bool isCalledOnce = true;
@@ -23,6 +23,10 @@ public class Player : MonoBehaviour
     protected KeyCode jumpKey;
     protected KeyCode lockKey;
     protected KeyCode sitKey;
+    protected KeyCode normalAtkKey;
+    protected KeyCode specialAtkKey;
+    protected KeyCode skillChangeKey;
+    protected KeyCode dashKey;
 
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField] [Range(0, 10)] protected float cJumpPower = 0.03f; //Incremental Jump Force
@@ -92,7 +96,8 @@ public class Player : MonoBehaviour
     protected bool isSurfaceEffector;
     protected bool canChangeSkillSet;
 
-    private bool isForcedInputChange = false;
+    private bool isForcedInputChanged = false;
+    private bool isInputChanged = false;
 
     public bool IsTargetGround
     {
@@ -154,7 +159,7 @@ public class Player : MonoBehaviour
 
     public void PlayerInputControl(bool _isSet, params System.Action[] _actions)
     {
-        if (!isForcedInputChange)
+        if (!isForcedInputChanged)
         {
             if (_isSet)
             {
@@ -175,7 +180,22 @@ public class Player : MonoBehaviour
 
     public void PlayerInputEnable()
     {
-        if (isForcedInputChange)
+        if (isInputChanged)
+        {
+            PlayerInputControl(true, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit, OnPlayerSkillChange);
+            isInputChanged = false;
+        }
+    }
+
+    public void PlayerInputDisable()
+    {
+        PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit, OnPlayerSkillChange);
+        isInputChanged = true;
+    }
+
+    public void PlayerForcedInputEnable()
+    {
+        if (isForcedInputChanged)
         {
             Managers.Input.keyAction += OnPlayerMove;
             Managers.Input.keyAction += OnPlayerAttack;
@@ -184,11 +204,11 @@ public class Player : MonoBehaviour
             Managers.Input.keyAction += OnPlayerSit;
             Managers.Input.keyAction += OnPlayerSkillChange;
             canHit = true;
-            isForcedInputChange = false;
+            isForcedInputChanged = false;
         }
     }
 
-    public void PlayerInputDisable()
+    public void PlayerForcedInputDisable()
     {
         Managers.Input.keyAction -= OnPlayerMove;
         Managers.Input.keyAction -= OnPlayerAttack;
@@ -197,7 +217,25 @@ public class Player : MonoBehaviour
         Managers.Input.keyAction -= OnPlayerSit;
         Managers.Input.keyAction -= OnPlayerSkillChange;
         canHit = false;
-        isForcedInputChange = true;
+        isForcedInputChanged = true;
+    }
+
+    public IEnumerator PlayerUpAnimation(float _remainingTime)
+    {
+        playerAnimator.SetBool("isUp", true);
+        playerAnimator.SetBool("isDown", false);
+        yield return new WaitForSeconds(_remainingTime);
+        playerAnimator.SetBool("isUp", false);
+        playerAnimator.SetBool("isDown", false);
+    }
+
+    public IEnumerator PlayerDownAnimation(float _remainingTime)
+    {
+        playerAnimator.SetBool("isUp", false);
+        playerAnimator.SetBool("isDown", true);
+        yield return new WaitForSeconds(_remainingTime);
+        playerAnimator.SetBool("isUp", false);
+        playerAnimator.SetBool("isDown", false);
     }
 
     protected void SurfaceEffectorCheck()
@@ -272,11 +310,11 @@ public class Player : MonoBehaviour
         rigidBody.AddForce(new Vector3(0, jumpPower, 0), ForceMode2D.Impulse);
     }
 
-    protected void OnPlayerMove()
+    protected virtual void OnPlayerMove()
     {
         moveHorizontal = 0.0f;
 
-        if (Input.GetKey(moveLeftKey))
+        /*if (Input.GetKey(moveLeftKey))
         {
             if (isSitting || isLock)
             {
@@ -311,10 +349,10 @@ public class Player : MonoBehaviour
             atkPosition.rotation = Quaternion.Euler(0, 180, 0);
 
             PlayerMovement();
-        }
+        }*/
     }
 
-    private void PlayerMovement()
+    protected void PlayerMovement()
     {
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, 0.0f);
 
@@ -404,9 +442,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    protected void OnPlayerDash()
+    protected virtual void OnPlayerDash()
     {
-        if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
+        /*if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
         {
             DoubleClickDash(true);
         }
@@ -414,7 +452,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(moveRightKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
         {
             DoubleClickDash(false);
-        }
+        }*/
     }
 
     protected void OnPlayerSit()
@@ -447,14 +485,12 @@ public class Player : MonoBehaviour
 
     }
 
-    private void DoubleClickDash(bool key) 
+    protected void DoubleClickDash(bool key) 
     {
         if ((Time.time - lastClickTime) < DOUBLE_CLICK_TIME && pastKey == key)
         {
             isDoubleClicked = true;
             lastClickTime = -1.0f;
-            playerAnimator.SetBool("isDash", true);
-            PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
             StartCoroutine(PlayerDash());
         }
         else
@@ -475,7 +511,7 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", false);
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
-        PlayerInputDisable(); //PlayerStateTransition(false, 0);
+        PlayerForcedInputDisable(); //PlayerStateTransition(false, 0);
         Invoke("InvokeTimer", 10.0f);
 
         while (!isTimerEnd) //wait 10 seconds
@@ -521,7 +557,7 @@ public class Player : MonoBehaviour
         reviveZone.SetActive(false);
         //canPlayerState[0] = true;
         cLife = 1;
-        PlayerInputEnable(); //PlayerStateTransition(true, 0);
+        PlayerForcedInputEnable(); //PlayerStateTransition(true, 0);
         playerAnimator.SetBool("isDead", false);
         Instantiate(reviveEffect, transform);
         StartCoroutine(Invincible(3.0f));
@@ -589,8 +625,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    private IEnumerator PlayerDash()
+    protected IEnumerator PlayerDash()
     {
+        playerAnimator.SetBool("isDash", true);
+        PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
         //canPlayerState[1] = false;
         isDashing = true;
         moveHorizontal = 0.0f;
@@ -620,7 +658,8 @@ public class Player : MonoBehaviour
         PlayerInputControl(true, OnPlayerMove, OnPlayerAttack, OnPlayerJump, OnPlayerSit);
         yield return new WaitForSeconds(cDashCooldown);
         isDashCoolEnd = true;
-        PlayerInputControl(true, OnPlayerDash);
+        if (!isSitting)
+            PlayerInputControl(true, OnPlayerDash);
         //canPlayerState[1] = true;
     }
 

@@ -22,11 +22,6 @@ public class PauseUIController : MonoBehaviour
         ButtonsControl();
     }
 
-    void OnEnable()
-    {
-        
-    }
-
     private void ButtonsControl()
     {
         if (Input.GetKeyDown(KeyCode.A))
@@ -57,8 +52,8 @@ public class PauseUIController : MonoBehaviour
         switch (selectedButtonIndex)
         {
             case 0:
-                PauseUI.isGamePaused = false;
-                PauseUI.isSetOnce = false;
+                Stage2UI.isGamePaused = false;
+                Stage2UI.isSetOnce = false;
                 break;
             case 1:
                 Debug.Log("다시 하기");

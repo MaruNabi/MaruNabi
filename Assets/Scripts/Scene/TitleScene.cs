@@ -70,7 +70,7 @@ public class TitleScene : MonoBehaviour
     {
         //LoadingScene.nextScene = "TestScene";
 
-        SceneManager.LoadScene("StageSelectionScene");
+        SceneManager.LoadScene("PlayerLinkScene");
 
         //Managers.Scene.LoadScene(ESceneType.StageSelectionScene);
     }

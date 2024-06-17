@@ -5,6 +5,8 @@ using DG.Tweening;
 
 public class SkillBigMace : Sword
 {
+    private const float SMACE_ATTACK_POWER = 1100.0f;
+
     private Vector3 spawnPosition;
     private Vector3 maceDistance = new Vector3(2, 10, 0);
     private Vector3 blinkEffectPosition;
@@ -20,6 +22,11 @@ public class SkillBigMace : Sword
 
     private void OnEnable()
     {
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = SMACE_ATTACK_POWER * 2.3f;
+        else
+            attackPower = SMACE_ATTACK_POWER;
+
         SetSword(2f);
 
         explosionEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/MaceExploEff");

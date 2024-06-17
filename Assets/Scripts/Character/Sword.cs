@@ -5,12 +5,13 @@ using DG.Tweening;
 
 public class Sword : MonoBehaviour
 {
+    public static float totalDamage = 0;
     [SerializeField] protected float rayDistance;
     [SerializeField] protected LayerMask isLayer;
     protected Rigidbody2D swordRigidbody;
     protected SpriteRenderer swordSpriteRenderer;
     protected Vector2 lockedSwordVector;
-    public float attackPower = 300.0f;
+    public float attackPower;
 
     [SerializeField] private Transform rayStartPosition;
 
@@ -23,12 +24,13 @@ public class Sword : MonoBehaviour
     protected Vector2 targetVec;
     protected Vector2 swordDistance = new Vector2(0, 0);
 
+    protected string currentHit;
     protected bool isActive = false;
     protected bool isLoop = true;
     protected bool isHitOnce = true;
-    protected string currentHit;
-
     protected bool isEnemy = false;
+
+    private KeyCode lockKey;
 
     BulletVectorManager bulletVec = new BulletVectorManager();
 
@@ -37,7 +39,12 @@ public class Sword : MonoBehaviour
         if (bulletDestroyCoroutine != null)
             StopCoroutine(bulletDestroyCoroutine);
 
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (KeyData.isMaruPad)
+            lockKey = KeyCode.Joystick1Button4;
+        else
+            lockKey = KeyCode.LeftControl;
+
+        if (Input.GetKey(lockKey))
             lockedSwordVector = bulletVec.GetDirectionalInputMaru();
 
         swordRigidbody = GetComponent<Rigidbody2D>();
@@ -82,6 +89,7 @@ public class Sword : MonoBehaviour
                 if (PlayerMaru.ultimateGauge >= 2500.0f)
                     PlayerMaru.ultimateGauge = 2500.0f;
 
+                totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
 
@@ -94,6 +102,7 @@ public class Sword : MonoBehaviour
                 if (PlayerMaru.ultimateGauge >= 2500.0f)
                     PlayerMaru.ultimateGauge = 2500.0f;
 
+                totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
         }
@@ -117,14 +126,16 @@ public class Sword : MonoBehaviour
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
-                ray.collider.GetComponent<Entity>().OnDamage(attackPower * 2);
+                totalDamage += attackPower;
+                ray.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
 
             else if (isEnemy && ray.collider.name != currentHit)
             {
                 isHitOnce = false;
                 currentHit = ray.collider.name;
-                ray.collider.GetComponent<Entity>().OnDamage(attackPower * 2);
+                totalDamage += attackPower;
+                ray.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
         }
 

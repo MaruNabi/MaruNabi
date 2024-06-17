@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerNabi : Player
 {
     public static float ultimateGauge;
+    public static bool isNabiTraitActivated;
     private GameObject bulletPrefab_1;                 //Bullet Prefab
     private GameObject bulletPrefab_2;
     private GameObject currentBulletPrefab;
@@ -24,7 +25,10 @@ public class PlayerNabi : Player
     [SerializeField] private GameObject skillChangeUI;
 
     private Sprite[] nabiLifeSprite = new Sprite[6];
+    private string selectedPadName;
     private int currentHp;
+    private bool isPad;
+    public int NabiTraitScore { get; private set; }
 
     void Start()
     {
@@ -35,14 +39,12 @@ public class PlayerNabi : Player
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
         isDead = false;
+        isNabiTraitActivated = false;
+        NabiTraitScore = 0;
 
         reviveZone.SetActive(false);
 
-        moveLeftKey = KeyCode.LeftArrow;
-        moveRightKey = KeyCode.RightArrow;
-        jumpKey = KeyCode.RightShift;
-        lockKey = KeyCode.L;
-        sitKey = KeyCode.DownArrow;
+        PlayerKeySetting();
 
         defaultPlayerColliderSize = playerCollider.size;
         sitPlayerColliderSize = defaultPlayerColliderSize;
@@ -243,7 +245,114 @@ public class PlayerNabi : Player
         isSitting = false;
         playerAnimator.SetBool("isSit", false);
         playerAnimator.SetBool("isAtk", false);
-        moveHorizontal = 0.0f;
+        if (!isDashing)
+        {
+            moveHorizontal = 0.0f;
+        }
+    }
+
+    protected override void OnPlayerMove()
+    {
+        base.OnPlayerMove();
+
+        if (!isPad)
+        {
+            if (Input.GetKey(moveLeftKey))
+            {
+                if (isSitting || isLock)
+                {
+                    moveHorizontal = 0.0f;
+                }
+                else
+                {
+                    moveHorizontal = -1.0f;
+                }
+
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                atkPosition.rotation = Quaternion.Euler(0, 0, 0);
+
+                PlayerMovement();
+            }
+
+            //if (!(Input.GetKey(moveLeftKey)) && !(Input.GetKey(moveRightKey)))
+            //moveHorizontal = 0.0f;
+
+            if (Input.GetKey(moveRightKey))
+            {
+                if (isSitting || isLock)
+                {
+                    moveHorizontal = 0.0f;
+                }
+                else
+                {
+                    moveHorizontal = 1.0f;
+                }
+
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                atkPosition.rotation = Quaternion.Euler(0, 180, 0);
+
+                PlayerMovement();
+            }
+        }
+        else
+        {
+            if (Input.GetAxis(selectedPadName) > 0)
+            {
+                if (isSitting || isLock)
+                {
+                    moveHorizontal = 0.0f;
+                }
+                else
+                {
+                    moveHorizontal = 1.0f;
+                }
+
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                atkPosition.rotation = Quaternion.Euler(0, 180, 0);
+
+                PlayerMovement();
+            }
+
+            if (Input.GetAxis(selectedPadName) < 0)
+            {
+                if (isSitting || isLock)
+                {
+                    moveHorizontal = 0.0f;
+                }
+                else
+                {
+                    moveHorizontal = -1.0f;
+                }
+
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                atkPosition.rotation = Quaternion.Euler(0, 0, 0);
+
+                PlayerMovement();
+            }
+        }
+    }
+
+    protected override void OnPlayerDash()
+    {
+        if (!isPad)
+        {
+            if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
+            {
+                DoubleClickDash(true);
+            }
+
+            if (Input.GetKeyDown(moveRightKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
+            {
+                DoubleClickDash(false);
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(dashKey) && !isSitting && !isLock && isDashCoolEnd)
+            {
+                StartCoroutine("PlayerDash");
+            }
+        }
     }
 
     protected override void OnPlayerAttack()
@@ -253,7 +362,7 @@ public class PlayerNabi : Player
         //ToDo : getkey and curtime switch
         if (curTime <= 0) //canPlayerState[4]
         {
-            if (Input.GetKey(KeyCode.RightBracket) && !isAttacksNow)
+            if (Input.GetKey(normalAtkKey) && !isAttacksNow)
             {
                 playerAnimator.SetBool("isAtk", true);
                 if (currentBulletPrefab.name == "NABI_Bullet_3")
@@ -264,7 +373,7 @@ public class PlayerNabi : Player
                 bulletObject.transform.position = atkPosition.position;
                 bulletObject.transform.rotation = transform.rotation;
             }
-            else if (!(Input.GetKey(KeyCode.RightBracket)))
+            else if (!(Input.GetKey(normalAtkKey)))
             {
                 isAttacksNow = false;
                 playerAnimator.SetBool("isAtk", false);
@@ -273,7 +382,7 @@ public class PlayerNabi : Player
         }
         curTime -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.LeftBracket)) //canPlayerState[4]
+        if (Input.GetKeyDown(specialAtkKey)) //canPlayerState[4]
         {
             //None
             if (ultimateGauge < 830.0f)
@@ -293,15 +402,15 @@ public class PlayerNabi : Player
             //Ability
             else
             {
-                //Animation?
-                ultimateGauge -= 500.0f;
+                StartCoroutine("NabiTraitActive");
+                ultimateGauge -= 830.0f;
             }
         }
     }
 
     protected override void OnPlayerSkillChange()
     {
-        if (Input.GetKeyDown(KeyCode.Equals) && canChangeSkillSet)
+        if (Input.GetKeyDown(skillChangeKey) && canChangeSkillSet)
         {
             canChangeSkillSet = false;
             //canPlayerState[4] = false;
@@ -326,6 +435,55 @@ public class PlayerNabi : Player
                 default:
                     break;
             }
+        }
+    }
+
+    private IEnumerator NabiTraitActive()
+    {
+        isNabiTraitActivated = true;
+        NabiTraitScore += 1;
+        yield return new WaitForSeconds(1f);
+        isNabiTraitActivated = false;
+    }
+
+    private void PlayerKeySetting()
+    {
+        if (!KeyData.isNabiPad)
+        {
+            isPad = false;
+            moveLeftKey = KeyCode.LeftArrow;
+            moveRightKey = KeyCode.RightArrow;
+            jumpKey = KeyCode.RightShift;
+            lockKey = KeyCode.L;
+            sitKey = KeyCode.DownArrow;
+            normalAtkKey = KeyCode.RightBracket;
+            specialAtkKey = KeyCode.LeftBracket;
+            skillChangeKey = KeyCode.Equals;
+        }
+        else if (KeyData.isNabiPad)
+        {
+            isPad = true;
+            selectedPadName = "Horizontal_J1";
+            jumpKey = KeyCode.Joystick1Button3;
+            lockKey = KeyCode.Joystick1Button4;
+            sitKey = KeyCode.Joystick1Button9;
+            normalAtkKey = KeyCode.Joystick1Button5;
+            specialAtkKey = KeyCode.Joystick1Button0;
+            skillChangeKey = KeyCode.Joystick1Button1;
+            dashKey = KeyCode.Joystick1Button2;
+        }
+
+        if (KeyData.isBothPad)
+        {
+            isPad = true;
+            selectedPadName = "Horizontal_J2";
+            jumpKey = KeyCode.Joystick2Button3;
+            lockKey = KeyCode.Joystick2Button4;
+            sitKey = KeyCode.Joystick2Button9;
+            normalAtkKey = KeyCode.Joystick2Button5;
+            specialAtkKey = KeyCode.Joystick2Button0;
+            skillChangeKey = KeyCode.Joystick2Button1;
+            dashKey = KeyCode.Joystick2Button2;
         }
     }
 }

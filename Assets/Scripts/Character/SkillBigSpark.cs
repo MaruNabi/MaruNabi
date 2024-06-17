@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class SkillBigSpark : Bullet
 {
+    private const float SSPARK_ATTACK_POWER = 1500.0f;
+
     void OnEnable()
     {
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = SSPARK_ATTACK_POWER * 2.3f;
+        else
+            attackPower = SSPARK_ATTACK_POWER;
+
         SetBullet();
 
         shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Tank");

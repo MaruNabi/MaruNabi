@@ -7,6 +7,8 @@ using DG.Tweening;
 
 public class AttackSmallAxe : Sword
 {
+    private const float AXE_ATTACK_POWER = 150.0f;
+
     private const float MAX_DISTANCE = 5.0f;
 
     [SerializeField]
@@ -14,6 +16,11 @@ public class AttackSmallAxe : Sword
 
     private void OnEnable()
     {
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = AXE_ATTACK_POWER * 2.3f;
+        else
+            attackPower = AXE_ATTACK_POWER;
+
         SetSword(1.6f);
 
         swordDistance = new Vector2(MAX_DISTANCE, 0);

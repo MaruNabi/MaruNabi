@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SkillBigAxeElement : MonoBehaviour
 {
+    private const float SAXE_ATTACK_POWER = 160.0f;
+
     [SerializeField] private Transform axeRayStartPosition;
     [SerializeField] private LayerMask isLayer;
 
@@ -13,10 +15,15 @@ public class SkillBigAxeElement : MonoBehaviour
     private string currentHit;
     private bool isEnemy = false;
 
-    private float attackPower = 300.0f;
+    private float attackPower;
 
     void Update()
     {
+        if (PlayerNabi.isNabiTraitActivated)
+            attackPower = SAXE_ATTACK_POWER * 2.3f;
+        else
+            attackPower = SAXE_ATTACK_POWER;
+
         DrawRayAxe();
         BigAxeHit();
     }
@@ -47,14 +54,16 @@ public class SkillBigAxeElement : MonoBehaviour
             {
                 isHitOnce = false;
                 currentHit = rayAxe.collider.name;
-                rayAxe.collider.GetComponent<Entity>().OnDamage(attackPower * 2);
+                Sword.totalDamage += attackPower;
+                rayAxe.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
 
             else if (isEnemy && rayAxe.collider.name != currentHit)
             {
                 isHitOnce = false;
                 currentHit = rayAxe.collider.name;
-                rayAxe.collider.GetComponent<Entity>().OnDamage(attackPower * 2);
+                Sword.totalDamage += attackPower;
+                rayAxe.collider.GetComponent<Entity>().OnDamage(attackPower);
             }
         }
 

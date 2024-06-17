@@ -451,6 +451,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6623215531408078327}
   - component: {fileID: 6623215531408078326}
+  - component: {fileID: 8131809693750769803}
   m_Layer: 10
   m_Name: MaruShild
   m_TagString: Untagged
@@ -483,7 +484,7 @@ EdgeCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -492,11 +493,23 @@ EdgeCollider2D:
   - {x: -0.1779561, y: 1.458205}
   - {x: -1.1462679, y: 0.7080785}
   - {x: -1.1355855, y: -0.52124554}
-  - {x: -0.30519438, y: -1.4035276}
+  - {x: -0.72004807, y: -0.98020685}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &8131809693750769803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6623215531408078324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23b9a6cd594fcb64cbe627a85a2eb15d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6623215531419632902
 GameObject:
   m_ObjectHideFlags: 0
@@ -820,6 +833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f3f4cf012d92884e9da9980e1a4433a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cLife: 3
   cSpeed: 6
   cJumpPower: 0.03
   cMaxJumpPower: 17
@@ -838,6 +852,7 @@ MonoBehaviour:
   playerSkills: {fileID: 0}
   playerShield: {fileID: 6623215531408078324}
   playerHpUI: {fileID: 0}
+  skillChangeUI: {fileID: 0}
 --- !u!95 &6623215531993341449
 Animator:
   serializedVersion: 5

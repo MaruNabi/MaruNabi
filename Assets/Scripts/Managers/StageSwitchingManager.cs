@@ -46,7 +46,7 @@ public class StageSwitchingManager : MonoBehaviour
             scholarManager.gameObject.SetActive(false);
             mouseManager.gameObject.SetActive(false);
             foxManager.gameObject.SetActive(true);
-            foxManager.StageSkip().Forget();
+            //foxManager.StageSkip().Forget();
             stage3Camera.gameObject.SetActive(true);
             players.ForEach(player => player.transform.position = stage3SpawnPoint.position + Vector3.right * 5f);
             
