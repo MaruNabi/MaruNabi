@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 using DG.Tweening;
 
@@ -22,6 +23,8 @@ public class GameClearUIController : MonoBehaviour
     private int clearTime;
     private int timeScore;
     private bool canNextStage;
+
+    private KeyCode selectKey;
 
     [SerializeField] private PlayerMaru playerMaru;
     [SerializeField] private PlayerNabi playerNabi;
@@ -51,6 +54,11 @@ public class GameClearUIController : MonoBehaviour
     void Start()
     {
         canNextStage = false;
+
+        if (KeyData.isMaruPad)
+            selectKey = KeyCode.Joystick1Button5;
+        else
+            selectKey = KeyCode.V;
 
         for (int i = 0; i < stampSprite.Length; i++)
             stampSprite[i] = Resources.Load<Sprite>("UI/ClearUI/ClearUIFin/UI_StageClear_Stamp_" + i);
@@ -98,9 +106,9 @@ public class GameClearUIController : MonoBehaviour
     {
         if (canNextStage)
         {
-            if (Input.GetKeyDown(KeyCode.V))
+            if (Input.GetKeyDown(selectKey))
             {
-                Debug.Log("NextScene");
+                SceneManager.LoadScene("StageSelectionScene");
             }
         }
     }

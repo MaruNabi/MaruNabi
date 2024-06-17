@@ -84,6 +84,7 @@ public class PoolManager
         if (_root == null)
         {
             _root = new GameObject { name = "@Pool_Root", tag = "PoolRoot" }.transform;
+            GameObject.DontDestroyOnLoad(_root);
         }
     }
 

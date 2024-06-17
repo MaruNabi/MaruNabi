@@ -40,8 +40,7 @@ public class StageSelectScene : MonoBehaviour
         slotMovePos = -347;
         slotOriginPos = -463.82f;
 
-        //isPad = KeyData.isMaruPad;
-        isPad = true;
+        isPad = KeyData.isMaruPad;
         isPadMoveOnce = true;
 
         for (int i = 0; i < stageName.Length; i++)
@@ -67,25 +66,25 @@ public class StageSelectScene : MonoBehaviour
 
         if (isPad)
         {
-            if (Input.GetAxis("Horizontal_J1") == 0)
+            if (Input.GetAxis("Horizontal_J1") == 0 && Input.GetAxis("Vertical_J1") == 0)
             {
                 isSetPos = false;
                 isPadMoveOnce = true;
             }
 
-            if (Input.GetAxis("Horizontal_J1") == 1 && isPadMoveOnce)
+            if (Input.GetAxis("Horizontal_J1") >= 0.5f && isPadMoveOnce)
             {
                 selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
                 isPadMoveOnce = false;
             }
                 
-            else if (Input.GetAxis("Horizontal_J1") == -1 && isPadMoveOnce)
+            else if (Input.GetAxis("Horizontal_J1") <= -0.5f && isPadMoveOnce)
             {
                 selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
                 isPadMoveOnce = false;
             }
 
-            if (Input.GetAxis("Vertical_J1") == 1 && isPadMoveOnce)
+            if (Input.GetAxis("Vertical_J1") >= 0.5f && isPadMoveOnce)
             {
                 if (currentDepth != 0)
                 {
@@ -94,7 +93,7 @@ public class StageSelectScene : MonoBehaviour
                     isPadMoveOnce = false;
                 }
             }
-            else if (Input.GetAxis("Vertical_J1") == -1 && isPadMoveOnce)
+            else if (Input.GetAxis("Vertical_J1") <= -0.5f && isPadMoveOnce)
             {
                 if (currentDepth < 1)
                 {

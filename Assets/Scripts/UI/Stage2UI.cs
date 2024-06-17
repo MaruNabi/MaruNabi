@@ -31,6 +31,11 @@ public class Stage2UI : MonoBehaviour
     private float playerProcessPos;
     private bool canChange;
 
+    private MonsterData mouseScholarData;
+    private MonsterData mouseData;
+    private MonsterData foxData;
+    private MonsterData tigerData;
+
     void Start()
     {
         isGamePaused = false;
@@ -40,6 +45,11 @@ public class Stage2UI : MonoBehaviour
 
         stageSwitchingManager = s_Manager.GetComponent<StageSwitchingManager>();
         scholarManager = s2_Manager.GetComponent<ScholarManager>();
+
+        mouseScholarData = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER");
+        mouseData = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSE_MONSTER");
+        foxData = Utils.GetDictValue(Managers.Data.monsterDict, "FOX_MONSTER");
+        tigerData = Utils.GetDictValue(Managers.Data.monsterDict, "TIGER_MONSTER");
 
         StartCoroutine("EnemySet");
         canChange = false;
@@ -116,20 +126,23 @@ public class Stage2UI : MonoBehaviour
         {
             case 1:
                 currentEnemyHp = scholarManager.MouseHp;
-                playerProcessPos = (phaseBar[0].transform.localPosition.x - 53f) + ((1 - currentEnemyHp / 6000.0f) * 106f);
+                playerProcessPos = (phaseBar[0].transform.localPosition.x - 53f) + ((1 - currentEnemyHp / mouseScholarData.LIFE) * 106f);
                 playerProgress[_player].transform.localPosition = new Vector3(playerProcessPos, playerProgress[_player].transform.localPosition.y, 0.0f);
                 break;
             case 2:
                 currentEnemyHp = enemyList[1].GetComponent<Entity>().HP;
-                playerProcessPos = (phaseBar[1].transform.localPosition.x - 69f) + ((1 - currentEnemyHp / 6000.0f) * 138f);
+                playerProcessPos = (phaseBar[1].transform.localPosition.x - 69f) + ((1 - currentEnemyHp / mouseData.LIFE) * 138f);
                 playerProgress[_player].transform.localPosition = new Vector3(playerProcessPos, playerProgress[_player].transform.localPosition.y, 0.0f);
                 break;
             case 3:
                 currentEnemyHp = enemyList[2].GetComponent<Entity>().HP;
-                playerProcessPos = (phaseBar[2].transform.localPosition.x - 103.5f) + ((1 - currentEnemyHp / 6000.0f) * 207f);
+                playerProcessPos = (phaseBar[2].transform.localPosition.x - 103.5f) + ((1 - currentEnemyHp / foxData.LIFE) * 207f);
                 playerProgress[_player].transform.localPosition = new Vector3(playerProcessPos, playerProgress[_player].transform.localPosition.y, 0.0f);
                 break;
             case 4:
+                currentEnemyHp = enemyList[3].GetComponent<Entity>().HP;
+                playerProcessPos = (phaseBar[3].transform.localPosition.x - 113f) + ((1 - currentEnemyHp / tigerData.LIFE) * 226f);
+                playerProgress[_player].transform.localPosition = new Vector3(playerProcessPos, playerProgress[_player].transform.localPosition.y, 0.0f);
                 break;
             default:
                 break;
@@ -174,6 +187,7 @@ public class Stage2UI : MonoBehaviour
         enemyList.Add(GameObject.Find("MouseScholar"));
         enemyList.Add(GameObject.Find("Mouse"));
         enemyList.Add(GameObject.Find("Fox"));
+        enemyList.Add(GameObject.Find("Head"));
         canChange = true;
     }
 }
