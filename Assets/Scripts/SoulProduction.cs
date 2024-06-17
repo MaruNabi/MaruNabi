@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
+using UnityEditor.Search;
 using UnityEngine;
 
 public class SoulProduction : MonoBehaviour
@@ -13,9 +15,13 @@ public class SoulProduction : MonoBehaviour
     SpriteRenderer spriteRenderer;
     private Sequence sequence2;
 
+    private void Awake()
+    {
+        spriteRenderer=GetComponent<SpriteRenderer>();
+    }
+
     public void StartProduction()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
         zoomCamera.gameObject.SetActive(true);
 
         Sequence sequence = DOTween.Sequence();
@@ -37,16 +43,34 @@ public class SoulProduction : MonoBehaviour
                     .AppendCallback(() => sequence.Kill())
                     .Join(transform.DOMove(target.position, 1f))
                     .Join(spriteRenderer.DOFade(0,1f))
-                    .AppendInterval(1f);
+                    .AppendInterval(1f)
+                    .OnComplete(() =>
+                    {
+                        Destroy(this);
+                    });
             });
     }
     
     public void ClearProduction()
     {
+        var color = spriteRenderer.color;
+        color.a= 0;
+        spriteRenderer.color = color;
+        
         Sequence sequence = DOTween.Sequence();
-
         sequence
+            .AppendInterval(1f)
             .Append(spriteRenderer.DOFade(1, 1f))
-            .Join(transform.DOMoveY(transform.position.y + 10f, 3f));
+            .Join(transform.DOMoveY(transform.position.y + 10f, 3f))
+            .OnComplete(() =>
+            {
+                Fox.Stage3Clear?.Invoke(gameObject);
+                Destroy(gameObject);
+            });
+    }
+    
+    public void ProductionSkip()
+    {
+        transform.position = target.position;
     }
 }

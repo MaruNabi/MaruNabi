@@ -53,10 +53,12 @@ public enum EMouseAnimationType
 
 public enum EFoxAnimationType
 {
-    Idle,
     Laugh,
     Die,
-    Attack
+    Attack,
+    Scrub,
+    Angry,
+    Shake
 }
 
 public enum EMonsterName
