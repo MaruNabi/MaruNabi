@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Managers : MonoBehaviour
 {
+    [SerializeField] private SoundManager sound;
+
     static Managers s_instance;
     static Managers Instance { get {
         if (s_instance == null)
@@ -16,7 +18,7 @@ public class Managers : MonoBehaviour
     public static ResourceManager Resource { get { return Instance.resource; } }
     public static SceneLoader Scene { get { return Instance.scene; } }
     public static InputManager Input { get { return Instance.input; } }
-    public static SoundManager Sound { get { return Instance._sound; } }
+    public static SoundManager Sound { get { return Instance.sound; } }
     // public static UIManager UI { get { return Instance._ui; } }
     
     DataManager data = new DataManager();
@@ -24,13 +26,8 @@ public class Managers : MonoBehaviour
     ResourceManager resource = new ResourceManager();
     SceneLoader scene = new SceneLoader();
     InputManager input = new InputManager();
-    SoundManager _sound = new SoundManager();
+    // SoundManager sound = new SoundManager();
     // UIManager _ui = new UIManager();
-    
-    // void Update()
-    // {
-    //     _input.OnUpdate();
-    // }
 
     static void Init()
     {
