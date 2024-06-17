@@ -35,6 +35,30 @@
       "JUMPPOWER": 0,
       "PASSIVE": 0,
       "RESPAWNTIME" : 0
+    },
+    {
+      "CODE": "FOX_MONSTER",
+      "ID": 4,
+      "NAME": "구미호",
+      "TYPE": 3,
+      "MOVETYPE": true,
+      "LIFE": 95000,
+      "SPEED": 0,
+      "JUMPPOWER": 0,
+      "PASSIVE": 0,
+      "RESPAWNTIME" : 0
+    },
+    {
+      "CODE": "TIGER_MONSTER",
+      "ID": 5,
+      "NAME": "호랑이",
+      "TYPE": 3,
+      "MOVETYPE": true,
+      "LIFE": 95000,
+      "SPEED": 0,
+      "JUMPPOWER": 0,
+      "PASSIVE": 0,
+      "RESPAWNTIME" : 0
     }
   ]
 }
