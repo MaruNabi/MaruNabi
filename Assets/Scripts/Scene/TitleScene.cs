@@ -11,15 +11,30 @@ public class TitleScene : MonoBehaviour
     private int buttonCount;
 
     [SerializeField] private Sprite selectedSprite, unSelectedSprite;
+    [SerializeField] private GameObject firstInformation;
+
+    private bool isActiveInformation;
 
     void Start()
     {
+        isActiveInformation = true;
         buttonCount = buttons.Length;
     }
 
     void Update()
     {
-        ButtonsControl();
+        if (isActiveInformation)
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                firstInformation.SetActive(false);
+                isActiveInformation = false;
+            }
+        }
+        else
+        {
+            ButtonsControl();
+        }
     }
 
     private void ButtonsControl()
@@ -59,6 +74,7 @@ public class TitleScene : MonoBehaviour
             case 2:
                 break;
             case 3:
+                Application.Quit();
                 break;
             default:
                 Debug.LogError("Not Found Button");

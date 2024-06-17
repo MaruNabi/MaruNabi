@@ -13,10 +13,12 @@ public class PrepareSceneManager : MonoBehaviour
     private Image[] buttons;
     [SerializeField]
     private GameObject selectActivateSprite;
+    private KeyCode selectKey;
     private int selectedButtonIndex = 0;
     private int buttonCount;
     private bool isActive;
     private bool canStageEnter;
+    private bool isPadMoveOnce;
 
     public PrepareScene maruUIManager;
     public PrepareScene nabiUIManager;
@@ -26,6 +28,13 @@ public class PrepareSceneManager : MonoBehaviour
         buttonCount = buttons.Length;
         isActive = false;
         canStageEnter = false;
+        isPadMoveOnce = true;
+        
+        if (KeyData.isMaruPad)
+            selectKey = KeyCode.Joystick1Button5;
+        else
+            selectKey = KeyCode.V;
+
         finalGuess.SetActive(false);
     }
 
@@ -58,13 +67,35 @@ public class PrepareSceneManager : MonoBehaviour
 
     private void ButtonsControl()
     {
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        if (KeyData.isMaruPad)
         {
-            selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
+            if (Input.GetAxis("Horizontal_J1") == 0 && Input.GetAxis("Vertical_J1") == 0)
+            {
+                isPadMoveOnce = true;
+            }
+
+            if (Input.GetAxis("Horizontal_J1") >= 0.5f && isPadMoveOnce)
+            {
+                selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
+                isPadMoveOnce = false;
+            }
+
+            else if (Input.GetAxis("Horizontal_J1") <= -0.5f && isPadMoveOnce)
+            {
+                selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
+                isPadMoveOnce = false;
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        else
         {
-            selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
+            }
         }
 
         for (int i = 0; i < buttons.Length; i++)
@@ -75,7 +106,7 @@ public class PrepareSceneManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(selectKey))
         {
             ExeFunction();
         }

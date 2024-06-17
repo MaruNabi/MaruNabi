@@ -40,11 +40,16 @@ public class PrepareScene : MonoBehaviour
     private Image[] skillSlotImage;
     private Image[] skillDescriptImage;
 
+    private string padStringH;
+    private string padStringV;
     private int selectedButtonIndex = 0;
     private int buttonCount;
     private bool isSkillSetWindow = true;
     private bool isSetPosAndSprite = false;
     private bool canReady = false;
+    private bool isPadUse;
+    private bool isBothPadUse;
+    private bool isPadMoveOnce;
 
     private UIObject[] UIData;
     private PrepareSceneUIData selectedUI;
@@ -76,23 +81,50 @@ public class PrepareScene : MonoBehaviour
         skillSlotSelect = new int[skillSlots.Length];
         skillDescriptImage = new Image[3];
 
+        isPadMoveOnce = true;
+
         if (isMaruUI)
         {
+            playerName = 'M';
+            isPadUse = KeyData.isMaruPad;
             keys[0] = KeyCode.W;
             keys[1] = KeyCode.A;
             keys[2] = KeyCode.S;
             keys[3] = KeyCode.D;
-            keys[4] = KeyCode.V;
-            playerName = 'M';
+            if (isPadUse)
+            {
+                keys[4] = KeyCode.Joystick1Button5;
+                padStringH = "Horizontal_J1";
+                padStringV = "Vertical_J1";
+            }
+            else
+                keys[4] = KeyCode.V;
         }
         else
         {
+            playerName = 'N';
+            isPadUse = KeyData.isNabiPad;
+            isBothPadUse = KeyData.isBothPad;
             keys[0] = KeyCode.UpArrow;
             keys[1] = KeyCode.LeftArrow;
             keys[2] = KeyCode.DownArrow;
             keys[3] = KeyCode.RightArrow;
-            keys[4] = KeyCode.RightBracket;
-            playerName = 'N';
+            if (isBothPadUse)
+            {
+                keys[4] = KeyCode.Joystick2Button5;
+                padStringH = "Horizontal_J2";
+                padStringV = "Vertical_J2";
+                return;
+            }
+
+            if (isPadUse)
+            {
+                keys[4] = KeyCode.Joystick1Button5;
+                padStringH = "Horizontal_J1";
+                padStringV = "Vertical_J1";
+            }
+            else if (!isPadUse)
+                keys[4] = KeyCode.RightBracket;
         }
 
         for (int i = 0; i < skill.Length; i++)
@@ -140,42 +172,91 @@ public class PrepareScene : MonoBehaviour
 
         if (!isReady)
         {
-            if (Input.anyKeyDown)
+            if (!isPadUse)
             {
-                isSetPosAndSprite = false;
-                if (currentDepth != 1)
+                if (Input.anyKeyDown)
                 {
-                    UIMatrics[currentDepth][selectedButtonIndex].GetComponent<Image>().sprite = selectedUI.unSelectedImage;
+                    isSetPosAndSprite = false;
+                    if (currentDepth != 1)
+                    {
+                        UIMatrics[currentDepth][selectedButtonIndex].GetComponent<Image>().sprite = selectedUI.unSelectedImage;
+                    }
+                }
+
+                if (Input.GetKeyDown(keys[1]))
+                {
+                    selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
+                }
+                else if (Input.GetKeyDown(keys[3]))
+                {
+                    selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
+                }
+
+                if (Input.GetKeyDown(keys[0]))
+                {
+                    if (currentDepth != 0)
+                    {
+                        SetSlots(currentDepth - 1);
+                        currentDepth -= 1;
+                    }
+                }
+                else if (Input.GetKeyDown(keys[2]))
+                {
+                    if (currentDepth < 3)
+                    {
+                        SetSlots(currentDepth + 1);
+                        currentDepth += 1;
+                    }
                 }
             }
-
-            if (Input.GetKeyDown(keys[1]))
+            else
             {
-                selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
-            }
-            else if (Input.GetKeyDown(keys[3]))
-            {
-                selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
-            }
-
-            if (Input.GetKeyDown(keys[0]))
-            {
-                if (currentDepth != 0)
+                if (Input.GetAxis(padStringH) != 0 || Input.GetAxis(padStringV) != 0)
                 {
-                    SetSlots(currentDepth - 1);
-                    currentDepth -= 1;
+                    if (currentDepth != 1)
+                    {
+                        UIMatrics[currentDepth][selectedButtonIndex].GetComponent<Image>().sprite = selectedUI.unSelectedImage;
+                    }
                 }
-            }
 
-            if (Input.GetKeyDown(keys[2]))
-            {
-                if (currentDepth < 3)
+                if (Input.GetAxis(padStringH) == 0 && Input.GetAxis(padStringV) == 0 && !isPadMoveOnce)
                 {
-                    SetSlots(currentDepth + 1);
-                    currentDepth += 1;
+                    isSetPosAndSprite = false;
+                    isPadMoveOnce = true;
                 }
-            }
+
+                if (Input.GetAxis(padStringH) <= -0.5f && isPadMoveOnce)
+                {
+                    selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
+                    isPadMoveOnce = false;
+                }
+                else if (Input.GetAxis(padStringH) >= 0.5f && isPadMoveOnce)
+                {
+                    selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
+                    isPadMoveOnce = false;
+                }
+
+                if(Input.GetAxis(padStringV) >= 0.5f && isPadMoveOnce)
+                {
+                    isPadMoveOnce = false;
+                    if (currentDepth != 0)
+                    {
+                        SetSlots(currentDepth - 1);
+                        currentDepth -= 1;
+                    }
+                }
+                else if ((Input.GetAxis(padStringV) <= -0.5f && isPadMoveOnce))
+                {
+                    isPadMoveOnce = false;
+                    if (currentDepth < 3)
+                    {
+                        SetSlots(currentDepth + 1);
+                        currentDepth += 1;
+                    }
+                }
+            }    
         }
+            
 
         if (Input.GetKeyDown(keys[4]))
         {

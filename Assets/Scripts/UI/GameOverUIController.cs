@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 using TMPro;
 
@@ -18,10 +19,18 @@ public class GameOverUIController : MonoBehaviour
     [SerializeField] private TMP_Text buttonText1, buttonText2;
     private bool isSetEnd = false;
 
+    private KeyCode selectKey;
+    private bool isPadMoveOnce;
+
     void Start()
     {
         buttonCount = buttons.Length;
         StartCoroutine("GameOverInit");
+
+        if (KeyData.isMaruPad)
+            selectKey = KeyCode.Joystick1Button5;
+        else
+            selectKey = KeyCode.V;
     }
 
     void Update()
@@ -32,13 +41,35 @@ public class GameOverUIController : MonoBehaviour
 
     private void ButtonsControl()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (KeyData.isMaruPad)
         {
-            selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
+            if (Input.GetAxis("Horizontal_J1") == 0 && Input.GetAxis("Vertical_J1") == 0)
+            {
+                isPadMoveOnce = true;
+            }
+
+            if (Input.GetAxis("Horizontal_J1") >= 0.5f && isPadMoveOnce)
+            {
+                selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
+                isPadMoveOnce = false;
+            }
+
+            else if (Input.GetAxis("Horizontal_J1") <= -0.5f && isPadMoveOnce)
+            {
+                selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
+                isPadMoveOnce = false;
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        else
         {
-            selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
+            }
         }
 
         for (int i = 0; i < buttons.Length; i++)
@@ -49,7 +80,7 @@ public class GameOverUIController : MonoBehaviour
                 buttons[i].GetComponent<Image>().sprite = unSelectedSprite;
         }
 
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(selectKey))
         {
             ExeFunction();
         }
@@ -60,10 +91,12 @@ public class GameOverUIController : MonoBehaviour
         switch (selectedButtonIndex)
         {
             case 0:
-                Debug.Log("다시하기");
+                LoadingScene.nextScene = "Stage2";
+                SceneManager.LoadScene("LoadingScene");
+                //SceneManager.LoadScene("Stage2");
                 break;
             case 1:
-                Debug.Log("돌아가기");
+                SceneManager.LoadScene("StageSelectionScene");
                 break;
             default:
                 Debug.LogError("Not Found Button");

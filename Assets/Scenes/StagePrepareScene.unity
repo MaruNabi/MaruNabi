@@ -2784,6 +2784,7 @@ MonoBehaviour:
   isMaruUI: 0
   isReady: 0
   isGameStart: 0
+  isPadUse: 0
 --- !u!1 &626921663
 GameObject:
   m_ObjectHideFlags: 0
@@ -9446,6 +9447,7 @@ MonoBehaviour:
   isMaruUI: 1
   isReady: 0
   isGameStart: 0
+  isPadUse: 1
 --- !u!1 &1859890063
 GameObject:
   m_ObjectHideFlags: 0
