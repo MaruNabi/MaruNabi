@@ -52,7 +52,7 @@ public abstract class Entity : MonoBehaviour
             HP += _restoreHP;
         else HP = maxHP;
     }
-    
+
     public virtual void OnDead()
     {
         Dead = true;

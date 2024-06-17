@@ -20,7 +20,7 @@ public class FoxBullet : MonoBehaviour
         rb.gravityScale = 1;
         col.isTrigger = false;
         var random = Random.Range(0, 2);
-        var randomPower = Random.Range(4, 7);
+        var randomPower = Random.Range(5, 10);
         
         if(random == 0)
             rb.velocity = Vector2.left * randomPower;

@@ -26,8 +26,6 @@ public class Player : MonoBehaviour
     protected float cMaxJumpCount;
     protected float cJumpCount;
     protected bool isJumping = false; //Jumping State (Double Jump X)
-    public bool IsJumping => isJumping;
-    
     protected bool isJumpingEnd = true;
     protected bool isGround = true;
     protected bool isLock = false;
@@ -52,7 +50,6 @@ public class Player : MonoBehaviour
     protected bool isHit = false;
 
     [SerializeField] protected GameObject reviveZone;
-    public GameObject ReviveZone => reviveZone;
 
     protected Rigidbody2D rigidBody;
     protected SpriteRenderer spriteRenderer;
@@ -382,12 +379,6 @@ public class Player : MonoBehaviour
         yield return null;
     }
 
-    public void ReviveCheat()
-    {
-        isReviveSuccess = true;
-        cLife = 5;
-    }
-
     protected IEnumerator Ondamaged(Vector2 enemyPos, bool _isKnockBack = true)
     {
         if (isHit)
@@ -415,7 +406,7 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", true);
             StartCoroutine(Invincible(3.0f));
             int dir = transform.position.x - enemyPos.x > 0 ? 1 : -1;
-            //rigidBody.AddForce(new Vector2(dir, 1) * 4f, ForceMode2D.Impulse);
+            rigidBody.AddForce(new Vector2(dir, 1) * 4f, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.5f);
             playerAnimator.SetBool("isHit", false);
             isHit = false;

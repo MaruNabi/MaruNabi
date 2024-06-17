@@ -53,12 +53,10 @@ public enum EMouseAnimationType
 
 public enum EFoxAnimationType
 {
+    Idle,
     Laugh,
     Die,
-    Attack,
-    Scrub,
-    Angry,
-    Shake
+    Attack
 }
 
 public enum EMonsterName
@@ -74,12 +72,5 @@ public enum EMousePattern
     SpawnRats,
     Tail,
     Rock
-}
-
-public enum ETigerBitePosition
-{
-    Left,
-    Middle,
-    Right
 }
 #endregion

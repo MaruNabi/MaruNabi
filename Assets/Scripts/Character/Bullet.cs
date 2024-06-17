@@ -129,16 +129,10 @@ public class Bullet : MonoBehaviour
 
             if (isEnemy && isNormalAtk)
             {
-                PlayerNabi.ultimateGauge += attackPower;
-
-                if (PlayerNabi.ultimateGauge < 1500.0f)
+                if ((PlayerNabi.ultimateGauge += attackPower) > 1500.0f)
                 {
-                    ray.collider.GetComponent<Entity>().OnDamage(attackPower);
-                }
-                else
-                {
+                    //Debug.Log(PlayerNabi.ultimateGauge);
                     PlayerNabi.ultimateGauge = 1500.0f;
-                    ray.collider.GetComponent<Entity>().OnDamage(attackPower);
                 }
             }
             else if (isEnemy && !isNormalAtk && isHitOnce)
