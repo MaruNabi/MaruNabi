@@ -21,12 +21,6 @@ public class TigerInhaleAttackState : TigerState
         Pattern(cts.Token).Forget();
         Debug.Log("빨아들이기 입장");
     }
-    
-    public override void OnExit()
-    {
-        base.OnExit();
-        cts.Cancel();
-    }
 
     private async UniTask Pattern(CancellationToken token)
     {

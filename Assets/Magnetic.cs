@@ -5,38 +5,48 @@ using UnityEngine;
 
 public class Magnetic : MonoBehaviour
 {
-
-    private bool magnetInZone;
-
-
-    public Transform target;
-
-    public float moveSpeed = 1.0f;
-
+    public float moveSped = 10f;
+    public float magnetDistance = 15f;
+    
+    private List<Transform> targets = new List<Transform>();
+    
     private void Update()
     {
-        if (magnetInZone)
+        if (targets.Count > 0)
         {
-            Vector2 relativePos = target.transform.position - transform.position;
-            target.Translate(transform.up * moveSpeed * Time.deltaTime, Space.World);
+            if (targets.Count > 0)
+            {
+                foreach (var target in targets)
+                {
+                    if (Vector2.Distance(transform.position, target.position) <= magnetDistance)
+                    {
+                        Vector2 direction = (target.position - transform.position).normalized;
+                        target.position = Vector2.MoveTowards(target.position, transform.position, moveSped * Time.deltaTime);
+                    }
+                }
+            }
         }
-
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            target = other.transform;
-            magnetInZone = true;
+            if (!targets.Contains(other.transform))
+            {
+                targets.Add(other.transform);
+            }
         }
     }
-    
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            magnetInZone = false;
+            if (targets.Contains(other.transform))
+            {
+                targets.Remove(other.transform);
+            }
         }
     }
 }

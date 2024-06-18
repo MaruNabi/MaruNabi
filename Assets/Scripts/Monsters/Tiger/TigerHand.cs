@@ -125,7 +125,14 @@ public class TigerHand : MonoBehaviour
 
         foreach (var hand in currentHands)
         {
-            hand?.Delete();
+            try
+            {
+                DOTween.Kill(hand);
+                hand?.Delete();
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         EnterAnimation();

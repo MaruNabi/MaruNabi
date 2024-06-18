@@ -21,12 +21,7 @@ public class TigerSlapAttackState : TigerState
         Pattern(cts.Token).Forget();
         Debug.Log("내려치기 입장");
     }
-    
-    public override void OnExit()
-    {
-        base.OnExit();
-        cts.Cancel();
-    }
+
 
     private async UniTask Pattern(CancellationToken token)
     {

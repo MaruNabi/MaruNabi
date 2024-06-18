@@ -45,7 +45,8 @@ public class HahwoiMask : Entity
     
     protected override void Init()
     {
-        HP = 15000;
+        HP = Utils.GetDictValue(Managers.Data.monsterDict, "HAHWOI_MONSTER").LIFE;
+
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         SpawnAnimation();

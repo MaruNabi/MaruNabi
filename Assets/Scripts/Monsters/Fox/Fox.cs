@@ -50,7 +50,7 @@ public class Fox : Entity
         light.transform.position = transform.position + Vector3.down * 2f;
         light.SetActive(false);
         maxHP = Data.LIFE;
-        HP = 1500;
+        HP = 13900;
         tailCount = 9;
         phase = 1;
     }
@@ -67,7 +67,7 @@ public class Fox : Entity
                     Attack(9);
                 else if (phase == 3)
                     Attack(10);
-                
+
                 time = 0;
             }
         }
@@ -77,11 +77,17 @@ public class Fox : Entity
             IsPhaseChange();
             hahwoiDeathCount = 0;
         }
-        
-        if(hahwoiDisapCount >= 2)
+
+        if (hahwoiDisapCount >= 2)
         {
             RestartPhase().Forget();
             hahwoiDisapCount = 0;
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            SpawnOwkwangMask().Forget();
         }
     }
 
@@ -89,7 +95,7 @@ public class Fox : Entity
     {
         BeHitEffect();
         HP -= _damage;
-    
+
         if (HP <= 0)
         {
             HP = 0;
@@ -127,6 +133,7 @@ public class Fox : Entity
             attackObjects.ForEach(Destroy);
             attackObjects.Clear();
         }
+
         sequence.Kill();
         transform.DOKill();
     }
@@ -189,24 +196,25 @@ public class Fox : Entity
 
         GameObject smoke = Instantiate(effects.smokePrefab);
         smoke.transform.position = transform.position;
-        
+
         await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
 
         GameObject mask = Instantiate(maskPrefabs[0], transform.position, Quaternion.identity);
         mask.GetComponent<BongsanMask>().SetVariables(this, bongsanSpawnPos);
     }
 
+
     public async UniTaskVoid SpawnHahwoiMask()
     {
         StopSequence();
-        
+
         await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
-        
+
         for (int i = 0; i < hahwoiSpawnPos.Length; i++)
         {
             GameObject smoke = Instantiate(effects.smokePrefab);
             smoke.transform.position = hahwoiSpawnPos[i].transform.position;
-            
+
             GameObject mask = Instantiate(maskPrefabs[1], hahwoiSpawnPos[i].transform.position, Quaternion.identity);
             mask.GetComponent<HahwoiMask>().SetVariables(this);
         }
@@ -218,7 +226,7 @@ public class Fox : Entity
 
         GameObject smoke = Instantiate(effects.smokePrefab);
         smoke.transform.position = transform.position;
-        
+
         await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
 
         GameObject mask = Instantiate(maskPrefabs[2], transform.position, Quaternion.identity);
@@ -230,11 +238,11 @@ public class Fox : Entity
         StopSequence();
         tailCount--;
         animator.runtimeAnimatorController = tailAnimators[8 - tailCount];
-        
+
         light.SetActive(true);
         await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
         light.SetActive(false);
-        
+
         await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
         SpawnBongsanMask().Forget();
     }
@@ -245,11 +253,11 @@ public class Fox : Entity
         StopSequence();
         tailCount--;
         animator.runtimeAnimatorController = tailAnimators[8 - tailCount];
-        
+
         light.SetActive(true);
         await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
         light.SetActive(false);
-        
+
         await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
 
         int random = Random.Range(0, 2);
@@ -262,22 +270,22 @@ public class Fox : Entity
         {
             SpawnHahwoiMask().Forget();
         }
-        
+
         canAttack = true;
     }
-    
+
     public async UniTaskVoid UseTailPhase3()
     {
         // phase 3 시작
         StopSequence();
-        tailCount-=3;
+        tailCount -= 3;
         animator.runtimeAnimatorController = tailAnimators[5];
 
-        
+
         light.SetActive(true);
         await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
         light.SetActive(false);
-        
+
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         SpawnOwkwangMask().Forget();
         canAttack = true;
@@ -288,9 +296,9 @@ public class Fox : Entity
         time = 0;
         canAttack = false;
         hahwoiDeathCount = 0;
-        
+
         StopSequence();
-        
+
         if (tailCount <= 4)
         {
             phase = 3;
@@ -311,12 +319,12 @@ public class Fox : Entity
             UseTailPhase1().Forget();
         }
     }
-    
+
     public void HahwoiDeathCountUp()
     {
         hahwoiDeathCount++;
     }
-    
+
     public void HahwoiDisapCountUp()
     {
         hahwoiDisapCount++;
@@ -332,22 +340,22 @@ public class Fox : Entity
         canAttack = false;
         // 하얀 테두리
     }
-    
+
     public async UniTaskVoid RestartPhase()
     {
         StopSequence();
-        
+
         hahwoiDisapCount = 0;
-        
+
         ChangeAnimation(EFoxAnimationType.Laugh);
         await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
         ChangeAnimation(EFoxAnimationType.Scrub);
-        
+
         light.SetActive(true);
         await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
         light.SetActive(false);
 
-        if(phase == 1)
+        if (phase == 1)
             SpawnBongsanMask().Forget();
         else if (phase == 2)
         {
@@ -395,14 +403,14 @@ public class Fox : Entity
                 break;
         }
     }
-    
+
     public override void OnDead()
     {
         StopSequence();
         ProductionWaitSetting();
-        if(animator.runtimeAnimatorController != tailAnimators[5])
+        if (animator.runtimeAnimatorController != tailAnimators[5])
             animator.runtimeAnimatorController = tailAnimators[5];
-        
+
         var soul = Instantiate(effects.soulPrefab, transform.position, Quaternion.identity);
         soul.SetActive(true);
         soul.GetComponent<SoulProduction>().ClearProduction();
