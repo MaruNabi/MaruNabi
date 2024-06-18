@@ -25,6 +25,7 @@ public class MouseScholarLeave : MouseScholarState
 
             stateMachine.MouseScholar.SmokeEffect();
             // 재입장까지 대기 시간
+            Managers.Sound.PlaySFX("Scholar_Exit");
             await UniTask.Delay(TimeSpan.FromSeconds(ESCAPE_TIME));
             
             stateMachine.MouseScholar.RoundEnd();

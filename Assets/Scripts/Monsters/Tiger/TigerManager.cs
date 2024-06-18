@@ -25,6 +25,7 @@ public class TigerManager : MonoBehaviour
 
         stageSwitchingManager.DisAllowBehavior();
         await UniTask.Delay(TimeSpan.FromSeconds(3f));
+        Managers.Sound.PlaySFX("Tiger_Ground");
         cameraShake.m_FrequencyGain = 0.5f;
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         tiger.StageStartProduction();

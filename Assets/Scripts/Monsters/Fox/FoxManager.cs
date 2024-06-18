@@ -38,7 +38,7 @@ public class FoxManager : MonoBehaviour
         fox.ChangeAnimation(EFoxAnimationType.Laugh);
         stageSwitchingManager.AllowBehavior();
         fox.UseTailPhase1();
-        
+        Managers.Sound.PlayBGM("Fox_Stage");
         // TODO: 여우 페이즈1 시작 들어가야 함
     }
 
@@ -75,6 +75,8 @@ public class FoxManager : MonoBehaviour
         
         clouds.transform.DOMoveY(-47, 2.5f);
         nextStageWall.GetComponent<NextStageWall>().isStage4Clear = true;
+        Managers.Sound.StopBGM();
+
     }
 
     public async UniTaskVoid ProductionSkip()

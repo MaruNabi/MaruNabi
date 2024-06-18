@@ -32,6 +32,7 @@ public class MouseScholarFan : MouseScholarState
         stateMachine.ChangeAnimation(EScholarAnimationType.Attack);
         await UniTask.Delay(TimeSpan.FromSeconds(FAN_DELAY));
         fan = stateMachine.MouseScholar.MakeFan(mousePos);
+        Managers.Sound.PlaySFX("Scholar_Fan");
         Entity.AttackEvent?.Invoke();
     }
 

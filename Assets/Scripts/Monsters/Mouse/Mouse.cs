@@ -109,6 +109,7 @@ public class Mouse : Entity
             .OnStart(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Rush);
+                Managers.Sound.PlaySFX("Mouse_Stop");
             })
             .AppendInterval(4.75f)
             .OnComplete(() =>
@@ -128,6 +129,7 @@ public class Mouse : Entity
             .OnStart(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Rush);
+                Managers.Sound.PlaySFX("Mouse_Stop");
             })
             .AppendInterval(3.5f)
             .OnComplete(() =>
@@ -146,6 +148,7 @@ public class Mouse : Entity
         if (rushEvent == false)
         {
             transform.DOMove(transform.position - new Vector3(14f, 1.5f, 0), 1f).SetEase(Ease.InCubic);
+            Managers.Sound.PlaySFX("Mouse_Rush");
         }
         else
         {
@@ -165,6 +168,7 @@ public class Mouse : Entity
         if (rushEvent == false)
         {
             transform.DOMove(transform.position - new Vector3(14f, 1.5f, 0), 1f).SetEase(Ease.InCubic);
+            Managers.Sound.PlaySFX("Mouse_Rush");
         }
         else
         {
@@ -179,6 +183,7 @@ public class Mouse : Entity
     {
         StopSequence();
 
+        Managers.Sound.PlaySFX("Mouse_Growling");
         sequence = DOTween.Sequence();
         sequence
             .AppendInterval(2f)
@@ -195,6 +200,8 @@ public class Mouse : Entity
     public float SpawnRock()
     {
         StopSequence();
+
+        Managers.Sound.PlaySFX("Mouse_Growling");
 
         sequence = DOTween.Sequence();
         sequence
@@ -218,6 +225,7 @@ public class Mouse : Entity
             .OnStart(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Tail);
+                Managers.Sound.PlaySFX("Mouse_Tail");
             })
             .AppendInterval(1.25f)
             .AppendCallback(() =>
@@ -253,7 +261,9 @@ public class Mouse : Entity
         
         phaseChange = true;
         patternPercent = 40f;
-
+        
+        Managers.Sound.PlaySFX("Boss_Phase");
+        
         sequence = DOTween.Sequence();
         sequence
             .OnStart(() =>
@@ -295,6 +305,7 @@ public class Mouse : Entity
 
     public override void OnDead()
     {
+        Managers.Sound.PlaySFX("Boss_Death");
         StopSequence();
         ProductionWaitSetting();
         StageClear?.Invoke(gameObject);

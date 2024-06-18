@@ -86,6 +86,7 @@ public class HahwoiMask : Entity
     private void SpawnAnimation()
     {
         animator.enabled = true;
+        Managers.Sound.PlaySFX("Mask_Normal");
         sequence = DOTween.Sequence();
         sequence.Append(transform.DOMoveY(-42f, 0.5f))
             .Join(spriteRenderer.DOFade(1, 0.5f))
@@ -104,6 +105,7 @@ public class HahwoiMask : Entity
         tag = "Untagged";
         gameObject.layer = 0;
         animator.SetTrigger("Die");
+        Managers.Sound.PlaySFX("Mask_Death");
         sequence = DOTween.Sequence();
         sequence
             .Append(spriteRenderer.DOFade(0, 1f))

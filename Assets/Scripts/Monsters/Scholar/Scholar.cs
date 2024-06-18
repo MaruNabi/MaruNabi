@@ -80,6 +80,8 @@ public class Scholar : Entity
         GameObject smoke = Instantiate(scholarEffects.smokePrefab);
         smoke.transform.position = transform.position;
 
+        Managers.Sound.PlaySFX("Scholar_Enter");
+        
         float timer = 0;
         DOTween.To(() => timer, x => timer = x, 1f, 0.4f)
             .OnComplete(() => Destroy(smoke));

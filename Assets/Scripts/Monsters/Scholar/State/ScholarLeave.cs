@@ -17,6 +17,7 @@ public class ScholarLeave : ScholarState
     {
         stateMachine.Scholar.SmokeEffect();
         // 재입장까지 대기 시간
+        Managers.Sound.PlaySFX("Scholar_Exit");
         await UniTask.Delay(TimeSpan.FromSeconds(ESCAPE_TIME));
         stateMachine.Scholar.OnDead();
     }

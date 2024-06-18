@@ -36,6 +36,7 @@ public class ScholarIdle : ScholarState
             {
                 stateMachine.SetState("Fan");
                 stateMachine.ChangeAnimation(EScholarAnimationType.Angry);
+                Managers.Sound.PlaySFX("Scholar_Angry");
             }
             else
             {

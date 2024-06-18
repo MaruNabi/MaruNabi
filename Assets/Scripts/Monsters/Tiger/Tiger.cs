@@ -100,6 +100,8 @@ public class Tiger : Entity
             {
                 head.GetComponent<SpriteRenderer>().sortingOrder = 0;
                 headAnimator.enabled = true;
+                Managers.Sound.PlaySFX("Tiger_Growling");
+
             })
             .AppendInterval(2.5f)
             .OnComplete(() =>
@@ -239,7 +241,7 @@ public class Tiger : Entity
         cts.Cancel();
         leftHand.DeleteHands();
         rightHand.DeleteHands();
-
+        Managers.Sound.PlaySFX("Boss_Phase");
         sequence = DOTween.Sequence();
         sequence.OnStart(() =>
             {
@@ -248,6 +250,7 @@ public class Tiger : Entity
                 headAnimator.speed = 0f;
                 isPhaseChanging = true;
                 Phase = 2;
+                Managers.Sound.PlaySFX("Tiger_Roar");
             })
             .AppendInterval(2.5f)
             .OnComplete(() =>
@@ -287,6 +290,7 @@ public class Tiger : Entity
                 boxCollider2D.size = new Vector2(startColliderSize.x * 1.4f, startColliderSize.y * 1.5f);
                 boxCollider2D.offset = new Vector2(startColliderPos.x, startColliderPos.y - 1.5f);
                 headAnimator.SetTrigger("Attack");
+                Managers.Sound.PlaySFX("Tiger_Bite");
             })
             .AppendInterval(0.5f)
             .Append(transform.DOMove(startPos, 0.5f))
@@ -317,6 +321,7 @@ public class Tiger : Entity
                 boxCollider2D.offset = new Vector2(startColliderPos.x, startColliderPos.y - 1f);
             })
             .Join(transform.DOMoveY(transform.position.y - 1f, 1f))
+            .JoinCallback(() => Managers.Sound.PlaySFX("Tiger_Inhale"))
             .AppendInterval(2f)
             .Append(transform.DOMove(startPos, 0.5f))
             .Join(transform.DOScale(0.8f, 1f))
@@ -344,7 +349,7 @@ public class Tiger : Entity
         
         leftHand.DeleteHands();
         rightHand.DeleteHands();
-        
+        Managers.Sound.PlaySFX("Boss_Phase");
         transform.localScale = Vector3.one;
         transform.position = startPos;
 
@@ -362,6 +367,8 @@ public class Tiger : Entity
                 Phase = 3;
                 headAnimator.speed = 0f;
                 isPhaseChanging = true;
+                Managers.Sound.PlaySFX("Tiger_Growling");
+
             })
             .AppendInterval(2.5f)
             .AppendCallback(() => { headAnimator.speed = 1f; })
@@ -390,7 +397,7 @@ public class Tiger : Entity
         riceCakes.ForEach(riceCake => riceCake.Delete());
 
         SmokeEffect(20).Forget();
-
+        Managers.Sound.PlaySFX("Boss_Death");
         sequence = DOTween.Sequence();
         sequence
             .AppendInterval(4f)
@@ -424,7 +431,7 @@ public class Tiger : Entity
             int randomInt = Random.Range(0, 2);
             riceCake.transform.position = riceCakePositions[randomInt].position;
 
-            riceCake.GetComponent<TTEOK>().SetVariables(this, randomInt != 1);
+            riceCake.GetComponent<Tteok>().SetVariables(this, randomInt != 1);
 
             riceCakes.Add(riceCake.GetComponent<IDelete>());
 
@@ -453,7 +460,7 @@ public class Tiger : Entity
             riceCake.transform.position = riceCakePositions[randomInt].position;
 
             randomInt = Random.Range(0, 2);
-            riceCake.GetComponent<TTEOK>().SetVariables(this, randomInt == 1);
+            riceCake.GetComponent<Tteok>().SetVariables(this, randomInt == 1);
 
             riceCakes.Add(riceCake.GetComponent<IDelete>());
 

@@ -37,6 +37,7 @@ public class TigerSideAtk2 : MonoBehaviour, IDelete
             })
             .Append(transform.DOMoveX(transform.position.x + x, 0.35f))
             .Append(transform.DOMoveX(transform.position.x, 0.35f))
+            .JoinCallback(() => Managers.Sound.PlaySFX("Tiger_Scratch"))
             .OnComplete(()=> Destroy(gameObject));
     }
 
