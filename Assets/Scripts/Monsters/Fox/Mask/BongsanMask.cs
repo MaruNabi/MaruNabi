@@ -75,6 +75,7 @@ public class BongsanMask : Entity
 
     private void SpawnAnimation(Vector3 _targetPos)
     {
+        Managers.Sound.PlaySFX("Mask_Normal");
         animator.enabled = true;
         sequence = DOTween.Sequence();
         sequence.Append(transform.DOMoveY(-42f, 0.5f))
@@ -110,6 +111,7 @@ public class BongsanMask : Entity
                 {
                     animator.SetTrigger("Teleport");
                     transform.position = teleportPoints[Random.Range(0, 3)];
+                    Managers.Sound.PlaySFX("Mask_Teleport");
                 }
 
                 Attack();
@@ -141,6 +143,7 @@ public class BongsanMask : Entity
                         beam.AddComponent<EnergyBeam>().Init(false);
                     }
                 }
+                Managers.Sound.PlaySFX("Mask_Energy");
             })
             .AppendInterval(0.5f)
             .Append(transform.DOMoveY(targetPos.y, 0.5f))
@@ -155,6 +158,7 @@ public class BongsanMask : Entity
         tag = "Untagged";
         gameObject.layer = 0;
         animator.SetTrigger("Die");
+        Managers.Sound.PlaySFX("Mask_Death");
         sequence = DOTween.Sequence();
         sequence
             .Append(spriteRenderer.DOFade(0, 1f))

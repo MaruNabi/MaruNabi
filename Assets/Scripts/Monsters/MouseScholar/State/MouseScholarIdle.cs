@@ -36,11 +36,13 @@ public class MouseScholarIdle : MouseScholarState
             {
                 stateMachine.SetState("Leave");
                 stateMachine.ChangeAnimation(EScholarAnimationType.Hit);
+                Managers.Sound.PlaySFX("Scholar_Angry");
             }
             else
             {
                 stateMachine.SetState("Fan");
                 stateMachine.ChangeAnimation(EScholarAnimationType.Laugh);
+                Managers.Sound.PlaySFX("Scholar_Laugh");
             }
             
             // Enemy 태그 없애서 피격 상태로 전환 방지

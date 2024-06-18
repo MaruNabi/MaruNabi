@@ -15,14 +15,14 @@ public class TigerSideAtk : MonoBehaviour, IDelete
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-    
+
     public void Move(bool _isRight)
     {
         float x = _isRight ? 20f : -20f;
-        
+
         sequence = DOTween.Sequence();
         sequence
-            .Append(transform.DOMoveX(transform.position.x - x/4, 0.35f))
+            .Append(transform.DOMoveX(transform.position.x - x / 4, 0.35f))
             .AppendInterval(1f)
             .AppendCallback(() =>
             {
@@ -30,8 +30,9 @@ public class TigerSideAtk : MonoBehaviour, IDelete
                 animator.SetTrigger("Go");
             })
             .Append(transform.DOMoveX(transform.position.x - x, 0.35f))
-            .Append(transform.DOMoveX(transform.position.x + x/2, 0.35f))
-            .OnComplete(()=> Destroy(gameObject));
+            .Append(transform.DOMoveX(transform.position.x + x / 2, 0.35f))
+            .JoinCallback(() => Managers.Sound.PlaySFX("Tiger_Scratch"))
+            .OnComplete(() => Destroy(gameObject));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -60,6 +61,5 @@ public class TigerSideAtk : MonoBehaviour, IDelete
         catch (Exception e)
         {
         }
-
     }
 }

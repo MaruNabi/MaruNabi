@@ -41,6 +41,7 @@ public class MouseManager : MonoBehaviour
     {
         mouse.enabled = true;
         mouse.StageStart = true;
+        Managers.Sound.PlayBGM("Mouse_Stage");
     }
     
     public void ProductionSkip()
@@ -79,6 +80,7 @@ public class MouseManager : MonoBehaviour
         {
             item.GetComponent<Player>().PlayerStateTransition(true,0);
         }
+        Managers.Sound.StopBGM();
     }
 
     private void BackGroundMove(bool _set)

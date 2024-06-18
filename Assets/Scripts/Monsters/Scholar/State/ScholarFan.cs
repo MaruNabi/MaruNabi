@@ -33,6 +33,7 @@ public class ScholarFan : ScholarState
         
         await UniTask.Delay(TimeSpan.FromSeconds(ATTACK_DELAY));
         fan = stateMachine.Scholar.MakeFan(scholarPos);
+        Managers.Sound.PlaySFX("Scholar_Fan");
         Entity.AttackEvent?.Invoke();
     }
     

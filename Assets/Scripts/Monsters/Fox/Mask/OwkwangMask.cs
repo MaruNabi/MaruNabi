@@ -86,6 +86,8 @@ public class OwkwangMask : Entity
 
     private void SpawnAnimation(Vector3 _targetPos)
     {
+        Managers.Sound.PlaySFX("Mask_Owkwang");
+
         animator.enabled = true;
         sequence = DOTween.Sequence();
         sequence.Append(transform.DOMoveY(-42f, 0.5f))
@@ -160,6 +162,7 @@ public class OwkwangMask : Entity
                     var beam = Instantiate(energyBeamPrefab, transform.position + Vector3.right * 10f,
                         Quaternion.identity);
                     beam.AddComponent<EnergyBeam>().Init(false);
+                    Managers.Sound.PlaySFX("Mask_Energy");
             })
             .AppendInterval(0.5f)
             .JoinCallback(() => animator.SetTrigger("Beam"))
@@ -175,6 +178,7 @@ public class OwkwangMask : Entity
         var beam = Instantiate(earthBeamPrefab, attackPoints[Random.Range(0, attackPoints.Length-1)] + Vector3.up * 5f,
             Quaternion.identity);
         beam.AddComponent<EnergyBeam>().Init(false);
+        Managers.Sound.PlaySFX("Mask_Earth");
     }
 
     private void OnDead()
@@ -184,6 +188,7 @@ public class OwkwangMask : Entity
         tag = "Untagged";
         gameObject.layer = 0;
         animator.SetTrigger("Die");
+        Managers.Sound.PlaySFX("Mask_Death");
         sequence = DOTween.Sequence();
         sequence
             .Append(spriteRenderer.DOFade(0, 1f))

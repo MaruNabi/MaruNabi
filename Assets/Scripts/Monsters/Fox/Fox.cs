@@ -187,6 +187,7 @@ public class Fox : Entity
                         item.GetComponent<FoxSkullBullet>().Throw();
                     }
                 }
+                Managers.Sound.PlaySFX("Fox_Throw");
             });
     }
 
@@ -238,6 +239,7 @@ public class Fox : Entity
         StopSequence();
         tailCount--;
         animator.runtimeAnimatorController = tailAnimators[8 - tailCount];
+        Managers.Sound.PlaySFX("Fox_Tail");
 
         light.SetActive(true);
         await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
@@ -253,6 +255,7 @@ public class Fox : Entity
         StopSequence();
         tailCount--;
         animator.runtimeAnimatorController = tailAnimators[8 - tailCount];
+        Managers.Sound.PlaySFX("Fox_Tail");
 
         light.SetActive(true);
         await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
@@ -280,7 +283,7 @@ public class Fox : Entity
         StopSequence();
         tailCount -= 3;
         animator.runtimeAnimatorController = tailAnimators[5];
-
+        Managers.Sound.PlaySFX("Fox_Tail");
 
         light.SetActive(true);
         await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
@@ -305,6 +308,7 @@ public class Fox : Entity
             ChangeAnimation(EFoxAnimationType.Angry);
             await UniTask.Delay(TimeSpan.FromSeconds(1f));
             UseTailPhase3().Forget();
+            Managers.Sound.PlaySFX("Boss_Phase");
             // 페이즈 3 시작
         }
         else if (tailCount <= 7 && tailCount > 4)
@@ -313,6 +317,7 @@ public class Fox : Entity
             ChangeAnimation(EFoxAnimationType.Angry);
             await UniTask.Delay(TimeSpan.FromSeconds(1f));
             UseTailPhase2().Forget();
+            Managers.Sound.PlaySFX("Boss_Phase");
         }
         else
         {
@@ -385,6 +390,7 @@ public class Fox : Entity
         {
             case EFoxAnimationType.Laugh:
                 animator.SetTrigger("Laugh");
+                Managers.Sound.PlaySFX("Fox_Laugh");
                 break;
             case EFoxAnimationType.Die:
                 animator.SetTrigger("Die");
@@ -394,12 +400,15 @@ public class Fox : Entity
                 break;
             case EFoxAnimationType.Scrub:
                 animator.SetTrigger("Scrub");
+                Managers.Sound.PlaySFX("Fox_Charging");
                 break;
             case EFoxAnimationType.Angry:
                 animator.SetTrigger("Angry");
+                Managers.Sound.PlaySFX("Fox_Angry");
                 break;
             case EFoxAnimationType.Shake:
                 animator.SetTrigger("Shake");
+                Managers.Sound.PlaySFX("Fox_Breath");
                 break;
         }
     }
@@ -410,6 +419,7 @@ public class Fox : Entity
         ProductionWaitSetting();
         if (animator.runtimeAnimatorController != tailAnimators[5])
             animator.runtimeAnimatorController = tailAnimators[5];
+        Managers.Sound.PlaySFX("Boss_Death");
 
         var soul = Instantiate(effects.soulPrefab, transform.position, Quaternion.identity);
         soul.SetActive(true);

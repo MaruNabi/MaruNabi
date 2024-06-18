@@ -90,6 +90,8 @@ public class MouseScholar : Entity
         GameObject smoke = Instantiate(mouseEffects.smokePrefab);
         smoke.transform.position = transform.position;
 
+        Managers.Sound.PlaySFX("Scholar_Enter");
+        
         GameObject straw = Instantiate(mouseEffects.strawParticle);
         straw.GetComponent<StrawOparcity>().SetOparcity(strawOparcity);
         straw.transform.position = transform.position;
@@ -146,6 +148,7 @@ public class MouseScholar : Entity
         stateMachine.ChangeAnimation(EScholarAnimationType.Hit);
         StageClear?.Invoke(gameObject);
         GameObject smoke = null;
+        Managers.Sound.PlaySFX("Boss_Death");
 
         DOTween.Sequence()
             .AppendInterval(stateMachine.GetAnimPlayTime())
@@ -162,15 +165,18 @@ public class MouseScholar : Entity
     {
         animator.SetTrigger("Dead");
 
+        Managers.Sound.PlaySFX("Mouse_ComeOut");
         GameObject smoke = null;
         DOTween.Sequence()
             .Append(gameObject.transform.DOJump(targetPos, 2, 0, 0.6f))
+            .AppendCallback(() => Managers.Sound.PlaySFX("Mouse_Drop"))
             .AppendInterval(2f)
             .Append(spriteRenderer.DOFade(0, 1f))
             .JoinCallback(() =>
             {
                 smoke = Instantiate(mouseEffects.smokePrefab);
                 smoke.transform.position = transform.position;
+                Managers.Sound.PlaySFX("Scholar_Exit");
             })
             .OnComplete(() => Destroy(gameObject));
     }

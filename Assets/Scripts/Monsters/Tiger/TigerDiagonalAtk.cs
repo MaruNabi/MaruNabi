@@ -47,6 +47,7 @@ public class TigerDiagonalAtk : MonoBehaviour, IDelete
             })
             .Append(transform.DOMoveX(firstX + x / floatHeight, 0.35f))
             .Join(transform.DOMoveY(firstY - 8.5f / floatHeight, 0.35f))
+            .JoinCallback(() => Managers.Sound.PlaySFX("Tiger_Scratch"))
             .Append(transform.DOMove(startPos, 0.35f))
             .Append(spriteRenderer.DOFade(0, 0.35f))
             .OnComplete(()=> Destroy(gameObject));

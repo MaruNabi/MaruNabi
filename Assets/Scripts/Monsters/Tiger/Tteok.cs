@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class TTEOK : Entity, IDelete
+public class Tteok : Entity, IDelete
 {
     [SerializeField] GameObject redBean;
 
@@ -63,6 +63,8 @@ public class TTEOK : Entity, IDelete
         float x = isRight ? 8f : -8f;
         
         animator.SetTrigger("Attack");
+        Managers.Sound.PlaySFX("Tteok_Shot");
+
         var bean = Instantiate(redBean, transform.position + Vector3.down, Quaternion.identity);
         beans.Add(bean);
         var beanSequence = DOTween.Sequence();
@@ -93,6 +95,8 @@ public class TTEOK : Entity, IDelete
 
     public void Move()
     {
+        Managers.Sound.PlaySFX("Tteok_Flying");
+
         sequence = DOTween.Sequence();
         sequence
             .Append(transform.DOMoveY(-50f, 40f));

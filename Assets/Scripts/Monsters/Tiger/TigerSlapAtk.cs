@@ -30,10 +30,12 @@ public class TigerSlapAtk : MonoBehaviour, IDelete
                 spriteRenderer.sortingOrder = -11;
             })
             .AppendInterval(0.5f)
+            .JoinCallback(() => Managers.Sound.PlaySFX("Tiger_HandForward"))
             .Append(transform.DOMoveY(transform.position.y - 5f, 0.5f))
             .JoinCallback(() =>
             {
                 spriteRenderer.sortingOrder = 20;
+                Managers.Sound.PlaySFX("Tiger_Slam");
             })
             .AppendInterval(0.25f)
             .Append(transform.DOMoveY(transform.position.y, 0.5f))

@@ -197,6 +197,76 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: cabb55b59d17554419287a4458c87777, type: 3}
   - name: BSpark
     clip: {fileID: 8300000, guid: cc9f0cb740f91204d8ee2e462a669d7f, type: 3}
+  - name: Scholar_Fan
+    clip: {fileID: 8300000, guid: 8551c1297db488149aef8205b5dff7e4, type: 3}
+  - name: Scholar_Angry
+    clip: {fileID: 8300000, guid: 7e412ce92e76e744ebf9f6f750787adb, type: 3}
+  - name: Scholar_Enter
+    clip: {fileID: 8300000, guid: a03a542980911684cbf2f6b56e3660bc, type: 3}
+  - name: Scholar_Exit
+    clip: {fileID: 8300000, guid: 65c17db949b0e0d47aa16f989e1ee5d1, type: 3}
+  - name: Scholar_Laugh
+    clip: {fileID: 8300000, guid: cac5f4d6dc915cc44826d31fee02796e, type: 3}
+  - name: Mouse_ComeOut
+    clip: {fileID: 8300000, guid: fa438e66f0f3d3b4698c4cbb94671a56, type: 3}
+  - name: Mouse_Drop
+    clip: {fileID: 8300000, guid: b79577fe80ee6374b847a3738166fae7, type: 3}
+  - name: Mouse_Growling
+    clip: {fileID: 8300000, guid: ba8c0d9cc39dc68478dbdbca1c5776eb, type: 3}
+  - name: Mouse_Rush
+    clip: {fileID: 8300000, guid: 2dec978be867c1749939c1924055e66e, type: 3}
+  - name: Mouse_Stop
+    clip: {fileID: 8300000, guid: d5312c8bfe8070542ac1acdf0e1a413d, type: 3}
+  - name: Mouse_Tail
+    clip: {fileID: 8300000, guid: 74856a40be3a9da4881a0d67ca21de50, type: 3}
+  - name: Boss_Death
+    clip: {fileID: 8300000, guid: c4deb4eb0687b1f4491a88548d6551ae, type: 3}
+  - name: Boss_Phase
+    clip: {fileID: 8300000, guid: 8a2ee2ad879459b49ba0764e9faa78d2, type: 3}
+  - name: Fox_Angry
+    clip: {fileID: 8300000, guid: 9d3eb06e631c5fd42a042bfa0a52798a, type: 3}
+  - name: Fox_Breath
+    clip: {fileID: 8300000, guid: c30ae8670f9825845a99e08d12a75b92, type: 3}
+  - name: Fox_Charging
+    clip: {fileID: 8300000, guid: 16dc8ce2dd063b444bac3244ecf12802, type: 3}
+  - name: Fox_Laugh
+    clip: {fileID: 8300000, guid: c55e746b19447d145b9c66ae2b28e2d2, type: 3}
+  - name: Fox_Tail
+    clip: {fileID: 8300000, guid: b3ca759633db4d14f9d83962a99dfe55, type: 3}
+  - name: Fox_Throw
+    clip: {fileID: 8300000, guid: 48f1a76d55f8ab540acc7c4b0aa64319, type: 3}
+  - name: Mask_Death
+    clip: {fileID: 8300000, guid: 571df7d0ee3060b47bfabfb061fb4109, type: 3}
+  - name: Mask_Earth
+    clip: {fileID: 8300000, guid: 752c43ba5c0190041ab9023b7f013aa3, type: 3}
+  - name: Mask_Energy
+    clip: {fileID: 8300000, guid: 44a010a730094a04f8184e0ea87f999b, type: 3}
+  - name: Mask_Normal
+    clip: {fileID: 8300000, guid: 5a44e4a70c161b04bb6cc44ab69ed2ed, type: 3}
+  - name: Mask_Owkwang
+    clip: {fileID: 8300000, guid: 6bdba956968325d4ab5fff55bbd3782a, type: 3}
+  - name: Mask_Teleport
+    clip: {fileID: 8300000, guid: c759bb3750eb6f04eaa9275a3831ae49, type: 3}
+  - name: Tiger_Bite
+    clip: {fileID: 8300000, guid: 01755587271b8c74daf4a930cc4e485e, type: 3}
+  - name: Tiger_Ground
+    clip: {fileID: 8300000, guid: 69c3d70f24ce4ba48b3375fe0f91d3a5, type: 3}
+  - name: Tiger_Growling
+    clip: {fileID: 8300000, guid: 3aaf672178229e246a362b4af8fc68d8, type: 3}
+  - name: Tiger_HandForward
+    clip: {fileID: 8300000, guid: c24ce34652fcf424c8142e7069bd314e, type: 3}
+  - name: Tiger_Slam
+    clip: {fileID: 8300000, guid: b093ce4addcb69c4b99531b56214289a, type: 3}
+  - name: Tiger_Scratch
+    clip: {fileID: 8300000, guid: 70c35e92169d64a449e45e5857b6aafd, type: 3}
+  - name: Tiger_Inhale
+    clip: {fileID: 8300000, guid: c759bb3750eb6f04eaa9275a3831ae49, type: 3}
+  - name: Tiger_Roar
+    clip: {fileID: 8300000, guid: c759bb3750eb6f04eaa9275a3831ae49, type: 3}
+  - name: Tteok_Flying
+    clip: {fileID: 8300000, guid: 30f01b7a6f511a941a7d079df07284b0, type: 3}
+  - name: Tteok_Shot
+    clip: {fileID: 8300000, guid: d7337be4fede77f46a8a954491fccce0, type: 3}
   array_bgm:
   - name: Title
     clip: {fileID: 8300000, guid: 991b32eeed76f7147a3e4cc75a777b67, type: 3}
@@ -208,6 +278,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: cf33a9cbf6c8a2e4dbdb8b6ebbb5735d, type: 3}
   - name: LoadingScene
     clip: {fileID: 8300000, guid: 5b372db16e4d871489628db44a2e03fa, type: 3}
+  - name: Fox_Stage
+    clip: {fileID: 8300000, guid: 9864f503cbb82d64c99b5fda0aaa203b, type: 3}
+  - name: Mouse_Stage
+    clip: {fileID: 8300000, guid: da0b0f2946bd51b4dbb7fbcbcd798fd1, type: 3}
   bgmPlayer: {fileID: 794565575}
   sfxPlayer: {fileID: 1346706283}
   typeWritePlayer: {fileID: 99301413}

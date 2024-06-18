@@ -8797,9 +8797,77 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_bgm.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_sfx.Array.size
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_bgm.Array.data[5].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 933362db02c5eff4dbef4868f36bda63, type: 3}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_bgm.Array.data[5].name
+      value: Boss_Death_BGM
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_bgm.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 933362db02c5eff4dbef4868f36bda63, type: 3}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_bgm.Array.data[6].name
+      value: Boss_Death_BGM
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_sfx.Array.data[22].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8551c1297db488149aef8205b5dff7e4, type: 3}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_sfx.Array.data[22].name
+      value: Scholar_Fan
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_sfx.Array.data[23].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7e412ce92e76e744ebf9f6f750787adb, type: 3}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_sfx.Array.data[23].name
+      value: Scholar_Angry
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_sfx.Array.data[24].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: a03a542980911684cbf2f6b56e3660bc, type: 3}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_sfx.Array.data[24].name
+      value: Scholar_Enter
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_sfx.Array.data[25].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 65c17db949b0e0d47aa16f989e1ee5d1, type: 3}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_sfx.Array.data[25].name
+      value: Scholar_Exit
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_sfx.Array.data[26].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: cac5f4d6dc915cc44826d31fee02796e, type: 3}
+    - target: {fileID: 7298245191295625302, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: array_sfx.Array.data[26].name
+      value: Scholar_Laugh
+      objectReference: {fileID: 0}
     - target: {fileID: 7298245191295625303, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
       propertyPath: m_Name
       value: SoundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7298245191295625303, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17a4c2dd65b86014fb758703acf762bb, type: 3}
@@ -21159,6 +21227,7 @@ GameObject:
   - component: {fileID: 1548292392}
   - component: {fileID: 1548292391}
   - component: {fileID: 1548292393}
+  - component: {fileID: 1548292394}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -21322,6 +21391,14 @@ MonoBehaviour:
   - {fileID: 1991299707}
   s_Manager: {fileID: 420636039}
   s2_Manager: {fileID: 2125024047}
+--- !u!81 &1548292394
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548292386}
+  m_Enabled: 1
 --- !u!1 &1548299394
 GameObject:
   m_ObjectHideFlags: 0
