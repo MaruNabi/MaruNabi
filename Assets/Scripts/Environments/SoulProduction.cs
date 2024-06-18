@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
-using UnityEditor.Search;
 using UnityEngine;
 
 public class SoulProduction : MonoBehaviour

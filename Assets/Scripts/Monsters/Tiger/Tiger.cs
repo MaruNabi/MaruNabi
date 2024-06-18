@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using UnityEditor.Animations;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,7 +16,7 @@ public class Tiger : Entity
     [SerializeField] private GameObject body;
     [SerializeField] private TigerHand leftHand;
     [SerializeField] private TigerHand rightHand;
-    [SerializeField] private AnimatorController[] animators;
+    [SerializeField] private RuntimeAnimatorController[] animators;
     [SerializeField] private Transform[] bitePositions;
     [SerializeField] private Transform[] riceCakePositions;
     [SerializeField] private GameObject riceCakePrefab;

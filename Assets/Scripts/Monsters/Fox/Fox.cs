@@ -5,7 +5,6 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using UnityEditor.Animations;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -19,7 +18,7 @@ public class Fox : Entity
     [SerializeField] private Transform owkwangSpawnPos;
     [SerializeField] private GameObject owkwangBeamPos;
     [SerializeField] private GameObject[] maskPrefabs;
-    [SerializeField] AnimatorController[] tailAnimators;
+    [SerializeField] RuntimeAnimatorController[] tailAnimators;
 
     private GameObject light;
     private FoxEffects effects;

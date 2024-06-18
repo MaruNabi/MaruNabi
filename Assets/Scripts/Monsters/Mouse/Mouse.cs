@@ -4,7 +4,6 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
 using Unity.VisualScripting;
-using UnityEditor.Animations;
 using Random = UnityEngine.Random;
 using Sequence = DG.Tweening.Sequence;
 
@@ -32,7 +31,7 @@ public class Mouse : Entity
     private bool isPhaseChanging;
     private bool stageStart;
     public bool StageStart { set => stageStart = value; }
-    [SerializeField] private AnimatorController phase2Animator;
+    [SerializeField] private RuntimeAnimatorController phase2Animator;
     
     private float patternPercent;
     public float PatternPercent { get => patternPercent; set => patternPercent = value; }
