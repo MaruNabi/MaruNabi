@@ -71,7 +71,7 @@ public class Mouse : Entity
 
     public bool CheckPhaseChangeHp()
     {
-        return HP <= 4900;
+        return HP <= 300;
     }
 
     public bool CheckDead()

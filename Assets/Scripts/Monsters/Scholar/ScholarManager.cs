@@ -48,7 +48,7 @@ public class ScholarManager : MonoBehaviour
         mouseHp = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER").LIFE;
         Managers.Sound.PlayBGM("Stage_2.1.1");
 
-        strawOparcity = new[] { 0.1f, 0.3f, 0.5f, 0.6f, 0.77f, 0.84f, 0.89f, 0.92f, 0.95f, 0.98f };
+        strawOparcity = new[] { 0.98f, 0.95f, 0.92f, 0.89f, 0.84f, 0.77f, 0.6f, 0.5f, 0.3f, 0.1f };
 
         if (stage1Start)
         {
@@ -190,7 +190,7 @@ public class ScholarManager : MonoBehaviour
             var item = scholars[index];
             if (item == _mouseScholar)
             {
-                Utils.GetOrAddComponent<MouseScholar>(_mouseScholar).JumpAnimation(_mouseScholar.transform.position);
+                Utils.GetOrAddComponent<MouseScholar>(_mouseScholar).JumpAnimation();
             }
         }
 

@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Stage2.unity
     guid: 4b8d1eace99f7d94eadc165297f00c55
   - enabled: 1
-    path: Assets/Scenes/Stage2 1.unity
+    path: Assets/Scenes/Stage2.unity
     guid: e623f7cf523355240bae6790c2e9b09f
   - enabled: 1
     path: Assets/Scenes/DialogueScene.unity
