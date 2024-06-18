@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
     protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
     protected const float maxUltimateGauge = 2500.0f;
     public static bool isReviveSuccess = false;
-    public static bool isDead = false;
     private bool canHit = true;
     private bool isTimerEnd = false;
     private bool isCalledOnce = true;
@@ -101,6 +100,8 @@ public class Player : MonoBehaviour
 
     private bool isForcedInputChanged = false;
     private bool isInputChanged = false;
+
+    public bool isPlayerDead { get; private set; }
 
     public bool IsTargetGround
     {
@@ -372,18 +373,12 @@ public class Player : MonoBehaviour
         if (isSurfaceEffector)
         {
             if (moveHorizontal == 0.0f)
-            {
                 return;
-            }
             else
-            {
-                rigidBody.AddForce((movement).normalized, ForceMode2D.Impulse);
-            }
+                rigidBody.AddForce((movement).normalized / 4, ForceMode2D.Impulse);
         }
         else
-        {
             rigidBody.velocity = movement + velocityYOnly;
-        }
     }
 
     public void ForcedPlayerMoveToRight()
@@ -544,7 +539,7 @@ public class Player : MonoBehaviour
             //Real Dead
             //Destroy(gameObject);
             Managers.Sound.PlaySFX("Dead");
-            isDead = true;
+            isPlayerDead = true;
             this.gameObject.SetActive(false);
             reviveZone.SetActive(false);
         }

@@ -23,6 +23,7 @@ public class PlayerNabi : Player
 
     [SerializeField] private Image playerHpUI;
     [SerializeField] private GameObject skillChangeUI;
+    [SerializeField] private Player playerMaru;
 
     private Sprite[] nabiLifeSprite = new Sprite[6];
     private string selectedPadName;
@@ -38,7 +39,6 @@ public class PlayerNabi : Player
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
-        isDead = false;
         isNabiTraitActivated = false;
         NabiTraitScore = 0;
 
@@ -135,6 +135,8 @@ public class PlayerNabi : Player
         if (InputManager.isNeedInit)
         {
             //InputManager.isNeedInit = false;
+            if (playerMaru.isPlayerDead)
+                InputManager.isNeedInit = false;
             OnPlayerInit();
         }
 
@@ -142,7 +144,9 @@ public class PlayerNabi : Player
             rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
 
         if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector) //isDead는 Slope에서 죽으면 밀려야 하기 때문
+        {
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        }
         else
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
 

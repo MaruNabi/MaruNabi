@@ -40,7 +40,6 @@ public class PlayerMaru : Player
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
-        isDead = false;
 
         playerShield.SetActive(false);
         reviveZone.SetActive(false);
