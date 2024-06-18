@@ -6100,9 +6100,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC67C\uCABD\uC758 \uB354\uBBF8\uB97C \uACF5\uACA9\uD558\uC5EC \uAC8C\uC774\uC9C0\uB97C
-    \uCC44\uC6B0\uACE0 'B', '['\uD0A4\uB97C \uD1B5\uD574 \uD2B9\uC218 \uAE30\uC220\uC744
-    \uC0AC\uC6A9\uD574 \uBCF4\uC2ED\uC2DC\uC624. (\uD328\uB4DC : A)"
+  m_text: "Tab\uD0A4\uC640 '='\uD0A4\uB97C \uB20C\uB7EC \uC2A4\uD0AC\uC744 \uBCC0\uACBD\uD560
+    \uC218 \uC788\uC2B5\uB2C8\uB2E4. (\uD328\uB4DC B)\n\uC67C\uCABD\uC758 \uB354\uBBF8\uB97C
+    \uACF5\uACA9\uD558\uC5EC \uAC8C\uC774\uC9C0\uB97C \uCC44\uC6B0\uACE0 'B', '['\uD0A4\uB97C
+    \uD1B5\uD574 \uD2B9\uC218 \uAE30\uC220\uC744 \uC0AC\uC6A9\uD574 \uBCF4\uC2ED\uC2DC\uC624.
+    (\uD328\uB4DC : A)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}

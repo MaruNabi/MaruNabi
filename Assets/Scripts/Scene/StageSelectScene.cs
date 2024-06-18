@@ -30,11 +30,16 @@ public class StageSelectScene : MonoBehaviour
     private bool isPadMoveOnce;
     private bool isPad;
 
+    [SerializeField] private GameObject firstInformation;
+    private bool isActiveInformation;
+
     private Color originColor = new Color(1, 1, 1, 1);
     private Color disableColor = new Color(1, 1, 1, 0);
 
     void Start()
     {
+        isActiveInformation = true;
+
         buttonCount = stage.Length;
         currentDepth = 0;
         slotMovePos = -347;
@@ -57,7 +62,16 @@ public class StageSelectScene : MonoBehaviour
 
     void Update()
     {
-        ButtonsControl();
+        if (isActiveInformation)
+        {
+            if (Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.Joystick1Button5))
+            {
+                firstInformation.SetActive(false);
+                isActiveInformation = false;
+            }
+        }
+        else
+            ButtonsControl();
     }
 
     private void ButtonsControl()
