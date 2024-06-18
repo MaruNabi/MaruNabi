@@ -19,6 +19,8 @@ public class LoadingScene : MonoBehaviour
     {
         Managers.Pool.Clear();
 
+        Managers.Sound.PlayBGM("LoadingScene");
+
         StartCoroutine(WaitForDataLoading());
 
         StartCoroutine(LoadSceneProcess());

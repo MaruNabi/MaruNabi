@@ -2786,7 +2786,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "W,A  :   \uBA54\uB274 \uC774\uB3D9\nV      :   \uD655\uC778 \uBC0F \uC120\uD0DD"
+  m_text: "W,S  :   \uBA54\uB274 \uC774\uB3D9\nV     :   \uD655\uC778 \uBC0F \uC120\uD0DD"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b01b3baeff2cce3499048758a8bb70ea, type: 2}
   m_sharedMaterial: {fileID: -4595087576651551384, guid: b01b3baeff2cce3499048758a8bb70ea, type: 2}
