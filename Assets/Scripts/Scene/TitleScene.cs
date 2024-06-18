@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class TitleScene : MonoBehaviour
 {
@@ -19,11 +20,9 @@ public class TitleScene : MonoBehaviour
     {
         isActiveInformation = true;
         buttonCount = buttons.Length;
-        if (Managers.Data == null)
-            Debug.Log("Hi");
-        else
-            Debug.Log("B");
-        //Managers.Sound.PlayBGM("Title");
+
+        Managers.Sound.PlayBGM("Title");
+        Managers.Sound.SetBGMVolume(1);
     }
 
     void Update()
@@ -39,6 +38,9 @@ public class TitleScene : MonoBehaviour
         else
         {
             ButtonsControl();
+
+            if (Input.GetKeyDown(KeyCode.F7))
+                SceneManager.LoadScene("Stage2 1");
         }
     }
 
@@ -63,6 +65,7 @@ public class TitleScene : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.V))
         {
+            StopCoroutine("Movement");
             ExeFunction();
         }
     }

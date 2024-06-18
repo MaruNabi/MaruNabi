@@ -32,6 +32,8 @@ public class AttackSmallMaze : Sword
         swordDistance = new Vector2(MAX_DISTANCE, MAX_DISTANCE);
         attackPower = 400.0f;
         wayPoints = new Vector3[3];
+
+        Managers.Sound.PlaySFX("Mace");
     }
 
     void Update()

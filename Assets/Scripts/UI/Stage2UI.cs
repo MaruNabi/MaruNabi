@@ -72,12 +72,12 @@ public class Stage2UI : MonoBehaviour
             {
                 isSetOnce = true;
                 pauseUI.SetActive(true);
-                if (!PlayerMaru.isDead && !PlayerNabi.isDead)
+                if (!playerMaru.isPlayerDead && !playerNabi.isPlayerDead)
                 {
                     CurrentProgress(0);
                     CurrentProgress(1);
                 }
-                else if (PlayerMaru.isDead)
+                else if (playerMaru.isPlayerDead)
                 {
                     DeadProgress(0);
                     CurrentProgress(1);
@@ -104,12 +104,12 @@ public class Stage2UI : MonoBehaviour
             }
         }
 
-        if (PlayerMaru.isDead && playerProcess[0, 0] == 0)
+        if (playerMaru.isPlayerDead && playerProcess[0, 0] == 0)
             PlayerDeadSave(0);
-        if (PlayerNabi.isDead && playerProcess[1, 0] == 0)
+        if (playerNabi.isPlayerDead && playerProcess[1, 0] == 0)
             PlayerDeadSave(1);
 
-        if (PlayerMaru.isDead && PlayerNabi.isDead)
+        if (playerMaru.isPlayerDead && playerNabi.isPlayerDead)
         {
             gameOverUI.SetActive(true);
             progressBarUI.SetActive(true);

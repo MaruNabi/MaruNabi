@@ -17,6 +17,7 @@ public class SkillCurseArrow : Bullet
         arrowSpriteRenderer = GetComponent<SpriteRenderer>();
         arrowSpriteRenderer.color = fadeColor;
 
+        Managers.Sound.PlaySFX("CArrow");
         StartCoroutine(ArrowShoot());
     }
 
@@ -48,6 +49,7 @@ public class SkillCurseArrow : Bullet
         transform.DOLocalMove(new Vector3(0.6f, 0, 0), 0.3f).SetEase(Ease.InQuad);
         yield return new WaitForSeconds(0.3f);
 
+        Managers.Sound.PlaySFX("CArrowHit");
         //enemyName = ray.collider.name;
         //ray.collider.GetComponent<Entity>().OnDamage(attackPower * 2);
     }

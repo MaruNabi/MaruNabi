@@ -14,6 +14,8 @@ public class SkillBigBeads : Bullet
             attackPower = SBEADS_ATTACK_POWER;
 
         SetBullet(2.5f);
+
+        Managers.Sound.PlaySFX("BBeads");
     }
 
     void Update()

@@ -47,6 +47,7 @@ public class AttackSmallSpark : Bullet
                     attackPower = SPARK_ATTACK_POWER;
                 isSetOnce = false;
                 SetBullet();
+                Managers.Sound.PlaySFX("Spark");
                 shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Shotgun");
                 sparkSpriteRenderer.color = originColor;
 

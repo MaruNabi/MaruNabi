@@ -57,6 +57,7 @@ public class AttackCharm : Bullet
             }
         }
 
+        Managers.Sound.PlaySFX("Charm");
         shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Dron");
     }
 

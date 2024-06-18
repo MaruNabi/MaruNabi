@@ -15,6 +15,7 @@ public class SkillBigSpark : Bullet
 
         SetBullet();
 
+        Managers.Sound.PlaySFX("BSpark");
         shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Tank");
     }
 

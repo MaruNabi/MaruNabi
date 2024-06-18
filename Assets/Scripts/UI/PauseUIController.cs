@@ -89,7 +89,7 @@ public class PauseUIController : MonoBehaviour
                 Stage2UI.isGamePaused = false;
                 Stage2UI.isSetOnce = false;
                 Time.timeScale = 1;
-                LoadingScene.nextScene = "Stage2";
+                LoadingScene.nextScene = "Stage2 1";
                 SceneManager.LoadScene("LoadingScene");
                 //SceneManager.LoadScene("Stage2");
                 break;

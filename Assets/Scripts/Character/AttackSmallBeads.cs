@@ -15,6 +15,7 @@ public class AttackSmallBeads : Bullet
 
         SetBullet();
 
+        Managers.Sound.PlaySFX("Beads");
         shootEffect = Resources.Load<GameObject>("Prefabs/VFX/Player/15Sprites/Rikochet");
     }
 
