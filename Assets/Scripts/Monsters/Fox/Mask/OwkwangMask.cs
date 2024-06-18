@@ -48,7 +48,7 @@ public class OwkwangMask : Entity
     
     protected override void Init()
     {
-        HP = 15000;
+        HP = Utils.GetDictValue(Managers.Data.monsterDict, "OWKWANG_MONSTER").LIFE;
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         SpawnAnimation(targetPos);
@@ -86,7 +86,7 @@ public class OwkwangMask : Entity
 
     private void SpawnAnimation(Vector3 _targetPos)
     {
-        //animator.enabled = true;
+        animator.enabled = true;
         sequence = DOTween.Sequence();
         sequence.Append(transform.DOMoveY(-42f, 0.5f))
             .Join(spriteRenderer.DOFade(1, 0.5f))
@@ -113,13 +113,27 @@ public class OwkwangMask : Entity
 
     private void Move()
     {
-        // 3�ʵ��� ���Ʒ��� �Դٰ��� �ؾ���.
+        Vector3[] points = new Vector3[3];
+        if (transform.position.y == teleportPoints[2].y)
+        {
+            points[0] = teleportPoints[0];
+            points[1] = teleportPoints[2];
+            points[2] = teleportPoints[0];
+        }
+        else
+        {
+            points[0] = teleportPoints[2];
+            points[1] = teleportPoints[0];
+            points[2] = teleportPoints[2];
+        }
+        
         sequence = DOTween.Sequence();
         sequence
             .AppendInterval(1f)
-            .Append(transform.DOMoveY(teleportPoints[2].y, 1f))
-            .Append(transform.DOMoveY(teleportPoints[0].y, 1f))
-            .Append(transform.DOMoveY(teleportPoints[2].y, 1f))
+            .Append(transform.DOMoveY(points[0].y, 1f))
+            .JoinCallback(() => animator.SetTrigger("Move"))
+            .Append(transform.DOMoveY(points[1].y, 1f))
+            .Append(transform.DOMoveY(points[2].y, 1f))
             .AppendCallback(() =>
             {
                 Attack();
@@ -130,11 +144,17 @@ public class OwkwangMask : Entity
     {
         int randomInt = Random.Range(0, 3);
         
+        if(transform.position.y < teleportPoints[randomInt].y -5)
+            animator.SetTrigger("Up");
+        else if (transform.position.y > teleportPoints[randomInt].y+5)
+        {
+            animator.SetTrigger("Down");
+        }
+        
         sequence = DOTween.Sequence();
         sequence
             //.AppendCallback(() => animator.SetTrigger("Attack"))
             .Append(transform.DOMoveY(teleportPoints[randomInt].y, 0.5f).SetEase(Ease.InCirc))
-            .AppendInterval(0.5f)
             .AppendCallback(() =>
             {
                     var beam = Instantiate(energyBeamPrefab, transform.position + Vector3.right * 10f,
@@ -142,7 +162,9 @@ public class OwkwangMask : Entity
                     beam.AddComponent<EnergyBeam>().Init(false);
             })
             .AppendInterval(0.5f)
-            .Append(transform.DOMoveY(teleportPoints[0].y, 0.5f))
+            .JoinCallback(() => animator.SetTrigger("Beam"))
+            .AppendInterval(1f)
+            .JoinCallback(() => animator.SetTrigger("Idle"))
             .OnComplete(() => Move());
         
         // ���� �ִϸ��̼� ����

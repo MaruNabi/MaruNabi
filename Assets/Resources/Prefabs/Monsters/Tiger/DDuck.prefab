@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7144425276797773769}
   - component: {fileID: 7144425276797773775}
   - component: {fileID: 4128725800665433634}
+  - component: {fileID: 3493136370926524858}
   m_Layer: 7
   m_Name: DDuck
   m_TagString: Enemy
@@ -146,3 +147,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.84065, y: 3.0605373}
   m_EdgeRadius: 0
+--- !u!114 &3493136370926524858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144425276797773771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 300871d1cf6a8984d8b6c6459c223226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 11

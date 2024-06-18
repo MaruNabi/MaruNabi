@@ -35,6 +35,11 @@ public class StageSwitchingManager : MonoBehaviour
     [SerializeField] private Transform stage4SpawnPoint;
     [Space]
 
+    
+    [Header("UI")]
+    [SerializeField] private GameObject stageClearUI;
+    [Space]
+
     [SerializeField] private Transform targetGroup;
     
     private List<Player> players;
@@ -64,7 +69,7 @@ public class StageSwitchingManager : MonoBehaviour
     {
         players = GameObject.FindGameObjectsWithTag("Player").Select(x => x.GetComponent<Player>()).ToList();
         StageNumber = 1;
-        
+        Tiger.Stage4Clear += StageAllClear;
 
         if (skipToStage4)
         {
@@ -114,6 +119,11 @@ public class StageSwitchingManager : MonoBehaviour
             // 우측으로 강제 이동
             players.ForEach(x => x.ForcedPlayerMoveToRight());
         }
+    }
+    
+    private void OnDestroy()
+    {
+        Tiger.Stage4Clear -= StageAllClear;
     }
 
     public void ForcedMove()
@@ -199,5 +209,11 @@ public class StageSwitchingManager : MonoBehaviour
         stage4Camera.gameObject.SetActive(true);
         stage3Camera.gameObject.SetActive(false);
         tigerManager.EnterProduction().Forget();
+    }
+
+    public void StageAllClear()
+    {
+        DisAllowBehavior();AllowBehavior();
+        stageClearUI.SetActive(true);
     }
 }

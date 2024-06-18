@@ -35,7 +35,6 @@ public class MouseScholar : Entity
     {
         Data = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER");
         stateMachine = Utils.GetOrAddComponent<MouseScholarStateMachine>(gameObject);
-
         spriteRenderer = GetComponent<SpriteRenderer>();
         mouseEffects = GetComponent<ScholarEffects>();
         entityCollider = GetComponent<Collider2D>();

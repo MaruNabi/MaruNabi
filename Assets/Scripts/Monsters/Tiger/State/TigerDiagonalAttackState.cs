@@ -29,7 +29,7 @@ public class TigerDiagonalAttackState : TigerState
     
             token.ThrowIfCancellationRequested();
             
-            stateMachine.SetState("Idle");
+            stateMachine.SetState("Phase1");
         }
         catch (OperationCanceledException)
         {

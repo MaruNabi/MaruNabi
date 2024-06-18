@@ -66,16 +66,17 @@ public class TigerDiagonalAtk : MonoBehaviour, IDelete
     
     public void Delete()
     {
-        Debug.Log("Delete");
-
-        
-        if(spriteRenderer == null) 
-            spriteRenderer = GetComponent<SpriteRenderer>();
-        
-        sequence.Kill();
-        sequence = DOTween.Sequence();
-        sequence
-            .Append(spriteRenderer.DOFade(0, 0.5f))
-            .OnComplete(() => Destroy(gameObject));
+        try
+        {
+            Debug.Log("Delete");
+            DOTween.Kill(this);
+            sequence = DOTween.Sequence();
+            sequence
+                .Append(spriteRenderer.DOFade(0, 0.5f))
+                .OnComplete(() => Destroy(gameObject));
+        }
+        catch (Exception e)
+        {
+        }
     }
 }
