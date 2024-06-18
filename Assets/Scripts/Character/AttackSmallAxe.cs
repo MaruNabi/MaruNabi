@@ -25,7 +25,9 @@ public class AttackSmallAxe : Sword
 
         swordDistance = new Vector2(MAX_DISTANCE, 0);
 
-        attackPower = 300.0f;
+        //attackPower = 300.0f;
+
+        Managers.Sound.PlaySFX("Axe");
     }
 
     void Update()

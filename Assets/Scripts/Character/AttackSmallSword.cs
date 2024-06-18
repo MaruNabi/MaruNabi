@@ -30,6 +30,7 @@ public class AttackSmallSword : Sword
         swordDistance = new Vector2(MAX_DISTANCE, 0);
 
         canHit = true;
+        Managers.Sound.PlaySFX("Sword");
     }
 
     void Update()
@@ -163,6 +164,7 @@ public class AttackSmallSword : Sword
         if (MAX_DISTANCE - Vector3.Distance(transform.position, swordPosition) >= 3.1f)
         {
             finalAttackPower = attackPower * 2.5f;
+            Managers.Sound.PlaySFX("Sword2.5");
         }
         else if (MAX_DISTANCE - Vector3.Distance(transform.position, swordPosition) < 2.3f)
         {
@@ -171,6 +173,7 @@ public class AttackSmallSword : Sword
         else
         {
             finalAttackPower = attackPower * 1.5f;
+            Managers.Sound.PlaySFX("Sword1.5");
         }
     }
 }

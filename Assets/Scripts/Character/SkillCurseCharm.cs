@@ -54,6 +54,7 @@ public class SkillCurseCharm : Bullet
             }
         }
 
+        Managers.Sound.PlaySFX("CCharm");
         curseCharmAnimator = GetComponent<Animator>();
         curseArrow.SetActive(false);
     }
@@ -131,6 +132,7 @@ public class SkillCurseCharm : Bullet
             if (ray.collider.tag == "Enemy" || ray.collider.tag == "NoBumpEnemy")
             {
                 curseCharmAnimator.SetBool("isHit", true);
+                Managers.Sound.PlaySFX("CCharmAtt");
                 isHitEnemy = true;
             }
         }

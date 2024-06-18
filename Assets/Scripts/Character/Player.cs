@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
     protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
     protected const float maxUltimateGauge = 2500.0f;
     public static bool isReviveSuccess = false;
-    public static bool isDead = false;
     private bool canHit = true;
     private bool isTimerEnd = false;
     private bool isCalledOnce = true;
@@ -102,6 +101,8 @@ public class Player : MonoBehaviour
     private bool isForcedInputChanged = false;
     private bool isInputChanged = false;
 
+    public bool isPlayerDead { get; private set; }
+
     public bool IsTargetGround
     {
         set => isTargetGround = value;
@@ -123,6 +124,7 @@ public class Player : MonoBehaviour
         if (!canHit) //!canPlayerState[5]
             return;
 
+        Managers.Sound.PlaySFX("Hit");
         isHit = true;
         //canPlayerState[0] = false;
         PlayerInputControl(false, OnPlayerMove);
@@ -144,6 +146,7 @@ public class Player : MonoBehaviour
         if (!canHit)
             return;
 
+        Managers.Sound.PlaySFX("Hit");
         isHit = true;
         //canPlayerState[0] = false;
         PlayerInputControl(false, OnPlayerMove);
@@ -268,6 +271,7 @@ public class Player : MonoBehaviour
                     isJumping = false;
                     cJumpCount = 0;
                     cMiniJumpPower = MINIMUM_JUMP;
+                    Managers.Sound.PlaySFX("Landing");
                     Instantiate(landingEffect, transform.position, transform.rotation);
                 }
             }
@@ -369,18 +373,12 @@ public class Player : MonoBehaviour
         if (isSurfaceEffector)
         {
             if (moveHorizontal == 0.0f)
-            {
                 return;
-            }
             else
-            {
-                rigidBody.AddForce((movement).normalized, ForceMode2D.Impulse);
-            }
+                rigidBody.AddForce((movement).normalized / 4, ForceMode2D.Impulse);
         }
         else
-        {
             rigidBody.velocity = movement + velocityYOnly;
-        }
     }
 
     public void ForcedPlayerMoveToRight()
@@ -413,6 +411,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(jumpKey) && !isJumping && !isSitting && cJumpCount < cMaxJumpCount && !isLock) //canPlayerState[3]
         {
             rigidBody.velocity = Vector2.zero;
+            Managers.Sound.PlaySFX("Jump");
             PlayerJump(cMiniJumpPower);
             isJumpingEnd = false;
             cJumpCount++;
@@ -539,7 +538,8 @@ public class Player : MonoBehaviour
         {
             //Real Dead
             //Destroy(gameObject);
-            isDead = true;
+            Managers.Sound.PlaySFX("Dead");
+            isPlayerDead = true;
             this.gameObject.SetActive(false);
             reviveZone.SetActive(false);
         }
@@ -558,6 +558,7 @@ public class Player : MonoBehaviour
     protected virtual IEnumerator Revive()
     {
         reviveZone.SetActive(false);
+        Managers.Sound.PlaySFX("Revive");
         //canPlayerState[0] = true;
         cLife = 1;
         PlayerForcedInputEnable(); //PlayerStateTransition(true, 0);
@@ -637,6 +638,7 @@ public class Player : MonoBehaviour
     protected IEnumerator PlayerDash()
     {
         playerAnimator.SetBool("isDash", true);
+        Managers.Sound.PlaySFX("Dash");
         PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
         //canPlayerState[1] = false;
         isDashing = true;

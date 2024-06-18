@@ -40,7 +40,6 @@ public class PlayerMaru : Player
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
         playerCollider = GetComponent<BoxCollider2D>();
-        isDead = false;
 
         playerShield.SetActive(false);
         reviveZone.SetActive(false);
@@ -440,6 +439,7 @@ public class PlayerMaru : Player
     {
         if (Input.GetKeyDown(skillChangeKey) && canChangeSkillSet)
         {
+            Managers.Sound.PlaySFX("Transition");
             canChangeSkillSet = false;
             skillChangeUI.GetComponent<PlayerSkillChange>().SkillChangeImage();
             currentSwordPrefab = swordPrefab_2;

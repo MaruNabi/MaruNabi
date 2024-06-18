@@ -9101,7 +9101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: cJumpPower
-      value: 2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: playerHpUI
@@ -21136,7 +21136,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 5.5
+  orthographic size: 6
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -21160,7 +21160,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1548292386}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -35.16967, y: -27.113228, z: -10}
+  m_LocalPosition: {x: -7.9702263, y: 15.386829, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -21417,12 +21417,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: cJumpPower
-      value: 2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: playerHpUI
       value: 
       objectReference: {fileID: 411417437}
+    - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
+      propertyPath: playerMaru
+      value: 
+      objectReference: {fileID: 498550478}
     - target: {fileID: 3042348562188423816, guid: 7fc5c603c31ca1e49ade8f81e9b17c2f, type: 3}
       propertyPath: playerSkills
       value: 
@@ -23402,7 +23406,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1706814426
 MonoBehaviour:
   m_ObjectHideFlags: 0
