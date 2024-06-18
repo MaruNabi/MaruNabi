@@ -8,9 +8,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class TigerBiteAttackState : TigerState
+public class TigerInhaleAttackState : TigerState
 {
-    public TigerBiteAttackState(TigerStateMachine tigerStateMachine) : base(tigerStateMachine)
+    public TigerInhaleAttackState(TigerStateMachine tigerStateMachine) : base(tigerStateMachine)
     {
         cts = new CancellationTokenSource();
     }
@@ -19,7 +19,7 @@ public class TigerBiteAttackState : TigerState
     {
         base.OnEnter();
         Pattern(cts.Token).Forget();
-        Debug.Log("물기입장");
+        Debug.Log("빨아들이기 입장");
     }
     
     public override void OnExit()
@@ -32,13 +32,15 @@ public class TigerBiteAttackState : TigerState
     {
         try
         {
-            token.ThrowIfCancellationRequested();
-            
-            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.tiger.Bite()), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.tiger.Inhale()), cancellationToken: token);
     
             token.ThrowIfCancellationRequested();
             
-            stateMachine.SetState("Phase2");
+            await UniTask.Delay(TimeSpan.FromSeconds(6f), cancellationToken: token);
+            
+            token.ThrowIfCancellationRequested();
+
+            stateMachine.SetState("Phase3");
         }
         catch (OperationCanceledException)
         {

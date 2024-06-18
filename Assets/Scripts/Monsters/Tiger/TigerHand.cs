@@ -17,6 +17,10 @@ public class TigerHand : MonoBehaviour
     [SerializeField] private GameObject sideHandPrefab;
     [SerializeField] private Transform digHandTransform;
     [SerializeField] private GameObject digHandPrefab;
+    [SerializeField] private Transform slapHandTransform;
+    [SerializeField] private GameObject slapHandPrefab;
+    [SerializeField] private Transform sideHandTransform2;
+    [SerializeField] private GameObject sideHandPrefab2;
     private List<IDelete> currentHands;
     
     private Animator handAnimator;
@@ -45,7 +49,6 @@ public class TigerHand : MonoBehaviour
     public async UniTaskVoid SideHandAttack(CancellationToken _token)
     {
         ExitAnimation();
-        _token.ThrowIfCancellationRequested();
         await UniTask.Delay(TimeSpan.FromSeconds(0.75f), cancellationToken:_token);
         _token.ThrowIfCancellationRequested();
 
@@ -55,7 +58,26 @@ public class TigerHand : MonoBehaviour
         sideHand.transform.position = sideHandTransform.position;
         sideHand.GetComponent<TigerSideAtk>().Move(isRightHand);
         
-        await UniTask.Delay(TimeSpan.FromSeconds(2f));
+        await UniTask.Delay(TimeSpan.FromSeconds(2f), cancellationToken:_token);
+        _token.ThrowIfCancellationRequested();
+        EnterAnimation();
+        currentHands.Remove(delete);
+    }
+    
+    public async UniTaskVoid SideHandAttack2(CancellationToken _token)
+    {
+        ExitAnimation();
+        await UniTask.Delay(TimeSpan.FromSeconds(0.75f), cancellationToken:_token);
+        _token.ThrowIfCancellationRequested();
+
+        var sideHand = Instantiate(sideHandPrefab2, sideHandTransform2);
+        var delete = sideHand.GetComponent<IDelete>();
+        currentHands.Add(delete);
+        sideHand.transform.position = sideHandTransform2.position;
+        sideHand.GetComponent<TigerSideAtk2>().Move(isRightHand);
+        
+        await UniTask.Delay(TimeSpan.FromSeconds(2f), cancellationToken:_token);
+        _token.ThrowIfCancellationRequested();
         EnterAnimation();
         currentHands.Remove(delete);
     }
@@ -63,7 +85,6 @@ public class TigerHand : MonoBehaviour
     public async UniTaskVoid DigHandAttack(CancellationToken _token)
     {
         ExitAnimation();
-        _token.ThrowIfCancellationRequested();
         await UniTask.Delay(TimeSpan.FromSeconds(0.75f), cancellationToken:_token);
         _token.ThrowIfCancellationRequested();
         
@@ -74,7 +95,26 @@ public class TigerHand : MonoBehaviour
         digHand.transform.position = digHandTransform.position;
         digHand.GetComponent<TigerDiagonalAtk>().Move(isRightHand, Random.Range(1, 4));
         
-        await UniTask.Delay(TimeSpan.FromSeconds(2.5f));
+        await UniTask.Delay(TimeSpan.FromSeconds(2.5f), cancellationToken:_token);
+        _token.ThrowIfCancellationRequested();
+        EnterAnimation();
+        currentHands.Remove(delete);
+    }
+
+    public async UniTaskVoid SlapHandAttack(CancellationToken _token)
+    {
+        ExitAnimation();
+        await UniTask.Delay(TimeSpan.FromSeconds(0.75f), cancellationToken:_token);
+        _token.ThrowIfCancellationRequested();
+
+        var slapHand = Instantiate(slapHandPrefab, slapHandTransform);
+        var delete = slapHand.GetComponent<IDelete>();
+        currentHands.Add(delete);
+        slapHand.transform.position = slapHandTransform.position;
+        slapHand.GetComponent<TigerSlapAtk>().Move(isRightHand);
+        
+        await UniTask.Delay(TimeSpan.FromSeconds(2.5f), cancellationToken:_token);
+        _token.ThrowIfCancellationRequested();
         EnterAnimation();
         currentHands.Remove(delete);
     }

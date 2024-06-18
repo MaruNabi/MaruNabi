@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -16,7 +17,7 @@ public class DDuck : Entity, IDelete
     private float attackTime;
     private bool isStart;
     private bool isRight;
-    
+    private List<GameObject> beans;
     protected override void Init()
     {
         HP = 500;
@@ -25,8 +26,7 @@ public class DDuck : Entity, IDelete
         time = 0;
         attackTime = 2f;
         isStart = true;
-        Move();
-        // 아래
+        beans = new List<GameObject>();
     }
     
     private void Update()
@@ -43,12 +43,17 @@ public class DDuck : Entity, IDelete
         }
     }
     
-    public void Flip(bool _set)
+    public void SetVariables(Tiger _tiger, bool _set)
     {
+        Debug.Log("값 입력");
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
-        
+        tiger = _tiger;
         spriteRenderer.flipX = _set;
+        
+               
+        Move();
+        // 아래
     }
 
     private void BeanAttack()
@@ -61,6 +66,7 @@ public class DDuck : Entity, IDelete
         
         animator.SetTrigger("Attack");
         var bean = Instantiate(redBean, transform.position + Vector3.down, Quaternion.identity);
+        beans.Add(bean);
         sequence = DOTween.Sequence();
         sequence
             .Append(bean.transform.DOMoveX(bean.transform.position.x + x, 1f))
@@ -91,35 +97,30 @@ public class DDuck : Entity, IDelete
     {
         sequence = DOTween.Sequence();
         sequence
-            .Append(transform.DOMoveY(-50f, 40f))
-            .OnComplete(() => isStart = true);
+            .Append(transform.DOMoveY(-50f, 40f));
     }
 
     public void Delete()
     {
-        if(spriteRenderer == null) 
-            spriteRenderer = GetComponent<SpriteRenderer>();
-        
-        sequence.Kill();
-        tag = "Untagged";
-        gameObject.layer = 0;
-        sequence = DOTween.Sequence();
-        sequence
-            .Append(spriteRenderer.DOFade(0, 0.5f))
-            .OnComplete(() => Destroy(gameObject));
+        OnDead();
     }
     
     public override void OnDead()
     {
-        if (spriteRenderer == null)
-            spriteRenderer = GetComponent<SpriteRenderer>();
-        
-        sequence.Kill();
-        tag = "Untagged";
-        gameObject.layer = 0;
-        sequence = DOTween.Sequence();
-        sequence
-            .Append(spriteRenderer.DOFade(0, 0.5f))
-            .OnComplete(() => Destroy(gameObject));
+        try
+        {
+            beans.ForEach(x=> Destroy(x.gameObject));
+            sequence.Kill();
+            tag = "Untagged";
+            gameObject.layer = 0;
+            sequence = DOTween.Sequence();
+            sequence
+                .Append(spriteRenderer.DOFade(0, 0.5f))
+                .OnComplete(() => Destroy(gameObject));
+        }
+        catch (Exception e)
+        {
+
+        }
     }
 }

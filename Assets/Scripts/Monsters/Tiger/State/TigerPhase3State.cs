@@ -17,7 +17,23 @@ public class TigerPhase3State : TigerState
 
     private async UniTaskVoid IdleWait()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(5f));
+        if(stateMachine.tiger.CheckMiniPhaseChangeHP())
+        {
+            // 손 내려치기 or 빨아들이기
+            int random = UnityEngine.Random.Range(0, 2);
+            if(random == 0)
+            {
+                stateMachine.SetState("SlapAtk");
+            }
+            else
+            {
+                stateMachine.SetState("InhaleAtk");
+            }
+        }
+        else
+        {
+            stateMachine.SetState("SideAtk2");
+        }
         // 페이즈 3 패턴
     }
 }

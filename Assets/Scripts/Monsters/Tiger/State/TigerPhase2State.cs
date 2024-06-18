@@ -21,7 +21,7 @@ public class TigerPhase2State : TigerState
 
     private async UniTaskVoid IdleWait()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(4f));
+        await UniTask.Delay(TimeSpan.FromSeconds(4f), cancellationToken: cts.Token);
         stateMachine.SetState("BiteAtk");
     }
 }

@@ -54,13 +54,16 @@ public class Tiger : Entity
         behaviorGacha.Add(ETigerBitePosition.Right, 40);
     }
 
-    // private void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.N))
-    //         leftHand.DigHandAttack().Forget();
-    //     if (Input.GetKeyDown(KeyCode.M))
-    //         rightHand.DigHandAttack().Forget();
-    // }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            headAnimator.runtimeAnimatorController = animators[1];
+            Inhale();
+        }
+        // if (Input.GetKeyDown(KeyCode.M))
+        //     rightHand.SideHandAttack2(cts.Token).Forget();
+    }
 
     public override void OnDamage(float _damage)
     {
@@ -70,7 +73,7 @@ public class Tiger : Entity
         if (HP <= 0)
         {
             HP = 0;
-            OnDead();
+            CanHit(false);
         }
     }
 
@@ -149,6 +152,24 @@ public class Tiger : Entity
 
         return sequence.Duration();
     }
+    
+    public float SideAtk2()
+    {
+        StopSequence();
+
+        int random = Random.Range(0, 2);
+
+        if (random == 0)
+            leftHand.SideHandAttack2(cts.Token).Forget();
+        else
+            rightHand.SideHandAttack2(cts.Token).Forget();
+
+        sequence = DOTween.Sequence();
+        sequence.AppendInterval(5f);
+
+
+        return sequence.Duration();
+    }
 
     public float DigAtk()
     {
@@ -168,6 +189,23 @@ public class Tiger : Entity
         return sequence.Duration();
     }
 
+    public float SlapAtk()
+    {
+        StopSequence();
+        
+        int random = Random.Range(0, 2);
+        
+        if(random == 0)
+            leftHand.SlapHandAttack(cts.Token).Forget();
+        else
+            rightHand.SlapHandAttack(cts.Token).Forget();
+        
+        sequence = DOTween.Sequence();
+        sequence.AppendInterval(5f);
+
+        return sequence.Duration();
+    }
+
     public void StopSequence()
     {
         //CanHit(false);
@@ -177,14 +215,19 @@ public class Tiger : Entity
 
     public bool CheckPhase2ChangeHp()
     {
-        return HP <= 5000 && Phase != 2;
+        return HP <= 5000 && Phase == 1;
     }
 
     public bool CheckPhase3ChangeHp()
     {
-        return HP <= 2500 && Phase != 3;
+        return HP <= 4000 && Phase == 2;
     }
-
+    
+    public bool CheckMiniPhaseChangeHP()
+    {
+        return HP <= 2000 && Phase == 3;
+    }
+    
     public bool CheckStageClear()
     {
         return HP <= 0 && Phase == 3;
@@ -209,7 +252,7 @@ public class Tiger : Entity
                 isPhaseChanging = true;
                 Phase = 2;
             })
-            .AppendInterval(4f)
+            .AppendInterval(2.5f)
             .OnComplete(() =>
             {
                 headAnimator.speed = 1f;
@@ -243,19 +286,42 @@ public class Tiger : Entity
         sequence.Append(transform.DOScale(1f, 1f))
             .Join(transform.DOMove(bitePos, 1f))
             .JoinCallback(() => { headAnimator.SetTrigger("Attack"); })
-            .Append(transform.DOMove(startPos, 0.5f));
+            .Append(transform.DOMove(startPos, 0.5f))
+            .Join(transform.DOScale(0.8f, 1f))
+            .OnComplete(() => CanHit(true));
+
+        return sequence.Duration();
+    }
+    
+    public float Inhale()
+    {
+        StopSequence();
+        CanHit(false);
+        
+        sequence = DOTween.Sequence();
+        sequence.Append(transform.DOScale(1f, 1f))
+            .JoinCallback(() => { headAnimator.SetTrigger("Inhale"); })
+            .Join(transform.DOMoveY(transform.position.y - 1f, 1f))
+            .AppendInterval(2f)
+            .Append(transform.DOMove(startPos, 0.5f))
+            .Join(transform.DOScale(0.8f, 1f))
+            .JoinCallback(() => headAnimator.SetTrigger("Up"))
+            .AppendInterval(1f)
+            .OnComplete(() => CanHit(true));
 
         return sequence.Duration();
     }
 
     public float ChangePhase3()
     {
-        Debug.Log("페이즈3");
-        StopSequence();
-        riceCakes.ForEach(riceCake => riceCake.Delete());
+        stateMachine.SetState("Phase3");
 
+        StopSequence();
         CanHit(false);
+        
         cts.Cancel();
+        
+        riceCakes.ForEach(riceCake => riceCake.Delete());
 
         sequence = DOTween.Sequence();
         sequence.OnStart(() =>
@@ -266,14 +332,18 @@ public class Tiger : Entity
                 headAnimator.speed = 0f;
                 isPhaseChanging = true;
             })
-            .AppendInterval(4f)
-            .AppendCallback(() => { headAnimator.SetTrigger("Growl"); })
+            .AppendInterval(2.5f)
+            .AppendCallback(() =>
+            {
+                headAnimator.speed = 1f;
+            })
             .AppendInterval(4f)
             .OnComplete(() =>
             {
-                headAnimator.speed = 1f;
                 stateMachine.SetState("Phase3");
                 isPhaseChanging = false;
+                cts = new CancellationTokenSource();
+                SpawnRiceCakePhase3(cts.Token).Forget();
                 CanHit(true);
             });
 
@@ -282,7 +352,41 @@ public class Tiger : Entity
 
     public void StageClear()
     {
-        Debug.Log("스테이지 클리어");
+        StopSequence();
+        CanHit(false);
+        cts.Cancel();
+        riceCakes.ForEach(riceCake => riceCake.Delete());
+        Destroy(gameObject);
+        
+        SmokeEffect().Forget();
+        
+        sequence = DOTween.Sequence();
+        sequence
+            .AppendInterval(2f)
+            .AppendCallback(() =>
+            {
+                head.GetComponent<SpriteRenderer>().sortingOrder = -20;
+                headAnimator.SetTrigger("Growling");
+            })
+            .Join(head.transform.DOScale(0f, 2f))
+            .Join(head.transform.DOMove(head.transform.position + Vector3.down * 5f, 2f))
+            .Join(body.transform.DOMove(body.transform.position + Vector3.down * 5f, 2f))
+            .AppendInterval(1.5f)
+
+            .AppendCallback(() =>
+            {
+                leftHand.ExitAnimation();
+            })
+            .AppendInterval(1f)
+            .AppendCallback(() =>
+            {
+                rightHand.ExitAnimation();
+            })
+            .AppendInterval(2.5f)
+            .OnComplete(() =>
+            {
+                Destroy(gameObject);
+            });
     }
 
     private async UniTask SpawnRiceCakePhase2(CancellationToken _cts)
@@ -298,9 +402,9 @@ public class Tiger : Entity
             riceCake.transform.position = riceCakePositions[randomInt].position;
             
             if(randomInt == 1)
-                riceCake.GetComponent<DDuck>().Flip(false);
+                riceCake.GetComponent<DDuck>().SetVariables(this,false);
             
-            riceCakes.Add(riceCake.GetComponent<DDuck>());
+            riceCakes.Add(riceCake.GetComponent<IDelete>());
             
             _cts.ThrowIfCancellationRequested();
             
@@ -326,7 +430,7 @@ public class Tiger : Entity
             riceCake.transform.position = riceCakePositions[randomInt].position;
 
             randomInt = Random.Range(0, 1);
-            riceCake.GetComponent<DDuck>().Flip(randomInt == 1);
+            riceCake.GetComponent<DDuck>().SetVariables(this, randomInt == 1);
 
             riceCakes.Add(riceCake.GetComponent<IDelete>());
             

@@ -15,7 +15,5 @@ public class BoundaryLine : MonoBehaviour
             collision.gameObject.GetComponent<Player>().PlayerHitSpecial(Vector3.zero);
             collision.gameObject.transform.position = resetPoint.position;
         }
-        else if(collision.gameObject.TryGetComponent<DDuck>(out var dduck))
-            Destroy(collision.gameObject);
     }
 }
