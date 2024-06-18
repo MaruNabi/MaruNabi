@@ -41,6 +41,12 @@ public class TitleScene : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.F7))
                 SceneManager.LoadScene("Stage2 1");
+
+            if (Input.GetKeyDown(KeyCode.F8))
+                SceneManager.LoadScene("StageSelectionScene");
+
+            if (Input.GetKeyDown(KeyCode.F9))
+                SceneManager.LoadScene("StagePrepareScene");
         }
     }
 

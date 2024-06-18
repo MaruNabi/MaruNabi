@@ -23,8 +23,13 @@ public class PrepareSceneManager : MonoBehaviour
     public PrepareScene maruUIManager;
     public PrepareScene nabiUIManager;
 
+    [SerializeField] private GameObject firstInformation;
+    private bool isActiveInformation;
+
     void Start()
     {
+        isActiveInformation = true;
+
         buttonCount = buttons.Length;
         isActive = false;
         canStageEnter = false;
@@ -40,6 +45,15 @@ public class PrepareSceneManager : MonoBehaviour
 
     void Update()
     {
+        if (isActiveInformation)
+        {
+            if (Input.GetKeyDown(selectKey))
+            {
+                firstInformation.SetActive(false);
+                isActiveInformation = false;
+            }
+        }
+
         if (!canStageEnter)
         {
             if (maruUIManager.isReady == true && nabiUIManager.isReady == true)
