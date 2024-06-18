@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialEndEnemy : MonoBehaviour
 {
     private bool isMaruIn = false;
     private bool isNabiIn = false;
+
+    [SerializeField] private Player playerMaru;
+    [SerializeField] private Player playerNabi;
 
     void Update()
     {
@@ -13,7 +17,9 @@ public class TutorialEndEnemy : MonoBehaviour
         {
             if (Input.anyKeyDown)
             {
-                Debug.Log("NextScene");
+                playerMaru.PlayerInputDisable();
+                playerNabi.PlayerInputDisable();
+                SceneManager.LoadScene("DialogueScene");
             }
         }
 
@@ -21,7 +27,9 @@ public class TutorialEndEnemy : MonoBehaviour
         {
             if (Input.anyKeyDown)
             {
-                Debug.Log("NextScene");
+                playerMaru.PlayerInputDisable();
+                playerNabi.PlayerInputDisable();
+                SceneManager.LoadScene("DialogueScene");
             }
         }
     }

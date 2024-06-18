@@ -39,6 +39,7 @@ public class StageSelectScene : MonoBehaviour
     void Start()
     {
         isActiveInformation = true;
+        Managers.Sound.PlayBGM("Title");
 
         buttonCount = stage.Length;
         currentDepth = 0;

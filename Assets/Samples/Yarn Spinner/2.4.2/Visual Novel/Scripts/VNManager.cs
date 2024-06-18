@@ -447,7 +447,7 @@ namespace Yarn.Unity.Example {
 				yield return 0;
 			}
 			
-			SceneManager.LoadScene("StageSelectScene");
+			SceneManager.LoadScene("StageSelectionScene");
 		}
 
 		Image SetSpriteActual(string spriteName, Vector2 position) {

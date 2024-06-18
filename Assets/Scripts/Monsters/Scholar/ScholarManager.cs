@@ -46,6 +46,7 @@ public class ScholarManager : MonoBehaviour
         MouseScholar.StageClear += StageClearProduction;
         Entity.AttackEvent += DamageAllPlayers;
         mouseHp = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER").LIFE;
+        Managers.Sound.PlayBGM("Stage_2.1.1");
 
         strawOparcity = new[] { 0.1f, 0.3f, 0.5f, 0.6f, 0.77f, 0.84f, 0.89f, 0.92f, 0.95f, 0.98f };
 

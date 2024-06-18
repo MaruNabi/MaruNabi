@@ -13,6 +13,8 @@ public class AttackSmallSpark : Bullet
 
     private SpriteRenderer sparkSpriteRenderer;
 
+    private KeyCode nabiAttackKey;
+
     private Color originColor = new Color(1, 1, 1, 1);
     private Color disableColor = new Color(1, 1, 1, 0);
 
@@ -24,11 +26,18 @@ public class AttackSmallSpark : Bullet
         sparkSpriteRenderer = GetComponent<SpriteRenderer>();
         sparkStartPosition = GameObject.Find("NabiBulletPosition");
         playerPosition = GameObject.Find("Nabi_Test");
+
+        if (!KeyData.isNabiPad)
+            nabiAttackKey = KeyCode.L;
+        else if (KeyData.isNabiPad)
+            nabiAttackKey = KeyCode.Joystick1Button5;
+        if (KeyData.isBothPad)
+            nabiAttackKey = KeyCode.Joystick2Button5;
     }
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.RightBracket))
+        if (Input.GetKey(nabiAttackKey))
         {
             //Charging Effect
             if (isSetOnce)
@@ -37,7 +46,7 @@ public class AttackSmallSpark : Bullet
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.RightBracket))
+        if (Input.GetKeyUp(nabiAttackKey))
         {
             if (isSetOnce)
             {

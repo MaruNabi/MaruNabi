@@ -147,7 +147,7 @@ public class PrepareSceneManager : MonoBehaviour
         canStageEnter = true;
         maruUIManager.isGameStart = true;
 
-        LoadingScene.nextScene = "Stage2";
+        LoadingScene.nextScene = "Stage2 1";
 
         SceneManager.LoadScene("LoadingScene");
         //Managers.Scene.LoadScene(ESceneType.LoadingScene);

@@ -91,7 +91,7 @@ public class GameOverUIController : MonoBehaviour
         switch (selectedButtonIndex)
         {
             case 0:
-                LoadingScene.nextScene = "Stage2";
+                LoadingScene.nextScene = "Stage2 1";
                 SceneManager.LoadScene("LoadingScene");
                 //SceneManager.LoadScene("Stage2");
                 break;
