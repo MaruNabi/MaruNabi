@@ -21,12 +21,6 @@ public class TigerSideAttack2State : TigerState
         Pattern(cts.Token).Forget();
         Debug.Log("±‹±‚ 2 ¿‘¿Â");
     }
-    
-    public override void OnExit()
-    {
-        base.OnExit();
-        cts.Cancel();
-    }
 
     private async UniTask Pattern(CancellationToken token)
     {

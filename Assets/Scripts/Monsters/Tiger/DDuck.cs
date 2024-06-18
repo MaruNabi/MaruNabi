@@ -45,12 +45,10 @@ public class DDuck : Entity, IDelete
     
     public void SetVariables(Tiger _tiger, bool _set)
     {
-        Debug.Log("값 입력");
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
         tiger = _tiger;
         spriteRenderer.flipX = _set;
-        
                
         Move();
         // 아래
@@ -67,8 +65,8 @@ public class DDuck : Entity, IDelete
         animator.SetTrigger("Attack");
         var bean = Instantiate(redBean, transform.position + Vector3.down, Quaternion.identity);
         beans.Add(bean);
-        sequence = DOTween.Sequence();
-        sequence
+        var beanSequence = DOTween.Sequence();
+        beanSequence
             .Append(bean.transform.DOMoveX(bean.transform.position.x + x, 1f))
             .OnComplete(()=> Destroy(bean));
     }
@@ -120,7 +118,7 @@ public class DDuck : Entity, IDelete
         }
         catch (Exception e)
         {
-
+            return;
         }
     }
 }

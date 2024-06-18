@@ -67,7 +67,6 @@ public class TigerDiagonalAtk : MonoBehaviour, IDelete
     public void Delete()
     {
         Debug.Log("Delete");
-
         
         if(spriteRenderer == null) 
             spriteRenderer = GetComponent<SpriteRenderer>();

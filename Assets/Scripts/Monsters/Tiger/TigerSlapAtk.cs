@@ -26,7 +26,6 @@ public class TigerSlapAtk : MonoBehaviour, IDelete
         sequence
             .OnStart(() =>
             {
-                CanHit(false);
                 animator.enabled = true;
                 spriteRenderer.sortingOrder = -11;
             })
@@ -34,13 +33,10 @@ public class TigerSlapAtk : MonoBehaviour, IDelete
             .Append(transform.DOMoveY(transform.position.y - 5f, 0.5f))
             .JoinCallback(() =>
             {
-                CanHit(true);
                 spriteRenderer.sortingOrder = 20;
             })
             .AppendInterval(0.25f)
             .Append(transform.DOMoveY(transform.position.y, 0.5f))
-            .JoinCallback(() => spriteRenderer.sortingOrder = -11)
-            .AppendInterval(0.5f)
             .Join(spriteRenderer.DOFade(0,0.5f))
             .OnComplete(()=> Destroy(gameObject));
     }
