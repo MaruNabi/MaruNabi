@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackSmallBeads : Bullet
 {
-    private const float BEADS_ATTACK_POWER = 55.0f;
+    private const float BEADS_ATTACK_POWER = 80.0f; //55
 
     void OnEnable()
     {

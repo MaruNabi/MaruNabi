@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillBigAxeElement : MonoBehaviour
 {
-    private const float SAXE_ATTACK_POWER = 160.0f;
+    private const float SAXE_ATTACK_POWER = 200.0f; //160
 
     [SerializeField] private Transform axeRayStartPosition;
     [SerializeField] private LayerMask isLayer;

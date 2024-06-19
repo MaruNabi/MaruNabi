@@ -374,8 +374,15 @@ public class Player : MonoBehaviour
         {
             if (moveHorizontal == 0.0f)
                 return;
+            else if (moveHorizontal > 0)
+            {
+                //rigidBody.AddForce((movement).normalized / 4, ForceMode2D.Impulse);
+                rigidBody.velocity = movement * 0.01f;
+            }
             else
-                rigidBody.AddForce((movement).normalized / 4, ForceMode2D.Impulse);
+            {
+                rigidBody.velocity = movement * 3.0f;
+            }
         }
         else
             rigidBody.velocity = movement + velocityYOnly;

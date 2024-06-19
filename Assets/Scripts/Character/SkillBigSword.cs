@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillBigSword : Sword
 {
-    private const float SSWORD_ATTACK_POWER = 500.0f;
+    private const float SSWORD_ATTACK_POWER = 700.0f; //500
 
     private GameObject bigSwordPosition;
     private GameObject playerPosition;

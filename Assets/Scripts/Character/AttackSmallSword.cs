@@ -8,7 +8,7 @@ using MoreMountains.Feedbacks;
 
 public class AttackSmallSword : Sword
 {
-    private const float SWORD_ATTACK_POWER = 145.0f;
+    private const float SWORD_ATTACK_POWER = 160.0f; //145
 
     private const float MAX_DISTANCE = 4.0f;
 

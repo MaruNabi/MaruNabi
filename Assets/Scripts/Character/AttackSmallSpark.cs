@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackSmallSpark : Bullet
 {
-    private const float SPARK_ATTACK_POWER = 80.0f;
+    private const float SPARK_ATTACK_POWER = 100.0f; //80
 
     private bool isRelease = false;
     private bool isSetOnce = true;
@@ -28,11 +28,19 @@ public class AttackSmallSpark : Bullet
         playerPosition = GameObject.Find("Nabi_Test");
 
         if (!KeyData.isNabiPad)
-            nabiAttackKey = KeyCode.L;
+        {
+            nabiAttackKey = KeyCode.RightBracket;
+        }   
         else if (KeyData.isNabiPad)
+        {
             nabiAttackKey = KeyCode.Joystick1Button5;
+        }
+            
         if (KeyData.isBothPad)
+        {
             nabiAttackKey = KeyCode.Joystick2Button5;
+        }
+            
     }
 
     void Update()
