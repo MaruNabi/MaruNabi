@@ -26,14 +26,14 @@ public class MouseManager : MonoBehaviour
     private void Start()
     {
         Mouse.MovingBackGround += BackGroundMove;
-        Mouse.Phase2 += EffectorSpeedUp;
+        Mouse.Phase2 += SpeedUp;
         Mouse.StageClear += StageClear;
     }
 
     private void OnDestroy()
     {
         Mouse.MovingBackGround -= BackGroundMove;
-        Mouse.Phase2 -= EffectorSpeedUp;
+        Mouse.Phase2 -= SpeedUp;
         Mouse.StageClear -= StageClear;
     }
     
@@ -85,12 +85,6 @@ public class MouseManager : MonoBehaviour
 
     private void BackGroundMove(bool _set)
     {
-        ScrollDelay(_set).Forget();
-    }
-
-    private async UniTaskVoid ScrollDelay(bool _set)
-    {
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
         backGroundScrolls.ForEach(scroll =>
         {
             scroll.SetIsStart(_set);
@@ -99,9 +93,10 @@ public class MouseManager : MonoBehaviour
         surfaceEffector2D.enabled = _set;
     }
 
-    private void EffectorSpeedUp()
+    private void SpeedUp()
     {
         surfaceEffector2D.speed -= phase2Speed;
+        
         foreach (ScrollManager scroll in backGroundScrolls)
         {
             if (scroll is MaterialScroll)

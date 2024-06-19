@@ -49,7 +49,7 @@ public class Fox : Entity
         light.transform.position = transform.position + Vector3.down * 2f;
         light.SetActive(false);
         maxHP = Data.LIFE;
-        HP = 13900;
+        HP = 3000;
         tailCount = 9;
         phase = 1;
     }
@@ -81,12 +81,6 @@ public class Fox : Entity
         {
             RestartPhase().Forget();
             hahwoiDisapCount = 0;
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            SpawnOwkwangMask().Forget();
         }
     }
 
@@ -337,6 +331,7 @@ public class Fox : Entity
     public async UniTaskVoid CanHitState()
     {
         StopSequence();
+        Managers.Sound.PlaySFX("Boss_Phase");
         ChangeAnimation(EFoxAnimationType.Shake);
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         tag = "Enemy";

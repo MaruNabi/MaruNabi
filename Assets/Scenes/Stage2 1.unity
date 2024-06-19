@@ -5017,7 +5017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skipToStage2: 0
   skipToStage3: 0
-  skipToStage4: 0
+  skipToStage4: 1
   stage2Camera: {fileID: 1706814427}
   stage3Camera: {fileID: 75040047}
   stage4Camera: {fileID: 1421947389}

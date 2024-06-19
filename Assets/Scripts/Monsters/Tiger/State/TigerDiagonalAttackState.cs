@@ -16,10 +16,18 @@ public class TigerDiagonalAttackState : TigerState
     {
         base.OnEnter();
         Debug.Log("Diagonal Enter");
+        if (cts == null)
+            cts = new CancellationTokenSource();
         Pattern(cts.Token).Forget();
     }
 
-    private async UniTask Pattern(CancellationToken token)
+    public override void OnExit()
+    {
+        base.OnExit();
+        cts.Cancel();
+    }
+    
+    private async UniTaskVoid Pattern(CancellationToken token)
     {
         try
         {

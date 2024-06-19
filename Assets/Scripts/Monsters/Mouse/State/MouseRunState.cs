@@ -1,15 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-public class MouseRunState : State<MouseStateMachine>
+public class MouseRunState : MouseState
 {
-    private Transform mouseTransform;
-    private const float RUNNNING_TIME = 2f;
-
     public MouseRunState(MouseStateMachine mouseStateMachine) : base(mouseStateMachine)
     {
     }
@@ -23,10 +21,10 @@ public class MouseRunState : State<MouseStateMachine>
 
     async UniTaskVoid RunWait()
     {
-        Mouse.MovingBackGround?.Invoke(true);
+        stateMachine.Mouse.BackGroundControll(true);
         stateMachine.ChangeAnimation(EMouseAnimationType.Run);
 
-        await UniTask.Delay(TimeSpan.FromSeconds(RUNNNING_TIME));
+        await UniTask.Delay(TimeSpan.FromSeconds(2f));
 
         if (stateMachine.Mouse.PhaseChange)
             stateMachine.SetState("Phase2");

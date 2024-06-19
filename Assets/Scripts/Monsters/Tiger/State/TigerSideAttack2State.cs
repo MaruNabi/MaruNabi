@@ -18,11 +18,18 @@ public class TigerSideAttack2State : TigerState
     public override void OnEnter()
     {
         base.OnEnter();
+        cts = new CancellationTokenSource();
         Pattern(cts.Token).Forget();
         Debug.Log("±‹±‚ 2 ¿‘¿Â");
     }
+    
+    public override void OnExit()
+    {
+        base.OnExit();
+        cts.Cancel();
+    }
 
-    private async UniTask Pattern(CancellationToken token)
+    private async UniTaskVoid Pattern(CancellationToken token)
     {
         try
         {

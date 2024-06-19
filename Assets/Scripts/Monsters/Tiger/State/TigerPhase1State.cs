@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -12,12 +13,21 @@ public class TigerPhase1State : TigerState
     public override void OnEnter()
     {
         base.OnEnter();
-        IdleWait().Forget();
+        
+        cts = new CancellationTokenSource();
+        
+        IdleWait(cts.Token).Forget();
+    }
+    
+    public override void OnExit()
+    {
+        base.OnExit();
+        cts.Cancel();
     }
 
-    private async UniTaskVoid IdleWait()
+    private async UniTaskVoid IdleWait(CancellationToken token)
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(5f));
+        await UniTask.Delay(TimeSpan.FromSeconds(5f) , cancellationToken: token);
         stateMachine.SetState("SideAtk1");
     }
 }

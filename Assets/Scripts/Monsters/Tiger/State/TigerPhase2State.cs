@@ -14,12 +14,20 @@ public class TigerPhase2State : TigerState
     }
 
     public override void OnEnter()
-    {
+    { 
+        cts = new CancellationTokenSource();
+        
         base.OnEnter();
-        IdleWait().Forget();
+        IdleWait(cts.Token).Forget();
+    }
+    
+    public override void OnExit()
+    {
+        base.OnExit();
+        cts.Cancel();
     }
 
-    private async UniTaskVoid IdleWait()
+    private async UniTaskVoid IdleWait(CancellationToken token)
     {
         await UniTask.Delay(TimeSpan.FromSeconds(4f), cancellationToken: cts.Token);
         stateMachine.SetState("BiteAtk");

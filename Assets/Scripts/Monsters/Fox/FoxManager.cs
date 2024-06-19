@@ -73,6 +73,7 @@ public class FoxManager : MonoBehaviour
             item.GetComponent<Player>().PlayerStateTransition(true,0);
         }
         
+        clouds.SetActive(true);
         clouds.transform.DOMoveY(-47, 2.5f);
         nextStageWall.GetComponent<NextStageWall>().isStage4Clear = true;
         Managers.Sound.StopBGM();

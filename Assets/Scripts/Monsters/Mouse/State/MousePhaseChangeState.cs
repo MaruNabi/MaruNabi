@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-public class MousePhaseChangeState : State<MouseStateMachine>
+public class MousePhaseChangeState : MouseState
 {
     public MousePhaseChangeState(MouseStateMachine mouseStateMachine) : base(mouseStateMachine) { }
 
@@ -18,8 +18,8 @@ public class MousePhaseChangeState : State<MouseStateMachine>
     
     async UniTaskVoid PhaseChangeWait()
     {
-        Mouse.MovingBackGround?.Invoke(false);
-        await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.PhaseChangeSequence()-1f));
+        stateMachine.Mouse.BackGroundControll(false);
+        await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.PhaseChangeSequence()));
         stateMachine.SetState("Run");
     }
 }

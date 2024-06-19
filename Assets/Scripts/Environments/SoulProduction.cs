@@ -22,6 +22,7 @@ public class SoulProduction : MonoBehaviour
     public void StartProduction()
     {
         zoomCamera.gameObject.SetActive(true);
+        zoomCamera.Follow = transform;
 
         Sequence sequence = DOTween.Sequence();
 

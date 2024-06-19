@@ -11,10 +11,12 @@ public class WallTrigger : MonoBehaviour
     [SerializeField] private int stageNumber;
     private Collider2D collider2D;
     private int count;
+    private GameObject[] players;
     
     private void Start()
     {
         collider2D = GetComponent<Collider2D>();
+        players = GameObject.FindGameObjectsWithTag("Player");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -23,6 +25,14 @@ public class WallTrigger : MonoBehaviour
         {
             Utils.GetOrAddComponent<Player>(other.gameObject).IsTargetGround= true;
             count++;
+            
+            foreach (var player in players)
+            {
+                if (player.GetComponent<Player>().isPlayerDead)
+                {
+                    count++;
+                }
+            }
             
             if (count >= 2)
             {

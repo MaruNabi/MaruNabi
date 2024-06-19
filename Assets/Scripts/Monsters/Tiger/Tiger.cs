@@ -213,17 +213,17 @@ public class Tiger : Entity
 
     public bool CheckPhase2ChangeHp()
     {
-        return HP <= 50209 && Phase == 1;
+        return HP <= 10000 && Phase == 1;
     }
 
     public bool CheckPhase3ChangeHp()
     {
-        return HP <= 33747 && Phase == 2;
+        return HP <= 6000 && Phase == 2;
     }
 
     public bool CheckMiniPhaseChangeHP()
     {
-        return HP <= 20000 && Phase == 3;
+        return HP <= 2500 && Phase == 3;
     }
 
     public bool CheckStageClear()
@@ -240,6 +240,7 @@ public class Tiger : Entity
         cts.Cancel();
         leftHand.DeleteHands();
         rightHand.DeleteHands();
+        
         Managers.Sound.PlaySFX("Boss_Phase");
         sequence = DOTween.Sequence();
         sequence.OnStart(() =>
@@ -250,6 +251,12 @@ public class Tiger : Entity
                 isPhaseChanging = true;
                 Phase = 2;
                 Managers.Sound.PlaySFX("Tiger_Roar");
+                
+                if(!leftHand.gameObject.activeSelf)
+                    leftHand.gameObject.SetActive(true);
+        
+                if(!rightHand.gameObject.activeSelf)
+                    rightHand.gameObject.SetActive(true);
             })
             .AppendInterval(2.5f)
             .OnComplete(() =>
@@ -391,6 +398,9 @@ public class Tiger : Entity
         cts.Cancel();
         Phase = 4;
 
+        tag = "Untagged";
+        gameObject.layer = 0;
+        
         leftHand.DeleteHands();
         rightHand.DeleteHands();
         riceCakes.ForEach(riceCake => riceCake.Delete());

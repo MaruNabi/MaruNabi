@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
@@ -20,6 +21,7 @@ public class Mouse : Entity
     private Animator mouseAnimator;
     private Sequence sequence;
     private Vector3 startPos;
+    private CancellationTokenSource cts;
 
     private Dictionary<EMousePattern, int> behaviorGacha;
     public Dictionary<EMousePattern, int> BehaviorGacha => behaviorGacha;
@@ -30,16 +32,26 @@ public class Mouse : Entity
     private bool tailEvent;
     private bool isPhaseChanging;
     private bool stageStart;
-    public bool StageStart { set => stageStart = value; }
+
+    public bool StageStart
+    {
+        set => stageStart = value;
+    }
+
     [SerializeField] private RuntimeAnimatorController phase2Animator;
-    
+
     private float patternPercent;
-    public float PatternPercent { get => patternPercent; set => patternPercent = value; }
+
+    public float PatternPercent
+    {
+        get => patternPercent;
+        set => patternPercent = value;
+    }
 
     public bool PhaseChange => phaseChange;
 
     private const int DAMAGE_VALUE = 400;
-    
+
     protected override void Init()
     {
         Data = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSE_MONSTER");
@@ -47,7 +59,7 @@ public class Mouse : Entity
         mouseSpriteRenderer = GetComponent<SpriteRenderer>();
         mouseEffects = GetComponent<MouseEffects>();
         mouseAnimator = GetComponent<Animator>();
-        
+
         behaviorGacha = new Dictionary<EMousePattern, int>();
         sequence = DOTween.Sequence();
 
@@ -60,18 +72,20 @@ public class Mouse : Entity
         behaviorGacha.Add(EMousePattern.Rock, 25);
         behaviorGacha.Add(EMousePattern.Tail, 25);
 
-        if(stageStart)
+        if (stageStart)
             mouseStateMachine.Initialize("Enter", this, GetComponent<Animator>());
         else
         {
             mouseStateMachine.Initialize("Dead", this, GetComponent<Animator>());
             OnDead();
         }
+        
+        cts = new CancellationTokenSource();
     }
 
     public bool CheckPhaseChangeHp()
     {
-        return HP <= 300;
+        return HP <= 1000;
     }
 
     public bool CheckDead()
@@ -83,7 +97,7 @@ public class Mouse : Entity
     {
         BeHitEffect();
         HP -= _damage;
-    
+
         if (HP <= 0)
         {
             HP = 0;
@@ -110,10 +124,14 @@ public class Mouse : Entity
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Rush);
                 Managers.Sound.PlaySFX("Mouse_Stop");
             })
+            .AppendInterval(0.25f)
+            .AppendCallback(() => BackGroundControll(false))
             .AppendInterval(4.75f)
             .OnComplete(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.NoRush);
+                mouseStateMachine.ChangeAnimation(EMouseAnimationType.Run);
+                BackGroundControll(true);
             });
 
         return sequence.Duration();
@@ -130,10 +148,14 @@ public class Mouse : Entity
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Rush);
                 Managers.Sound.PlaySFX("Mouse_Stop");
             })
+            .AppendInterval(0.25f)
+            .AppendCallback(() => BackGroundControll(false))
             .AppendInterval(3.5f)
             .OnComplete(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.NoRush);
+                mouseStateMachine.ChangeAnimation(EMouseAnimationType.Run);
+                BackGroundControll(true);
             });
 
         return sequence.Duration();
@@ -143,7 +165,7 @@ public class Mouse : Entity
     {
         if (isPhaseChanging)
             return;
-        
+
         if (rushEvent == false)
         {
             transform.DOMove(transform.position - new Vector3(14f, 1.5f, 0), 1f).SetEase(Ease.InCubic);
@@ -158,12 +180,12 @@ public class Mouse : Entity
         AllowAttack(!rushEvent);
         rushEvent = !rushEvent;
     }
-    
+
     public void Turn2ClipEvent()
     {
         if (isPhaseChanging)
             return;
-        
+
         if (rushEvent == false)
         {
             transform.DOMove(transform.position - new Vector3(14f, 1.5f, 0), 1f).SetEase(Ease.InCubic);
@@ -173,7 +195,7 @@ public class Mouse : Entity
         {
             transform.DOMove(startPos, 1f).SetEase(Ease.InCubic);
         }
-        
+
         AllowAttack(!rushEvent);
         rushEvent = !rushEvent;
     }
@@ -221,16 +243,21 @@ public class Mouse : Entity
 
         sequence = DOTween.Sequence();
         sequence
-            .OnStart(() =>
+            .OnStart(() => { mouseStateMachine.ChangeAnimation(EMouseAnimationType.Tail); })
+            .AppendInterval(0.1f)
+            .AppendCallback(() =>
             {
-                mouseStateMachine.ChangeAnimation(EMouseAnimationType.Tail);
+                BackGroundControll(false);
+
+                var tailSpawnPoint = transform.position + Vector3.left * 4.5f + Vector3.down * 2f;
+                Instantiate(mouseEffects.tail, tailSpawnPoint, Quaternion.Euler(0, 0, 6.6f));
                 Managers.Sound.PlaySFX("Mouse_Tail");
             })
             .AppendInterval(1.25f)
-            .AppendCallback(() =>
+            .OnComplete(() =>
             {
-                var tailSpawnPoint = transform.position + Vector3.left * 4.5f + Vector3.down * 2f;
-                Instantiate(mouseEffects.tail, tailSpawnPoint, Quaternion.Euler(0, 0, 6.6f));
+                mouseStateMachine.ChangeAnimation(EMouseAnimationType.Run);
+                BackGroundControll(true);
             });
 
         // 꼬리 공격
@@ -241,7 +268,7 @@ public class Mouse : Entity
     {
         if (Dead)
             return;
-        
+
         AllowAttack(!tailEvent);
         tailEvent = !tailEvent;
     }
@@ -256,13 +283,11 @@ public class Mouse : Entity
         // Phase2 변경
         StopSequence();
         ProductionWaitSetting();
-        Phase2?.Invoke();
-        
         phaseChange = true;
-        patternPercent = 40f;
-        
+        Phase2?.Invoke();
+
         Managers.Sound.PlaySFX("Boss_Phase");
-        
+
         sequence = DOTween.Sequence();
         sequence
             .OnStart(() =>
@@ -277,7 +302,7 @@ public class Mouse : Entity
                 if (mouseSpriteRenderer.flipX == false)
                     mouseSpriteRenderer.flipX = true;
             })
-            .Append(transform.DOMove(startPos, 1f))
+            .Append(transform.DOMove(startPos, 0.5f))
             .OnComplete(() => isPhaseChanging = false);
 
         return sequence.Duration();
@@ -309,18 +334,16 @@ public class Mouse : Entity
         ProductionWaitSetting();
         StageClear?.Invoke(gameObject);
         Dead = true;
+        cts.Cancel();
         mouseAnimator.runtimeAnimatorController = phase2Animator;
         mouseStateMachine.ChangeAnimation(EMouseAnimationType.Dead);
         mouseStateMachine.ChangeAnimation(EMouseAnimationType.Clear);
         SmokeEffect().Forget();
-        
+
         sequence = DOTween.Sequence();
         sequence
             .AppendInterval(1f)
-            .AppendCallback(() =>
-            {
-                
-            })
+            .AppendCallback(() => { })
             .AppendInterval(2f)
             .OnComplete(() =>
             {
@@ -355,7 +378,7 @@ public class Mouse : Entity
 
     public void MinusRandomPecent(float _value)
     {
-        if(patternPercent - _value < 10)
+        if (patternPercent - _value < 10)
         {
             patternPercent = 10;
         }
@@ -363,5 +386,16 @@ public class Mouse : Entity
         {
             patternPercent -= _value;
         }
+    }
+
+    public void BackGroundControll(bool _set)
+    {
+        MovingBackGround?.Invoke(_set);
+    }
+    
+    public void SaveCtsMouse2State(MousePhase2State ctsMouse2State)
+    {
+        MousePhase2State mp2 = ctsMouse2State;
+        cts = mp2.cts;
     }
 }

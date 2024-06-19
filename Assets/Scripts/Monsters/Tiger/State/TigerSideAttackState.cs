@@ -16,10 +16,20 @@ public class TigerSideAttackState : TigerState
     {
         base.OnEnter();
         Debug.Log("SideAtk1 Enter");
+        
+        if (cts == null)
+            cts = new CancellationTokenSource();
+        
         Pattern(cts.Token).Forget();
     }
+    
+    public override void OnExit()
+    {
+        base.OnExit();
+        cts.Cancel();
+    }
 
-    private async UniTask Pattern(CancellationToken token)
+    private async UniTaskVoid Pattern(CancellationToken token)
     {
         try
         {

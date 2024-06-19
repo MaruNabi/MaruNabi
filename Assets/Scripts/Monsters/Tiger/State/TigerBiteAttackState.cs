@@ -18,11 +18,20 @@ public class TigerBiteAttackState : TigerState
     public override void OnEnter()
     {
         base.OnEnter();
+        
+        cts = new CancellationTokenSource();
+        
         Pattern(cts.Token).Forget();
         Debug.Log("물기입장");
     }
+    
+    public override void OnExit()
+    {
+        base.OnExit();
+        cts.Cancel();
+    }
 
-    private async UniTask Pattern(CancellationToken token)
+    private async UniTaskVoid Pattern(CancellationToken token)
     {
         try
         {

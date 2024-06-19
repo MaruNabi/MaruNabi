@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-public class MouseEnterState : State<MouseStateMachine>
+public class MouseEnterState : MouseState
 {
     public MouseEnterState(MouseStateMachine mouseStateMachine) : base(mouseStateMachine) { }
 
@@ -19,7 +19,7 @@ public class MouseEnterState : State<MouseStateMachine>
     {
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         stateMachine.ChangeAnimation(EMouseAnimationType.StopCrying);
-        await UniTask.Delay(TimeSpan.FromSeconds(0.6f));
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
         stateMachine.SetState("Run");
     }
 }

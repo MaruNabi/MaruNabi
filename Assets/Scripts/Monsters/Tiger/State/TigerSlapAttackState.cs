@@ -18,21 +18,29 @@ public class TigerSlapAttackState : TigerState
     public override void OnEnter()
     {
         base.OnEnter();
+
+        cts = new CancellationTokenSource();
+
         Pattern(cts.Token).Forget();
-        Debug.Log("내려치기 입장");
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+        cts.Cancel();
     }
 
 
-    private async UniTask Pattern(CancellationToken token)
+    private async UniTaskVoid Pattern(CancellationToken token)
     {
         try
         {
             await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.tiger.SlapAtk()), cancellationToken: token);
-    
+
             token.ThrowIfCancellationRequested();
-            
+
             await UniTask.Delay(TimeSpan.FromSeconds(4f), cancellationToken: token);
-            
+
             token.ThrowIfCancellationRequested();
 
             stateMachine.SetState("Phase3");
