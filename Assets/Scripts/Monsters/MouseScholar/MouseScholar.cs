@@ -172,7 +172,7 @@ public class MouseScholar : Entity
         Managers.Sound.PlaySFX("Mouse_ComeOut");
         GameObject smoke = null;
         DOTween.Sequence()
-            .Append(gameObject.transform.DOJump(transform.position + Vector3.right * 2f, 1, 1, 1f))
+            .Append(gameObject.transform.DOJump(transform.position, 1, 1, 0.5f))
             .AppendCallback(() => Managers.Sound.PlaySFX("Mouse_Drop"))
             .AppendInterval(2f)
             .Append(spriteRenderer.DOFade(0, 1f))
