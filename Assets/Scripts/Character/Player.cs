@@ -278,6 +278,7 @@ public class Player : MonoBehaviour
             else if (groundRay.collider.tag == "Ground" && currentGroundName != groundRay.collider.gameObject.name)
             {
                 isGround = true; //false
+                //cJumpCount = 0;
                 playerStandCollider.isTrigger = false;
                 playerSideFrictionCollider.isTrigger = false;
                 canFallDown = groundRay.collider.gameObject.GetComponent<GroundObject>().canFallDown;
@@ -377,11 +378,11 @@ public class Player : MonoBehaviour
             else if (moveHorizontal > 0)
             {
                 //rigidBody.AddForce((movement).normalized / 4, ForceMode2D.Impulse);
-                rigidBody.velocity = movement * 0.01f;
+                rigidBody.velocity = movement * 0.05f + velocityYOnly;
             }
             else
             {
-                rigidBody.velocity = movement * 3.0f;
+                rigidBody.velocity = movement * 3.0f + velocityYOnly;
             }
         }
         else
@@ -415,8 +416,14 @@ public class Player : MonoBehaviour
 
     protected void OnPlayerJump()
     {
+        Debug.Log("isjumping " + isJumping);
+        Debug.Log("issitting " + isSitting);
+        Debug.Log("jumpcount " + cJumpCount);
+        Debug.Log("isLock " + isLock);
+
         if (Input.GetKeyDown(jumpKey) && !isJumping && !isSitting && cJumpCount < cMaxJumpCount && !isLock) //canPlayerState[3]
         {
+            Debug.Log("Jump");
             rigidBody.velocity = Vector2.zero;
             Managers.Sound.PlaySFX("Jump");
             PlayerJump(cMiniJumpPower);
