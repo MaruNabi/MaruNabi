@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class SkillBigMace : Sword
 {
-    private const float SMACE_ATTACK_POWER = 1100.0f;
+    private const float SMACE_ATTACK_POWER = 1500.0f; //1100
 
     private Vector3 spawnPosition;
     private Vector3 maceDistance = new Vector3(2, 10, 0);

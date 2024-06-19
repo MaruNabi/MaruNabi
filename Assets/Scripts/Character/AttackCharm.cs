@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackCharm : Bullet
 {
-    private const float CHARM_ATTACK_POWER = 45.0f;
+    private const float CHARM_ATTACK_POWER = 70.0f; //45
 
     private List<GameObject> enemyList = new List<GameObject>();
     private Transform enemy;
