@@ -159,8 +159,8 @@ public class ScholarManager : MonoBehaviour
 
     private void StageClearProduction(GameObject _mouseScholar)
     {
-        player1.PlayerStateTransition(false, 0);
-        player2.PlayerStateTransition(false, 0);
+        player1.PlayerInputDisable();
+        player2.PlayerInputDisable();
 
         virtualCamera.m_Follow = _mouseScholar.transform;
         virtualCamera.m_LookAt = _mouseScholar.transform;
@@ -196,8 +196,8 @@ public class ScholarManager : MonoBehaviour
 
         await UniTask.Delay(TimeSpan.FromSeconds(3f));
 
-        player1.PlayerStateTransition(true, 0);
-        player2.PlayerStateTransition(true, 0);
+        player1.PlayerInputEnable();
+        player2.PlayerInputEnable();
         virtualCamera.gameObject.SetActive(false);
 
         await UniTask.Delay(TimeSpan.FromSeconds(1f));

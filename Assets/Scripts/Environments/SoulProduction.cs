@@ -11,6 +11,10 @@ public class SoulProduction : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera zoomCamera;
     [SerializeField] CinemachineVirtualCamera stage3Camera;
 
+    [SerializeField] PolygonCollider2D previousCollider;
+    [SerializeField] PolygonCollider2D nextCollider;
+    
+    CinemachineConfiner2D confiner2D;
     SpriteRenderer spriteRenderer;
     private Sequence sequence2;
 
@@ -21,9 +25,9 @@ public class SoulProduction : MonoBehaviour
 
     public void StartProduction()
     {
-        zoomCamera.gameObject.SetActive(true);
-        zoomCamera.Follow = transform;
-
+        confiner2D = stage3Camera.GetComponent<CinemachineConfiner2D>();
+        confiner2D.m_BoundingShape2D = previousCollider;
+        
         Sequence sequence = DOTween.Sequence();
 
         sequence
@@ -37,7 +41,11 @@ public class SoulProduction : MonoBehaviour
                 sequence2
                     .Append(transform.DOMoveY(transform.position.y - 2f, 1))
                     .Append(transform.DOMoveY(transform.position.y + 2f, 1))
-                    .AppendCallback(() => { stage3Camera.Priority = 21; })
+                    .AppendCallback(() =>
+                    {
+                        confiner2D.m_BoundingShape2D = nextCollider;
+                        //stage3Camera.Priority = 21;
+                    })
                     .Append(transform.DOMoveY(transform.position.y - 2f, 1))
                     .Append(transform.DOMoveY(transform.position.y + 2f, 1))
                     .AppendCallback(() => sequence.Kill())

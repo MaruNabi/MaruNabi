@@ -39,18 +39,7 @@ MonoBehaviour:
     m_To: CM vcam2D_TargetGroup_2-2
     m_Blend:
       m_Style: 1
-      m_Time: 1
-      m_CustomCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-  - m_From: CM vcam2D_TargetGroup_2-1
-    m_To: CM vcam2D_TargetGroup_2-2
-    m_Blend:
-      m_Style: 1
-      m_Time: 1
+      m_Time: 0.5
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -82,7 +71,7 @@ MonoBehaviour:
   - m_From: CM vcam2D_TargetGroup_2-3
     m_To: CM ZoomCam2-3
     m_Blend:
-      m_Style: 1
+      m_Style: 0
       m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
@@ -93,7 +82,7 @@ MonoBehaviour:
   - m_From: CM ZoomCam2-3
     m_To: CM vcam2D_TargetGroup_2-3
     m_Blend:
-      m_Style: 1
+      m_Style: 0
       m_Time: 1
       m_CustomCurve:
         serializedVersion: 2

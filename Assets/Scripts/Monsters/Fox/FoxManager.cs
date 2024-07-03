@@ -30,13 +30,13 @@ public class FoxManager : MonoBehaviour
     
     public async UniTaskVoid StageStart()
     {
-        stageSwitchingManager.DisAllowBehavior();
+        stageSwitchingManager.DisableBehavior();
         await UniTask.Delay(TimeSpan.FromSeconds(2f));
         soul.gameObject.SetActive(true);
         soul.StartProduction();
         await UniTask.Delay(TimeSpan.FromSeconds(7f));
         fox.ChangeAnimation(EFoxAnimationType.Laugh);
-        stageSwitchingManager.AllowBehavior();
+        stageSwitchingManager.EnableBehavior();
         fox.UseTailPhase1();
         Managers.Sound.PlayBGM("Fox_Stage");
         // TODO: 여우 페이즈1 시작 들어가야 함
@@ -51,7 +51,7 @@ public class FoxManager : MonoBehaviour
             var list = GameObject.FindGameObjectsWithTag("Player");
             foreach (var item in list)
             {
-                item.GetComponent<Player>().PlayerStateTransition(false,0);
+                item.GetComponent<Player>().PlayerInputDisable();
             }
             stageSwitchingManager.ZoomIn(_target,3);
             productionEnd = true;
@@ -70,7 +70,7 @@ public class FoxManager : MonoBehaviour
         var list = GameObject.FindGameObjectsWithTag("Player");
         foreach (var item in list)
         {
-            item.GetComponent<Player>().PlayerStateTransition(true,0);
+            item.GetComponent<Player>().PlayerInputEnable();
         }
         
         clouds.SetActive(true);
@@ -83,12 +83,12 @@ public class FoxManager : MonoBehaviour
     public async UniTaskVoid ProductionSkip()
     {
         leftWall.SetActive(true);
-        stageSwitchingManager.DisAllowBehavior();
+        stageSwitchingManager.DisableBehavior();
         wallTrigger.gameObject.SetActive(false);
         soul.ProductionSkip();
         fox.ChangeAnimation(EFoxAnimationType.Laugh);
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
-        stageSwitchingManager.AllowBehavior();
+        stageSwitchingManager.EnableBehavior();
         fox.UseTailPhase1();
         // TODO: 여우 페이즈1 시작 들어가야 함
     }
@@ -96,11 +96,11 @@ public class FoxManager : MonoBehaviour
     public async UniTaskVoid StageSkip()
     {
         leftWall.SetActive(true);
-        stageSwitchingManager.DisAllowBehavior();
+        stageSwitchingManager.DisableBehavior();
         wallTrigger.gameObject.SetActive(false);
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         fox.OnDead();
-        await UniTask.Delay(TimeSpan.FromSeconds(3f));
+        await UniTask.Delay(TimeSpan.FromSeconds(2f));
         clouds.SetActive(true);
         clouds.transform.DOMoveY(-47, 2.5f);
         nextStageWall.GetComponent<NextStageWall>().isStage4Clear = true;

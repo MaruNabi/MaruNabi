@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using UnityEngine;
 using DG.Tweening;
@@ -10,7 +11,7 @@ public class NextStageWall : MonoBehaviour
 {
     [SerializeField] StageSwitchingManager switchingManager;
     [SerializeField] CinemachineStoryboard storyboardCamera;
-
+    
     public bool isStage1Clear;
     public bool isStage2Clear;
     public bool isStage3Clear;
@@ -58,6 +59,17 @@ public class NextStageWall : MonoBehaviour
             {
                 wallCollider.isTrigger = true;
                 switchingManager.ForcedMove();
+                
+                var playersObjects = GameObject.FindGameObjectsWithTag("Player");
+                var players = playersObjects.Select(player => player.GetComponent<Player>()).ToList();
+                foreach (var player in players)
+                {
+                    if (player != collision.gameObject.GetComponent<Player>())
+                    {
+                        player.transform.position = collision.gameObject.transform.position + Vector3.left * 2f;
+                    }
+                }
+                
             }
         }
     }

@@ -92,6 +92,9 @@ public class Scholar : Entity
 
     private void BeHitEffect()
     {
+        if (scholarSpriteRenderer == null)
+            return;
+        
         Sequence hitSequence = DOTween.Sequence();
         hitSequence
             .Append(scholarSpriteRenderer.DOFade(0.75f, 0.3f))

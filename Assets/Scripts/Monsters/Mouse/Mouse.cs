@@ -243,12 +243,14 @@ public class Mouse : Entity
 
         sequence = DOTween.Sequence();
         sequence
-            .OnStart(() => { mouseStateMachine.ChangeAnimation(EMouseAnimationType.Tail); })
-            .AppendInterval(0.1f)
+            .OnStart(() =>
+            {
+                mouseStateMachine.ChangeAnimation(EMouseAnimationType.Tail);
+                BackGroundControll(false);
+            })
+            .AppendInterval(0.25f)
             .AppendCallback(() =>
             {
-                BackGroundControll(false);
-
                 var tailSpawnPoint = transform.position + Vector3.left * 4.5f + Vector3.down * 2f;
                 Instantiate(mouseEffects.tail, tailSpawnPoint, Quaternion.Euler(0, 0, 6.6f));
                 Managers.Sound.PlaySFX("Mouse_Tail");

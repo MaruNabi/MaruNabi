@@ -97,10 +97,9 @@ public class Tiger : Entity
             .AppendInterval(1.5f)
             .AppendCallback(() =>
             {
-                head.GetComponent<SpriteRenderer>().sortingOrder = 0;
+                head.GetComponent<SpriteRenderer>().sortingOrder = 1;
                 headAnimator.enabled = true;
                 Managers.Sound.PlaySFX("Tiger_Growling");
-
             })
             .AppendInterval(2.5f)
             .OnComplete(() =>

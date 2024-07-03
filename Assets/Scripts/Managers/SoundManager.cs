@@ -57,7 +57,7 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// sfxName ÀÌ¸§ÀÇ SFX Àç»ı
+    /// sfxName ì´ë¦„ì˜ SFX ì¬ìƒ
     /// </summary>
     /// <param name="sfxName"></param>
     public void PlaySFX(string sfxName)
@@ -75,7 +75,7 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// bgmName ÀÌ¸§ÀÇ BGM Àç»ı
+    /// bgmName ì´ë¦„ì˜ BGM ì¬ìƒ
     /// </summary>
     /// <param name="bgmName"></param>
     public void PlayBGM(string bgmName)
@@ -93,7 +93,7 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// BGM ¸ØÃã
+    /// BGM ë©ˆì¶¤
     /// </summary>
     public void StopBGM()
     {
@@ -101,7 +101,7 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// SFX ¸ØÃã
+    /// SFX ë©ˆì¶¤
     /// </summary>
     public void StopSFX()
     {
@@ -109,7 +109,7 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// BGM º¼·ı Á¶Àı (0 ~ 1)
+    /// BGM ë³¼ë¥¨ ì¡°ì ˆ (0 ~ 1)
     /// </summary>
     /// <param name="volume"></param>
     public void SetBGMVolume(float volume)
@@ -120,7 +120,7 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// SFX º¼·ı Á¶Àı (0 ~ 1)
+    /// SFX ë³¼ë¥¨ ì¡°ì ˆ (0 ~ 1)
     /// </summary>
     /// <param name="volume"></param>
     public void SetSFXVolume(float volume)
@@ -146,7 +146,7 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// SFX ¸ñ·Ï¿¡ ÇØ´ç SFX ÀÖ´ÂÁö È®ÀÎ
+    /// SFX ëª©ë¡ì— í•´ë‹¹ SFX ìˆëŠ”ì§€ í™•ì¸
     /// </summary>
     /// <param name="sfxName"></param>
     /// <returns></returns>
