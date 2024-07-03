@@ -275,7 +275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 12074299}
   m_Layer: 0
-  m_Name: PlayerBullets
+  m_Name: PlayerBulletsNabi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4476,7 +4476,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2040333373}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &360293662
 GameObject:
@@ -9239,7 +9239,7 @@ PrefabInstance:
     - target: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: playerBullets
       value: 
-      objectReference: {fileID: 12074298}
+      objectReference: {fileID: 1693771629}
     - target: {fileID: 6623215531993341454, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: skillChangeUI
       value: 
@@ -23438,6 +23438,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1693771629
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1693771630}
+  m_Layer: 0
+  m_Name: PlayerBulletsMaru
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1693771630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693771629}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2040333373}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1695754019
 GameObject:
   m_ObjectHideFlags: 0
@@ -27919,6 +27950,7 @@ Transform:
   - {fileID: 498550476}
   - {fileID: 90012640}
   - {fileID: 12074299}
+  - {fileID: 1693771630}
   - {fileID: 352820132}
   m_Father: {fileID: 0}
   m_RootOrder: 3

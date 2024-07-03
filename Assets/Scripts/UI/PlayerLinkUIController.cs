@@ -19,6 +19,7 @@ public class PlayerLinkUIController : MonoBehaviour
 
     [SerializeField] private Image maruButton, nabiButton;
     [SerializeField] private TMP_Text maruBText, nabiBText;
+    [SerializeField] private GameObject KeyInfo;
 
     private bool isMaruFirstSet = true;
     private bool isNabiFirstSet = true;
@@ -30,6 +31,9 @@ public class PlayerLinkUIController : MonoBehaviour
 
     private bool canSelectMaru = true;
     private bool canSelectNabi = true;
+
+    private bool isActiveInfo = false;
+    private bool isSetOnce = true;
 
     private Color disableColor = new Color(0, 0, 0, 0);
     private Color enableColorBlack = new Color(0, 0, 0, 1);
@@ -55,6 +59,23 @@ public class PlayerLinkUIController : MonoBehaviour
 
         if (canSelectNabi)
             SelectNabi();
+
+        if (isActiveInfo)
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                canSelectMaru = true;
+                canSelectNabi = true;
+                isMaruSelectEnd = false;
+                isNabiSelectEnd = false;
+                maruButton.sprite = activeButton;
+                nabiButton.sprite = activeButton;
+
+                isActiveInfo = false;
+                KeyInfo.SetActive(false);
+                isSetOnce = true;
+            }
+        }
 
         if (!isMaruFirstSet)
         {
@@ -84,6 +105,12 @@ public class PlayerLinkUIController : MonoBehaviour
 
         if (isMaruSelectEnd && isNabiSelectEnd)
         {
+            if (!isMaruSelectPad && !isNabiSelectPad)
+            {
+                DuplicationKey();
+                return;
+            }
+
             KeyData.isMaruPad = isMaruSelectPad;
             KeyData.isNabiPad = isNabiSelectPad;
             if (isMaruSelectPad && isNabiSelectPad)
@@ -157,6 +184,16 @@ public class PlayerLinkUIController : MonoBehaviour
                 nabiBText.color = enableColorBlack;
                 isNabiFirstSet = false;
             }
+        }
+    }
+
+    private void DuplicationKey()
+    {
+        if (isSetOnce)
+        {
+            isSetOnce = false;
+            isActiveInfo = true;
+            KeyInfo.SetActive(true);
         }
     }
 }

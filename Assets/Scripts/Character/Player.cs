@@ -416,14 +416,8 @@ public class Player : MonoBehaviour
 
     protected void OnPlayerJump()
     {
-        Debug.Log("isjumping " + isJumping);
-        Debug.Log("issitting " + isSitting);
-        Debug.Log("jumpcount " + cJumpCount);
-        Debug.Log("isLock " + isLock);
-
         if (Input.GetKeyDown(jumpKey) && !isJumping && !isSitting && cJumpCount < cMaxJumpCount && !isLock) //canPlayerState[3]
         {
-            Debug.Log("Jump");
             rigidBody.velocity = Vector2.zero;
             Managers.Sound.PlaySFX("Jump");
             PlayerJump(cMiniJumpPower);
