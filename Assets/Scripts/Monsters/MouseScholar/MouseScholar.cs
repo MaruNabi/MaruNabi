@@ -55,12 +55,10 @@ public class MouseScholar : Entity
                 if (HP - DAMAGE_VALUE > 0)
                 {
                     OnDamage(DAMAGE_VALUE);
-                    //hpText.text = HP.ToString();
                 }
                 else
                 {
                     HP = 0;
-
                 }
             }
         }
@@ -160,9 +158,9 @@ public class MouseScholar : Entity
             {
                 smoke = Instantiate(mouseEffects.smokePrefab);
                 smoke.transform.position = transform.position;
-
                 animator.runtimeAnimatorController = mouseEffects.mouseAnimator;
-            });
+            })
+            .Join(transform.DOMoveY(transform.position.y-0.25f,0f));
     }
 
     public void JumpAnimation()
@@ -172,7 +170,7 @@ public class MouseScholar : Entity
         Managers.Sound.PlaySFX("Mouse_ComeOut");
         GameObject smoke = null;
         DOTween.Sequence()
-            .Append(gameObject.transform.DOJump(transform.position, 1, 1, 0.5f))
+            .Append(gameObject.transform.DOJump(transform.position, 2, 1, 0.5f))
             .AppendCallback(() => Managers.Sound.PlaySFX("Mouse_Drop"))
             .AppendInterval(2f)
             .Append(spriteRenderer.DOFade(0, 1f))

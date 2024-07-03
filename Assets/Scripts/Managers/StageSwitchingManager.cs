@@ -34,7 +34,6 @@ public class StageSwitchingManager : MonoBehaviour
     [SerializeField] private Transform stage3SpawnPoint;
     [SerializeField] private Transform stage4SpawnPoint;
     [Space]
-
     
     [Header("UI")]
     [SerializeField] private GameObject stageClearUI;
@@ -129,21 +128,21 @@ public class StageSwitchingManager : MonoBehaviour
     public void ForcedMove()
     {
         // 행동 막기
-        DisAllowBehavior();
+        DisableBehavior();
         players.ForEach(x => x.IsTargetGround = false);
 
         stage2Camera.gameObject.SetActive(true);
         isStageClear = true;
     }
 
-    public void AllowBehavior()
+    public void EnableBehavior()
     {
-        players.ForEach(x => x.PlayerStateTransition(true, 0));
+        players.ForEach(x => x.PlayerInputEnable());
     }
 
-    public void DisAllowBehavior()
+    public void DisableBehavior()
     {
-        players.ForEach(x => x.PlayerStateTransition(false, 0));
+        players.ForEach(x => x.PlayerInputDisable());
     }
 
     public void StageStart(int _stageNumber)
@@ -151,12 +150,12 @@ public class StageSwitchingManager : MonoBehaviour
         switch (_stageNumber)
         {
             case 2:
-                AllowBehavior();
+                EnableBehavior();
                 mouseManager.StageStart();
                 StageNumber = 2;
                 break;
             case 3:
-                AllowBehavior();
+                EnableBehavior();
                 foxManager.StageStart().Forget();
                 StageNumber = 3;
                 break;
@@ -192,14 +191,10 @@ public class StageSwitchingManager : MonoBehaviour
     {
         stage3Camera.gameObject.SetActive(true);
         stage3Camera.GetComponent<CinemachineVirtualCamera>().Follow = targetGroup;
-        DOTween.To(() => 1, x=> stage3Camera.GetComponent<CinemachineStoryboard>().m_Alpha = x,0f, 2f)
+        DOTween.To(() => 1, x => stage3Camera.GetComponent<CinemachineStoryboard>().m_Alpha = x, 0f, 2f)
             .OnStart(() =>
             {
                 players.ForEach(player => player.transform.position = stage3SpawnPoint.position);
-            })
-            .OnComplete(() =>
-            {
-                
             });
     }
 
@@ -213,7 +208,7 @@ public class StageSwitchingManager : MonoBehaviour
 
     public void StageAllClear()
     {
-        DisAllowBehavior();AllowBehavior();
+        DisableBehavior();EnableBehavior();
         stageClearUI.SetActive(true);
     }
 }

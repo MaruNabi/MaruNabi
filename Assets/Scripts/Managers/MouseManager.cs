@@ -57,7 +57,7 @@ public class MouseManager : MonoBehaviour
             var list = GameObject.FindGameObjectsWithTag("Player");
             foreach (var item in list)
             {
-                item.GetComponent<Player>().PlayerStateTransition(false,0);
+                item.GetComponent<Player>().PlayerInputDisable();
             }
             stageSwitchingManager.ZoomIn(_target,2);
             productionEnd = true;
@@ -78,7 +78,7 @@ public class MouseManager : MonoBehaviour
         var list = GameObject.FindGameObjectsWithTag("Player");
         foreach (var item in list)
         {
-            item.GetComponent<Player>().PlayerStateTransition(true,0);
+            item.GetComponent<Player>().PlayerInputEnable();
         }
         Managers.Sound.StopBGM();
     }

@@ -23,7 +23,7 @@ public class TigerManager : MonoBehaviour
         if (cameraShake == null)
             cameraShake = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
-        stageSwitchingManager.DisAllowBehavior();
+        stageSwitchingManager.DisableBehavior();
         await UniTask.Delay(TimeSpan.FromSeconds(3f));
         Managers.Sound.PlaySFX("Tiger_Ground");
         cameraShake.m_FrequencyGain = 0.5f;
@@ -34,6 +34,6 @@ public class TigerManager : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(1.5f));
         cameraShake.m_AmplitudeGain = 0f;
         cameraShake.m_FrequencyGain = 0f;
-        stageSwitchingManager.AllowBehavior();
+        stageSwitchingManager.EnableBehavior();
     }
 }
