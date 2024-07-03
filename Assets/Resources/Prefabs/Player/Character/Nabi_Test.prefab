@@ -549,6 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447ddbeb00f93c343818cb8421c39e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cLife: 5
   cSpeed: 6
   cJumpPower: 0.03
   cMaxJumpPower: 17
@@ -567,6 +568,8 @@ MonoBehaviour:
   playerBullets: {fileID: 0}
   playerSkills: {fileID: 0}
   playerHpUI: {fileID: 0}
+  skillChangeUI: {fileID: 0}
+  playerMaru: {fileID: 0}
 --- !u!95 &3042348562188423817
 Animator:
   serializedVersion: 5
