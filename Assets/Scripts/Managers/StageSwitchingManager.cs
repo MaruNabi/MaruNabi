@@ -208,7 +208,7 @@ public class StageSwitchingManager : MonoBehaviour
 
     public void StageAllClear()
     {
-        DisableBehavior();EnableBehavior();
+        DisableBehavior();
         stageClearUI.SetActive(true);
     }
 }

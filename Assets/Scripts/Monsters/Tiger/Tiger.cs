@@ -395,6 +395,7 @@ public class Tiger : Entity
         StopSequence();
         CanHit(false);
         cts.Cancel();
+        stateMachine.Stop();
         Phase = 4;
 
         tag = "Untagged";
