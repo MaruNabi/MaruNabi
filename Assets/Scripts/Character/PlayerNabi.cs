@@ -453,19 +453,7 @@ public class PlayerNabi : Player
 
     private void PlayerKeySetting()
     {
-        if (!KeyData.isNabiPad)
-        {
-            isPad = false;
-            moveLeftKey = KeyCode.LeftArrow;
-            moveRightKey = KeyCode.RightArrow;
-            jumpKey = KeyCode.RightShift;
-            lockKey = KeyCode.L;
-            sitKey = KeyCode.DownArrow;
-            normalAtkKey = KeyCode.RightBracket;
-            specialAtkKey = KeyCode.LeftBracket;
-            skillChangeKey = KeyCode.Equals;
-        }
-        else if (KeyData.isNabiPad)
+        if (KeyData.isNabiPad)
         {
             isPad = true;
             selectedPadName = "Horizontal_J1";
@@ -476,6 +464,18 @@ public class PlayerNabi : Player
             specialAtkKey = KeyCode.Joystick1Button0;
             skillChangeKey = KeyCode.Joystick1Button1;
             dashKey = KeyCode.Joystick1Button2;
+        }
+        else
+        {
+            isPad = false;
+            moveLeftKey = KeyCode.LeftArrow;
+            moveRightKey = KeyCode.RightArrow;
+            jumpKey = KeyCode.RightShift;
+            lockKey = KeyCode.L;
+            sitKey = KeyCode.DownArrow;
+            normalAtkKey = KeyCode.RightBracket;
+            specialAtkKey = KeyCode.LeftBracket;
+            skillChangeKey = KeyCode.Equals;
         }
 
         if (KeyData.isBothPad)

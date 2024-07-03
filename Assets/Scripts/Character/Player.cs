@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     public const int MAX_LIFE = 5;
     public int cLife = 3;
     [SerializeField] [Range(0, 10)] protected float cSpeed = 6.0f; //Character Speed
-    protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = »ç¿ë ³¡³ª¸é »èÁ¦
+    protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = ì‚¬ìš© ëë‚˜ë©´ ì‚­ì œ
     protected const float maxUltimateGauge = 2500.0f;
     public static bool isReviveSuccess = false;
     private bool canHit = true;
@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
         set => isTargetGround = value;
     }
 
-    public void PlayerStateTransition(bool _set, int _index = 4) //»ç¿ë ³¡³ª¸é »èÁ¦
+    public void PlayerStateTransition(bool _set, int _index = 4) //ì‚¬ìš© ëë‚˜ë©´ ì‚­ì œ
     {
         for (int i = _index; i < canPlayerState.Length; i++)
         {
@@ -416,14 +416,8 @@ public class Player : MonoBehaviour
 
     protected void OnPlayerJump()
     {
-        //Debug.Log("isjumping " + isJumping);
-        //Debug.Log("issitting " + isSitting);
-        //Debug.Log("jumpcount " + cJumpCount);
-        //Debug.Log("isLock " + isLock);
-
         if (Input.GetKeyDown(jumpKey) && !isJumping && !isSitting && cJumpCount < cMaxJumpCount && !isLock) //canPlayerState[3]
         {
-            Debug.Log("Jump");
             rigidBody.velocity = Vector2.zero;
             Managers.Sound.PlaySFX("Jump");
             PlayerJump(cMiniJumpPower);
