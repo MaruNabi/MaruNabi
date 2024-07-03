@@ -103,13 +103,13 @@ public class StageSwitchingManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            players.ForEach(player => player.ReviveCheat());
-        }
-    }
+    // private void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.M))
+    //     {
+    //         players.ForEach(player => player.ReviveCheat());
+    //     }
+    // }
 
     private void FixedUpdate()
     {
