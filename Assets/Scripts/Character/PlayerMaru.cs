@@ -102,11 +102,11 @@ public class PlayerMaru : Player
 
         UpdateLifeUI();
 
-        Managers.Pool.CreatePool(swordPrefab_1, 2);
-        Managers.Pool.CreatePool(skillPrefab_1, 2);
+        Managers.Pool.CreatePool(swordPrefab_1, 5);
+        Managers.Pool.CreatePool(skillPrefab_1, 3);
 
-        Managers.Pool.CreatePool(swordPrefab_2, 2);
-        Managers.Pool.CreatePool(skillPrefab_2, 2);
+        Managers.Pool.CreatePool(swordPrefab_2, 5);
+        Managers.Pool.CreatePool(skillPrefab_2, 3);
 
         Managers.Input.keyAction -= OnPlayerMove;
         Managers.Input.keyAction -= OnPlayerAttack;
@@ -511,19 +511,7 @@ public class PlayerMaru : Player
 
     private void PlayerKeySetting()
     {
-        if (!KeyData.isMaruPad)
-        {
-            isPad = false;
-            moveLeftKey = KeyCode.A;
-            moveRightKey = KeyCode.D;
-            jumpKey = KeyCode.Space;
-            lockKey = KeyCode.LeftControl;
-            sitKey = KeyCode.S;
-            normalAtkKey = KeyCode.V;
-            specialAtkKey = KeyCode.B;
-            skillChangeKey = KeyCode.Tab;
-        }
-        else if (KeyData.isMaruPad)
+        if (KeyData.isMaruPad)
         {
             isPad = true;
             selectedPadName = "Horizontal_J1";
@@ -534,6 +522,18 @@ public class PlayerMaru : Player
             specialAtkKey = KeyCode.Joystick1Button0;
             skillChangeKey = KeyCode.Joystick1Button1;
             dashKey = KeyCode.Joystick1Button2;
+        }
+        else
+        {
+            isPad = false;
+            moveLeftKey = KeyCode.A;
+            moveRightKey = KeyCode.D;
+            jumpKey = KeyCode.Space;
+            lockKey = KeyCode.LeftControl;
+            sitKey = KeyCode.S;
+            normalAtkKey = KeyCode.V;
+            specialAtkKey = KeyCode.B;
+            skillChangeKey = KeyCode.Tab;
         }
     }
 }
