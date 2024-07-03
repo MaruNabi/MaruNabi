@@ -1812,6 +1812,7 @@ MonoBehaviour:
   - {fileID: 1147006313}
   riceCakePrefab: {fileID: 7144425276797773771, guid: 5e8970c19cb2c304a9e308250d84e07e, type: 3}
   magnet: {fileID: 237847357}
+  underWall: {fileID: 965733676}
 --- !u!61 &136495899
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12752,7 +12753,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &965733677
 Transform:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public class Tiger : Entity
     [SerializeField] private Transform[] riceCakePositions;
     [SerializeField] private GameObject riceCakePrefab;
     [SerializeField] private GameObject magnet;
-
+    [SerializeField] private GameObject underWall;
     private Animator headAnimator;
     private SpriteRenderer headSpriteRenderer;
     private TigerEffects tigerEffects;
@@ -87,7 +87,11 @@ public class Tiger : Entity
     {
         sequence = DOTween.Sequence();
         sequence
-            .PrependCallback(() => leftHand.gameObject.SetActive(true))
+            .PrependCallback(() =>
+            {
+                leftHand.gameObject.SetActive(true);
+                underWall.SetActive(true);
+            })
             .AppendInterval(1f)
             .AppendCallback(() => rightHand.gameObject.SetActive(true))
             .AppendInterval(2f)
