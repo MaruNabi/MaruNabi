@@ -151,7 +151,7 @@ public class PlayerMaru : Player
             UpdateLifeUI();
         }
 
-        //Animation Script
+        #region Animation
         if (rigidBody.velocity.normalized.x == 0)
         {
             playerAnimator.SetBool("isMove", false);
@@ -190,13 +190,10 @@ public class PlayerMaru : Player
                 playerAnimator.SetBool("isDown", false);
             }
         }
-        /*else
-        {
-            playerAnimator.SetBool("isUp", false);
-            playerAnimator.SetBool("isDown", false);
-        }*/
+        #endregion
     }
 
+    #region Trigger and Collision
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
@@ -228,6 +225,7 @@ public class PlayerMaru : Player
             Destroy(collision.gameObject);
         }
     }
+    #endregion
 
     protected override IEnumerator Revive()
     {
@@ -405,13 +403,7 @@ public class PlayerMaru : Player
 
         if (Input.GetKeyDown(specialAtkKey)) //canPlayerState[4]
         {
-            //None
-            if (ultimateGauge < 830.0f)
-            {
-                return;
-            }
-            //Special Move
-            else if (ultimateGauge == maxUltimateGauge)
+            if (ultimateGauge == maxUltimateGauge)
             {
                 StartCoroutine(PlayerSit(true));
                 GameObject skillObject = Managers.Pool.Pop(currentSkillPrefab, playerSkills.transform).gameObject;
@@ -425,13 +417,20 @@ public class PlayerMaru : Player
 
                 ultimateGauge = 0.0f;
             }
-            //Ability
             else
+                return;
+        }
+
+        if (Input.GetKeyDown(abilityKey))
+        {
+            if (ultimateGauge >= 830.0f)
             {
                 playerAnimator.SetBool("isDefence", true);
                 StartCoroutine(PlayerShield());
                 ultimateGauge -= 830.0f;
             }
+            else
+                return;
         }
     }
 
@@ -522,6 +521,7 @@ public class PlayerMaru : Player
             specialAtkKey = KeyCode.Joystick1Button0;
             skillChangeKey = KeyCode.Joystick1Button1;
             dashKey = KeyCode.Joystick1Button2;
+            //abilityKey = KeyCode.LeftControl;
         }
         else
         {
@@ -534,6 +534,7 @@ public class PlayerMaru : Player
             normalAtkKey = KeyCode.V;
             specialAtkKey = KeyCode.B;
             skillChangeKey = KeyCode.Tab;
+            abilityKey = KeyCode.LeftControl;
         }
     }
 }
