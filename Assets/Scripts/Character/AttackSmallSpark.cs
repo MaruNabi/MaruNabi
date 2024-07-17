@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackSmallSpark : Bullet
 {
-    private const float SPARK_ATTACK_POWER = 100.0f; //80
+    private const float SPARK_ATTACK_POWER = 130.0f; 
 
     private bool isRelease = false;
     private bool isSetOnce = true;

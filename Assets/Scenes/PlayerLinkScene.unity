@@ -1674,7 +1674,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8ec604adc4b32534d9eef5d3e52106fc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f800adc010fa8fe40b49739513d93e16, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1873,8 +1873,8 @@ MonoBehaviour:
   nabiImage: {fileID: 1348709456}
   maruText: {fileID: 2077528668}
   nabiText: {fileID: 1374937494}
-  keyboardImage: {fileID: 21300000, guid: f88ca8a3d1af72b4e9a6e3df831347f9, type: 3}
-  padImage: {fileID: 21300000, guid: 8ec604adc4b32534d9eef5d3e52106fc, type: 3}
+  keyboardImage: {fileID: 21300000, guid: aaef2a5a65a5dd34a99369126fff7dc5, type: 3}
+  padImage: {fileID: 21300000, guid: f800adc010fa8fe40b49739513d93e16, type: 3}
   activeButton: {fileID: 21300000, guid: e538580b5e338e0408ce3e91e2d708f6, type: 3}
   unActiveButton: {fileID: 21300000, guid: 6e393a1fafea3704a9ba7259be1944c1, type: 3}
   maruButton: {fileID: 1610063053}
@@ -2039,7 +2039,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8ec604adc4b32534d9eef5d3e52106fc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f800adc010fa8fe40b49739513d93e16, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -7,7 +7,7 @@ using DG.Tweening;
 
 public class AttackSmallMaze : Sword
 {
-    private const float MACE_ATTACK_POWER = 500.0f; //400
+    private const float MACE_ATTACK_POWER = 200.0f; //400
 
     private const float MAX_DISTANCE = 2.0f;
 

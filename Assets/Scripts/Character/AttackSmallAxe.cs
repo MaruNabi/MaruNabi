@@ -7,7 +7,7 @@ using DG.Tweening;
 
 public class AttackSmallAxe : Sword
 {
-    private const float AXE_ATTACK_POWER = 200.0f; //150
+    private const float AXE_ATTACK_POWER = 80.0f; 
 
     private const float MAX_DISTANCE = 5.0f;
 
