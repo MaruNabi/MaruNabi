@@ -124,8 +124,8 @@ public class Scholar : Entity
     
     public override void OnDead()
     {
-        DOTween.KillAll(scholarSpriteRenderer);
-        DOTween.KillAll(this);
+        DOTween.Kill(scholarSpriteRenderer);
+        DOTween.Kill(this);
         isHit = false;
         base.OnDead();
     }

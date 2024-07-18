@@ -128,8 +128,8 @@ public class MouseScholar : Entity
 
     public override void OnDead()
     {
-        DOTween.KillAll(spriteRenderer);
-        DOTween.KillAll(this);
+        DOTween.Kill(spriteRenderer);
+        DOTween.Kill(this);
         base.OnDead();
     }
 
