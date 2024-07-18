@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Quaternion = System.Numerics.Quaternion;
 using Random = UnityEngine.Random;
 
 public class BongsanMask : Entity
@@ -88,6 +89,8 @@ public class BongsanMask : Entity
             });
     }
     
+    
+    
     private void SaveTeleportPoints()
     {
         Vector3 referencePosition = transform.position;
@@ -130,8 +133,17 @@ public class BongsanMask : Entity
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    var beam = Instantiate(energyBeamPrefab, energyBeamsTransform[i].transform.position,
-                        Quaternion.identity);
+                    var beam = Instantiate(energyBeamPrefab, energyBeamsTransform[i].transform.position, energyBeamPrefab.transform.rotation);
+                    
+                    if(i == 0)
+                    {
+                        beam.transform.eulerAngles = new Vector3(0, 0, 90);
+                    }
+                    else
+                    {
+                        beam.transform.eulerAngles = new Vector3(0, -180, 90);
+                    }
+                    
                     var randomInt = Random.Range(0, 2);
                     if (randomInt == 0)
                     {
