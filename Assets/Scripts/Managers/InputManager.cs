@@ -12,14 +12,17 @@ public class InputManager
 
     public void OnUpdate()
     {
-        if (Input.anyKey == false && Input.GetAxis("Horizontal_J1") == 0.0f)
+        if (Input.anyKey == false)
         {
-            if (isChangeOnce)
+            if (Input.GetAxis("Horizontal_J1") == 0.0f && Input.GetAxis("Horizontal_J2") == 0.0f)
             {
-                isChangeOnce = false;
-                isNeedInit = true;
+                if (isChangeOnce)
+                {
+                    isChangeOnce = false;
+                    isNeedInit = true;
+                }
+                return;
             }
-            return;
         }
 
         if (keyAction != null)
