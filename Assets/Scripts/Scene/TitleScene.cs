@@ -13,12 +13,10 @@ public class TitleScene : MonoBehaviour
 
     [SerializeField] private Sprite selectedSprite, unSelectedSprite;
     [SerializeField] private GameObject firstInformation;
-
-    private bool isActiveInformation;
+    [SerializeField] private FirstInformationUI firstInformationUI = new FirstInformationUI();
 
     void Start()
     {
-        isActiveInformation = true;
         buttonCount = buttons.Length;
 
         Managers.Sound.PlayBGM("Title");
@@ -27,14 +25,8 @@ public class TitleScene : MonoBehaviour
 
     void Update()
     {
-        if (isActiveInformation)
-        {
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                firstInformation.SetActive(false);
-                isActiveInformation = false;
-            }
-        }
+        if (firstInformationUI.IsActiveInformation)
+            return;
         else
         {
             ButtonsControl();
@@ -98,10 +90,6 @@ public class TitleScene : MonoBehaviour
 
     public void OnClickGameStart()
     {
-        //LoadingScene.nextScene = "TestScene";
-
         SceneManager.LoadScene("PlayerLinkScene");
-
-        //Managers.Scene.LoadScene(ESceneType.StageSelectionScene);
     }
 }

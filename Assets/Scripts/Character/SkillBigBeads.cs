@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillBigBeads : Bullet
 {
-    private const float SBEADS_ATTACK_POWER = 500.0f; //450
+    private const float SBEADS_ATTACK_POWER = 450.0f;
 
     void OnEnable()
     {

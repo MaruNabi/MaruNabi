@@ -144,9 +144,7 @@ public class PlayerNabi : Player
             rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
 
         if (moveHorizontal == 0 && !isDashing && !playerAnimator.GetBool("isDead") && !isSurfaceEffector) //isDead는 Slope에서 죽으면 밀려야 하기 때문
-        {
             rigidBody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-        }
         else
             rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -155,7 +153,7 @@ public class PlayerNabi : Player
             UpdateLifeUI();
         }
 
-        //Animation Script
+        #region Animation
         if (rigidBody.velocity.normalized.x == 0)
         {
             playerAnimator.SetBool("isMove", false);
@@ -194,13 +192,10 @@ public class PlayerNabi : Player
                 playerAnimator.SetBool("isDown", false);
             }
         }
-        /*else
-        {
-            playerAnimator.SetBool("isUp", false);
-            playerAnimator.SetBool("isDown", false);
-        }*/
+        #endregion
     }
 
+    #region Trigger and Collision
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("EnemyBullet"))
@@ -224,6 +219,7 @@ public class PlayerNabi : Player
             PlayerHit(collision.transform.position, false);
         }
     }
+    #endregion
 
     protected override IEnumerator Revive()
     {
@@ -388,13 +384,7 @@ public class PlayerNabi : Player
 
         if (Input.GetKeyDown(specialAtkKey)) //canPlayerState[4]
         {
-            //None
-            if (ultimateGauge < 830.0f)
-            {
-                return;
-            }
-            //Special Move
-            else if (ultimateGauge == maxUltimateGauge)
+            if (ultimateGauge == maxUltimateGauge)
             {
                 //StartCoroutine(PlayerSit(true));
                 GameObject skillObject = Managers.Pool.Pop(currentSkillPrefab, playerSkills.transform).gameObject;
@@ -403,12 +393,19 @@ public class PlayerNabi : Player
 
                 ultimateGauge = 0.0f;
             }
-            //Ability
             else
+                return;
+        }
+
+        if (Input.GetKeyDown(abilityKey))
+        {
+            if (ultimateGauge >= 830.0f)
             {
                 StartCoroutine("NabiTraitActive");
                 ultimateGauge -= 830.0f;
             }
+            else
+                return;
         }
     }
 
@@ -464,6 +461,7 @@ public class PlayerNabi : Player
             specialAtkKey = KeyCode.Joystick1Button0;
             skillChangeKey = KeyCode.Joystick1Button1;
             dashKey = KeyCode.Joystick1Button2;
+            //abilityKey = KeyCode.LeftControl;
         }
         else
         {
@@ -476,6 +474,7 @@ public class PlayerNabi : Player
             normalAtkKey = KeyCode.RightBracket;
             specialAtkKey = KeyCode.LeftBracket;
             skillChangeKey = KeyCode.Equals;
+            abilityKey = KeyCode.LeftControl;
         }
 
         if (KeyData.isBothPad)
@@ -489,6 +488,7 @@ public class PlayerNabi : Player
             specialAtkKey = KeyCode.Joystick2Button0;
             skillChangeKey = KeyCode.Joystick2Button1;
             dashKey = KeyCode.Joystick2Button2;
+            //abilityKey = KeyCode.LeftControl;
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillBigSpark : Bullet
 {
-    private const float SSPARK_ATTACK_POWER = 1500.0f;
+    private const float SSPARK_ATTACK_POWER = 400.0f;
 
     void OnEnable()
     {

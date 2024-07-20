@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     protected KeyCode specialAtkKey;
     protected KeyCode skillChangeKey;
     protected KeyCode dashKey;
+    protected KeyCode abilityKey;
 
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField] [Range(0, 10)] protected float cJumpPower = 0.03f; //Incremental Jump Force
