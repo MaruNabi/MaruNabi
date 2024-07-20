@@ -159,8 +159,9 @@ public class OwkwangMask : Entity
             .Append(transform.DOMoveY(teleportPoints[randomInt].y, 0.5f).SetEase(Ease.InCirc))
             .AppendCallback(() =>
             {
-                    var beam = Instantiate(energyBeamPrefab, transform.position + Vector3.right * 10f,
+                    var beam = Instantiate(energyBeamPrefab, transform.position + Vector3.right * 11,
                         Quaternion.identity);
+                    beam.transform.eulerAngles = new Vector3(0, 0, 90);
                     beam.AddComponent<EnergyBeam>().Init(false);
                     Managers.Sound.PlaySFX("Mask_Energy");
             })
@@ -175,8 +176,9 @@ public class OwkwangMask : Entity
 
     private void EarthEnergyBeam()
     {
-        var beam = Instantiate(earthBeamPrefab, attackPoints[Random.Range(0, attackPoints.Length-1)] + Vector3.up * 5f,
+        var beam = Instantiate(earthBeamPrefab, attackPoints[Random.Range(1, attackPoints.Length-1)] + Vector3.up*5,
             Quaternion.identity);
+        beam.transform.eulerAngles = new Vector3(-180, 0, 0);
         beam.AddComponent<EnergyBeam>().Init(false);
         Managers.Sound.PlaySFX("Mask_Earth");
     }
