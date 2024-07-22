@@ -104,7 +104,7 @@ public class Fox : Entity
             .Append(spriteRenderer.DOFade(1f, 0.3f));
     }
 
-    public void AllowAttack(bool _canHit)
+    private void AllowAttack(bool _canHit)
     {
         if (_canHit)
         {
@@ -118,7 +118,7 @@ public class Fox : Entity
         }
     }
 
-    public void StopSequence()
+    private void StopSequence()
     {
         AllowAttack(false);
         if (attackObjects.Count > 0)
@@ -137,7 +137,7 @@ public class Fox : Entity
         gameObject.layer = 0;
     }
 
-    public void Attack(int _attackType)
+    private void Attack(int _attackType)
     {
         StopSequence();
 
@@ -184,7 +184,7 @@ public class Fox : Entity
             });
     }
 
-    public async UniTaskVoid SpawnBongsanMask()
+    private async UniTaskVoid SpawnBongsanMask()
     {
         StopSequence();
 
@@ -198,7 +198,7 @@ public class Fox : Entity
     }
 
 
-    public async UniTaskVoid SpawnHahwoiMask()
+    private async UniTaskVoid SpawnHahwoiMask()
     {
         StopSequence();
 
@@ -214,7 +214,7 @@ public class Fox : Entity
         }
     }
 
-    public async UniTaskVoid SpawnOwkwangMask()
+    private async UniTaskVoid SpawnOwkwangMask()
     {
         StopSequence();
 
@@ -299,7 +299,7 @@ public class Fox : Entity
         {
             phase = 3;
             ChangeAnimation(EFoxAnimationType.Angry);
-            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+            await UniTask.Delay(TimeSpan.FromSeconds(2f));
             UseTailPhase3().Forget();
             Managers.Sound.PlaySFX("Boss_Phase");
             // 페이즈 3 시작
@@ -308,7 +308,7 @@ public class Fox : Entity
         {
             phase = 2;
             ChangeAnimation(EFoxAnimationType.Angry);
-            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+            await UniTask.Delay(TimeSpan.FromSeconds(2f));
             UseTailPhase2().Forget();
             Managers.Sound.PlaySFX("Boss_Phase");
         }
@@ -347,7 +347,7 @@ public class Fox : Entity
         hahwoiDisapCount = 0;
 
         ChangeAnimation(EFoxAnimationType.Laugh);
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+        await UniTask.Delay(TimeSpan.FromSeconds(2f));
         ChangeAnimation(EFoxAnimationType.Scrub);
 
         light.SetActive(true);
