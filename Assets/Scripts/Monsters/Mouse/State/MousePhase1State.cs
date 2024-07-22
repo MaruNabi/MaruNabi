@@ -30,14 +30,15 @@ public class MousePhase1State : MouseState
             // Cancelled token will throw OperationCanceledException here
             await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: token);
 
-            if (RandomizerUtil.PercentRandomizer(50))
+            if (RandomizerUtil.PercentRandomizer(100))
             {
                 // Check for cancellation before invoking the event
                 token.ThrowIfCancellationRequested();
                 
                 // Delay with cancellation token
-                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()), cancellationToken: token);
-                
+                //await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush()), cancellationToken: token);
+                await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.TailAttack()), cancellationToken: token);
+
                 // Check for cancellation after the delay
                 token.ThrowIfCancellationRequested();
             }
