@@ -19,7 +19,7 @@ public class MouseEnterState : MouseState
     {
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         stateMachine.ChangeAnimation(EMouseAnimationType.StopCrying);
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
         stateMachine.SetState("Run");
     }
 }
