@@ -255,7 +255,7 @@ public class Mouse : Entity
                 Instantiate(mouseEffects.tail, tailSpawnPoint, Quaternion.Euler(0, 0, 6.6f));
                 Managers.Sound.PlaySFX("Mouse_Tail");
             })
-            .AppendInterval(.25f)
+            .AppendInterval(.35f)
             .OnComplete(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Run);
