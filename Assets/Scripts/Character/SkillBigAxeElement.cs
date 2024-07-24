@@ -20,7 +20,7 @@ public class SkillBigAxeElement : MonoBehaviour
     void Update()
     {
         if (PlayerNabi.isNabiTraitActivated)
-            attackPower = SAXE_ATTACK_POWER * 2.3f;
+            attackPower = SAXE_ATTACK_POWER * 1.5f;
         else
             attackPower = SAXE_ATTACK_POWER;
 

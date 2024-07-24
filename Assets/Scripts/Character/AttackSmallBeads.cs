@@ -9,7 +9,7 @@ public class AttackSmallBeads : Bullet
     void OnEnable()
     {
         if (PlayerNabi.isNabiTraitActivated)
-            attackPower = BEADS_ATTACK_POWER * 2.3f;
+            attackPower = BEADS_ATTACK_POWER * 1.5f;
         else
             attackPower = BEADS_ATTACK_POWER;
 

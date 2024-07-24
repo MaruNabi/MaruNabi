@@ -21,7 +21,7 @@ public class AttackSmallSword : Sword
     private void OnEnable()
     {
         if (PlayerNabi.isNabiTraitActivated)
-            attackPower = SWORD_ATTACK_POWER * 2.3f;
+            attackPower = SWORD_ATTACK_POWER * 1.5f;
         else
             attackPower = SWORD_ATTACK_POWER;
 

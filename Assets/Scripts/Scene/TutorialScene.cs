@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialScene : MonoBehaviour
 {
@@ -36,6 +37,9 @@ public class TutorialScene : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F11))
+            SceneManager.LoadScene("StageSelectionScene");
+
         if (dummy1 == null && !isSubStage1Clear)
         {
             isSubStage1Clear = true;
