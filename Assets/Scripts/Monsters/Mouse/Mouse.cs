@@ -66,7 +66,7 @@ public class Mouse : Entity
         startPos = transform.position;
         maxHP = Data.LIFE;
         HP = maxHP;
-
+        
         behaviorGacha.Add(EMousePattern.Rush, 35);
         behaviorGacha.Add(EMousePattern.SpawnRats, 15);
         behaviorGacha.Add(EMousePattern.Rock, 25);
