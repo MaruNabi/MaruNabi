@@ -417,17 +417,11 @@ public class PlayerMaru : Player
 
                 ultimateGauge = 0.0f;
             }
-            else
-                return;
-        }
-
-        if (Input.GetKeyDown(abilityKey))
-        {
-            if (ultimateGauge >= 830.0f)
+            else if (ultimateGauge >= 1000.0f)
             {
                 playerAnimator.SetBool("isDefence", true);
                 StartCoroutine(PlayerShield());
-                ultimateGauge -= 830.0f;
+                ultimateGauge -= 1000.0f;
             }
             else
                 return;
@@ -474,13 +468,13 @@ public class PlayerMaru : Player
         {
             target1 = transform.position - new Vector3(5, 0, 0);
             target2 = transform.position + new Vector3(10, 0, 0);
-            target3 = transform.position - new Vector3(5, 0, 0);
+            target3 = transform.position; //- new Vector3(5, 0, 0);
         }
         else
         {
             target1 = transform.position + new Vector3(5, 0, 0);
             target2 = transform.position - new Vector3(10, 0, 0);
-            target3 = transform.position + new Vector3(5, 0, 0);
+            target3 = transform.position; //+ new Vector3(5, 0, 0);
         }
 
         PlayerStateTransition(false, 0);
@@ -521,7 +515,6 @@ public class PlayerMaru : Player
             specialAtkKey = KeyCode.Joystick1Button0;
             skillChangeKey = KeyCode.Joystick1Button1;
             dashKey = KeyCode.Joystick1Button2;
-            //abilityKey = KeyCode.LeftControl;
         }
         else
         {
@@ -534,7 +527,6 @@ public class PlayerMaru : Player
             normalAtkKey = KeyCode.V;
             specialAtkKey = KeyCode.B;
             skillChangeKey = KeyCode.Tab;
-            abilityKey = KeyCode.LeftControl;
         }
     }
 }

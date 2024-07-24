@@ -27,15 +27,6 @@ public class AttackCharm : Bullet
 
         SetBullet();
 
-        /*if (GameObject.FindGameObjectWithTag("Enemy"))
-        {
-            enemy = GameObject.FindGameObjectWithTag("Enemy").transform;
-        }
-        else if (GameObject.FindGameObjectWithTag("NoBumpEnemy"))
-        {
-            enemy= GameObject.FindGameObjectWithTag("NoBumpEnemy").transform;
-        }*/
-
         enemyList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
         enemyList.AddRange(GameObject.FindGameObjectsWithTag("NoBumpEnemy"));
 

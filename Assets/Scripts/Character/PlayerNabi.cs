@@ -393,16 +393,10 @@ public class PlayerNabi : Player
 
                 ultimateGauge = 0.0f;
             }
-            else
-                return;
-        }
-
-        if (Input.GetKeyDown(abilityKey))
-        {
-            if (ultimateGauge >= 830.0f)
+            if (ultimateGauge >= 1000.0f)
             {
                 StartCoroutine("NabiTraitActive");
-                ultimateGauge -= 830.0f;
+                ultimateGauge -= 1000.0f;
             }
             else
                 return;
@@ -461,7 +455,6 @@ public class PlayerNabi : Player
             specialAtkKey = KeyCode.Joystick1Button0;
             skillChangeKey = KeyCode.Joystick1Button1;
             dashKey = KeyCode.Joystick1Button2;
-            //abilityKey = KeyCode.LeftControl;
         }
         else
         {
@@ -474,7 +467,6 @@ public class PlayerNabi : Player
             normalAtkKey = KeyCode.RightBracket;
             specialAtkKey = KeyCode.LeftBracket;
             skillChangeKey = KeyCode.Equals;
-            abilityKey = KeyCode.LeftControl;
         }
 
         if (KeyData.isBothPad)
@@ -488,7 +480,6 @@ public class PlayerNabi : Player
             specialAtkKey = KeyCode.Joystick2Button0;
             skillChangeKey = KeyCode.Joystick2Button1;
             dashKey = KeyCode.Joystick2Button2;
-            //abilityKey = KeyCode.LeftControl;
         }
     }
 }

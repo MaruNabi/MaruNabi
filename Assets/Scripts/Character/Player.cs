@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public int cLife = 5;
     [SerializeField] [Range(0, 10)] protected float cSpeed = 6.0f; //Character Speed
     protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
-    protected const float maxUltimateGauge = 2500.0f;
+    protected const float maxUltimateGauge = 5000.0f;
     public static bool isReviveSuccess = false;
     private bool canHit = true;
     private bool isTimerEnd = false;
@@ -26,7 +26,6 @@ public class Player : MonoBehaviour
     protected KeyCode specialAtkKey;
     protected KeyCode skillChangeKey;
     protected KeyCode dashKey;
-    protected KeyCode abilityKey;
 
     private const float MINIMUM_JUMP = 12.0f;
     [SerializeField] [Range(0, 10)] protected float cJumpPower = 0.03f; //Incremental Jump Force
