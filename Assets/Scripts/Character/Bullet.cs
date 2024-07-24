@@ -46,7 +46,7 @@ public class Bullet : MonoBehaviour
         else if (KeyData.isBothPad)
             lockKey = KeyCode.Joystick2Button4;
         else if (!KeyData.isNabiPad)
-            lockKey = KeyCode.L;
+            lockKey = KeyCode.C;
 
         if (Input.GetKey(lockKey))
             lockedBulletVector = bulletVec.GetDirectionalInputNabi();

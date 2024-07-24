@@ -334,7 +334,11 @@ public class PlayerNabi : Player
 
     protected override void OnPlayerDash()
     {
-        if (!isPad)
+        if (Input.GetKeyDown(dashKey) && !isSitting && !isLock && isDashCoolEnd)
+        {
+            StartCoroutine("PlayerDash");
+        }
+        /*if (!isPad)
         {
             if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
             {
@@ -352,7 +356,7 @@ public class PlayerNabi : Player
             {
                 StartCoroutine("PlayerDash");
             }
-        }
+        }*/
     }
 
     protected override void OnPlayerAttack()
@@ -448,38 +452,39 @@ public class PlayerNabi : Player
         {
             isPad = true;
             selectedPadName = "Horizontal_J1";
-            jumpKey = KeyCode.Joystick1Button3;
+            jumpKey = KeyCode.Joystick1Button0;
             lockKey = KeyCode.Joystick1Button4;
-            sitKey = KeyCode.Joystick1Button9;
+            sitKey = KeyCode.Joystick1Button8;
             normalAtkKey = KeyCode.Joystick1Button5;
-            specialAtkKey = KeyCode.Joystick1Button0;
-            skillChangeKey = KeyCode.Joystick1Button1;
-            dashKey = KeyCode.Joystick1Button2;
+            specialAtkKey = KeyCode.Joystick1Button3;
+            skillChangeKey = KeyCode.Joystick1Button2;
+            dashKey = KeyCode.Joystick1Button1;
         }
         else
         {
             isPad = false;
             moveLeftKey = KeyCode.LeftArrow;
             moveRightKey = KeyCode.RightArrow;
-            jumpKey = KeyCode.RightShift;
-            lockKey = KeyCode.L;
+            jumpKey = KeyCode.Z;
+            lockKey = KeyCode.C;
             sitKey = KeyCode.DownArrow;
-            normalAtkKey = KeyCode.RightBracket;
-            specialAtkKey = KeyCode.LeftBracket;
-            skillChangeKey = KeyCode.Equals;
+            normalAtkKey = KeyCode.X;
+            specialAtkKey = KeyCode.V;
+            skillChangeKey = KeyCode.Tab;
+            dashKey = KeyCode.LeftShift;
         }
 
         if (KeyData.isBothPad)
         {
             isPad = true;
             selectedPadName = "Horizontal_J2";
-            jumpKey = KeyCode.Joystick2Button3;
+            jumpKey = KeyCode.Joystick2Button0;
             lockKey = KeyCode.Joystick2Button4;
-            sitKey = KeyCode.Joystick2Button9;
+            sitKey = KeyCode.Joystick2Button8;
             normalAtkKey = KeyCode.Joystick2Button5;
-            specialAtkKey = KeyCode.Joystick2Button0;
-            skillChangeKey = KeyCode.Joystick2Button1;
-            dashKey = KeyCode.Joystick2Button2;
+            specialAtkKey = KeyCode.Joystick2Button3;
+            skillChangeKey = KeyCode.Joystick2Button2;
+            dashKey = KeyCode.Joystick2Button1;
         }
     }
 }

@@ -355,7 +355,11 @@ public class PlayerMaru : Player
 
     protected override void OnPlayerDash()
     {
-        if (!isPad)
+        if (Input.GetKeyDown(dashKey) && !isSitting && !isLock && isDashCoolEnd)
+        {
+            StartCoroutine("PlayerDash");
+        }
+        /*if (!isPad)
         {
             if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
             {
@@ -373,7 +377,7 @@ public class PlayerMaru : Player
             {
                 StartCoroutine("PlayerDash");
             }
-        }
+        }*/
     }
 
     protected override void OnPlayerAttack()
@@ -508,25 +512,26 @@ public class PlayerMaru : Player
         {
             isPad = true;
             selectedPadName = "Horizontal_J1";
-            jumpKey = KeyCode.Joystick1Button3;
+            jumpKey = KeyCode.Joystick1Button0;
             lockKey = KeyCode.Joystick1Button4;
-            sitKey = KeyCode.Joystick1Button9;
+            sitKey = KeyCode.Joystick1Button8;
             normalAtkKey = KeyCode.Joystick1Button5;
-            specialAtkKey = KeyCode.Joystick1Button0;
-            skillChangeKey = KeyCode.Joystick1Button1;
-            dashKey = KeyCode.Joystick1Button2;
+            specialAtkKey = KeyCode.Joystick1Button3;
+            skillChangeKey = KeyCode.Joystick1Button2;
+            dashKey = KeyCode.Joystick1Button1;
         }
         else
         {
             isPad = false;
-            moveLeftKey = KeyCode.A;
-            moveRightKey = KeyCode.D;
-            jumpKey = KeyCode.Space;
-            lockKey = KeyCode.LeftControl;
-            sitKey = KeyCode.S;
-            normalAtkKey = KeyCode.V;
-            specialAtkKey = KeyCode.B;
+            moveLeftKey = KeyCode.LeftArrow;
+            moveRightKey = KeyCode.RightArrow;
+            jumpKey = KeyCode.Z;
+            lockKey = KeyCode.C;
+            sitKey = KeyCode.DownArrow;
+            normalAtkKey = KeyCode.X;
+            specialAtkKey = KeyCode.V;
             skillChangeKey = KeyCode.Tab;
+            dashKey = KeyCode.LeftShift;
         }
     }
 }

@@ -102,6 +102,7 @@ public class PrepareScene : MonoBehaviour
         }
         else
         {
+            Debug.Log("Hi");
             playerName = 'N';
             isPadUse = KeyData.isNabiPad;
             isBothPadUse = KeyData.isBothPad;
@@ -109,14 +110,6 @@ public class PrepareScene : MonoBehaviour
             keys[1] = KeyCode.LeftArrow;
             keys[2] = KeyCode.DownArrow;
             keys[3] = KeyCode.RightArrow;
-            if (isBothPadUse)
-            {
-                keys[4] = KeyCode.Joystick2Button5;
-                padStringH = "Horizontal_J2";
-                padStringV = "Vertical_J2";
-                return;
-            }
-
             if (isPadUse)
             {
                 keys[4] = KeyCode.Joystick1Button5;
@@ -125,6 +118,14 @@ public class PrepareScene : MonoBehaviour
             }
             else if (!isPadUse)
                 keys[4] = KeyCode.RightBracket;
+
+            if (isBothPadUse)
+            {
+                Debug.Log("BothUseIn");
+                keys[4] = KeyCode.Joystick2Button5;
+                padStringH = "Horizontal_J2";
+                padStringV = "Vertical_J2";
+            }
         }
 
         for (int i = 0; i < skill.Length; i++)

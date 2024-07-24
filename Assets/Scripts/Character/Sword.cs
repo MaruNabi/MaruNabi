@@ -42,7 +42,7 @@ public class Sword : MonoBehaviour
         if (KeyData.isMaruPad)
             lockKey = KeyCode.Joystick1Button4;
         else
-            lockKey = KeyCode.LeftControl;
+            lockKey = KeyCode.C;
 
         if (Input.GetKey(lockKey))
             lockedSwordVector = bulletVec.GetDirectionalInputMaru();
