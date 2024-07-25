@@ -195,6 +195,16 @@ public class PlayerNabi : Player
         #endregion
     }
 
+    void OnDisable()
+    {
+        Managers.Input.keyAction -= OnPlayerMove;
+        Managers.Input.keyAction -= OnPlayerAttack;
+        Managers.Input.keyAction -= OnPlayerDash;
+        Managers.Input.keyAction -= OnPlayerJump;
+        Managers.Input.keyAction -= OnPlayerSit;
+        Managers.Input.keyAction -= OnPlayerSkillChange;
+    }
+
     #region Trigger and Collision
     private void OnTriggerStay2D(Collider2D collision)
     {

@@ -31,7 +31,7 @@ public class PlayerMaru : Player
     private string selectedPadName;
     private int currentHp;
     private bool isPad;
-
+    
     void Start()
     {
         characterID = true;
@@ -191,6 +191,16 @@ public class PlayerMaru : Player
             }
         }
         #endregion
+    }
+
+    void OnDisable()
+    {
+        Managers.Input.keyAction -= OnPlayerMove;
+        Managers.Input.keyAction -= OnPlayerAttack;
+        Managers.Input.keyAction -= OnPlayerDash;
+        Managers.Input.keyAction -= OnPlayerJump;
+        Managers.Input.keyAction -= OnPlayerSit;
+        Managers.Input.keyAction -= OnPlayerSkillChange;
     }
 
     #region Trigger and Collision

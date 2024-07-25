@@ -83,7 +83,6 @@ public class StageSelectScene : MonoBehaviour
                 selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
                 isPadMoveOnce = false;
             }
-                
             else if (Input.GetAxis("Horizontal_J1") <= -0.5f && isPadMoveOnce)
             {
                 selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
@@ -109,7 +108,7 @@ public class StageSelectScene : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.Joystick1Button5))
+            if (Input.GetKeyDown(KeyCode.Joystick1Button0))
             {
                 switch (currentDepth)
                 {
@@ -131,16 +130,16 @@ public class StageSelectScene : MonoBehaviour
                 isSetPos = false;
             }
 
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
             }
-            else if (Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
             }
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 if (currentDepth != 0)
                 {
@@ -148,7 +147,7 @@ public class StageSelectScene : MonoBehaviour
                     buttonCount = stageMatrics[currentDepth].Length;
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 if (currentDepth < 1)
                 {
@@ -157,7 +156,7 @@ public class StageSelectScene : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.V))
+            if (Input.GetKeyDown(KeyCode.Z))
             {
                 switch (currentDepth)
                 {
