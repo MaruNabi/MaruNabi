@@ -59,9 +59,11 @@ public class Fox : Entity
         if (canAttack)
         {
             time += Time.deltaTime;
-
+            
             if (time >= 4f)
             {
+                attackObjects.Clear();
+                
                 if (phase == 2)
                     Attack(9);
                 else if (phase == 3)
@@ -289,6 +291,8 @@ public class Fox : Entity
 
     public async void IsPhaseChange()
     {
+        await UniTask.WaitUntil( ()=> attackObjects.Count == 0);
+        
         time = 0;
         canAttack = false;
         hahwoiDeathCount = 0;
@@ -342,16 +346,16 @@ public class Fox : Entity
 
     public async UniTaskVoid RestartPhase()
     {
+        await UniTask.WaitUntil( ()=> attackObjects.Count == 0);
         StopSequence();
-
         hahwoiDisapCount = 0;
 
         ChangeAnimation(EFoxAnimationType.Laugh);
-        await UniTask.Delay(TimeSpan.FromSeconds(2f));
-        ChangeAnimation(EFoxAnimationType.Scrub);
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
 
+        Managers.Sound.PlaySFX("Fox_Charging");
         light.SetActive(true);
-        await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
         light.SetActive(false);
 
         if (phase == 1)
@@ -394,7 +398,6 @@ public class Fox : Entity
                 break;
             case EFoxAnimationType.Scrub:
                 animator.SetTrigger("Scrub");
-                Managers.Sound.PlaySFX("Fox_Charging");
                 break;
             case EFoxAnimationType.Angry:
                 animator.SetTrigger("Angry");

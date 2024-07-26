@@ -248,7 +248,7 @@ public class Mouse : Entity
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Tail);
                 BackGroundControll(false);
             })
-            .AppendInterval(1.67f)
+            .AppendInterval(1.69f)
             .AppendCallback(() =>
             {
                 var tailSpawnPoint = transform.position + Vector3.left * 4.5f + Vector3.down * 2f;
