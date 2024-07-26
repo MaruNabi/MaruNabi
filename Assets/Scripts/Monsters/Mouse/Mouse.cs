@@ -66,7 +66,7 @@ public class Mouse : Entity
         startPos = transform.position;
         maxHP = Data.LIFE;
         HP = maxHP;
-
+        
         behaviorGacha.Add(EMousePattern.Rush, 35);
         behaviorGacha.Add(EMousePattern.SpawnRats, 15);
         behaviorGacha.Add(EMousePattern.Rock, 25);
@@ -248,14 +248,14 @@ public class Mouse : Entity
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Tail);
                 BackGroundControll(false);
             })
-            .AppendInterval(0.25f)
+            .AppendInterval(1.69f)
             .AppendCallback(() =>
             {
                 var tailSpawnPoint = transform.position + Vector3.left * 4.5f + Vector3.down * 2f;
                 Instantiate(mouseEffects.tail, tailSpawnPoint, Quaternion.Euler(0, 0, 6.6f));
                 Managers.Sound.PlaySFX("Mouse_Tail");
             })
-            .AppendInterval(1.25f)
+            .AppendInterval(.35f)
             .OnComplete(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Run);

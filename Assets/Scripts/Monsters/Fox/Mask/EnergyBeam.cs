@@ -6,28 +6,21 @@ using UnityEngine;
 public class EnergyBeam : MonoBehaviour
 {
     private bool isJumpingBeam;
-    private float endTime;
-    private bool isHit;
 
     public void Init(bool _isJumpingBeam)
     {
         isJumpingBeam = _isJumpingBeam;
-        endTime = 0;
     }
 
-    private void Update()
-    {
-        endTime += Time.deltaTime;
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            other.TryGetComponent<Player>(out var player);
-
-            if (endTime >= 0.25f && !isHit)
+            if (other.TryGetComponent<Player>(out var player))
             {
+                if(player.IsInvincibleTime)
+                    return;
+                
                 if (isJumpingBeam)
                 {
                     if (player.IsJumping)
@@ -37,7 +30,6 @@ public class EnergyBeam : MonoBehaviour
                 {
                     player.PlayerHitSpecial(transform.position);
                 }
-                isHit = true;
             }
         }
     }

@@ -179,8 +179,6 @@ public class OwkwangMask : Entity
         var beam = Instantiate(earthBeamPrefab, attackPoints[Random.Range(1, attackPoints.Length-1)] + Vector3.up*5,
             Quaternion.identity);
         beam.transform.eulerAngles = new Vector3(-180, 0, 0);
-        beam.AddComponent<EnergyBeam>().Init(false);
-        Managers.Sound.PlaySFX("Mask_Earth");
     }
 
     private void OnDead()

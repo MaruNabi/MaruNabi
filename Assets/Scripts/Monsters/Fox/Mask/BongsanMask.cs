@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using Quaternion = System.Numerics.Quaternion;
 using Random = UnityEngine.Random;
 
 public class BongsanMask : Entity
@@ -89,8 +85,6 @@ public class BongsanMask : Entity
             });
     }
     
-    
-    
     private void SaveTeleportPoints()
     {
         Vector3 referencePosition = transform.position;
@@ -123,11 +117,22 @@ public class BongsanMask : Entity
 
     private void Attack()
     {
+        var randomInt = Random.Range(0, 2);
+        float randomY;
+        if(randomInt == 0)
+        {
+            randomY = -47.6f;
+        }
+        else
+        {
+            randomY = -48.6f;
+        }
+        
         sequence = DOTween.Sequence();
         sequence
             .AppendInterval(2f)
             .AppendCallback(() => animator.SetTrigger("Attack"))
-            .Append(transform.DOMoveY(-48.6f, 0.5f))
+            .Append(transform.DOMoveY(randomY, 0.5f))
             .AppendInterval(0.5f)
             .AppendCallback(() =>
             {
@@ -144,24 +149,23 @@ public class BongsanMask : Entity
                         beam.transform.eulerAngles = new Vector3(0, -180, 90);
                     }
                     
-                    var randomInt = Random.Range(0, 2);
                     if (randomInt == 0)
                     {
                         beam.AddComponent<EnergyBeam>().Init(true);
-                        beam.GetComponent<SpriteRenderer>().color = Color.red;
                     }
                     else
                     {
                         beam.AddComponent<EnergyBeam>().Init(false);
                     }
                 }
+                
                 Managers.Sound.PlaySFX("Mask_Energy");
             })
             .AppendInterval(0.5f)
             .Append(transform.DOMoveY(targetPos.y, 0.5f))
             .OnComplete(() => Teleport());
 
-        // °ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+        // ê³µê²© ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
     }
 
     private void OnDead()
@@ -177,7 +181,7 @@ public class BongsanMask : Entity
             .AppendInterval(1f)
             .OnComplete(() =>
             {
-                // ¿©¿ì¿¡°Ô Á×À½ ¾Ë¸®±â
+                // ì—¬ìš°ì—ê²Œ ì£½ìŒ ì•Œë¦¬ê¸°
                 fox.IsPhaseChange();
                 Destroy(gameObject);
             });
@@ -195,7 +199,7 @@ public class BongsanMask : Entity
             .AppendInterval(1f)
             .OnComplete(() =>
             {
-                // ¿©¿ì¿¡°Ô »ç¶óÁü ¾Ë¸®±â
+                // ì—¬ìš°ì—ê²Œ ì‚¬ë¼ì§ ì•Œë¦¬ê¸°
                 fox.RestartPhase().Forget();
                 Destroy(gameObject);
             });

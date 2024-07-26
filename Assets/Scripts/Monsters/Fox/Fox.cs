@@ -59,9 +59,11 @@ public class Fox : Entity
         if (canAttack)
         {
             time += Time.deltaTime;
-
+            
             if (time >= 4f)
             {
+                attackObjects.Clear();
+                
                 if (phase == 2)
                     Attack(9);
                 else if (phase == 3)
@@ -104,7 +106,7 @@ public class Fox : Entity
             .Append(spriteRenderer.DOFade(1f, 0.3f));
     }
 
-    public void AllowAttack(bool _canHit)
+    private void AllowAttack(bool _canHit)
     {
         if (_canHit)
         {
@@ -118,7 +120,7 @@ public class Fox : Entity
         }
     }
 
-    public void StopSequence()
+    private void StopSequence()
     {
         AllowAttack(false);
         if (attackObjects.Count > 0)
@@ -137,7 +139,7 @@ public class Fox : Entity
         gameObject.layer = 0;
     }
 
-    public void Attack(int _attackType)
+    private void Attack(int _attackType)
     {
         StopSequence();
 
@@ -184,7 +186,7 @@ public class Fox : Entity
             });
     }
 
-    public async UniTaskVoid SpawnBongsanMask()
+    private async UniTaskVoid SpawnBongsanMask()
     {
         StopSequence();
 
@@ -198,7 +200,7 @@ public class Fox : Entity
     }
 
 
-    public async UniTaskVoid SpawnHahwoiMask()
+    private async UniTaskVoid SpawnHahwoiMask()
     {
         StopSequence();
 
@@ -214,7 +216,7 @@ public class Fox : Entity
         }
     }
 
-    public async UniTaskVoid SpawnOwkwangMask()
+    private async UniTaskVoid SpawnOwkwangMask()
     {
         StopSequence();
 
@@ -289,6 +291,8 @@ public class Fox : Entity
 
     public async void IsPhaseChange()
     {
+        await UniTask.WaitUntil( ()=> attackObjects.Count == 0);
+        
         time = 0;
         canAttack = false;
         hahwoiDeathCount = 0;
@@ -299,7 +303,7 @@ public class Fox : Entity
         {
             phase = 3;
             ChangeAnimation(EFoxAnimationType.Angry);
-            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+            await UniTask.Delay(TimeSpan.FromSeconds(2f));
             UseTailPhase3().Forget();
             Managers.Sound.PlaySFX("Boss_Phase");
             // 페이즈 3 시작
@@ -308,7 +312,7 @@ public class Fox : Entity
         {
             phase = 2;
             ChangeAnimation(EFoxAnimationType.Angry);
-            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+            await UniTask.Delay(TimeSpan.FromSeconds(2f));
             UseTailPhase2().Forget();
             Managers.Sound.PlaySFX("Boss_Phase");
         }
@@ -342,16 +346,16 @@ public class Fox : Entity
 
     public async UniTaskVoid RestartPhase()
     {
+        await UniTask.WaitUntil( ()=> attackObjects.Count == 0);
         StopSequence();
-
         hahwoiDisapCount = 0;
 
         ChangeAnimation(EFoxAnimationType.Laugh);
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
-        ChangeAnimation(EFoxAnimationType.Scrub);
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
 
+        Managers.Sound.PlaySFX("Fox_Charging");
         light.SetActive(true);
-        await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
         light.SetActive(false);
 
         if (phase == 1)
@@ -394,7 +398,6 @@ public class Fox : Entity
                 break;
             case EFoxAnimationType.Scrub:
                 animator.SetTrigger("Scrub");
-                Managers.Sound.PlaySFX("Fox_Charging");
                 break;
             case EFoxAnimationType.Angry:
                 animator.SetTrigger("Angry");
