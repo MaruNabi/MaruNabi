@@ -5197,8 +5197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69fb2cb23e973949a8bd8d3f536a047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skipToStage2: 0
-  skipToStage3: 1
+  skipToStage2: 1
+  skipToStage3: 0
   skipToStage4: 0
   stage2Camera: {fileID: 1706814427}
   stage3Camera: {fileID: 75040047}
