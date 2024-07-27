@@ -37,8 +37,8 @@ public class BulletVectorManager
         }
         else
         {
-            horizontal = (Input.GetKey(KeyCode.D) && !(Input.GetKey(KeyCode.A)) ? 1 : 0) - (!(Input.GetKey(KeyCode.D)) && Input.GetKey(KeyCode.A) ? 1 : 0);
-            vertical = (Input.GetKey(KeyCode.W) && !(Input.GetKey(KeyCode.S)) ? 1 : 0) - (!(Input.GetKey(KeyCode.W)) && Input.GetKey(KeyCode.S) ? 1 : 0);
+            horizontal = (Input.GetKey(KeyCode.RightArrow) && !(Input.GetKey(KeyCode.LeftArrow)) ? 1 : 0) - (!(Input.GetKey(KeyCode.RightArrow)) && Input.GetKey(KeyCode.LeftArrow) ? 1 : 0);
+            vertical = (Input.GetKey(KeyCode.UpArrow) && !(Input.GetKey(KeyCode.DownArrow)) ? 1 : 0) - (!(Input.GetKey(KeyCode.UpArrow)) && Input.GetKey(KeyCode.DownArrow) ? 1 : 0);
         }
 
         return new Vector2(horizontal, vertical);

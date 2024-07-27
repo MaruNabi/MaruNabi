@@ -17,7 +17,7 @@ public class AttackSmallAxe : Sword
     private void OnEnable()
     {
         if (PlayerNabi.isNabiTraitActivated)
-            attackPower = AXE_ATTACK_POWER * 2.3f;
+            attackPower = AXE_ATTACK_POWER * 1.5f;
         else
             attackPower = AXE_ATTACK_POWER;
 
@@ -65,7 +65,6 @@ public class AttackSmallAxe : Sword
                 {
                     transform.rotation = Quaternion.Euler(0, 180, 0);
                     targetVec = swordPosition - swordDistance;
-                    //transform.DOMove(bulletPosition, 0.4f).SetEase(Ease.InCubic);
                 }
 
                 else
@@ -118,34 +117,4 @@ public class AttackSmallAxe : Sword
             yield return new WaitForSeconds(0.125f);
         }
     }
-
-    /*private void AxeHit()
-    {
-        if (ray.collider != null)
-        {
-            if (ray.collider.tag == "Enemy" && isHitOnce)
-            {
-                isHitOnce = false;
-                currentHit = ray.collider.name;
-                if ((PlayerMaru.ultimateGauge += attackPower) > 1500.0f)
-                {
-                    PlayerMaru.ultimateGauge = 1500.0f;
-                }
-            }
-            else if (ray.collider.name != currentHit)
-            {
-                isHitOnce = false;
-                currentHit = ray.collider.name;
-                if ((PlayerMaru.ultimateGauge += attackPower) > 1500.0f)
-                {
-                    PlayerMaru.ultimateGauge = 1500.0f;
-                }
-            }
-        }
-
-        else if (ray.collider == null)
-        {
-            isHitOnce = true;
-        }
-    }*/
 }

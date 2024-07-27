@@ -44,11 +44,11 @@ public class TitleScene : MonoBehaviour
 
     private void ButtonsControl()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
         }
@@ -61,7 +61,7 @@ public class TitleScene : MonoBehaviour
                 buttons[i].GetComponent<Image>().sprite = unSelectedSprite;
         }
 
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             StopCoroutine("Movement");
             ExeFunction();

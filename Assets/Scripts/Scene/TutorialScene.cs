@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialScene : MonoBehaviour
 {
@@ -36,6 +37,9 @@ public class TutorialScene : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F11))
+            SceneManager.LoadScene("StageSelectionScene");
+
         if (dummy1 == null && !isSubStage1Clear)
         {
             isSubStage1Clear = true;
@@ -46,9 +50,9 @@ public class TutorialScene : MonoBehaviour
         if (isSubStage2Start)
         {
             mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, cameraPosition, Time.deltaTime * smoothCameraMoveSpeed);
-            if (PlayerMaru.ultimateGauge != 850.0f)
+            if (PlayerMaru.ultimateGauge != 1000.0f)
             {
-                PlayerMaru.ultimateGauge = 850.0f;
+                PlayerMaru.ultimateGauge = 1000.0f;
             }
         }
 

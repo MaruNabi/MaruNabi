@@ -31,7 +31,7 @@ public class PlayerMaru : Player
     private string selectedPadName;
     private int currentHp;
     private bool isPad;
-
+    
     void Start()
     {
         characterID = true;
@@ -191,6 +191,16 @@ public class PlayerMaru : Player
             }
         }
         #endregion
+    }
+
+    void OnDisable()
+    {
+        Managers.Input.keyAction -= OnPlayerMove;
+        Managers.Input.keyAction -= OnPlayerAttack;
+        Managers.Input.keyAction -= OnPlayerDash;
+        Managers.Input.keyAction -= OnPlayerJump;
+        Managers.Input.keyAction -= OnPlayerSit;
+        Managers.Input.keyAction -= OnPlayerSkillChange;
     }
 
     #region Trigger and Collision
@@ -355,7 +365,11 @@ public class PlayerMaru : Player
 
     protected override void OnPlayerDash()
     {
-        if (!isPad)
+        if (Input.GetKeyDown(dashKey) && !isSitting && !isLock && isDashCoolEnd)
+        {
+            StartCoroutine("PlayerDash");
+        }
+        /*if (!isPad)
         {
             if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
             {
@@ -373,7 +387,7 @@ public class PlayerMaru : Player
             {
                 StartCoroutine("PlayerDash");
             }
-        }
+        }*/
     }
 
     protected override void OnPlayerAttack()
@@ -417,17 +431,11 @@ public class PlayerMaru : Player
 
                 ultimateGauge = 0.0f;
             }
-            else
-                return;
-        }
-
-        if (Input.GetKeyDown(abilityKey))
-        {
-            if (ultimateGauge >= 830.0f)
+            else if (ultimateGauge >= 1000.0f)
             {
                 playerAnimator.SetBool("isDefence", true);
                 StartCoroutine(PlayerShield());
-                ultimateGauge -= 830.0f;
+                ultimateGauge -= 1000.0f;
             }
             else
                 return;
@@ -474,13 +482,13 @@ public class PlayerMaru : Player
         {
             target1 = transform.position - new Vector3(5, 0, 0);
             target2 = transform.position + new Vector3(10, 0, 0);
-            target3 = transform.position - new Vector3(5, 0, 0);
+            target3 = transform.position; //- new Vector3(5, 0, 0);
         }
         else
         {
             target1 = transform.position + new Vector3(5, 0, 0);
             target2 = transform.position - new Vector3(10, 0, 0);
-            target3 = transform.position + new Vector3(5, 0, 0);
+            target3 = transform.position; //+ new Vector3(5, 0, 0);
         }
 
         PlayerStateTransition(false, 0);
@@ -514,27 +522,26 @@ public class PlayerMaru : Player
         {
             isPad = true;
             selectedPadName = "Horizontal_J1";
-            jumpKey = KeyCode.Joystick1Button3;
+            jumpKey = KeyCode.Joystick1Button0;
             lockKey = KeyCode.Joystick1Button4;
-            sitKey = KeyCode.Joystick1Button9;
+            sitKey = KeyCode.Joystick1Button8;
             normalAtkKey = KeyCode.Joystick1Button5;
-            specialAtkKey = KeyCode.Joystick1Button0;
-            skillChangeKey = KeyCode.Joystick1Button1;
-            dashKey = KeyCode.Joystick1Button2;
-            //abilityKey = KeyCode.LeftControl;
+            specialAtkKey = KeyCode.Joystick1Button3;
+            skillChangeKey = KeyCode.Joystick1Button2;
+            dashKey = KeyCode.Joystick1Button1;
         }
         else
         {
             isPad = false;
-            moveLeftKey = KeyCode.A;
-            moveRightKey = KeyCode.D;
-            jumpKey = KeyCode.Space;
-            lockKey = KeyCode.LeftControl;
-            sitKey = KeyCode.S;
-            normalAtkKey = KeyCode.V;
-            specialAtkKey = KeyCode.B;
+            moveLeftKey = KeyCode.LeftArrow;
+            moveRightKey = KeyCode.RightArrow;
+            jumpKey = KeyCode.Z;
+            lockKey = KeyCode.C;
+            sitKey = KeyCode.DownArrow;
+            normalAtkKey = KeyCode.X;
+            specialAtkKey = KeyCode.V;
             skillChangeKey = KeyCode.Tab;
-            abilityKey = KeyCode.LeftControl;
+            dashKey = KeyCode.LeftShift;
         }
     }
 }

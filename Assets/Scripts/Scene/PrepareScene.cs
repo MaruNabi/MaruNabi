@@ -83,48 +83,44 @@ public class PrepareScene : MonoBehaviour
 
         isPadMoveOnce = true;
 
+        keys[0] = KeyCode.UpArrow;
+        keys[1] = KeyCode.LeftArrow;
+        keys[2] = KeyCode.DownArrow;
+        keys[3] = KeyCode.RightArrow;
+
         if (isMaruUI)
         {
             playerName = 'M';
             isPadUse = KeyData.isMaruPad;
-            keys[0] = KeyCode.W;
-            keys[1] = KeyCode.A;
-            keys[2] = KeyCode.S;
-            keys[3] = KeyCode.D;
             if (isPadUse)
             {
-                keys[4] = KeyCode.Joystick1Button5;
+                keys[4] = KeyCode.Joystick1Button0;
                 padStringH = "Horizontal_J1";
                 padStringV = "Vertical_J1";
             }
             else
-                keys[4] = KeyCode.V;
+                keys[4] = KeyCode.Z;
         }
         else
         {
             playerName = 'N';
             isPadUse = KeyData.isNabiPad;
             isBothPadUse = KeyData.isBothPad;
-            keys[0] = KeyCode.UpArrow;
-            keys[1] = KeyCode.LeftArrow;
-            keys[2] = KeyCode.DownArrow;
-            keys[3] = KeyCode.RightArrow;
-            if (isBothPadUse)
-            {
-                keys[4] = KeyCode.Joystick2Button5;
-                padStringH = "Horizontal_J2";
-                padStringV = "Vertical_J2";
-                return;
-            }
-
             if (isPadUse)
             {
-                keys[4] = KeyCode.Joystick1Button5;
+                keys[4] = KeyCode.Joystick1Button0;
                 padStringH = "Horizontal_J1";
                 padStringV = "Vertical_J1";
             }
             else if (!isPadUse)
-                keys[4] = KeyCode.RightBracket;
+                keys[4] = KeyCode.Z;
+
+            if (isBothPadUse)
+            {
+                keys[4] = KeyCode.Joystick2Button0;
+                padStringH = "Horizontal_J2";
+                padStringV = "Vertical_J2";
+            }
         }
 
         for (int i = 0; i < skill.Length; i++)

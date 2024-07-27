@@ -9,7 +9,7 @@ public class SkillBigBeads : Bullet
     void OnEnable()
     {
         if (PlayerNabi.isNabiTraitActivated)
-            attackPower = SBEADS_ATTACK_POWER * 2.3f;
+            attackPower = SBEADS_ATTACK_POWER * 1.5f;
         else
             attackPower = SBEADS_ATTACK_POWER;
 

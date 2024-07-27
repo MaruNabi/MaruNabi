@@ -46,7 +46,7 @@ public class Bullet : MonoBehaviour
         else if (KeyData.isBothPad)
             lockKey = KeyCode.Joystick2Button4;
         else if (!KeyData.isNabiPad)
-            lockKey = KeyCode.L;
+            lockKey = KeyCode.C;
 
         if (Input.GetKey(lockKey))
             lockedBulletVector = bulletVec.GetDirectionalInputNabi();
@@ -135,9 +135,9 @@ public class Bullet : MonoBehaviour
             {
                 PlayerNabi.ultimateGauge += attackPower;
                 
-                if (PlayerNabi.ultimateGauge >= 2500.0f)
+                if (PlayerNabi.ultimateGauge >= 5000.0f)
                 {
-                    PlayerNabi.ultimateGauge = 2500.0f;
+                    PlayerNabi.ultimateGauge = 5000.0f;
                 }
 
                 totalDamage += attackPower;

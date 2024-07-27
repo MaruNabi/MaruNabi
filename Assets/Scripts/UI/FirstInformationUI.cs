@@ -47,7 +47,7 @@ public class FirstInformationUI : MonoBehaviour
 
     private void PageTransition()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.Joystick1Button1))
         {
             if (currentPage == 0)
                 return;
@@ -60,7 +60,7 @@ public class FirstInformationUI : MonoBehaviour
             }
         }
         
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Joystick1Button0))
         {
             if (currentPage == descriptionArr.Length - 1)
             {

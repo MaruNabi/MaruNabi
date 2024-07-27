@@ -21,20 +21,11 @@ public class AttackCharm : Bullet
     void OnEnable()
     {
         if (PlayerNabi.isNabiTraitActivated)
-            attackPower = CHARM_ATTACK_POWER * 2.3f;
+            attackPower = CHARM_ATTACK_POWER * 1.5f;
         else
             attackPower = CHARM_ATTACK_POWER;
 
         SetBullet();
-
-        /*if (GameObject.FindGameObjectWithTag("Enemy"))
-        {
-            enemy = GameObject.FindGameObjectWithTag("Enemy").transform;
-        }
-        else if (GameObject.FindGameObjectWithTag("NoBumpEnemy"))
-        {
-            enemy= GameObject.FindGameObjectWithTag("NoBumpEnemy").transform;
-        }*/
 
         enemyList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
         enemyList.AddRange(GameObject.FindGameObjectsWithTag("NoBumpEnemy"));

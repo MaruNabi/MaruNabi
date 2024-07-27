@@ -23,7 +23,7 @@ public class SkillBigMace : Sword
     private void OnEnable()
     {
         if (PlayerNabi.isNabiTraitActivated)
-            attackPower = SMACE_ATTACK_POWER * 2.3f;
+            attackPower = SMACE_ATTACK_POWER * 1.5f;
         else
             attackPower = SMACE_ATTACK_POWER;
 

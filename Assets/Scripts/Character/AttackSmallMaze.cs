@@ -23,7 +23,7 @@ public class AttackSmallMaze : Sword
     private void OnEnable()
     {
         if (PlayerNabi.isNabiTraitActivated)
-            attackPower = MACE_ATTACK_POWER * 2.3f;
+            attackPower = MACE_ATTACK_POWER * 1.5f;
         else
             attackPower = MACE_ATTACK_POWER;
 

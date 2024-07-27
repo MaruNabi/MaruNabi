@@ -21,7 +21,7 @@ public class AttackSmallSword : Sword
     private void OnEnable()
     {
         if (PlayerNabi.isNabiTraitActivated)
-            attackPower = SWORD_ATTACK_POWER * 2.3f;
+            attackPower = SWORD_ATTACK_POWER * 1.5f;
         else
             attackPower = SWORD_ATTACK_POWER;
 
@@ -132,8 +132,8 @@ public class AttackSmallSword : Sword
                 DistancePerDamage();
                 PlayerMaru.ultimateGauge += finalAttackPower;
 
-                if (PlayerMaru.ultimateGauge >= 2500.0f)
-                    PlayerMaru.ultimateGauge = 2500.0f;
+                if (PlayerMaru.ultimateGauge >= 5000.0f)
+                    PlayerMaru.ultimateGauge = 5000.0f;
 
                 totalDamage += finalAttackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(finalAttackPower);
@@ -145,8 +145,8 @@ public class AttackSmallSword : Sword
                 DistancePerDamage();
                 PlayerMaru.ultimateGauge += finalAttackPower;
 
-                if (PlayerMaru.ultimateGauge >= 2500.0f)
-                    PlayerMaru.ultimateGauge = 2500.0f;
+                if (PlayerMaru.ultimateGauge >= 5000.0f)
+                    PlayerMaru.ultimateGauge = 5000.0f;
 
                 totalDamage += finalAttackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(finalAttackPower);

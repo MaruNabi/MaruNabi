@@ -42,7 +42,7 @@ public class Sword : MonoBehaviour
         if (KeyData.isMaruPad)
             lockKey = KeyCode.Joystick1Button4;
         else
-            lockKey = KeyCode.LeftControl;
+            lockKey = KeyCode.C;
 
         if (Input.GetKey(lockKey))
             lockedSwordVector = bulletVec.GetDirectionalInputMaru();
@@ -86,8 +86,8 @@ public class Sword : MonoBehaviour
                 currentHit = ray.collider.name;
                 PlayerMaru.ultimateGauge += attackPower;
 
-                if (PlayerMaru.ultimateGauge >= 2500.0f)
-                    PlayerMaru.ultimateGauge = 2500.0f;
+                if (PlayerMaru.ultimateGauge >= 5000.0f)
+                    PlayerMaru.ultimateGauge = 5000.0f;
 
                 totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
@@ -99,8 +99,8 @@ public class Sword : MonoBehaviour
                 currentHit = ray.collider.name;
                 PlayerMaru.ultimateGauge += attackPower;
 
-                if (PlayerMaru.ultimateGauge >= 2500.0f)
-                    PlayerMaru.ultimateGauge = 2500.0f;
+                if (PlayerMaru.ultimateGauge >= 5000.0f)
+                    PlayerMaru.ultimateGauge = 5000.0f;
 
                 totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);

@@ -27,7 +27,7 @@ public class SkillCurseCharm : Bullet
     void OnEnable()
     {
         if (PlayerNabi.isNabiTraitActivated)
-            attackPower = SCHARM_ATTACK_POWER * 2.3f;
+            attackPower = SCHARM_ATTACK_POWER * 1.5f;
         else
             attackPower = SCHARM_ATTACK_POWER;
 

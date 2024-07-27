@@ -9,7 +9,7 @@ public class SkillBigSpark : Bullet
     void OnEnable()
     {
         if (PlayerNabi.isNabiTraitActivated)
-            attackPower = SSPARK_ATTACK_POWER * 2.3f;
+            attackPower = SSPARK_ATTACK_POWER * 1.5f;
         else
             attackPower = SSPARK_ATTACK_POWER;
 

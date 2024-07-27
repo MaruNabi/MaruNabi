@@ -670,11 +670,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB9C8\uB8E8\uB294 'V' \uB098\uBE44\uB294 ']'\uD0A4\uB97C \uB20C\uB7EC
-    \uACF5\uACA9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4. (\uD328\uB4DC : RT)\n\n\uC67C\uCABD
-    'ctrl', 'L' \uD0A4\uB97C \uB20C\uB7EC \uC6C0\uC9C1\uC784\uC744 \uACE0\uC815\uD558\uACE0
-    \uBC1C\uC0AC \uBC29\uD5A5\uC744 \uC870\uC815\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
-    (\uD328\uB4DC : LT)"
+  m_text: "\uD0A4\uBCF4\uB4DC\uB294 'X', \uAC8C\uC784 \uD328\uB4DC\uB294 'RB'\uD0A4\uB97C
+    \uB20C\uB7EC \uACF5\uACA9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4. \n\n'C', 'LB'
+    \uD0A4\uB97C \uB20C\uB7EC \uC6C0\uC9C1\uC784\uC744 \uACE0\uC815\uD558\uACE0 \uBC1C\uC0AC
+    \uBC29\uD5A5\uC744 \uC870\uC815\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4. "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
@@ -1622,9 +1621,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB9C8\uB8E8\uB294 'A', 'D' \uB098\uBE44\uB294 '\u2190', '\u2192' \uD0A4(\uD328\uB4DC
-    : \uC67C\uCABD \uC870\uC774\uC2A4\uD2F1)\uB97C \uB20C\uB7EC \uC774\uB3D9\uD560
-    \uC218 \uC788\uC2B5\uB2C8\uB2E4. "
+  m_text: "\uD0A4\uBCF4\uB4DC\uB294 '\u2190', '\u2192' \uD0A4, \uAC8C\uC784 \uD328\uB4DC\uB294
+    \uC67C\uCABD \uC870\uC774\uC2A4\uD2F1\uC73C\uB85C \uC774\uB3D9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4. "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
@@ -2514,12 +2512,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB9C8\uB8E8\uB294 'Space' \uB098\uBE44\uB294 \uC624\uB978\uCABD 'Shift'
-    \uD0A4\uB97C \uB20C\uB7EC \uC810\uD504\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n\uB204\uB974\uB294
+  m_text: "\uD0A4\uBCF4\uB4DC\uB294 'Z', \uAC8C\uC784 \uD328\uB4DC\uB294 'A' \uD0A4\uB97C
+    \uB20C\uB7EC \uC810\uD504\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n\uB204\uB974\uB294
     \uC2DC\uAC04\uC5D0 \uB530\uB77C \uC810\uD504 \uB192\uC774\uAC00 \uB2EC\uB77C\uC9D1\uB2C8\uB2E4.
-    (\uD328\uB4DC : Y)\n\n\uB610, \uC774\uB3D9\uD0A4\uB97C \uBE60\uB974\uAC8C \uB450
-    \uBC88 \uB20C\uB7EC \uB300\uC2DC\uB97C \uC0AC\uC6A9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
-    (\uD328\uB4DC : X)"
+    \n\n\uB610, \uD0A4\uBCF4\uB4DC\uB294 \uC67C\uCABD Shift, \uAC8C\uC784 \uD328\uB4DC\uB294
+    'B'\uD0A4\uB97C \uB20C\uB7EC \uB300\uC2DC\uB97C \uC0AC\uC6A9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4. "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
@@ -5553,9 +5550,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uACF5\uACA9\uC744 \uD1B5\uD574 \uC5BB\uC740 \uAC8C\uC774\uC9C0\uB85C
-    \uB9C8\uB8E8\uB294 'B' \uD0A4\uB97C \uB20C\uB7EC \uAC8C\uC774\uC9C0\uB97C \uC18C\uBAA8\uD574
-    \uC7A0\uC2DC\uB3D9\uC548 \uBC29\uC5B4\uB97C \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
-    (\uD328\uB4DC : A)"
+    \uB9C8\uB8E8\uB294 \uD0A4\uBCF4\uB4DC 'V' \uB610\uB294 \uAC8C\uC784 \uD328\uB4DC
+    'Y' \uD0A4\uB97C \uB20C\uB7EC \n\uAC8C\uC774\uC9C0\uB97C \uC18C\uBAA8\uD574 \uC7A0\uC2DC\uB3D9\uC548
+    \uBC29\uC5B4\uB97C \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4. "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
@@ -6041,8 +6038,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 136.29001, y: 1.3899997}
-  m_SizeDelta: {x: 20, y: 5}
+  m_AnchoredPosition: {x: 136.44724, y: 1.3899997}
+  m_SizeDelta: {x: 20.6551, y: 5}
   m_Pivot: {x: 0.24, y: 0.50000006}
 --- !u!114 &1838310213
 MonoBehaviour:
@@ -6102,11 +6099,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Tab\uD0A4\uC640 '='\uD0A4\uB97C \uB20C\uB7EC \uC2A4\uD0AC\uC744 \uBCC0\uACBD\uD560
-    \uC218 \uC788\uC2B5\uB2C8\uB2E4. (\uD328\uB4DC B)\n\uC67C\uCABD\uC758 \uB354\uBBF8\uB97C
-    \uACF5\uACA9\uD558\uC5EC \uAC8C\uC774\uC9C0\uB97C \uCC44\uC6B0\uACE0 'B', '['\uD0A4\uB97C
-    \uD1B5\uD574 \uD2B9\uC218 \uAE30\uC220\uC744 \uC0AC\uC6A9\uD574 \uBCF4\uC2ED\uC2DC\uC624.
-    (\uD328\uB4DC : A)"
+  m_text: "\uD0A4\uBCF4\uB4DC Tab\uD0A4\uC640 \uAC8C\uC784\uD328\uB4DC 'X'\uD0A4\uB97C
+    \uB20C\uB7EC \uC2A4\uD0AC\uC744 \uBCC0\uACBD\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
+    \n\uC67C\uCABD\uC758 \uB354\uBBF8\uB97C \uACF5\uACA9\uD558\uC5EC \uAC8C\uC774\uC9C0\uB97C
+    \uCC44\uC6B0\uACE0 \uD0A4\uBCF4\uB4DC 'V', \uAC8C\uC784 \uD328\uB4DC 'Y'\uD0A4\uB97C
+    \uD1B5\uD574 \uD2B9\uC218 \uAE30\uC220\uC744 \uC0AC\uC6A9\uD574 \uBCF4\uC2ED\uC2DC\uC624. "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
@@ -6408,9 +6405,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC549\uC740 \uC0C1\uD0DC('S', '\u2193')\uC5D0\uC11C \uC810\uD504\uD0A4\uB97C
-    \uB204\uB974\uBA74 \uBC11\uC73C\uB85C \uB0B4\uB824\uAC08 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n(\uD328\uB4DC
-    : \uC6B0\uCE21 \uC870\uC774\uC2A4\uD2F1 \uB204\uB974\uAE30)"
+  m_text: "\uC549\uC740 \uC0C1\uD0DC('\u2193', \uC67C\uCABD \uC870\uC774\uC2A4\uD2F1
+    \uBC84\uD2BC)\uC5D0\uC11C \uC810\uD504\uD0A4\uB97C \uB204\uB974\uBA74 \uBC11\uC73C\uB85C
+    \uB0B4\uB824\uAC08 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}
   m_sharedMaterial: {fileID: -1075161508952635729, guid: 5cacbd24f85ea4341826d647fa995c9d, type: 2}

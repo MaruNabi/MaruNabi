@@ -59,7 +59,7 @@ public class AttackSmallSpark : Bullet
             if (isSetOnce)
             {
                 if (PlayerNabi.isNabiTraitActivated)
-                    attackPower = SPARK_ATTACK_POWER * 2.3f;
+                    attackPower = SPARK_ATTACK_POWER * 1.5f;
                 else
                     attackPower = SPARK_ATTACK_POWER;
                 isSetOnce = false;
