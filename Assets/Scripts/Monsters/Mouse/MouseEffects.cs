@@ -8,5 +8,6 @@ public class MouseEffects : MonoBehaviour
     public GameObject rats;
     public GameObject rock;
     public GameObject tail;
+    public GameObject runSmoke;
     [FormerlySerializedAs("smoke")] public GameObject smokePrefab;
 }
