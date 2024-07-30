@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     protected bool characterID; //True : Maru, False : Nabi
     protected string characterName;
     public const int MAX_LIFE = 5;
-    public int cLife = 5;
+    public int cLife = 3;
     [SerializeField] [Range(0, 10)] protected float cSpeed = 6.0f; //Character Speed
     protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
     protected const float maxUltimateGauge = 5000.0f;
@@ -579,7 +579,7 @@ public class Player : MonoBehaviour
     public void ReviveCheat()
     {
         isReviveSuccess = true;
-        cLife = 5;
+        cLife = 3;
     }
 
     protected IEnumerator Ondamaged(Vector2 enemyPos, bool _isKnockBack = true)

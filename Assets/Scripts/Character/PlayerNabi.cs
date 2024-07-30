@@ -51,7 +51,6 @@ public class PlayerNabi : Player
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
-        currentHp = cLife;
 
         cMaxJumpCount = 1;
         cJumpCount = 0;
@@ -100,7 +99,10 @@ public class PlayerNabi : Player
             skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 3);
         }
 
-        UpdateLifeUI();
+        if (PlayerSkillDataManager.nabiSkillSet[1] == 1 || PlayerSkillDataManager.nabiSkillSet[3] == 1)
+            cLife -= 1;
+
+        currentHp = cLife;
 
         Managers.Pool.CreatePool(bulletPrefab_1, 20);
         Managers.Pool.CreatePool(skillPrefab_1, 5);
@@ -124,6 +126,8 @@ public class PlayerNabi : Player
 
         currentBulletPrefab = bulletPrefab_1;
         currentSkillPrefab = skillPrefab_1;
+
+        UpdateLifeUI();
     }
 
     void Update()
@@ -436,7 +440,8 @@ public class PlayerNabi : Player
                 case 2:
                     cMaxJumpCount = 1;
                     cSpeed = 6.0f;
-                    cLife += 1;
+                    if (cLife + 1 <= MAX_LIFE)
+                        cLife += 1;
                     break;
                 case 3:
                     cMaxJumpCount = 1;
