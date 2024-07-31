@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 135807228240297571}
   - component: {fileID: 1070776963461674506}
+  - component: {fileID: 7444303728115220893}
   m_Layer: 3
   m_Name: PlayerStandCollider
   m_TagString: Untagged
@@ -70,7 +71,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3814528611793739136}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -89,6 +90,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8212209, y: 1.3077492}
   m_EdgeRadius: 0
+--- !u!70 &7444303728115220893
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3814528611793739136}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.008476973, y: -0.48599982}
+  m_Size: {x: 0.82211614, y: 1.305164}
+  m_Direction: 0
 --- !u!1 &3941167003457280939
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,6 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5516751606533934629}
   - component: {fileID: 3347428774674445289}
+  - component: {fileID: 2295779615773076320}
   m_Layer: 3
   m_Name: PlayerSideFriction
   m_TagString: Untagged
@@ -128,7 +146,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3941167003457280939}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 4db47a7f5f815364085768075f073670, type: 2}
   m_IsTrigger: 0
@@ -147,6 +165,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.85540295, y: 1.9401261}
   m_EdgeRadius: 0
+--- !u!70 &2295779615773076320
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3941167003457280939}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 4db47a7f5f815364085768075f073670, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0031378865, y: -0.100411326}
+  m_Size: {x: 0.8577162, y: 1.9413605}
+  m_Direction: 0
 --- !u!1 &6623215530843284676
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,6 +723,7 @@ GameObject:
   - component: {fileID: 6623215531993341455}
   - component: {fileID: 6623215531993341452}
   - component: {fileID: 6623215531993341453}
+  - component: {fileID: 3689933748740552947}
   - component: {fileID: 6623215531993341442}
   - component: {fileID: 6623215531993341454}
   - component: {fileID: 6623215531993341449}
@@ -795,6 +830,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!70 &3689933748740552947
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6623215531993341440}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0084763765, y: -0.1834543}
+  m_Size: {x: 0.82416177, y: 1.9122086}
+  m_Direction: 0
 --- !u!61 &6623215531993341442
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -802,7 +853,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6623215531993341440}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -834,12 +885,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cLife: 5
+  cLifeUI: []
+  fullHeart: {fileID: 0}
+  emptyHeart: {fileID: 0}
   cSpeed: 6
   cJumpPower: 0.03
   cMaxJumpPower: 17
   reviveZone: {fileID: 6623215531249211572}
-  playerStandCollider: {fileID: 1070776963461674506}
-  playerSideFrictionCollider: {fileID: 3347428774674445289}
+  playerStandCollider: {fileID: 7444303728115220893}
+  playerSideFrictionCollider: {fileID: 2295779615773076320}
   atkPosition: {fileID: 6623215531334714999}
   landingEffect: {fileID: 1598085097642572, guid: 06c06594effe41648abd17aaa1cf5745, type: 3}
   dashEffect: {fileID: 1450926254698654, guid: 8278d4fe86a820645bbca08635527bb8, type: 3}

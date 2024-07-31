@@ -39,7 +39,8 @@ public class PlayerMaru : Player
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
-        playerCollider = GetComponent<BoxCollider2D>();
+        //playerCollider = GetComponent<BoxCollider2D>();
+        playerCollider = GetComponent<CapsuleCollider2D>();
 
         playerShield.SetActive(false);
         reviveZone.SetActive(false);

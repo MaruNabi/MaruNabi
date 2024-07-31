@@ -69,9 +69,12 @@ public class Player : MonoBehaviour
     protected Rigidbody2D rigidBody;
     protected SpriteRenderer spriteRenderer;
     protected Animator playerAnimator;
-    protected BoxCollider2D playerCollider;
-    [SerializeField] protected BoxCollider2D playerStandCollider;
-    [SerializeField] protected BoxCollider2D playerSideFrictionCollider;
+    //protected BoxCollider2D playerCollider;
+    protected CapsuleCollider2D playerCollider;
+    //[SerializeField] protected BoxCollider2D playerStandCollider;
+    [SerializeField] protected CapsuleCollider2D playerStandCollider;
+    //[SerializeField] protected BoxCollider2D playerSideFrictionCollider;
+    [SerializeField] protected CapsuleCollider2D playerSideFrictionCollider;
 
     [SerializeField] protected Transform atkPosition;
     protected Vector2 defaultAtkPosition;

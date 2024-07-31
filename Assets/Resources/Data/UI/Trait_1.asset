@@ -15,8 +15,9 @@ MonoBehaviour:
   displayName:
   - "\uB3C4\uC57D\uC220"
   description:
-  - "\uACF5\uC911\uC5D0\uC11C \uD55C\uBC88 \uB354 \uB3C4\uC57D\uC744 \uD560 \uC218
-    \uC788\uC2B5\uB2C8\uB2E4."
+  - "\uACF5\uC911\uC5D0\uC11C \uD55C\uBC88 \uB354 \uB3C4\uC57D\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\r\n\uB2E8,
+    \uCCB4\uB825\uC774 \uB2E4\uC18C \uC57D\uD574\uC9D1\uB2C8\uB2E4. (\uC2A4\uD14C\uC774\uC9C0
+    \uC2DC\uC791 \uC2DC \uBAA9\uC228 -1)"
   type: 1
   selectedImage: {fileID: 21300000, guid: 15881204d61696b4a878af5a77c4c165, type: 3}
   unSelectedImage: {fileID: 21300000, guid: c319b0c030f6993409eafc0049fa7a96, type: 3}
