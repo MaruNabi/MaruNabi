@@ -32,7 +32,7 @@ public class MousePhase2State : MouseState
 
             var state = stateMachine.Mouse.TakeOne();
             
-            //TODO : ·£´ı ÆĞÅÏ ¿ø»óº¹±¸ ÇÊ¿ä
+            //TODO : ëœë¤ íŒ¨í„´ ì›ìƒë³µêµ¬ í•„ìš”
             switch (EMousePattern.Tail)
             {
                 case EMousePattern.Rush:
