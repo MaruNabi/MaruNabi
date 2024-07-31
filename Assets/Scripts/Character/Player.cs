@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
 public class Player : MonoBehaviour
@@ -9,6 +10,8 @@ public class Player : MonoBehaviour
     protected string characterName;
     public const int MAX_LIFE = 5;
     public int cLife = 3;
+    [SerializeField] protected Image[] cLifeUI;
+    [SerializeField] protected Sprite fullHeart, emptyHeart;
     [SerializeField] [Range(0, 10)] protected float cSpeed = 6.0f; //Character Speed
     protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
     protected const float maxUltimateGauge = 5000.0f;

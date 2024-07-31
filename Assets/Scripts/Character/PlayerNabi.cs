@@ -247,6 +247,13 @@ public class PlayerNabi : Player
         if (cLife >= 0)
         {
             playerHpUI.GetComponent<Image>().sprite = nabiLifeSprite[cLife];
+            for (int i = 0; i < cLifeUI.Length; i++)
+            {
+                if (i < cLife)
+                    cLifeUI[i].sprite = fullHeart;
+                else
+                    cLifeUI[i].sprite = emptyHeart;
+            }
             currentHp = cLife;
         }
     }

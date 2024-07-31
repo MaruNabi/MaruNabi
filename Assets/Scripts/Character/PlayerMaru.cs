@@ -269,6 +269,13 @@ public class PlayerMaru : Player
         if (cLife >= 0)
         {
             playerHpUI.GetComponent<Image>().sprite = maruLifeSprite[cLife];
+            for (int i = 0; i < cLifeUI.Length; i++)
+            {
+                if (i < cLife)
+                    cLifeUI[i].sprite = fullHeart;
+                else
+                    cLifeUI[i].sprite = emptyHeart;
+            }
             currentHp = cLife;
         }
     }
