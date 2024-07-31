@@ -22,11 +22,6 @@ public class ReviveZone : MonoBehaviour
 
     private SpriteRenderer reviveSpriteRenderer;
 
-    void Awake()
-    {
-        
-    }
-
     private void OnEnable()
     {
         reviveSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -44,11 +39,6 @@ public class ReviveZone : MonoBehaviour
         StartCoroutine(ReviveZoneBlink());
         reviveBarImage.fillAmount = 0.0f;       //reviveBarImage Init
         fillAmountUnit = 1.0f / reviveTime * 0.02f;
-    }
-
-    void Update()
-    {
-        
     }
 
     void FixedUpdate()
@@ -93,6 +83,15 @@ public class ReviveZone : MonoBehaviour
         {
             isReviving = true;
             reviveBarCanvas.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (player.gameObject.GetComponent<Animator>().GetBool("isDead"))
+        {
+            isReviving = false;
+            reviveBarCanvas.gameObject.SetActive(false);
         }
     }
 

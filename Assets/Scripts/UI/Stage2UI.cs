@@ -59,7 +59,7 @@ public class Stage2UI : MonoBehaviour
     {
         if (!isGamePaused)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Joystick1Button6))
             {
                 isGamePaused = true;
                 isSetOnce = false;

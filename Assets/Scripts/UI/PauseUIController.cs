@@ -20,9 +20,9 @@ public class PauseUIController : MonoBehaviour
         buttonCount = buttons.Length;
 
         if (KeyData.isMaruPad)
-            selectKey = KeyCode.Joystick1Button5;
+            selectKey = KeyCode.Joystick1Button0;
         else
-            selectKey = KeyCode.V;
+            selectKey = KeyCode.Z;
     }
 
     void Update()
@@ -53,11 +53,11 @@ public class PauseUIController : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 selectedButtonIndex = (selectedButtonIndex - 1 + buttonCount) % buttonCount;
             }
-            else if (Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 selectedButtonIndex = (selectedButtonIndex + 1) % buttonCount;
             }

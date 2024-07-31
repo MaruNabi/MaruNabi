@@ -56,9 +56,9 @@ public class GameClearUIController : MonoBehaviour
         canNextStage = false;
 
         if (KeyData.isMaruPad)
-            selectKey = KeyCode.Joystick1Button5;
+            selectKey = KeyCode.Joystick1Button0;
         else
-            selectKey = KeyCode.V;
+            selectKey = KeyCode.Z;
 
         for (int i = 0; i < stampSprite.Length; i++)
             stampSprite[i] = Resources.Load<Sprite>("UI/ClearUI/ClearUIFin/UI_StageClear_Stamp_" + i);
