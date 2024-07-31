@@ -7,11 +7,11 @@ public class PlayerUIManager : MonoBehaviour
 {
     private GameObject maruSlider;
     private Image maruSliderImage;
-    private GameObject maruSliderEdge;
+    //private GameObject maruSliderEdge;
 
     private GameObject nabiSlider;
     private Image nabiSliderImage;
-    private GameObject nabiSliderEdge;
+    //private GameObject nabiSliderEdge;
 
     private float currentUltimateGuageNabi = 0.0f;
     private float currentUltimateGuageMaru = 0.0f;
@@ -21,11 +21,11 @@ public class PlayerUIManager : MonoBehaviour
     {
         maruSlider = GameObject.Find("M_Ultimate_Bar");
         maruSliderImage = maruSlider.GetComponent<Image>();
-        maruSliderEdge = GameObject.Find("M_Ultimate_Edge");
+        //maruSliderEdge = GameObject.Find("M_Ultimate_Edge");
 
         nabiSlider = GameObject.Find("N_Ultimate_Bar");
         nabiSliderImage = nabiSlider.GetComponent<Image>();
-        nabiSliderEdge = GameObject.Find("N_Ultimate_Edge");
+        //nabiSliderEdge = GameObject.Find("N_Ultimate_Edge");
 
         SliderUpdateMaru();
         SliderUpdateNabi();
@@ -49,8 +49,8 @@ public class PlayerUIManager : MonoBehaviour
         nabiSliderImage.fillAmount = PlayerNabi.ultimateGauge / maxUltimateGuage;
         currentUltimateGuageNabi = PlayerNabi.ultimateGauge;
 
-        float edgePos = (nabiSliderImage.fillAmount - 0.5f) * 105f;
-        nabiSliderEdge.transform.localPosition = new Vector3(edgePos, 0, 0);
+        //float edgePos = (nabiSliderImage.fillAmount - 0.5f) * 105f;
+        //nabiSliderEdge.transform.localPosition = new Vector3(edgePos, 0, 0);
     }
 
     public void SliderUpdateMaru()
@@ -59,7 +59,7 @@ public class PlayerUIManager : MonoBehaviour
         maruSliderImage.fillAmount = PlayerMaru.ultimateGauge / maxUltimateGuage;
         currentUltimateGuageMaru = PlayerMaru.ultimateGauge;
 
-        float edgePos = (maruSliderImage.fillAmount - 0.5f) * 105f;
-        maruSliderEdge.transform.localPosition = new Vector3(edgePos, 0, 0);
+        //float edgePos = (maruSliderImage.fillAmount - 0.5f) * 105f;
+        //maruSliderEdge.transform.localPosition = new Vector3(edgePos, 0, 0);
     }
 }

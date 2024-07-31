@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
 public class Player : MonoBehaviour
@@ -8,7 +9,9 @@ public class Player : MonoBehaviour
     protected bool characterID; //True : Maru, False : Nabi
     protected string characterName;
     public const int MAX_LIFE = 5;
-    public int cLife = 5;
+    public int cLife = 3;
+    [SerializeField] protected Image[] cLifeUI;
+    [SerializeField] protected Sprite fullHeart, emptyHeart;
     [SerializeField] [Range(0, 10)] protected float cSpeed = 6.0f; //Character Speed
     protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
     protected const float maxUltimateGauge = 5000.0f;
@@ -66,9 +69,12 @@ public class Player : MonoBehaviour
     protected Rigidbody2D rigidBody;
     protected SpriteRenderer spriteRenderer;
     protected Animator playerAnimator;
-    protected BoxCollider2D playerCollider;
-    [SerializeField] protected BoxCollider2D playerStandCollider;
-    [SerializeField] protected BoxCollider2D playerSideFrictionCollider;
+    //protected BoxCollider2D playerCollider;
+    protected CapsuleCollider2D playerCollider;
+    //[SerializeField] protected BoxCollider2D playerStandCollider;
+    [SerializeField] protected CapsuleCollider2D playerStandCollider;
+    //[SerializeField] protected BoxCollider2D playerSideFrictionCollider;
+    [SerializeField] protected CapsuleCollider2D playerSideFrictionCollider;
 
     [SerializeField] protected Transform atkPosition;
     protected Vector2 defaultAtkPosition;
@@ -579,7 +585,7 @@ public class Player : MonoBehaviour
     public void ReviveCheat()
     {
         isReviveSuccess = true;
-        cLife = 5;
+        cLife = 3;
     }
 
     protected IEnumerator Ondamaged(Vector2 enemyPos, bool _isKnockBack = true)

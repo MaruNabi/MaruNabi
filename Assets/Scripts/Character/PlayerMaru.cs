@@ -39,7 +39,8 @@ public class PlayerMaru : Player
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
-        playerCollider = GetComponent<BoxCollider2D>();
+        //playerCollider = GetComponent<BoxCollider2D>();
+        playerCollider = GetComponent<CapsuleCollider2D>();
 
         playerShield.SetActive(false);
         reviveZone.SetActive(false);
@@ -51,7 +52,6 @@ public class PlayerMaru : Player
         sitPlayerColliderSize.y -= 0.5f;
 
         ultimateGauge = 0.0f;
-        currentHp = cLife;
 
         cMaxJumpCount = 1;
         cJumpCount = 0;
@@ -100,7 +100,10 @@ public class PlayerMaru : Player
             skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/MARU_Skill_" + 2);
         }
 
-        UpdateLifeUI();
+        if (PlayerSkillDataManager.maruSkillSet[1] == 1 || PlayerSkillDataManager.maruSkillSet[3] == 1)
+            cLife -= 1;
+
+        currentHp = cLife;
 
         Managers.Pool.CreatePool(swordPrefab_1, 5);
         Managers.Pool.CreatePool(skillPrefab_1, 3);
@@ -124,6 +127,8 @@ public class PlayerMaru : Player
 
         currentSwordPrefab = swordPrefab_1;
         currentSkillPrefab = skillPrefab_1;
+
+        UpdateLifeUI();
     }
 
     void Update()
@@ -265,6 +270,13 @@ public class PlayerMaru : Player
         if (cLife >= 0)
         {
             playerHpUI.GetComponent<Image>().sprite = maruLifeSprite[cLife];
+            for (int i = 0; i < cLifeUI.Length; i++)
+            {
+                if (i < cLife)
+                    cLifeUI[i].sprite = fullHeart;
+                else
+                    cLifeUI[i].sprite = emptyHeart;
+            }
             currentHp = cLife;
         }
     }
@@ -460,7 +472,8 @@ public class PlayerMaru : Player
                 case 2:
                     cMaxJumpCount = 1;
                     cSpeed = 6.0f;
-                    cLife += 1;
+                    if (cLife + 1 <= MAX_LIFE)
+                        cLife += 1;
                     break;
                 case 3:
                     cMaxJumpCount = 1;
