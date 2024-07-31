@@ -21,7 +21,7 @@ public class MouseRunState : MouseState
 
     async UniTaskVoid RunWait()
     {
-        stateMachine.Mouse.BackGroundControll(true);
+        stateMachine.Mouse.BackGroundControl(true);
         stateMachine.ChangeAnimation(EMouseAnimationType.Run);
 
         await UniTask.Delay(TimeSpan.FromSeconds(2f));

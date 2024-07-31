@@ -18,7 +18,7 @@ public class MousePhaseChangeState : MouseState
     
     async UniTaskVoid PhaseChangeWait()
     {
-        stateMachine.Mouse.BackGroundControll(false);
+        stateMachine.Mouse.BackGroundControl(false);
         await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.PhaseChangeSequence()));
         stateMachine.SetState("Run");
     }

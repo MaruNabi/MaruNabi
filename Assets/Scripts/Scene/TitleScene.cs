@@ -18,7 +18,6 @@ public class TitleScene : MonoBehaviour
     void Start()
     {
         buttonCount = buttons.Length;
-
         Managers.Sound.PlayBGM("Title");
         Managers.Sound.SetBGMVolume(1);
     }

@@ -4,7 +4,6 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
-using Unity.VisualScripting;
 using Random = UnityEngine.Random;
 using Sequence = DG.Tweening.Sequence;
 
@@ -39,6 +38,7 @@ public class Mouse : Entity
     }
 
     [SerializeField] private RuntimeAnimatorController phase2Animator;
+    [SerializeField] private GameObject runEffect;
 
     private float patternPercent;
 
@@ -65,7 +65,10 @@ public class Mouse : Entity
 
         startPos = transform.position;
         maxHP = Data.LIFE;
-        HP = maxHP;
+        
+        //TODO: 원상복구 필요
+        //HP = maxHP;
+        HP = 1100;
         
         behaviorGacha.Add(EMousePattern.Rush, 35);
         behaviorGacha.Add(EMousePattern.SpawnRats, 15);
@@ -125,15 +128,15 @@ public class Mouse : Entity
                 Managers.Sound.PlaySFX("Mouse_Stop");
             })
             .AppendInterval(0.25f)
-            .AppendCallback(() => BackGroundControll(false))
+            .AppendCallback(() => BackGroundControl(false))
             .AppendInterval(4.75f)
             .OnComplete(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.NoRush);
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Run);
-                BackGroundControll(true);
+                BackGroundControl(true);
             });
-
+        
         return sequence.Duration();
     }
 
@@ -149,13 +152,13 @@ public class Mouse : Entity
                 Managers.Sound.PlaySFX("Mouse_Stop");
             })
             .AppendInterval(0.25f)
-            .AppendCallback(() => BackGroundControll(false))
+            .AppendCallback(() => BackGroundControl(false))
             .AppendInterval(3.5f)
             .OnComplete(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.NoRush);
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Run);
-                BackGroundControll(true);
+                BackGroundControl(true);
             });
 
         return sequence.Duration();
@@ -246,20 +249,20 @@ public class Mouse : Entity
             .OnStart(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Tail);
-                BackGroundControll(false);
+                BackGroundControl(false);
             })
-            .AppendInterval(1.69f)
+            .AppendInterval(1.53f)
             .AppendCallback(() =>
             {
-                var tailSpawnPoint = transform.position + Vector3.left * 4.5f + Vector3.down * 2f;
-                Instantiate(mouseEffects.tail, tailSpawnPoint, Quaternion.Euler(0, 0, 6.6f));
+                var tailSpawnPoint = transform.position + Vector3.left * 5.5f + Vector3.down * 2.1f;
+                Instantiate(mouseEffects.tail, tailSpawnPoint, Quaternion.Euler(0, 0, 6f));
                 Managers.Sound.PlaySFX("Mouse_Tail");
             })
-            .AppendInterval(.35f)
+            .AppendInterval(.7f)
             .OnComplete(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Run);
-                BackGroundControll(true);
+                BackGroundControl(true);
             });
 
         // 꼬리 공격
@@ -370,8 +373,9 @@ public class Mouse : Entity
         }
     }
 
-    public void StopSequence()
+    private void StopSequence()
     {
+        runEffect.SetActive(false);
         AllowAttack(false);
         sequence.Kill();
         transform.DOKill();
@@ -390,7 +394,7 @@ public class Mouse : Entity
         }
     }
 
-    public void BackGroundControll(bool _set)
+    public void BackGroundControl(bool _set)
     {
         MovingBackGround?.Invoke(_set);
     }
@@ -399,5 +403,15 @@ public class Mouse : Entity
     {
         MousePhase2State mp2 = ctsMouse2State;
         cts = mp2.cts;
+    }
+    
+    public void StartRunEffect()
+    {
+        runEffect.SetActive(true);
+    }
+
+    public void StopRunEffect()
+    {
+        runEffect.SetActive(false);
     }
 }
