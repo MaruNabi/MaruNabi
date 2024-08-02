@@ -155,15 +155,15 @@ public class OwkwangMask : Entity
         
         sequence = DOTween.Sequence();
         sequence
-            //.AppendCallback(() => animator.SetTrigger("Attack"))
-            .Append(transform.DOMoveY(teleportPoints[randomInt].y, 1f).SetEase(Ease.InCirc))
+            .Append(transform.DOMoveY(teleportPoints[randomInt].y, 0.5f).SetEase(Ease.InCirc))
+            .AppendCallback(() => Managers.Sound.PlaySFX("Mask_Energy"))
+            .AppendInterval(0.25f)
             .AppendCallback(() =>
             {
                     var beam = Instantiate(energyBeamPrefab, transform.position + Vector3.right * 11,
                         Quaternion.identity);
                     beam.transform.eulerAngles = new Vector3(0, 0, 90);
                     beam.AddComponent<EnergyBeam>().Init(false);
-                    Managers.Sound.PlaySFX("Mask_Energy");
             })
             .AppendInterval(0.5f)
             .JoinCallback(() => animator.SetTrigger("Beam"))

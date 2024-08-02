@@ -103,13 +103,13 @@ public class StageSwitchingManager : MonoBehaviour
         }
     }
 
-    // private void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.M))
-    //     {
-    //         players.ForEach(player => player.ReviveCheat());
-    //     }
-    // }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            players.ForEach(player => player.ReviveCheat());
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -210,5 +210,10 @@ public class StageSwitchingManager : MonoBehaviour
     {
         DisableBehavior();
         stageClearUI.SetActive(true);
+    }
+    
+    public void HealPlayers()
+    {
+        players.ForEach(player => player.HealLife());
     }
 }

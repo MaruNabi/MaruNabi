@@ -104,12 +104,16 @@ public class Tiger : Entity
                 head.GetComponent<SpriteRenderer>().sortingOrder = 1;
                 headAnimator.enabled = true;
                 Managers.Sound.PlaySFX("Tiger_Growling");
+                stateMachine.Initialize("Phase1", this);
             })
             .AppendInterval(2.5f)
             .OnComplete(() =>
             {
+                Managers.Sound.StopBGM();
+                Managers.Sound.SetBGMVolume(0.25f);
+                Managers.Sound.PlayBGM("Tiger_Stage");
+
                 CanHit(true);
-                stateMachine.Initialize("Phase1", this);
                 startPos = transform.position;
             });
     }
@@ -186,8 +190,7 @@ public class Tiger : Entity
         sequence = DOTween.Sequence();
         sequence.AppendInterval(5f);
 
-
-        return sequence.Duration();
+        return 5f;
     }
 
     public float SlapAtk()
@@ -216,7 +219,7 @@ public class Tiger : Entity
 
     public bool CheckPhase2ChangeHp()
     {
-        return HP <= 10000 && Phase == 1;
+        return HP <= 9000 && Phase == 1;
     }
 
     public bool CheckPhase3ChangeHp()
@@ -226,7 +229,7 @@ public class Tiger : Entity
 
     public bool CheckMiniPhaseChangeHP()
     {
-        return HP <= 2500 && Phase == 3;
+        return HP <= 3000 && Phase == 3;
     }
 
     public bool CheckStageClear()
@@ -280,6 +283,8 @@ public class Tiger : Entity
     {
         StopSequence();
         CanHit(false);
+        tag= "Untagged";
+        gameObject.layer = 0;
 
         var gachar = RandomizerUtil.From(behaviorGacha).TakeOne();
         Vector3 bitePos = Vector3.zero;
@@ -292,10 +297,13 @@ public class Tiger : Entity
             bitePos = bitePositions[2].position;
 
         sequence = DOTween.Sequence();
-        sequence.Append(transform.DOScale(1f, 2f))
+        sequence
+            .Append(transform.DOShakePosition(1f, 1f))
+            .Append(transform.DOScale(1f, 2f))
             .Join(transform.DOMove(bitePos, 2f))
             .AppendCallback(() =>
             {
+                CanHit(false);
                 boxCollider2D.size = new Vector2(startColliderSize.x * 1.4f, startColliderSize.y * 1.5f);
                 boxCollider2D.offset = new Vector2(startColliderPos.x, startColliderPos.y - 1.5f);
                 headAnimator.SetTrigger("Attack");

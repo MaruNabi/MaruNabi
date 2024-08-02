@@ -16,8 +16,8 @@ public class TigerDiagonalAttackState : TigerState
     {
         base.OnEnter();
         Debug.Log("Diagonal Enter");
-        if (cts == null)
-            cts = new CancellationTokenSource();
+        cts = new CancellationTokenSource();
+
         Pattern(cts.Token).Forget();
     }
 
@@ -31,11 +31,7 @@ public class TigerDiagonalAttackState : TigerState
     {
         try
         {
-            token.ThrowIfCancellationRequested();
-            
-            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.tiger.DigAtk()), cancellationToken: token);
-    
-            token.ThrowIfCancellationRequested();
+            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.tiger.DigAtk()), cancellationToken: cts.Token);
             
             stateMachine.SetState("Phase1");
         }
@@ -43,5 +39,6 @@ public class TigerDiagonalAttackState : TigerState
         {
             Debug.Log("Pattern cancelled");
         }
+        
     }
 }

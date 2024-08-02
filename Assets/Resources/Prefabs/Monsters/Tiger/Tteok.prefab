@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4128725800665433634}
   - component: {fileID: 3493136370926524858}
   m_Layer: 7
-  m_Name: DDuck
+  m_Name: Tteok
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

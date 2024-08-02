@@ -41,6 +41,7 @@ public class MouseManager : MonoBehaviour
     {
         mouse.enabled = true;
         mouse.StageStart = true;
+        Managers.Sound.StopBGM();
         Managers.Sound.PlayBGM("Mouse_Stage");
     }
     
@@ -81,6 +82,7 @@ public class MouseManager : MonoBehaviour
             item.GetComponent<Player>().PlayerInputEnable();
         }
         Managers.Sound.StopBGM();
+        stageSwitchingManager.HealPlayers();
     }
 
     private void BackGroundMove(bool _set)

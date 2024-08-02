@@ -14,7 +14,7 @@ public class WarningSign : MonoBehaviour
 
     private IEnumerator SpawnEarthEnergyBeam()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.75f);
         earthEnergyBeam.SetActive(true);
         Managers.Sound.PlaySFX("Mask_Earth");
         gameObject.SetActive(false);

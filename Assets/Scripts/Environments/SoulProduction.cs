@@ -73,13 +73,13 @@ public class SoulProduction : MonoBehaviour
     
     public void ClearProduction()
     {
-        var color = spriteRenderer.color;
-        color.a= 0;
-        spriteRenderer.color = color;
-        
+        // var color = spriteRenderer.color;
+        // color.a= 0;
+        // spriteRenderer.color = color;
+        //
         Sequence sequence = DOTween.Sequence();
         sequence
-            .AppendInterval(1f)
+            .AppendInterval(6f)
             .Join(soul.transform.DOMoveY(soul.transform.position.y + 10f, 3f))
             .OnComplete(() =>
             {

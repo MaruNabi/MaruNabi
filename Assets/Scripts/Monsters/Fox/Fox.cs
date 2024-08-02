@@ -130,6 +130,7 @@ public class Fox : Entity
 
         sequence.Kill();
         transform.DOKill();
+        ChangeAnimation(EFoxAnimationType.Idle);
     }
 
     private void ProductionWaitSetting()
@@ -187,7 +188,6 @@ public class Fox : Entity
 
     private async UniTaskVoid SpawnBongsanMask()
     {
-        StopSequence();
         GameObject smoke = Instantiate(effects.smokePrefab);
         smoke.transform.position = transform.position;
 
@@ -198,8 +198,6 @@ public class Fox : Entity
 
     private async UniTaskVoid SpawnHahwoiMask()
     {
-        StopSequence();
-
         await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
 
         for (int i = 0; i < hahwoiSpawnPos.Length; i++)
@@ -214,8 +212,6 @@ public class Fox : Entity
 
     private async UniTaskVoid SpawnOwkwangMask()
     {
-        StopSequence();
-
         GameObject smoke = Instantiate(effects.smokePrefab);
         smoke.transform.position = transform.position;
 
@@ -242,7 +238,6 @@ public class Fox : Entity
     public async UniTaskVoid UseTailPhase2()
     {
         // phase 2 시작
-        StopSequence();
         tailCount--;
         animator.runtimeAnimatorController = tailAnimators[8 - tailCount];
         Managers.Sound.PlaySFX("Fox_Tail");
@@ -268,7 +263,6 @@ public class Fox : Entity
     public async UniTaskVoid UseTailPhase3()
     {
         // phase 3 시작
-        StopSequence();
         tailCount -= 3;
         animator.runtimeAnimatorController = tailAnimators[5];
         
@@ -345,6 +339,7 @@ public class Fox : Entity
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         tag = "Enemy";
         gameObject.layer = 7;
+        HP = 1500;
         canAttack = false;
         // 하얀 테두리
     }
@@ -414,8 +409,8 @@ public class Fox : Entity
             case EFoxAnimationType.Attack:
                 animator.SetTrigger("Attack");
                 break;
-            case EFoxAnimationType.Scrub:
-                animator.SetTrigger("Scrub");
+            case EFoxAnimationType.Idle:
+                animator.SetTrigger("Idle");
                 break;
             case EFoxAnimationType.Angry:
                 animator.SetTrigger("Angry");

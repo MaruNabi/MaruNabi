@@ -16,6 +16,8 @@ public class TigerPhase1State : TigerState
         
         cts = new CancellationTokenSource();
         
+        Debug.Log("Phase1");
+        
         IdleWait(cts.Token).Forget();
     }
     
@@ -27,7 +29,7 @@ public class TigerPhase1State : TigerState
 
     private async UniTaskVoid IdleWait(CancellationToken token)
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(5f) , cancellationToken: token);
+        await UniTask.Delay(TimeSpan.FromSeconds(4f) , cancellationToken: cts.Token);
         stateMachine.SetState("SideAtk1");
     }
 }

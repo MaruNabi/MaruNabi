@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using DG.Tweening;
 
@@ -15,10 +16,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField] Sound[] array_bgm = null;
 
     [SerializeField] AudioSource bgmPlayer = null;
-    [SerializeField] AudioSource sfxPlayer1 = null;
-    [SerializeField] AudioSource sfxPlayer2 = null;
+    [SerializeField] AudioSource[] sfxPlayerArray = null;
     [SerializeField] AudioSource typeWritePlayer = null;
 
+    List<AudioSource> sfxPlayers;
     Dictionary<string, AudioClip> dic_BGM;
     Dictionary<string, AudioClip> dic_SFX;
 
@@ -41,6 +42,14 @@ public class SoundManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+        
+        sfxPlayers = sfxPlayerArray.ToList();
+        SetSFXVolume(0.6f);
+    }
+
+    private void Start()
+    {
+        sfxPlayers.ForEach(sfxPlayer => sfxPlayer.volume = sfxVolume);
     }
 
     public void PlayTypeWriteSFX(string sfxName)
@@ -69,19 +78,16 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        if (!CheckSFX1PlayNow())
+        foreach (var sfxPlayer in sfxPlayers)
         {
-            sfxPlayer1.clip = dic_SFX[sfxName];
-            sfxPlayer1.volume = sfxVolume;
+            if (!sfxPlayer.isPlaying)
+            {
+                sfxPlayer.clip = dic_SFX[sfxName];
+                sfxPlayer.volume = sfxVolume;
 
-            sfxPlayer1.Play();
-        }
-        else
-        {
-            sfxPlayer2.clip = dic_SFX[sfxName];
-            sfxPlayer2.volume = sfxVolume;
-
-            sfxPlayer2.Play();
+                sfxPlayer.Play();
+                return;
+            }
         }
     }
 
@@ -116,8 +122,7 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public void StopSFX()
     {
-        sfxPlayer1.Stop();
-        sfxPlayer2.Stop();
+        sfxPlayers.ForEach(sfxPlayer => sfxPlayer.Stop());
     }
 
     /// <summary>
@@ -138,9 +143,8 @@ public class SoundManager : MonoBehaviour
     public void SetSFXVolume(float volume)
     {
         sfxVolume = Mathf.Clamp01(volume * 0.5f);
-
-        sfxPlayer1.volume = sfxVolume;
-        sfxPlayer2.volume = sfxVolume;
+        
+        sfxPlayers.ForEach(sfxPlayer => sfxPlayer.volume = sfxVolume);
         typeWritePlayer.volume = sfxVolume;
     }
 
@@ -167,11 +171,6 @@ public class SoundManager : MonoBehaviour
     {
         if (dic_SFX.ContainsKey(sfxName)) return true;
         else return false;
-    }
-
-    public bool CheckSFX1PlayNow()
-    {
-        return sfxPlayer1.isPlaying;
     }
 
     public bool CheckTypeWriteSFXPlayNow()

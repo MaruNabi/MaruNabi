@@ -17,8 +17,8 @@ public class TigerSideAttackState : TigerState
         base.OnEnter();
         Debug.Log("SideAtk1 Enter");
         
-        if (cts == null)
-            cts = new CancellationTokenSource();
+        cts = new CancellationTokenSource();
+
         
         Pattern(cts.Token).Forget();
     }
@@ -33,12 +33,8 @@ public class TigerSideAttackState : TigerState
     {
         try
         {
-            token.ThrowIfCancellationRequested();
-            
-            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.tiger.SideAtk()), cancellationToken: token);
-    
-            token.ThrowIfCancellationRequested();
-            
+            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.tiger.SideAtk()), cancellationToken: cts.Token);
+
             stateMachine.SetState("DiagonalAtk");
         }
         catch (OperationCanceledException)

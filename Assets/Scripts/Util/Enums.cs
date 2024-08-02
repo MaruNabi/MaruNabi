@@ -58,7 +58,8 @@ public enum EFoxAnimationType
     Attack,
     Scrub,
     Angry,
-    Shake
+    Shake,
+    Idle
 }
 
 public enum EMonsterName

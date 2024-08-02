@@ -111,8 +111,6 @@ public class Tteok : Entity, IDelete
     {
         try
         {
-            tag = "Untagged";
-            gameObject.layer = 0;
             beans.ForEach(x=> Destroy(x.gameObject));
             DOTween.Kill(this);
             sequence = DOTween.Sequence();

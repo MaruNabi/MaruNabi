@@ -587,6 +587,15 @@ public class Player : MonoBehaviour
         isReviveSuccess = true;
         cLife = 3;
     }
+    
+    public void HealLife()
+    {
+        if (cLife < MAX_LIFE)
+        {
+            cLife++;
+            cLifeUI[cLife - 1].sprite = fullHeart;
+        }
+    }
 
     protected IEnumerator Ondamaged(Vector2 enemyPos, bool _isKnockBack = true)
     {

@@ -37,7 +37,7 @@ public class TigerBiteAttackState : TigerState
         {
             token.ThrowIfCancellationRequested();
             
-            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.tiger.Bite()), cancellationToken: token);
+            await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.tiger.Bite()), cancellationToken: cts.Token);
     
             token.ThrowIfCancellationRequested();
             
