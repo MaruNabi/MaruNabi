@@ -191,6 +191,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114748136302977540, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114748136302977540, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_MatchWidthOrHeight
       value: 1
       objectReference: {fileID: 0}
@@ -337,6 +341,10 @@ PrefabInstance:
     - target: {fileID: 224967017462668890, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224967017462668890, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -271.99994
       objectReference: {fileID: 0}
     - target: {fileID: 224967017462668890, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_ConstrainProportionsScale

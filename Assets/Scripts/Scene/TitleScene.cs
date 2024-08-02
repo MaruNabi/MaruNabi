@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,7 @@ public class TitleScene : MonoBehaviour
     [SerializeField] private Image[] buttons;
     private int selectedButtonIndex = 0;
     private int buttonCount;
+    private bool isBGMStarted = false;
 
     [SerializeField] private Sprite selectedSprite, unSelectedSprite;
     [SerializeField] private GameObject firstInformation;
@@ -18,8 +20,7 @@ public class TitleScene : MonoBehaviour
     void Start()
     {
         buttonCount = buttons.Length;
-        Managers.Sound.PlayBGM("Title");
-        Managers.Sound.SetBGMVolume(1);
+        isBGMStarted = false;
     }
 
     void Update()
@@ -28,6 +29,13 @@ public class TitleScene : MonoBehaviour
             return;
         else
         {
+            if (isBGMStarted == false)
+            {
+                Managers.Sound.PlayBGM("Title");
+                Managers.Sound.SetBGMVolume(1);
+                isBGMStarted = true;
+            }
+            
             ButtonsControl();
 
             if (Input.GetKeyDown(KeyCode.F7))

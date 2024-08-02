@@ -15,7 +15,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] Sound[] array_bgm = null;
 
     [SerializeField] AudioSource bgmPlayer = null;
-    [SerializeField] AudioSource sfxPlayer = null;
+    [SerializeField] AudioSource sfxPlayer1 = null;
+    [SerializeField] AudioSource sfxPlayer2 = null;
     [SerializeField] AudioSource typeWritePlayer = null;
 
     Dictionary<string, AudioClip> dic_BGM;
@@ -68,10 +69,20 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        sfxPlayer.clip = dic_SFX[sfxName];
-        sfxPlayer.volume = sfxVolume;
+        if (!CheckSFX1PlayNow())
+        {
+            sfxPlayer1.clip = dic_SFX[sfxName];
+            sfxPlayer1.volume = sfxVolume;
 
-        sfxPlayer.Play();
+            sfxPlayer1.Play();
+        }
+        else
+        {
+            sfxPlayer2.clip = dic_SFX[sfxName];
+            sfxPlayer2.volume = sfxVolume;
+
+            sfxPlayer2.Play();
+        }
     }
 
     /// <summary>
@@ -105,7 +116,8 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public void StopSFX()
     {
-        sfxPlayer.Stop();
+        sfxPlayer1.Stop();
+        sfxPlayer2.Stop();
     }
 
     /// <summary>
@@ -127,7 +139,8 @@ public class SoundManager : MonoBehaviour
     {
         sfxVolume = Mathf.Clamp01(volume * 0.5f);
 
-        sfxPlayer.volume = sfxVolume;
+        sfxPlayer1.volume = sfxVolume;
+        sfxPlayer2.volume = sfxVolume;
         typeWritePlayer.volume = sfxVolume;
     }
 
@@ -156,9 +169,9 @@ public class SoundManager : MonoBehaviour
         else return false;
     }
 
-    public bool CheckSFXPlayNow()
+    public bool CheckSFX1PlayNow()
     {
-        return sfxPlayer.isPlaying;
+        return sfxPlayer1.isPlaying;
     }
 
     public bool CheckTypeWriteSFXPlayNow()
