@@ -5,130 +5,155 @@ position: 0,0
 ---
 
 // sets background image to sprite called "bg_office"
-<<Scene DialogueBG>>
+<<Scene Fade>>
 // start playing audioclip "ambient_birds" at 50% volume, loop forever
 // adds actor named "Eve" using sprite "cool-girl", placed in left-half + center of screen, with green text label
 
 
 "천상 전하 납시오-"
+
+<<Scene Scene1>>
 웅녀, 우렁각시, 구렁덩덩 신선비...
 인간이 되길 바라는 짐생은 그 이래 하릴없이 많도다.
-털북생이 발로, 길다란 꼬리로, 날카로운 이빨로 꼬옥 꼭 눌러쓴 상소문은 하나 둘 모여
+
+<<Scene Scene2-1>>
+털북생이 발로,
+
+<<Scene Scene2-2>>
+길다란 꼬리로,
+
+<<Scene Scene2-3>>
+날카로운 이빨로 꼬옥 꼭 눌러쓴 상소문은 하나 둘 모여
+
+<<Scene Scene2-4>>
 천계의 꼭대기까지 닿고 마니...
 
-
+<<Scene Scene3>>
 "환생고사를 실시하여 참된 영혼의 미생을 가려내어라"
 옥황의 호령에 온 천계인 함께 모여 고사 준비를 하고,
+
+<<Scene Scene4-5>>
 방방곡곡 털짐생, 날짐생, 물짐생 할 것 없이 우르르 몰려드니
+<<Scene Scene4-4>>
 초시는 간절한 맘을 보니 호기심에 기웃대고 지루함에 기웃대던 동그란 눈들이 사라지고
+
+<<Scene Scene4-3>>
 복시에 인간 생의 앎을 보니 들짐생들 아픈 가슴 안고 돌아서는구나.
+
+<<Scene Scene4-2>>
 마침내 전시가 다가오매, 이로써 진정한 인간으로 거듭나고자 하나니
+
+<<Scene Scene4-1>>
 옥황께서 친히 전시에 다다른 두 미생을 부르시어라.
 
-<<Act 옥황상제 OkHwang right center>>
+<<Scene DialogueBG>>
+<<Act 옥황상제 OkHwang_0 right center>>
 
-네 이름들이 무어냐
+"네 이름들이 무어냐."
 <<Hide 옥황상제>>
 
-<<Act 마루 Maru_Standing left center>>
+<<Act 마루 Maru_Standing_0 left bottom>>
 
-마루! 마루라고 해! 주인이 지어줬어! 마루!
+"마루! 마루라고 해! 주인이 지어줬어! 마루!"
 
-<<Act 나비 Nabi_Standing middle center>>
+<<Hide 마루>>
+<<Act 나비 Nabi_Standing_0 left bottom>>
 
-...나비.
+"...나비."
 
 <<HideAll>>
 
-<<Act 옥황상제 OkHwang right center>>
+<<Act 옥황상제 OkHwang_0 right center>>
 
-허허, 그렇구나. 예까지 오다니 마음도, 정성도 갸륵한지고.
+"허허, 그렇구나. 예까지 오다니 마음도, 정성도 갸륵한지고."
 
-어때, 천계는 보기에 어떻더냐?
+"어때, 천계는 보기에 어떻더냐?"
 
 <<Hide 옥황상제>>
 
-<<Act 마루 Maru_Standing left center>>
+<<Act 마루 Maru_Standing_0 left bottom>>
 
-신기해! 엄청엄청!
+"신기해! 엄청엄청!"
 
-반짝반짝! 
-<<Move 마루 right center 0.5>>
-<<wait 1>>
-
-몽실몽실!
-<<Move 마루 left center 0.5>>
-<<wait 1>>
-
-<<Act 나비 Nabi_Standing middle center>>
-
-구름... 재채기 나와.
-
-<<Shake 나비 0.5>>
-엣취!
+"반짝반짝!"
+<<Move 마루 right bottom 0.5>>
 <<wait 0.5>>
 
-<<HideAll>>
+"몽실몽실!"
+<<Move 마루 left bottom 0.5>>
+<<wait 1>>
 
-<<Act 옥황상제 OkHwang right center>>
-재채기 한 번에 우레와 같은 웃음이 궁에 퍼지는 구나
+<<Hide 마루>>
+<<Act 나비 Nabi_Standing_0 left bottom>>
 
-그래, 어디보자... 내 너희가 새 삶을 살 수 있도록 기회를 주마.
+"구름... 재채기 나와."
 
+<<Shake 나비 0.5>>
+"엣취!"
+
+<<Act 옥황상제 OkHwang_0 right center>>
+"재채기 한 번에 우레와 같은 웃음이 궁에 퍼지는 구나."
+
+"그래, 어디보자... 내 너희가 새 삶을 살 수 있도록 기회를 주마."
+
+<<Hide 나비>>
 <<Act 나인 Nine_Standing left center>>
 옥황이 손을 까딱 하니 나인이 총총 걸어오매,
 
-<<Move 나인 right center 0.5>>
 <<Hide 옥황상제>>
-금빛 두루마리를 하나를 소맷자락에서 꺼내더라
+<<Move 나인 right center 0.5>>
+금빛 두루마리를 하나를 소맷자락에서 꺼내더라.
 
 
-미생이여 들으시오!
-그네들은 앞으로 세 개의 관문에서 세 개의 보화를 찾아야만 하오-
-그 보화는 인간으로 반드시 가져야 하는 덕목과도 같은 것,
-참된 인간으로 거듭날 수 있도록 세 관문을 헤쳐나가며 깨달음을 얻도록 하시오-
+"미생이여 들으시오!"
+"그네들은 앞으로 세 개의 관문에서 세 개의 보화를 찾아야만 하오-"
+"그 보화는 인간으로 반드시 가져야 하는 덕목과도 같은 것,"
+"참된 인간으로 거듭날 수 있도록 세 관문을 헤쳐나가며 깨달음을 얻도록 하시오-"
 
 <<HideAll>>
 
 나인이 두루마리 둘둘 감아매자 징 소리 괘앵- 나더니
 두 짐생, 단숨에 비단 옷을 입게 되더니 앞발에 오색 주머니 놓이더라.
 
-<<Act 나비 Nabi_Standing left center>>
-이건 뭐야?
-...먹는 거?
+<<Act 나비 Nabi_Standing_0 left bottom>>
+"이건 뭐야?"
+"...먹는 거?"
 
-<<Act 마루 Maru_Standing center center>>
-나 이거 알아! 응가 주머니!
+<<Act 마루 Maru_Standing_0 center bottom>>
+"나 이거 알아! 응가 주머니!"
 
 <<HideAll>>
 
 <<Act 나인 Nine_Standing right center>>
-어허! 상제께서 친히 내려주신 도술이다! 어느 안전이라고 감히...!
+"어허! 상제께서 친히 내려주신 도술이다! 어느 안전이라고 감히...!"
 
 <<Hide 나인>>
 
-<<Act 옥황상제 OkHwang right center>>
+<<Act 옥황상제 OkHwang_0 right center>>
 
-허허, 괜찮네. 무지를 꾸짖어 무엇하겠는가?
-이 자가 설명한 것과 같다네, 
-그 안의 환을 삼키면 너희도 천계인처럼 도술을 쓸 수 있을 것이야.
-어떤 건 계속 몸에 남을테고, 어떤 건 한시적일테니, 
-그 작은 머리를 자알 굴려 써보도록 하거라.
+"허허, 괜찮네. 무지를 꾸짖어 무엇하겠는가?"
+"이 자가 설명한 것과 같다네,"
+"그 안의 환을 삼키면 너희도 천계인처럼 도술을 쓸 수 있을 것이야."
+"어떤 건 계속 몸에 남을테고, 어떤 건 한시적일테니,"
+"그 작은 머리를 자알 굴려 써보도록 하거라."
 
 <<Hide 옥황상제>>
 
 <<Act 나인 Nine_Standing right center>>
-흠, 흠! 그럼 첫 관문부터 잘 해결해보도록 하시오.
-어디까지나 시험이라는 것을 잊지 말고, 이 시험을 통해 참된 인간이 되는 법을 꼭 배우시오.
+"흠, 흠! 그럼 첫 관문부터 잘 해결해보도록 하시오."
+"어디까지나 시험이라는 것을 잊지 말고, 이 시험을 통해 참된 인간이 되는 법을 꼭 배우시오."
 
-<<Act 나비 Nabi_Standing left center>>
-하암... 참된 인가... 인간은 다 비슷한 거 아냐?
+<<Act 나비 Nabi_Standing_0 left bottom>>
+"하암... 참된 인간..." 
+"인간은 다 비슷한 거 아냐?"
 
 <<Hide 나비>>
-<<Act 마루 Maru_Standing left center>>
-그럼 다녀올게! 그동안 신발 물어뜯지 말구!
+<<Act 마루 Maru_Standing_0 left bottom>>
+"그럼 다녀올게! 그동안 신발 물어뜯지 말구!"
 <<Act 나인 Nine_Standing right center>>
-뭣이...!!!
+
+<<Shake 나인 0.6>>
+"뭣이...!!!"
 
 <<Fade black 0.0 1.0 2.0>>
 ===
