@@ -19,8 +19,10 @@ public class Fox : Entity
     [SerializeField] private GameObject owkwangBeamPos;
     [SerializeField] private GameObject[] maskPrefabs;
     [SerializeField] RuntimeAnimatorController[] tailAnimators;
-
-    private GameObject light;
+    [SerializeField] private GameObject soulVFX;
+    [Header("VFX")]
+    [SerializeField] private GameObject coreLight;
+    
     private FoxEffects effects;
     private FoxStateMachine stateMachine;
     private List<GameObject> attackObjects;
@@ -35,6 +37,7 @@ public class Fox : Entity
     private int phase;
     private float time;
     private bool canAttack;
+    private bool isAttackState;
 
     protected override void Init()
     {
@@ -44,10 +47,6 @@ public class Fox : Entity
         effects = GetComponent<FoxEffects>();
         animator = GetComponent<Animator>();
         attackObjects = new List<GameObject>();
-
-        light = Instantiate(effects.lightPrefab);
-        light.transform.position = transform.position + Vector3.down * 2f;
-        light.SetActive(false);
         maxHP = Data.LIFE;
         HP = 3000;
         tailCount = 9;
@@ -59,10 +58,10 @@ public class Fox : Entity
         if (canAttack)
         {
             time += Time.deltaTime;
-            
+            isAttackState = false;
             if (time >= 4f)
             {
-                attackObjects.Clear();
+                isAttackState = true;
                 
                 if (phase == 2)
                     Attack(9);
@@ -102,7 +101,7 @@ public class Fox : Entity
     {
         var hitSequence = DOTween.Sequence();
         hitSequence
-            .Append(spriteRenderer.DOFade(0.75f, 0.3f))
+            .Append(spriteRenderer.DOFade(0.5f, 0.3f))
             .Append(spriteRenderer.DOFade(1f, 0.3f));
     }
 
@@ -189,16 +188,13 @@ public class Fox : Entity
     private async UniTaskVoid SpawnBongsanMask()
     {
         StopSequence();
-
         GameObject smoke = Instantiate(effects.smokePrefab);
         smoke.transform.position = transform.position;
 
         await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
-
         GameObject mask = Instantiate(maskPrefabs[0], transform.position, Quaternion.identity);
         mask.GetComponent<BongsanMask>().SetVariables(this, bongsanSpawnPos);
     }
-
 
     private async UniTaskVoid SpawnHahwoiMask()
     {
@@ -236,11 +232,10 @@ public class Fox : Entity
         animator.runtimeAnimatorController = tailAnimators[8 - tailCount];
         Managers.Sound.PlaySFX("Fox_Tail");
 
-        light.SetActive(true);
-        await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
-        light.SetActive(false);
-
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+        coreLight.SetActive(true);
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
+        coreLight.SetActive(false);
+        
         SpawnBongsanMask().Forget();
     }
 
@@ -252,12 +247,10 @@ public class Fox : Entity
         animator.runtimeAnimatorController = tailAnimators[8 - tailCount];
         Managers.Sound.PlaySFX("Fox_Tail");
 
-        light.SetActive(true);
-        await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
-        light.SetActive(false);
-
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
-
+        coreLight.SetActive(true);
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
+        coreLight.SetActive(false);
+        
         int random = Random.Range(0, 2);
 
         if (random == 0)
@@ -278,20 +271,32 @@ public class Fox : Entity
         StopSequence();
         tailCount -= 3;
         animator.runtimeAnimatorController = tailAnimators[5];
+        
         Managers.Sound.PlaySFX("Fox_Tail");
-
-        light.SetActive(true);
-        await UniTask.Delay(TimeSpan.FromSeconds(0.75f));
-        light.SetActive(false);
-
+        coreLight.SetActive(true);
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
+        coreLight.SetActive(false);
+        
         SpawnOwkwangMask().Forget();
         canAttack = true;
     }
 
     public async void IsPhaseChange()
     {
-        await UniTask.WaitUntil( ()=> attackObjects.Count == 0);
+        await UniTask.WaitUntil(()=> isAttackState == false);
+        
+        if(attackObjects.Count > 0)
+        {
+            foreach (var item in attackObjects)
+            {
+                if(item == null)
+                    continue;
+                
+                item.GetComponent<FoxBullet>().DestroyBullet();
+            }
+            
+            attackObjects.Clear();
+        }
         
         time = 0;
         canAttack = false;
@@ -346,17 +351,30 @@ public class Fox : Entity
 
     public async UniTaskVoid RestartPhase()
     {
-        await UniTask.WaitUntil( ()=> attackObjects.Count == 0);
+        await UniTask.WaitUntil( ()=> isAttackState == false);
+        
+        if(attackObjects.Count > 0)
+        {
+            foreach (var item in attackObjects)
+            {
+                if(item == null)
+                    continue;
+                
+                item?.GetComponent<FoxBullet>().DestroyBullet();
+            }
+            attackObjects.Clear();
+        }
+        
         StopSequence();
         hahwoiDisapCount = 0;
 
         ChangeAnimation(EFoxAnimationType.Laugh);
-        await UniTask.Delay(TimeSpan.FromSeconds(1f));
-
+        await UniTask.Delay(TimeSpan.FromSeconds(.85f));
+        
         Managers.Sound.PlaySFX("Fox_Charging");
-        light.SetActive(true);
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
-        light.SetActive(false);
+        coreLight.SetActive(true);
+        await UniTask.Delay(TimeSpan.FromSeconds(.5f));
+        coreLight.SetActive(false);
 
         if (phase == 1)
             SpawnBongsanMask().Forget();
@@ -417,10 +435,9 @@ public class Fox : Entity
         if (animator.runtimeAnimatorController != tailAnimators[5])
             animator.runtimeAnimatorController = tailAnimators[5];
         Managers.Sound.PlaySFX("Boss_Death");
-
-        var soul = Instantiate(effects.soulPrefab, transform.position, Quaternion.identity);
-        soul.SetActive(true);
-        soul.GetComponent<SoulProduction>().ClearProduction();
+        
+        soulVFX.SetActive(true);
+        soulVFX.GetComponent<SoulProduction>().ClearProduction();
         Dead = true;
         ChangeAnimation(EFoxAnimationType.Die);
         Stage3Clear?.Invoke(gameObject);

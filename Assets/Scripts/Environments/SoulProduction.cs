@@ -13,14 +13,24 @@ public class SoulProduction : MonoBehaviour
 
     [SerializeField] PolygonCollider2D previousCollider;
     [SerializeField] PolygonCollider2D nextCollider;
-    
+    [SerializeField] private GameObject soul;
     CinemachineConfiner2D confiner2D;
     SpriteRenderer spriteRenderer;
     private Sequence sequence2;
+    
+    List<ParticleSystem> particleSystems;
 
     private void Awake()
     {
         spriteRenderer=GetComponent<SpriteRenderer>();
+        particleSystems = new List<ParticleSystem>();
+        foreach (Transform child in transform)
+        {
+            if (child.TryGetComponent(out ParticleSystem particleSystem))
+            {
+                particleSystems.Add(particleSystem);
+            }
+        }
     }
 
     public void StartProduction()
@@ -31,30 +41,32 @@ public class SoulProduction : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
 
         sequence
-            .Append(spriteRenderer.DOFade(1, 1f))
-            .Join(transform.DOMoveY(transform.position.y + 5f, 1f))
+            .AppendCallback(() =>
+            {
+                soul.SetActive(true);
+            })
+            .Join(soul.transform.DOMoveY(soul.transform.position.y + 5f, 1f))
             .AppendInterval(0.5f)
-            .Append(transform.DOMove(target.position, 6f))
+            .Append(soul.transform.DOMove(target.position, 6f))
             .JoinCallback(() =>
             {
                 sequence2 = DOTween.Sequence();
                 sequence2
-                    .Append(transform.DOMoveY(transform.position.y - 2f, 1))
-                    .Append(transform.DOMoveY(transform.position.y + 2f, 1))
+                    .Append(soul.transform.DOMoveY(soul.transform.position.y - 2f, 1))
+                    .Append(soul.transform.DOMoveY(soul.transform.position.y + 2f, 1))
                     .AppendCallback(() =>
                     {
                         confiner2D.m_BoundingShape2D = nextCollider;
-                        //stage3Camera.Priority = 21;
+                        stage3Camera.Priority = 21;
                     })
-                    .Append(transform.DOMoveY(transform.position.y - 2f, 1))
-                    .Append(transform.DOMoveY(transform.position.y + 2f, 1))
+                    .Append(soul.transform.DOMoveY(soul.transform.position.y - 2f, 1))
+                    .Append(soul.transform.DOMoveY(soul.transform.position.y + 2f, 1))
                     .AppendCallback(() => sequence.Kill())
-                    .Join(transform.DOMove(target.position, 1f))
-                    .Join(spriteRenderer.DOFade(0,1f))
-                    .AppendInterval(1f)
+                    .Join(soul.transform.DOMove(target.position, 1f))
+                    .AppendInterval(1.5f)
                     .OnComplete(() =>
                     {
-                        Destroy(this);
+                        soul.SetActive(false);
                     });
             });
     }
@@ -68,11 +80,11 @@ public class SoulProduction : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence
             .AppendInterval(1f)
-            .Append(spriteRenderer.DOFade(1, 1f))
-            .Join(transform.DOMoveY(transform.position.y + 10f, 3f))
+            .Join(soul.transform.DOMoveY(soul.transform.position.y + 10f, 3f))
             .OnComplete(() =>
             {
                 Fox.Stage3Clear?.Invoke(gameObject);
+                Destroy(soul);
                 Destroy(gameObject);
             });
     }

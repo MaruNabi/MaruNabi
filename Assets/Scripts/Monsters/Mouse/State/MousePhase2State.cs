@@ -32,8 +32,7 @@ public class MousePhase2State : MouseState
 
             var state = stateMachine.Mouse.TakeOne();
             
-            //TODO : 랜덤 패턴 원상복구 필요
-            switch (EMousePattern.Tail)
+            switch (state)
             {
                 case EMousePattern.Rush:
                     await UniTask.Delay(TimeSpan.FromSeconds(stateMachine.Mouse.Rush2()), cancellationToken: token);
