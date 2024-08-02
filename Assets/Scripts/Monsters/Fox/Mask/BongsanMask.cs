@@ -53,7 +53,7 @@ public class BongsanMask : Entity
         }
     }
 
-    public void SetVariables(Fox _fox, Transform _targetPoint, float _time = 15f)
+    public void SetVariables(Fox _fox, Transform _targetPoint, float _time = 16.5f)
     {
         fox = _fox;
         targetPos = _targetPoint.position;
@@ -66,7 +66,7 @@ public class BongsanMask : Entity
     {
         var hitSequence = DOTween.Sequence();
         hitSequence
-            .Append(spriteRenderer.DOFade(0.75f, 0.3f))
+            .Append(spriteRenderer.DOFade(0.5f, 0.3f))
             .Append(spriteRenderer.DOFade(1f, 0.3f));
     }
 

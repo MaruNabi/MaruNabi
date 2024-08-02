@@ -110,7 +110,7 @@ public class Mouse : Entity
     {
         var hitSequence = DOTween.Sequence();
         hitSequence
-            .Append(mouseSpriteRenderer.DOFade(0.75f, 0.3f))
+            .Append(mouseSpriteRenderer.DOFade(0.5f, 0.3f))
             .Append(mouseSpriteRenderer.DOFade(1f, 0.3f));
     }
 

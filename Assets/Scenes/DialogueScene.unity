@@ -192,7 +192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114748136302977540, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_MatchWidthOrHeight
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114748136302977540, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_ReferenceResolution.x
@@ -208,7 +208,7 @@ PrefabInstance:
       objectReference: {fileID: 1082465093}
     - target: {fileID: 223316972833937316, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_RenderMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 223316972833937316, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_SortingOrder
@@ -337,6 +337,10 @@ PrefabInstance:
     - target: {fileID: 224967017462668890, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224967017462668890, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -271.99994
       objectReference: {fileID: 0}
     - target: {fileID: 224967017462668890, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -564,7 +568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueView: {fileID: 0}
   continueActionType: 1
-  continueActionKeyCode: 32
+  continueActionKeyCode: 122
   continueActionButtonName: Jump
   continueActionOnButtonRelease: 0
   continueActionReference: {fileID: 0}
@@ -729,8 +733,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6c5d3c3126ab74fb1a7a8b3e3e5b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDefaultListener: 1
-  listenerId: 0
 --- !u!114 &1082465096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -743,16 +745,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f28fff5f16e758c409c4ddd34a20f2b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_listeners:
-    initialListenerList: []
-    useDefaultListeners: 1
-  isEnvironmentAware: 0
-  isStaticObject: 0
-  m_positionOffsetData:
-    KeepMe: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-  m_posOffsetData: {fileID: 0}
-  listenerMask: 1
 --- !u!81 &1082465097
 AudioListener:
   m_ObjectHideFlags: 0
@@ -790,19 +782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7cc48a659677ce4dadcde7c3abcc626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitializationSettings: {fileID: 11400000, guid: fdb8400b1aa7cc644b928ffc6fbc23ed, type: 2}
-  basePath: 
-  language: 
-  defaultPoolSize: 0
-  lowerPoolSize: 0
-  streamingPoolSize: 0
-  memoryCutoffThreshold: 0
-  monitorPoolSize: 0
-  monitorQueuePoolSize: 0
-  callbackManagerBufferSize: 0
-  spatialAudioPoolSize: 0
-  maxSoundPropagationDepth: 0
-  engineLogging: 0
 --- !u!4 &1779308225
 Transform:
   m_ObjectHideFlags: 0

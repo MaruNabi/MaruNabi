@@ -80,7 +80,7 @@ public class OwkwangMask : Entity
     {
         var hitSequence = DOTween.Sequence();
         hitSequence
-            .Append(spriteRenderer.DOFade(0.75f, 0.3f))
+            .Append(spriteRenderer.DOFade(0.5f, 0.3f))
             .Append(spriteRenderer.DOFade(1f, 0.3f));
     }
 
@@ -106,8 +106,8 @@ public class OwkwangMask : Entity
     {
         Vector3 referencePosition = transform.position;
         teleportPoints = new Vector3[3];
-        teleportPoints[0] = referencePosition;
-        teleportPoints[1] = referencePosition + Vector3.down * 3.5f;
+        teleportPoints[0] = referencePosition + Vector3.down * 1.5f;
+        teleportPoints[1] = referencePosition + Vector3.down * 4.25f;
         teleportPoints[2] = referencePosition + Vector3.down * 7f;
 
         Move();
@@ -156,7 +156,7 @@ public class OwkwangMask : Entity
         sequence = DOTween.Sequence();
         sequence
             //.AppendCallback(() => animator.SetTrigger("Attack"))
-            .Append(transform.DOMoveY(teleportPoints[randomInt].y, 0.5f).SetEase(Ease.InCirc))
+            .Append(transform.DOMoveY(teleportPoints[randomInt].y, 1f).SetEase(Ease.InCirc))
             .AppendCallback(() =>
             {
                     var beam = Instantiate(energyBeamPrefab, transform.position + Vector3.right * 11,

@@ -110,7 +110,7 @@ public class MouseScholar : Entity
     {
         Sequence sequence = DOTween.Sequence();
         sequence
-            .Append(spriteRenderer.DOFade(0.75f, 0.3f))
+            .Append(spriteRenderer.DOFade(0.5f, 0.3f))
             .Append(spriteRenderer.DOFade(1f, 0.3f));
     }
 
@@ -159,6 +159,7 @@ public class MouseScholar : Entity
                 smoke = Instantiate(mouseEffects.smokePrefab);
                 smoke.transform.position = transform.position;
                 animator.runtimeAnimatorController = mouseEffects.mouseAnimator;
+                spriteRenderer.sortingOrder = 1;
             })
             .Join(transform.DOMoveY(transform.position.y-0.25f,0f));
     }

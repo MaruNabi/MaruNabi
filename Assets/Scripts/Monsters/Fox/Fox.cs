@@ -37,6 +37,7 @@ public class Fox : Entity
     private int phase;
     private float time;
     private bool canAttack;
+    private bool isAttackState;
 
     protected override void Init()
     {
@@ -57,10 +58,10 @@ public class Fox : Entity
         if (canAttack)
         {
             time += Time.deltaTime;
-            
+            isAttackState = false;
             if (time >= 4f)
             {
-                attackObjects.Clear();
+                isAttackState = true;
                 
                 if (phase == 2)
                     Attack(9);
@@ -100,7 +101,7 @@ public class Fox : Entity
     {
         var hitSequence = DOTween.Sequence();
         hitSequence
-            .Append(spriteRenderer.DOFade(0.75f, 0.3f))
+            .Append(spriteRenderer.DOFade(0.5f, 0.3f))
             .Append(spriteRenderer.DOFade(1f, 0.3f));
     }
 
@@ -282,7 +283,20 @@ public class Fox : Entity
 
     public async void IsPhaseChange()
     {
-        await UniTask.WaitUntil( ()=> attackObjects.Count == 0);
+        await UniTask.WaitUntil(()=> isAttackState == false);
+        
+        if(attackObjects.Count > 0)
+        {
+            foreach (var item in attackObjects)
+            {
+                if(item == null)
+                    continue;
+                
+                item.GetComponent<FoxBullet>().DestroyBullet();
+            }
+            
+            attackObjects.Clear();
+        }
         
         time = 0;
         canAttack = false;
@@ -337,16 +351,29 @@ public class Fox : Entity
 
     public async UniTaskVoid RestartPhase()
     {
-        await UniTask.WaitUntil( ()=> attackObjects.Count == 0);
+        await UniTask.WaitUntil( ()=> isAttackState == false);
+        
+        if(attackObjects.Count > 0)
+        {
+            foreach (var item in attackObjects)
+            {
+                if(item == null)
+                    continue;
+                
+                item?.GetComponent<FoxBullet>().DestroyBullet();
+            }
+            attackObjects.Clear();
+        }
+        
         StopSequence();
         hahwoiDisapCount = 0;
 
         ChangeAnimation(EFoxAnimationType.Laugh);
-        await UniTask.Delay(TimeSpan.FromSeconds(1f));
-
+        await UniTask.Delay(TimeSpan.FromSeconds(.85f));
+        
         Managers.Sound.PlaySFX("Fox_Charging");
         coreLight.SetActive(true);
-        await UniTask.Delay(TimeSpan.FromSeconds(1f));
+        await UniTask.Delay(TimeSpan.FromSeconds(.5f));
         coreLight.SetActive(false);
 
         if (phase == 1)
