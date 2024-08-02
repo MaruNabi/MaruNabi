@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using UnityEngine.SceneManagement;
 
 namespace Yarn.Unity.Example {
 	/// <summary>
@@ -445,6 +446,8 @@ namespace Yarn.Unity.Example {
 				fadeBG.color = Color.Lerp( startColor, fadeColor, t );
 				yield return 0;
 			}
+
+			SceneManager.LoadScene(3);
 		}
 
 		Image SetSpriteActual(string spriteName, Vector2 position) {
