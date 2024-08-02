@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SoulProduction : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] CinemachineVirtualCamera zoomCamera;
     [SerializeField] CinemachineVirtualCamera stage3Camera;
-
+    [FormerlySerializedAs("stage2Camera")] [SerializeField] CinemachineVirtualCamera stage1Camera;
+    
     [SerializeField] PolygonCollider2D previousCollider;
     [SerializeField] PolygonCollider2D nextCollider;
     [SerializeField] private GameObject soul;
@@ -35,16 +37,19 @@ public class SoulProduction : MonoBehaviour
 
     public void StartProduction()
     {
-        confiner2D = stage3Camera.GetComponent<CinemachineConfiner2D>();
+        confiner2D = stage1Camera.GetComponent<CinemachineConfiner2D>();
         confiner2D.m_BoundingShape2D = previousCollider;
         
         Sequence sequence = DOTween.Sequence();
 
         sequence
+            .AppendInterval(1f)
             .AppendCallback(() =>
             {
+                stage1Camera.Priority = 21;
                 soul.SetActive(true);
             })
+            .AppendInterval(3f)
             .Join(soul.transform.DOMoveY(soul.transform.position.y + 5f, 1f))
             .AppendInterval(0.5f)
             .Append(soul.transform.DOMove(target.position, 6f))
@@ -56,8 +61,8 @@ public class SoulProduction : MonoBehaviour
                     .Append(soul.transform.DOMoveY(soul.transform.position.y + 2f, 1))
                     .AppendCallback(() =>
                     {
-                        confiner2D.m_BoundingShape2D = nextCollider;
-                        stage3Camera.Priority = 21;
+                        //confiner2D.m_BoundingShape2D = nextCollider;
+                        stage3Camera.Priority = 22;
                     })
                     .Append(soul.transform.DOMoveY(soul.transform.position.y - 2f, 1))
                     .Append(soul.transform.DOMoveY(soul.transform.position.y + 2f, 1))
@@ -79,7 +84,7 @@ public class SoulProduction : MonoBehaviour
         //
         Sequence sequence = DOTween.Sequence();
         sequence
-            .AppendInterval(6f)
+            .AppendInterval(8f)
             .Join(soul.transform.DOMoveY(soul.transform.position.y + 10f, 3f))
             .OnComplete(() =>
             {

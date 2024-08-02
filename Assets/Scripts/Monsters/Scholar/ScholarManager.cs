@@ -81,6 +81,12 @@ public class ScholarManager : MonoBehaviour
     private void RoundRestart(float _hp)
     {
         mouseHp = _hp;
+        RoundStart().Forget();
+    }
+    
+    private async UniTaskVoid RoundStart()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
         MakeMonsterRandomLocation(INIT_MONSTERNUM);
     }
 
@@ -176,7 +182,7 @@ public class ScholarManager : MonoBehaviour
             var item = scholars[i];
             if (item != _mouseScholar)
             {
-                Utils.GetOrAddComponent<Scholar>(item).StopStateMachine();
+                Utils.GetOrAddComponent<Scholar>(item)?.StopStateMachine();
             }
         }
 

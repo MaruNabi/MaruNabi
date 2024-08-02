@@ -34,13 +34,13 @@ public class FoxManager : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(2f));
         soul.gameObject.SetActive(true);
         soul.StartProduction();
-        await UniTask.Delay(TimeSpan.FromSeconds(7f));
+        await UniTask.Delay(TimeSpan.FromSeconds(10f));
         fox.ChangeAnimation(EFoxAnimationType.Laugh);
-        stageSwitchingManager.EnableBehavior();
-        fox.UseTailPhase1();
         Managers.Sound.StopBGM();
         Managers.Sound.SetBGMVolume(1f);
         Managers.Sound.PlayBGM("Fox_Stage");
+        fox.UseTailPhase1();
+        stageSwitchingManager.EnableBehavior();
         // TODO: 여우 페이즈1 시작 들어가야 함
     }
 
@@ -68,7 +68,7 @@ public class FoxManager : MonoBehaviour
     private async UniTaskVoid ZoomOutDelay()
     {
         stageSwitchingManager.ZoomOut();
-        await UniTask.Delay(TimeSpan.FromSeconds(2f));
+        await UniTask.Delay(TimeSpan.FromSeconds(1f));
         var list = GameObject.FindGameObjectsWithTag("Player");
         foreach (var item in list)
         {

@@ -39,6 +39,7 @@ public class Mouse : Entity
 
     [SerializeField] private RuntimeAnimatorController phase2Animator;
     [SerializeField] private GameObject runEffect;
+    [SerializeField] private GameObject fanEffect;
 
     private float patternPercent;
 
@@ -206,6 +207,7 @@ public class Mouse : Entity
         StopSequence();
 
         Managers.Sound.PlaySFX("Mouse_Growling");
+        fanEffect.SetActive(true);
         sequence = DOTween.Sequence();
         sequence
             .AppendInterval(2f)
@@ -214,7 +216,8 @@ public class Mouse : Entity
                 var spawnPos = transform.position + Vector3.right * 5f + Vector3.down * 1f;
                 Instantiate(mouseEffects.rats, spawnPos, Quaternion.Euler(0, 0, 6.6f));
             })
-            .AppendInterval(3f);
+            .AppendInterval(3f)
+            .OnComplete(() => fanEffect.SetActive(false));
 
         return sequence.Duration();
     }
@@ -224,16 +227,18 @@ public class Mouse : Entity
         StopSequence();
 
         Managers.Sound.PlaySFX("Mouse_Growling");
+        fanEffect.SetActive(true);
 
         sequence = DOTween.Sequence();
         sequence
-            .Append(transform.DOShakeRotation(1f))
+            .AppendInterval(1f)
             .AppendCallback(() =>
             {
                 var rockSpawnPoint = transform.position + Vector3.up * 10f + Random.Range(-10f, 1) * Vector3.right;
                 Instantiate(mouseEffects.rock, rockSpawnPoint, Quaternion.identity);
             })
-            .AppendInterval(3f);
+            .AppendInterval(3f)
+            .OnComplete(() => fanEffect.SetActive(false));
 
         return sequence.Duration();
     }
@@ -290,7 +295,7 @@ public class Mouse : Entity
         Phase2?.Invoke();
 
         Managers.Sound.PlaySFX("Boss_Phase");
-
+        
         sequence = DOTween.Sequence();
         sequence
             .OnStart(() =>
@@ -298,7 +303,7 @@ public class Mouse : Entity
                 isPhaseChanging = true;
                 mouseAnimator.runtimeAnimatorController = phase2Animator;
             })
-            .AppendInterval(2f)
+            .AppendInterval(4f)
             .AppendCallback(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Run);

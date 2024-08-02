@@ -20,6 +20,7 @@ public class Fox : Entity
     [SerializeField] private GameObject[] maskPrefabs;
     [SerializeField] RuntimeAnimatorController[] tailAnimators;
     [SerializeField] private GameObject soulVFX;
+    [SerializeField] private GameObject smokePrefab;
     [Header("VFX")]
     [SerializeField] private GameObject coreLight;
     
@@ -334,6 +335,7 @@ public class Fox : Entity
     public async UniTaskVoid CanHitState()
     {
         StopSequence();
+        Managers.Sound.StopBGM();
         Managers.Sound.PlaySFX("Boss_Phase");
         ChangeAnimation(EFoxAnimationType.Shake);
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
@@ -391,6 +393,16 @@ public class Fox : Entity
             SpawnOwkwangMask().Forget();
         }
     }
+    
+    async UniTaskVoid SmokeEffect()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
+            GameObject smoke = Instantiate(effects.smokePrefab);
+            smoke.transform.position = transform.position + Random.insideUnitSphere * 1.25f;
+        }
+    }
 
     public void ChangeAnimation(EFoxAnimationType _type)
     {
@@ -429,12 +441,18 @@ public class Fox : Entity
         ProductionWaitSetting();
         if (animator.runtimeAnimatorController != tailAnimators[5])
             animator.runtimeAnimatorController = tailAnimators[5];
+        Dead = true;
+        SmokeEffect().Forget();
         Managers.Sound.PlaySFX("Boss_Death");
-        
+        ChangeAnimation(EFoxAnimationType.Die);
+        OnDeadEffect().Forget();
+    }
+    
+    private async UniTaskVoid OnDeadEffect()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(3f));
         soulVFX.SetActive(true);
         soulVFX.GetComponent<SoulProduction>().ClearProduction();
-        Dead = true;
-        ChangeAnimation(EFoxAnimationType.Die);
         Stage3Clear?.Invoke(gameObject);
     }
 }

@@ -22,6 +22,9 @@ public class Tiger : Entity
     [SerializeField] private GameObject riceCakePrefab;
     [SerializeField] private GameObject magnet;
     [SerializeField] private GameObject underWall;
+    [SerializeField] private GameObject[] howlingVFXs;
+    [SerializeField] private StageSwitchingManager stageSwitchingManager;
+    
     private Animator headAnimator;
     private SpriteRenderer headSpriteRenderer;
     private TigerEffects tigerEffects;
@@ -104,6 +107,7 @@ public class Tiger : Entity
                 head.GetComponent<SpriteRenderer>().sortingOrder = 1;
                 headAnimator.enabled = true;
                 Managers.Sound.PlaySFX("Tiger_Growling");
+                GrowlingVFX().Forget();
                 stateMachine.Initialize("Phase1", this);
             })
             .AppendInterval(2.5f)
@@ -252,12 +256,12 @@ public class Tiger : Entity
         sequence.OnStart(() =>
             {
                 SmokeEffect().Forget();
+                Managers.Sound.PlaySFX("Boss_Death");
                 headAnimator.runtimeAnimatorController = animators[0];
                 headAnimator.speed = 0f;
                 isPhaseChanging = true;
                 Phase = 2;
                 Managers.Sound.PlaySFX("Tiger_Roar");
-                
                 if(!leftHand.gameObject.activeSelf)
                     leftHand.gameObject.SetActive(true);
         
@@ -380,15 +384,19 @@ public class Tiger : Entity
         sequence.OnStart(() =>
             {
                 SmokeEffect(15).Forget();
+                Managers.Sound.PlaySFX("Boss_Death");
                 headAnimator.runtimeAnimatorController = animators[1];
                 Phase = 3;
                 headAnimator.speed = 0f;
                 isPhaseChanging = true;
-                Managers.Sound.PlaySFX("Tiger_Growling");
-
             })
             .AppendInterval(2.5f)
-            .AppendCallback(() => { headAnimator.speed = 1f; })
+            .AppendCallback(() =>
+            {
+                headAnimator.speed = 1f;
+                Managers.Sound.PlaySFX("Tiger_Growling");
+                GrowlingVFX().Forget();
+            })
             .AppendInterval(4f)
             .OnComplete(() =>
             {
@@ -416,6 +424,8 @@ public class Tiger : Entity
         leftHand.DeleteHands();
         rightHand.DeleteHands();
         riceCakes.ForEach(riceCake => riceCake.Delete());
+        
+        stageSwitchingManager.DisableBehavior();
 
         SmokeEffect(20).Forget();
         Managers.Sound.PlaySFX("Boss_Death");
@@ -492,6 +502,20 @@ public class Tiger : Entity
         {
             // Handle the cancellation if needed
             Debug.Log("RiceCake3 cancelled");
+        }
+    }
+
+    private async UniTaskVoid GrowlingVFX()
+    {
+        foreach (var t in howlingVFXs)
+        {
+            t.SetActive(true);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.25f));
+        }
+
+        foreach (var howling in howlingVFXs)
+        {
+            howling.SetActive(false);
         }
     }
 }

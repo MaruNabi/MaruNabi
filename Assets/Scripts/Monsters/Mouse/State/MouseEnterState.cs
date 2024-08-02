@@ -18,6 +18,7 @@ public class MouseEnterState : MouseState
     private async UniTaskVoid EnterWait()
     {
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
+        Managers.Sound.PlaySFX("Mouse_Growling");
         stateMachine.ChangeAnimation(EMouseAnimationType.StopCrying);
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         stateMachine.SetState("Run");

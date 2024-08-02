@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class EarthEnergyBeam : MonoBehaviour
 {
+    private void OnEnable()
+    {
+        Managers.Sound.PlaySFX("Mask_Energy");
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))

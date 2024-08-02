@@ -147,15 +147,16 @@ public class MouseScholar : Entity
         Dead = true;
         stateMachine.SetState("Leave");
         stateMachine.ChangeAnimation(EScholarAnimationType.Hit);
+        Managers.Sound.PlaySFX("Scholar_Angry");
         StageClear?.Invoke(gameObject);
         GameObject smoke = null;
-        Managers.Sound.PlaySFX("Boss_Death");
 
 
         DOTween.Sequence()
             .AppendInterval(stateMachine.GetAnimPlayTime())
             .AppendCallback(() =>
             {
+                Managers.Sound.PlaySFX("Mouse_ComeOut");
                 smoke = Instantiate(mouseEffects.smokePrefab);
                 smoke.transform.position = transform.position;
                 animator.runtimeAnimatorController = mouseEffects.mouseAnimator;
@@ -167,19 +168,23 @@ public class MouseScholar : Entity
     public void JumpAnimation()
     {
         animator.SetTrigger("Dead");
+        Managers.Sound.PlaySFX("Scholar_Exit");
+        Managers.Sound.PlaySFX("Hit");
 
-        Managers.Sound.PlaySFX("Mouse_ComeOut");
         GameObject smoke = null;
         DOTween.Sequence()
             .Append(gameObject.transform.DOJump(transform.position, 2, 1, 0.5f))
-            .AppendCallback(() => Managers.Sound.PlaySFX("Mouse_Drop"))
             .AppendInterval(2f)
             .Append(spriteRenderer.DOFade(0, 1f))
             .JoinCallback(() =>
             {
+                Managers.Sound.PlaySFX("Scholar_Exit");
                 smoke = Instantiate(mouseEffects.smokePrefab);
                 smoke.transform.position = transform.position;
             })
-            .OnComplete(() => Destroy(gameObject));
+            .OnComplete(() =>
+            {
+                Destroy(gameObject);
+            });
     }
 }

@@ -41,8 +41,6 @@ public class MouseManager : MonoBehaviour
     {
         mouse.enabled = true;
         mouse.StageStart = true;
-        Managers.Sound.StopBGM();
-        Managers.Sound.PlayBGM("Mouse_Stage");
     }
     
     public void ProductionSkip()
