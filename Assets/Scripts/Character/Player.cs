@@ -658,8 +658,6 @@ public class Player : MonoBehaviour
         isDashing = true;
         moveHorizontal = 0.0f;
         isDashCoolEnd = false;
-        Instantiate(dashEffect, transform.position, dashEffect.transform.rotation);
-        dashEffect.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
         float originalGravity = rigidBody.gravityScale;
         dashDirection = 0;
         rigidBody.gravityScale = 0f;
@@ -674,6 +672,8 @@ public class Player : MonoBehaviour
         }
         if (isSurfaceEffector && dashDirection == 1)
             dashDirection *= 2;
+        Instantiate(dashEffect, transform.position, transform.rotation * Quaternion.Euler(0, 0, -90));
+        //dashEffect.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
         //rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
         yield return new WaitForSeconds(cDashTime);
         rigidBody.velocity = Vector2.zero;
