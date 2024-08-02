@@ -617,7 +617,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 479.6}
+  m_AnchoredPosition: {x: 0, y: 479.60004}
   m_SizeDelta: {x: 306, y: 37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &114942917
@@ -2278,9 +2278,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1375458322}
   - component: {fileID: 1375458321}
-  - component: {fileID: 1375458324}
-  - component: {fileID: 1375458323}
   - component: {fileID: 1375458325}
+  - component: {fileID: 1375458326}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2346,30 +2345,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1375458323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1375458319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c6c5d3c3126ab74fb1a7a8b3e3e5b75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1375458324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1375458319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f28fff5f16e758c409c4ddd34a20f2b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!81 &1375458325
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2378,6 +2353,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375458319}
   m_Enabled: 1
+--- !u!114 &1375458326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375458319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53e49670cbaff4048ade99e345ffc2da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1387804402
 GameObject:
   m_ObjectHideFlags: 0
@@ -3242,7 +3229,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 1
+  m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
