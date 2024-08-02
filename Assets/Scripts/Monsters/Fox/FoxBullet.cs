@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class FoxBullet : MonoBehaviour
 {
     Rigidbody2D rb;
     Collider2D col;
+    SpriteRenderer spriteRenderer;
+    private bool isDestroy;
     
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         rb.gravityScale = 0;
         col.isTrigger = true;
     }
@@ -32,7 +36,20 @@ public class FoxBullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Wall"))
         {
-            Destroy(gameObject);
+            if(!isDestroy)
+                Destroy(gameObject);
         }
+    }
+    
+    public void DestroyBullet()
+    {
+        if(this == null)
+            return;
+        
+        isDestroy = true;
+        Sequence sequence = DOTween.Sequence();
+        sequence
+            .Append(spriteRenderer.DOFade(0,0.5f))
+            .OnComplete(() => Destroy(gameObject));
     }
 }

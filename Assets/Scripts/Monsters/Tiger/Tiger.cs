@@ -79,7 +79,7 @@ public class Tiger : Entity
     {
         var hitSequence = DOTween.Sequence();
         hitSequence
-            .Append(headSpriteRenderer.DOFade(0.75f, 0.3f))
+            .Append(headSpriteRenderer.DOFade(0.5f, 0.3f))
             .Append(headSpriteRenderer.DOFade(1f, 0.3f));
     }
 

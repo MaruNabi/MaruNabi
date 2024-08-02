@@ -77,7 +77,7 @@ public class Tteok : Entity, IDelete
     {
         var hitSequence = DOTween.Sequence();
         hitSequence
-            .Append(spriteRenderer.DOFade(0.75f, 0.3f))
+            .Append(spriteRenderer.DOFade(0.5f, 0.3f))
             .Append(spriteRenderer.DOFade(1f, 0.3f));
     }
     
