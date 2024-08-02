@@ -190,6 +190,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114748136302977540, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224041018227868520, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -258,6 +262,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 6.2998047
       objectReference: {fileID: 0}
+    - target: {fileID: 224510685833636184, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 136.2002
+      objectReference: {fileID: 0}
     - target: {fileID: 224615983262082226, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -296,11 +304,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224955308795637596, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 453.6
+      value: 453.5996
       objectReference: {fileID: 0}
     - target: {fileID: 224955308795637596, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -71.20001
+      value: -71.200195
       objectReference: {fileID: 0}
     - target: {fileID: 482461341514018915, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_AnchorMax.y
@@ -450,6 +458,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7894275030868808514, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.2998047
+      objectReference: {fileID: 0}
     - target: {fileID: 9184206409336196516, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
       propertyPath: m_text
       value: Option option option
@@ -466,17 +478,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1635097231764242, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
   m_PrefabInstance: {fileID: 484263810}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &484263813 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6798407037274427283, guid: 9e0841b82a4ebcd438730d23886e17e6, type: 3}
-  m_PrefabInstance: {fileID: 484263810}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484263812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddcdd604a328c4ab296f048eb7b3a925, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &484263814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,9 +490,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 097b95c9f69f04f2d8c08a817e7786af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachedView: {fileID: 484263813}
+  dialogueView: {fileID: 0}
   continueActionType: 1
   continueActionKeyCode: 32
+  continueActionButtonName: Jump
+  continueActionOnButtonRelease: 0
+  continueActionReference: {fileID: 0}
+  continueAction:
+    m_Name: Skip
+    m_Type: 1
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 
+      m_Path: Submit
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Skip
+      m_Flags: 0
+    m_Flags: 0
+  enableActionOnStart: 1
 --- !u!1 &929377106
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,6 +553,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -623,6 +646,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0

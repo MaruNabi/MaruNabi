@@ -7,7 +7,6 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEngine.SceneManagement;
 
 namespace Yarn.Unity.Example {
 	/// <summary>
@@ -45,7 +44,7 @@ namespace Yarn.Unity.Example {
 		// store sprite references for "actors" (characters, etc.)
 		[HideInInspector] public Dictionary<string, VNActor> actors = new Dictionary<string, VNActor>(); // tracks names to sprites
 
-		static Vector2 screenSize = new Vector2( 1280f, 720f); // needed for position calcuations, e.g. what does "left" mean?
+		static Vector2 screenSize = new Vector2( 1920f, 1080f); // needed for position calcuations, e.g. what does "left" mean?
 
 		void Awake () {
 			// manually add all Yarn command handlers, so that we don't
@@ -446,8 +445,6 @@ namespace Yarn.Unity.Example {
 				fadeBG.color = Color.Lerp( startColor, fadeColor, t );
 				yield return 0;
 			}
-			
-			SceneManager.LoadScene("StageSelectionScene");
 		}
 
 		Image SetSpriteActual(string spriteName, Vector2 position) {
@@ -534,16 +531,17 @@ namespace Yarn.Unity.Example {
 				case "loweredge":
 					return 0f;
 				case "left":
-				case "bottom":
 				case "lower":
-					return 0.25f;
+					return 0.2f;
+				case "bottom":
+					return 0.35f;
 				case "center":
 				case "middle":
-					return 0.5f;
+					return 0.42f;
 				case "right":
 				case "top":
 				case "upper":
-					return 0.75f;
+					return 0.8f;
 				case "rightedge":
 				case "topedge":
 				case "upperedge":
