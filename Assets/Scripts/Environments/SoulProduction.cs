@@ -62,6 +62,7 @@ public class SoulProduction : MonoBehaviour
                     .AppendCallback(() =>
                     {
                         //confiner2D.m_BoundingShape2D = nextCollider;
+                        stage1Camera.Priority = 12;
                         stage3Camera.Priority = 22;
                     })
                     .Append(soul.transform.DOMoveY(soul.transform.position.y - 2f, 1))
