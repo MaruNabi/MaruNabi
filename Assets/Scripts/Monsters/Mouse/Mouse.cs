@@ -66,9 +66,7 @@ public class Mouse : Entity
         startPos = transform.position;
         maxHP = Data.LIFE;
         
-        //TODO: 원상복구 필요
-        //HP = maxHP;
-        HP = 1100;
+        HP = maxHP;
         
         behaviorGacha.Add(EMousePattern.Rush, 35);
         behaviorGacha.Add(EMousePattern.SpawnRats, 15);
