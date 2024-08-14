@@ -10,8 +10,6 @@ using Random = UnityEngine.Random;
 
 public class Tiger : Entity
 {
-    public static Action Stage4Clear;
-
     [SerializeField] private GameObject head;
     [SerializeField] private GameObject body;
     [SerializeField] private TigerHand leftHand;
@@ -412,6 +410,7 @@ public class Tiger : Entity
 
     public void StageClear()
     {
+        stageSwitchingManager.DisableBehavior();
         StopSequence();
         CanHit(false);
         cts.Cancel();
@@ -425,8 +424,6 @@ public class Tiger : Entity
         rightHand.DeleteHands();
         riceCakes.ForEach(riceCake => riceCake.Delete());
         
-        stageSwitchingManager.DisableBehavior();
-
         SmokeEffect(20).Forget();
         Managers.Sound.PlaySFX("Boss_Death");
         sequence = DOTween.Sequence();
@@ -442,7 +439,7 @@ public class Tiger : Entity
             .JoinCallback(() => { leftHand.ExitAnimation(); })
             .JoinCallback(() => { rightHand.ExitAnimation(); })
             .AppendInterval(2f)
-            .OnComplete(() => {  Stage4Clear?.Invoke(); });
+            .OnComplete(() => { stageSwitchingManager.StageAllClear(); });
     }
 
     private async UniTask SpawnRiceCakePhase2(CancellationToken _cts)

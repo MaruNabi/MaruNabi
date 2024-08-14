@@ -68,7 +68,6 @@ public class StageSwitchingManager : MonoBehaviour
     {
         players = GameObject.FindGameObjectsWithTag("Player").Select(x => x.GetComponent<Player>()).ToList();
         StageNumber = 1;
-        Tiger.Stage4Clear += StageAllClear;
 
         if (skipToStage4)
         {
@@ -118,11 +117,6 @@ public class StageSwitchingManager : MonoBehaviour
             // 우측으로 강제 이동
             players.ForEach(x => x.ForcedPlayerMoveToRight());
         }
-    }
-    
-    private void OnDestroy()
-    {
-        Tiger.Stage4Clear -= StageAllClear;
     }
 
     public void ForcedMove()
@@ -208,7 +202,7 @@ public class StageSwitchingManager : MonoBehaviour
 
     public void StageAllClear()
     {
-        DisableBehavior();
+        Debug.Log("게임 클리어");
         stageClearUI.SetActive(true);
     }
     

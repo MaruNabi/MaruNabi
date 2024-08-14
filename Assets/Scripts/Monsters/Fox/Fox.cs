@@ -279,7 +279,8 @@ public class Fox : Entity
     public async void IsPhaseChange()
     {
         await UniTask.WaitUntil(()=> isAttackState == false);
-        
+        canAttack = false;
+
         if(attackObjects.Count > 0)
         {
             foreach (var item in attackObjects)
@@ -294,7 +295,6 @@ public class Fox : Entity
         }
         
         time = 0;
-        canAttack = false;
         hahwoiDeathCount = 0;
 
         StopSequence();
@@ -349,6 +349,7 @@ public class Fox : Entity
     public async UniTaskVoid RestartPhase()
     {
         await UniTask.WaitUntil( ()=> isAttackState == false);
+        canAttack = false;
         
         if(attackObjects.Count > 0)
         {
