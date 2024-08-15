@@ -29,7 +29,7 @@ public class AttackSmallSpark : Bullet
 
         if (!KeyData.isNabiPad)
         {
-            nabiAttackKey = KeyCode.RightBracket;
+            nabiAttackKey = KeyCode.X;
         }   
         else if (KeyData.isNabiPad)
         {

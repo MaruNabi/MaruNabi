@@ -26,6 +26,8 @@ public class TutorialScene : MonoBehaviour
 
     void Start()
     {
+        currentPlayer = "";
+
         tutorialCamera = mainCamera.GetComponent<TutorialCamera>();
         tutorialCamera.rightEndSize = 80.0f;
 
@@ -94,13 +96,12 @@ public class TutorialScene : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             if (currentPlayer == "")
-            {
                 currentPlayer = collision.gameObject.name;
-            }
             else
             {
                 if (collision.gameObject.name != currentPlayer)
                 {
+                    Debug.Log("if");
                     gameObject.GetComponent<BoxCollider2D>().enabled = false;
                     isSubStage2Start = true;
                     tutorialCamera.isSubStageMove = true;
@@ -108,10 +109,13 @@ public class TutorialScene : MonoBehaviour
                     dummy2.SetActive(true);
                 }
                 else
-                {
                     currentPlayer = collision.gameObject.name;
-                }
             }
         }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+            currentPlayer = "";
     }
 }
