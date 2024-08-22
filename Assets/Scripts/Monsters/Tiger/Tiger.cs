@@ -224,17 +224,17 @@ public class Tiger : Entity
 
     public bool CheckPhase2ChangeHp()
     {
-        return HP <= 9000 && Phase == 1;
+        return HP <= 30000 && Phase == 1;
     }
 
     public bool CheckPhase3ChangeHp()
     {
-        return HP <= 6000 && Phase == 2;
+        return HP <= 18000 && Phase == 2;
     }
 
     public bool CheckMiniPhaseChangeHP()
     {
-        return HP <= 3000 && Phase == 3;
+        return HP <= 9000 && Phase == 3;
     }
 
     public bool CheckStageClear()
