@@ -42,6 +42,9 @@ public class TutorialScene : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F11))
             SceneManager.LoadScene("StageSelectionScene");
 
+        if (PlayerNabi.ultimateGauge != 1000)
+            PlayerNabi.ultimateGauge = 1000;
+
         if (dummy1 == null && !isSubStage1Clear)
         {
             isSubStage1Clear = true;

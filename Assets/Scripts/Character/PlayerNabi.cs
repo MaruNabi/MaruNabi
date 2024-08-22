@@ -463,6 +463,7 @@ public class PlayerNabi : Player
 
     private IEnumerator NabiTraitActive()
     {
+        NabiTraitParticlePlay();
         isNabiTraitActivated = true;
         NabiTraitScore += 1;
         yield return new WaitForSeconds(1f);

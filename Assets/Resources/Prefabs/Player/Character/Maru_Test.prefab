@@ -902,6 +902,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   slopeRayDistance: 1.21
+  nabiTraitParticle: {fileID: 5697101180579792178, guid: b29f0c49a2e6a91449d422216bc66ff5, type: 3}
   playerBullets: {fileID: 0}
   playerSkills: {fileID: 0}
   playerShield: {fileID: 6623215531408078324}
