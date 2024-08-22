@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Magnetic : MonoBehaviour
 {
-    public float moveSped = 10f;
+    public float moveSped = 15f;
     public float magnetDistance = 15f;
     
     private List<Transform> targets = new List<Transform>();
