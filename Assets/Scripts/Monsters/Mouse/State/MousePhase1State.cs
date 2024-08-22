@@ -22,7 +22,6 @@ public class MousePhase1State : MouseState
         RandomPattern(cts.Token).Forget();
     }
 
-
     private async UniTask RandomPattern(CancellationToken token)
     {
         try

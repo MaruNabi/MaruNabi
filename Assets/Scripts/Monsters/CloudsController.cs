@@ -15,6 +15,8 @@ public class CloudsController : MonoBehaviour
 
     public void DisapCloud(int num)
     {
+        if(clouds[num].gameObject.activeSelf == false)
+            return;
         clouds[num].DisableSequence();
         DelayActive(num).Forget();
     }

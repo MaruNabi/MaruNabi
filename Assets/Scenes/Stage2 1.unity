@@ -3941,7 +3941,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0.4537604, y: 0.43445122}
+  m_Offset: {x: 0.4537604, y: 0.30155754}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -3952,7 +3952,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.3024793, y: 0.7010977}
+  m_Size: {x: 4.3024793, y: 0.43531036}
   m_EdgeRadius: 0
 --- !u!1 &259678751
 GameObject:
@@ -5847,7 +5847,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skipToStage2: 0
   skipToStage3: 0
-  skipToStage4: 1
+  skipToStage4: 0
   stage2Camera: {fileID: 1706814427}
   stage3Camera: {fileID: 75040047}
   stage4Camera: {fileID: 1421947389}
