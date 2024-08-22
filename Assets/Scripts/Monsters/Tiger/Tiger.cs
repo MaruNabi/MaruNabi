@@ -234,7 +234,7 @@ public class Tiger : Entity
 
     public bool CheckMiniPhaseChangeHP()
     {
-        return HP <= 9000 && Phase == 3;
+        return HP <= 11000 && Phase == 3;
     }
 
     public bool CheckStageClear()
@@ -244,7 +244,7 @@ public class Tiger : Entity
 
     public float ChangePhase2()
     {
-        Debug.Log("ÆäÀÌÁî2");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2");
         StopSequence();
 
         CanHit(false);
