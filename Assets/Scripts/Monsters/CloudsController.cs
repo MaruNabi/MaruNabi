@@ -28,7 +28,7 @@ public class CloudsController : MonoBehaviour
     
     private async UniTaskVoid DelayActive(int num)
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(10f));
+        await UniTask.Delay(TimeSpan.FromSeconds(4f));
         AppearCloud(num);
     }
 }

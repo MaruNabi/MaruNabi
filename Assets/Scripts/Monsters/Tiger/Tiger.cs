@@ -307,21 +307,21 @@ public class Tiger : Entity
             .Join(transform.DOMove(bitePos, 2f))
             .AppendCallback(() =>
             {
-                tag = "NoDeleteEnemyBullet";
-                boxCollider2D.enabled = true;
-                boxCollider2D.size = new Vector2(startColliderSize.x * 1.4f, startColliderSize.y * 1.5f);
-                boxCollider2D.offset = new Vector2(startColliderPos.x, startColliderPos.y - 2.0f);
+                // boxCollider2D.enabled = true;
+                // boxCollider2D.size = new Vector2(startColliderSize.x * 1.4f, startColliderSize.y * 1.5f);
+                // boxCollider2D.offset = new Vector2(startColliderPos.x, startColliderPos.y - 2.0f);
                 headAnimator.SetTrigger("Attack");
                 Managers.Sound.PlaySFX("Tiger_Bite");
                 cloudsController.DisapCloud((int)gachar);
+                cloudsController.DisapCloud((int)gachar + 3);
             })
             .AppendInterval(0.5f)
             .Append(transform.DOMove(startPos, 0.5f))
             .Join(transform.DOScale(0.8f, 0.5f))
             .OnComplete(() =>
             {
-                boxCollider2D.size = startColliderSize;
-                boxCollider2D.offset = startColliderPos;
+                // boxCollider2D.size = startColliderSize;
+                // boxCollider2D.offset = startColliderPos;
                 CanHit(true);
             });
 
@@ -342,6 +342,8 @@ public class Tiger : Entity
                 headAnimator.SetTrigger("Inhale");
                 boxCollider2D.size = new Vector2(startColliderSize.x * 1.4f, startColliderSize.y * 2);
                 boxCollider2D.offset = new Vector2(startColliderPos.x, startColliderPos.y - 1f);
+                boxCollider2D.enabled = true;
+                tag = "NoDeleteEnemyBullet";
             })
             .Join(transform.DOMoveY(transform.position.y - 1f, 1f))
             .JoinCallback(() => Managers.Sound.PlaySFX("Tiger_Inhale"))
@@ -354,13 +356,13 @@ public class Tiger : Entity
                 headAnimator.SetTrigger("Up");
                 boxCollider2D.size = startColliderSize;
                 boxCollider2D.offset = startColliderPos;
+                boxCollider2D.enabled = false;
             })
             .AppendInterval(1f)
             .OnComplete(() =>
             {
                 CanHit(true);
             });
-
         return sequence.Duration();
     }
 

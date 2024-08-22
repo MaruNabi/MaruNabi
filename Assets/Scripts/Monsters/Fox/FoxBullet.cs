@@ -24,7 +24,7 @@ public class FoxBullet : MonoBehaviour, IMonsterBullet
         rb.gravityScale = 2;
         col.isTrigger = false;
         var random = Random.Range(0, 2);
-        var randomPower = Random.Range(4, 7);
+        var randomPower = Random.Range(4, 8);
         
         if(random == 0)
             rb.velocity = Vector2.left * randomPower;

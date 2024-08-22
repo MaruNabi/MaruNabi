@@ -209,5 +209,6 @@ public class StageManager : MonoBehaviour
     public void HealPlayers()
     {
         players.ForEach(player => player.HealLife());
+        //players.ForEach(player => player.StageExitRevive());
     }
 }

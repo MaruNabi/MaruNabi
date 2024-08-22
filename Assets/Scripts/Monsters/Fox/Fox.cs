@@ -65,9 +65,9 @@ public class Fox : Entity
                 isAttackState = true;
                 
                 if (phase == 2)
-                    Attack(10);
+                    Attack(8);
                 else if (phase == 3)
-                    Attack(11);
+                    Attack(9);
 
                 time = 0;
             }
@@ -84,6 +84,9 @@ public class Fox : Entity
             RestartPhase().Forget();
             hahwoiDisapCount = 0;
         }
+        
+        // if(Input.GetKeyDown(KeyCode.Space))
+        //     Attack(9);
     }
 
     public override void OnDamage(float _damage)
@@ -150,12 +153,10 @@ public class Fox : Entity
             upPosition + Vector3.right * 3f };
 
         ChangeAnimation(EFoxAnimationType.Attack);
-
-        var randomInt = Random.Range(0, _attackType);
-
+        
         for (int i = 0; i < startPos.Length; i++)
         {
-            GameObject attackObject = Instantiate(effects.throwObjects[Random.Range(0, randomInt)]);
+            GameObject attackObject = Instantiate(effects.throwObjects[Random.Range(0, _attackType)]);
             attackObject.transform.position = transform.position;
             attackObjects.Add(attackObject);
         }
