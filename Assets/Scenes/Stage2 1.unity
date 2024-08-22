@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 4560454}
   - component: {fileID: 4560455}
   m_Layer: 0
-  m_Name: 2-2MouseManager
+  m_Name: 2MouseManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -178,7 +178,7 @@ MonoBehaviour:
   - {fileID: 186370129}
   - {fileID: 1853502768}
   surfaceEffector2D: {fileID: 1323791817}
-  stageSwitchingManager: {fileID: 420636041}
+  stageManager: {fileID: 420636041}
   nextStageWall: {fileID: 285719457}
   wallTrigger: {fileID: 1344374523}
 --- !u!1 &8426035
@@ -2236,7 +2236,8 @@ MonoBehaviour:
   - {fileID: 748820580}
   - {fileID: 181656413}
   - {fileID: 1862826818}
-  stageSwitchingManager: {fileID: 420636041}
+  stageManager: {fileID: 420636041}
+  cloudsController: {fileID: 1154617192}
 --- !u!61 &136495899
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2250,7 +2251,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.02601242, y: 2.006336}
+  m_Offset: {x: -0.02601242, y: 1.6644771}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2261,7 +2262,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.644512, y: 3.5720515}
+  m_Size: {x: 5.644512, y: 4.2557693}
   m_EdgeRadius: 0
 --- !u!114 &136495900
 MonoBehaviour:
@@ -3902,7 +3903,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 9
-  m_Sprite: {fileID: 21300000, guid: f212aa639cf70104ea1332d8fc8f4e5c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 706f3c619511e114b8e993118d10709a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -3944,7 +3945,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.21, y: 1.57}
+    oldSize: {x: 5.22, y: 1.19}
     newSize: {x: 5.21, y: 1.57}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -4134,7 +4135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3ba17a29cf9cc5479eee510a7f6d2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switchingManager: {fileID: 420636041}
+  manager: {fileID: 420636041}
   storyboardCamera: {fileID: 1706814429}
   isStage1Clear: 0
   isStage2Clear: 0
@@ -5811,7 +5812,7 @@ GameObject:
   - component: {fileID: 420636040}
   - component: {fileID: 420636041}
   m_Layer: 0
-  m_Name: StageSwitchingManager
+  m_Name: StageManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5846,7 +5847,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skipToStage2: 0
   skipToStage3: 0
-  skipToStage4: 0
+  skipToStage4: 1
   stage2Camera: {fileID: 1706814427}
   stage3Camera: {fileID: 75040047}
   stage4Camera: {fileID: 1421947389}
@@ -6550,7 +6551,7 @@ GameObject:
   - component: {fileID: 460354047}
   - component: {fileID: 460354048}
   m_Layer: 0
-  m_Name: 2-4TigerManager
+  m_Name: 4TigerManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6583,7 +6584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30b33281ef5bba14cbdc835c900cab8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageSwitchingManager: {fileID: 420636041}
+  stageManager: {fileID: 420636041}
   virtualCamera: {fileID: 1421947389}
   tiger: {fileID: 136495898}
 --- !u!1 &463218564
@@ -7044,7 +7045,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 66a35faf238db7449b890cdcb7b02fd3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 706f3c619511e114b8e993118d10709a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9043,7 +9044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1463299287}
-  switchingManager: {fileID: 420636041}
+  manager: {fileID: 420636041}
   stageNumber: 2
 --- !u!61 &612047301
 BoxCollider2D:
@@ -9247,7 +9248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3ba17a29cf9cc5479eee510a7f6d2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switchingManager: {fileID: 420636041}
+  manager: {fileID: 420636041}
   storyboardCamera: {fileID: 0}
   isStage1Clear: 0
   isStage2Clear: 0
@@ -10402,7 +10403,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 3f4e0507c1f0f7245bdba86a9facbbc0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b23a1c4f24f27674dbf26cfba6c50338, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11771,7 +11772,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: f212aa639cf70104ea1332d8fc8f4e5c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d962c4db986277f448bcf75b80f495c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -11931,7 +11932,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 3f4e0507c1f0f7245bdba86a9facbbc0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b23a1c4f24f27674dbf26cfba6c50338, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -13681,7 +13682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3ba17a29cf9cc5479eee510a7f6d2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switchingManager: {fileID: 420636041}
+  manager: {fileID: 420636041}
   storyboardCamera: {fileID: 0}
   isStage1Clear: 0
   isStage2Clear: 0
@@ -15103,7 +15104,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 9
-  m_Sprite: {fileID: 21300000, guid: 66a35faf238db7449b890cdcb7b02fd3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 706f3c619511e114b8e993118d10709a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -17631,6 +17632,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1154617191}
+  - component: {fileID: 1154617192}
   m_Layer: 0
   m_Name: Clouds
   m_TagString: Untagged
@@ -17659,6 +17661,18 @@ Transform:
   m_Father: {fileID: 1555880288}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1154617192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154617190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd21f008a4d152f4689431a1a057aba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1158922216
 GameObject:
   m_ObjectHideFlags: 0
@@ -19563,7 +19577,7 @@ GameObject:
   - component: {fileID: 1312325941}
   - component: {fileID: 1312325942}
   m_Layer: 0
-  m_Name: 2-3FoxManager
+  m_Name: 3FoxManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19596,7 +19610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1122afb2c12085a4e8489cd902eecf14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageSwitchingManager: {fileID: 420636041}
+  stageManager: {fileID: 420636041}
   soul: {fileID: 1626605678}
   nextStageWall: {fileID: 944627579}
   fox: {fileID: 88321119}
@@ -20048,7 +20062,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 9
-  m_Sprite: {fileID: 21300000, guid: 66a35faf238db7449b890cdcb7b02fd3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 706f3c619511e114b8e993118d10709a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -20230,7 +20244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1060351179}
-  switchingManager: {fileID: 420636041}
+  manager: {fileID: 420636041}
   stageNumber: 1
 --- !u!61 &1344374526
 BoxCollider2D:
@@ -23373,7 +23387,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1548292386}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -37.41172, y: 14.155999, z: -10}
+  m_LocalPosition: {x: -37.41171, y: 14.158999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -25661,7 +25675,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 9
-  m_Sprite: {fileID: 21300000, guid: 3f4e0507c1f0f7245bdba86a9facbbc0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b23a1c4f24f27674dbf26cfba6c50338, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -27370,7 +27384,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: f212aa639cf70104ea1332d8fc8f4e5c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d962c4db986277f448bcf75b80f495c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -28132,7 +28146,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 9
-  m_Sprite: {fileID: 21300000, guid: f212aa639cf70104ea1332d8fc8f4e5c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d962c4db986277f448bcf75b80f495c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -28993,7 +29007,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 9
-  m_Sprite: {fileID: 21300000, guid: 66a35faf238db7449b890cdcb7b02fd3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b23a1c4f24f27674dbf26cfba6c50338, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -29035,7 +29049,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.22, y: 1.19}
+    oldSize: {x: 4.99, y: 1.17}
     newSize: {x: 5.22, y: 1.19}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -30195,7 +30209,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 66a35faf238db7449b890cdcb7b02fd3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 706f3c619511e114b8e993118d10709a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -31688,7 +31702,7 @@ GameObject:
   - component: {fileID: 2125024048}
   - component: {fileID: 2125024049}
   m_Layer: 0
-  m_Name: 2-1ScholarManager
+  m_Name: 1ScholarManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

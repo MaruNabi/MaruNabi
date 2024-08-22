@@ -11,7 +11,7 @@ public class MouseManager : MonoBehaviour
     [SerializeField] private GameObject mouseProduction;
     [SerializeField] private List<ScrollManager> backGroundScrolls;
     [SerializeField] private SurfaceEffector2D surfaceEffector2D;
-    [SerializeField] private StageSwitchingManager stageSwitchingManager;
+    [FormerlySerializedAs("stageSwitchingManager")] [SerializeField] private StageManager stageManager;
     [SerializeField] private NextStageWall nextStageWall;
     [SerializeField] private GameObject wallTrigger;
     
@@ -58,7 +58,7 @@ public class MouseManager : MonoBehaviour
             {
                 item.GetComponent<Player>().PlayerInputDisable();
             }
-            stageSwitchingManager.ZoomIn(_target,2);
+            stageManager.ZoomIn(_target,2);
             productionEnd = true;
         }
         else
@@ -72,7 +72,7 @@ public class MouseManager : MonoBehaviour
 
     private async UniTaskVoid ZoomOutDelay()
     {
-        stageSwitchingManager.ZoomOut();
+        stageManager.ZoomOut();
         await UniTask.Delay(TimeSpan.FromSeconds(2f));
         var list = GameObject.FindGameObjectsWithTag("Player");
         foreach (var item in list)
@@ -80,7 +80,7 @@ public class MouseManager : MonoBehaviour
             item.GetComponent<Player>().PlayerInputEnable();
         }
         Managers.Sound.StopBGM();
-        stageSwitchingManager.HealPlayers();
+        stageManager.HealPlayers();
     }
 
     private void BackGroundMove(bool _set)

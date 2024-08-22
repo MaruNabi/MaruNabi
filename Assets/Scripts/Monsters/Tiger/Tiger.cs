@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Tiger : Entity
@@ -21,7 +22,8 @@ public class Tiger : Entity
     [SerializeField] private GameObject magnet;
     [SerializeField] private GameObject underWall;
     [SerializeField] private GameObject[] howlingVFXs;
-    [SerializeField] private StageSwitchingManager stageSwitchingManager;
+    [FormerlySerializedAs("stageSwitchingManager")] [SerializeField] private StageManager stageManager;
+    [SerializeField] private CloudsController cloudsController;
     
     private Animator headAnimator;
     private SpriteRenderer headSpriteRenderer;
@@ -62,6 +64,7 @@ public class Tiger : Entity
         boxCollider2D = GetComponent<BoxCollider2D>();
         startColliderSize = boxCollider2D.size;
         startColliderPos = boxCollider2D.offset;
+        boxCollider2D.enabled = true;
     }
 
     public override void OnDamage(float _damage)
@@ -124,12 +127,12 @@ public class Tiger : Entity
     {
         if (_canHit)
         {
-            head.tag = "Enemy";
+            head.tag = "NoBumpEnemy";
             head.gameObject.layer = 7;
         }
         else
         {
-            head.tag = "NoDeleteEnemyBullet";
+            head.tag = "Untagged";
             head.gameObject.layer = 0;
         }
     }
@@ -285,11 +288,10 @@ public class Tiger : Entity
     {
         StopSequence();
         CanHit(false);
-        tag= "Untagged";
         gameObject.layer = 0;
 
         var gachar = RandomizerUtil.From(behaviorGacha).TakeOne();
-        Vector3 bitePos = Vector3.zero;
+        Vector3 bitePos;
 
         if (gachar == ETigerBitePosition.Left)
             bitePos = bitePositions[0].position;
@@ -305,11 +307,13 @@ public class Tiger : Entity
             .Join(transform.DOMove(bitePos, 2f))
             .AppendCallback(() =>
             {
-                CanHit(false);
+                tag = "NoDeleteEnemyBullet";
+                boxCollider2D.enabled = true;
                 boxCollider2D.size = new Vector2(startColliderSize.x * 1.4f, startColliderSize.y * 1.5f);
-                boxCollider2D.offset = new Vector2(startColliderPos.x, startColliderPos.y - 1.5f);
+                boxCollider2D.offset = new Vector2(startColliderPos.x, startColliderPos.y - 2.0f);
                 headAnimator.SetTrigger("Attack");
                 Managers.Sound.PlaySFX("Tiger_Bite");
+                cloudsController.DisapCloud((int)gachar);
             })
             .AppendInterval(0.5f)
             .Append(transform.DOMove(startPos, 0.5f))
@@ -410,7 +414,7 @@ public class Tiger : Entity
 
     public void StageClear()
     {
-        stageSwitchingManager.DisableBehavior();
+        stageManager.DisableBehavior();
         StopSequence();
         CanHit(false);
         cts.Cancel();
@@ -439,7 +443,7 @@ public class Tiger : Entity
             .JoinCallback(() => { leftHand.ExitAnimation(); })
             .JoinCallback(() => { rightHand.ExitAnimation(); })
             .AppendInterval(2f)
-            .OnComplete(() => { stageSwitchingManager.StageAllClear(); });
+            .OnComplete(() => { stageManager.StageAllClear(); });
     }
 
     private async UniTask SpawnRiceCakePhase2(CancellationToken _cts)
