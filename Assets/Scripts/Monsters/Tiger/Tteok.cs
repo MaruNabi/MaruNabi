@@ -60,16 +60,16 @@ public class Tteok : Entity, IDelete
             spriteRenderer = GetComponent<SpriteRenderer>();
         
         isRight = spriteRenderer.flipX;
-        float x = isRight ? 8f : -8f;
+        float x = isRight ? 32f : -32f;
         
         animator.SetTrigger("Attack");
         Managers.Sound.PlaySFX("Tteok_Shot");
 
-        var bean = Instantiate(redBean, transform.position + Vector3.down, Quaternion.identity);
+        var bean = Instantiate(redBean, transform.position, Quaternion.identity);
         beans.Add(bean);
         var beanSequence = DOTween.Sequence();
         beanSequence
-            .Append(bean.transform.DOMoveX(bean.transform.position.x + x, 1f))
+            .Append(bean.transform.DOMoveX(bean.transform.position.x + x, 2f).SetEase(Ease.Linear))
             .OnComplete(()=> Destroy(bean));
     }
 

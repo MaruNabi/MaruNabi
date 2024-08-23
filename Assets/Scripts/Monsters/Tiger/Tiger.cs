@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Tiger : Entity
@@ -21,7 +22,8 @@ public class Tiger : Entity
     [SerializeField] private GameObject magnet;
     [SerializeField] private GameObject underWall;
     [SerializeField] private GameObject[] howlingVFXs;
-    [SerializeField] private StageSwitchingManager stageSwitchingManager;
+    [FormerlySerializedAs("stageSwitchingManager")] [SerializeField] private StageManager stageManager;
+    [SerializeField] private CloudsController cloudsController;
     
     private Animator headAnimator;
     private SpriteRenderer headSpriteRenderer;
@@ -62,6 +64,7 @@ public class Tiger : Entity
         boxCollider2D = GetComponent<BoxCollider2D>();
         startColliderSize = boxCollider2D.size;
         startColliderPos = boxCollider2D.offset;
+        boxCollider2D.enabled = true;
     }
 
     public override void OnDamage(float _damage)
@@ -124,12 +127,12 @@ public class Tiger : Entity
     {
         if (_canHit)
         {
-            head.tag = "Enemy";
+            head.tag = "NoBumpEnemy";
             head.gameObject.layer = 7;
         }
         else
         {
-            head.tag = "NoDeleteEnemyBullet";
+            head.tag = "Untagged";
             head.gameObject.layer = 0;
         }
     }
@@ -221,17 +224,17 @@ public class Tiger : Entity
 
     public bool CheckPhase2ChangeHp()
     {
-        return HP <= 9000 && Phase == 1;
+        return HP <= 30000 && Phase == 1;
     }
 
     public bool CheckPhase3ChangeHp()
     {
-        return HP <= 6000 && Phase == 2;
+        return HP <= 18000 && Phase == 2;
     }
 
     public bool CheckMiniPhaseChangeHP()
     {
-        return HP <= 3000 && Phase == 3;
+        return HP <= 11000 && Phase == 3;
     }
 
     public bool CheckStageClear()
@@ -241,7 +244,7 @@ public class Tiger : Entity
 
     public float ChangePhase2()
     {
-        Debug.Log("ÆäÀÌÁî2");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2");
         StopSequence();
 
         CanHit(false);
@@ -285,11 +288,10 @@ public class Tiger : Entity
     {
         StopSequence();
         CanHit(false);
-        tag= "Untagged";
         gameObject.layer = 0;
 
         var gachar = RandomizerUtil.From(behaviorGacha).TakeOne();
-        Vector3 bitePos = Vector3.zero;
+        Vector3 bitePos;
 
         if (gachar == ETigerBitePosition.Left)
             bitePos = bitePositions[0].position;
@@ -305,19 +307,21 @@ public class Tiger : Entity
             .Join(transform.DOMove(bitePos, 2f))
             .AppendCallback(() =>
             {
-                CanHit(false);
-                boxCollider2D.size = new Vector2(startColliderSize.x * 1.4f, startColliderSize.y * 1.5f);
-                boxCollider2D.offset = new Vector2(startColliderPos.x, startColliderPos.y - 1.5f);
+                // boxCollider2D.enabled = true;
+                // boxCollider2D.size = new Vector2(startColliderSize.x * 1.4f, startColliderSize.y * 1.5f);
+                // boxCollider2D.offset = new Vector2(startColliderPos.x, startColliderPos.y - 2.0f);
                 headAnimator.SetTrigger("Attack");
                 Managers.Sound.PlaySFX("Tiger_Bite");
+                cloudsController.DisapCloud((int)gachar);
+                cloudsController.DisapCloud((int)gachar + 3);
             })
             .AppendInterval(0.5f)
             .Append(transform.DOMove(startPos, 0.5f))
             .Join(transform.DOScale(0.8f, 0.5f))
             .OnComplete(() =>
             {
-                boxCollider2D.size = startColliderSize;
-                boxCollider2D.offset = startColliderPos;
+                // boxCollider2D.size = startColliderSize;
+                // boxCollider2D.offset = startColliderPos;
                 CanHit(true);
             });
 
@@ -338,6 +342,8 @@ public class Tiger : Entity
                 headAnimator.SetTrigger("Inhale");
                 boxCollider2D.size = new Vector2(startColliderSize.x * 1.4f, startColliderSize.y * 2);
                 boxCollider2D.offset = new Vector2(startColliderPos.x, startColliderPos.y - 1f);
+                boxCollider2D.enabled = true;
+                tag = "NoDeleteEnemyBullet";
             })
             .Join(transform.DOMoveY(transform.position.y - 1f, 1f))
             .JoinCallback(() => Managers.Sound.PlaySFX("Tiger_Inhale"))
@@ -350,13 +356,13 @@ public class Tiger : Entity
                 headAnimator.SetTrigger("Up");
                 boxCollider2D.size = startColliderSize;
                 boxCollider2D.offset = startColliderPos;
+                boxCollider2D.enabled = false;
             })
             .AppendInterval(1f)
             .OnComplete(() =>
             {
                 CanHit(true);
             });
-
         return sequence.Duration();
     }
 
@@ -410,7 +416,7 @@ public class Tiger : Entity
 
     public void StageClear()
     {
-        stageSwitchingManager.DisableBehavior();
+        stageManager.DisableBehavior();
         StopSequence();
         CanHit(false);
         cts.Cancel();
@@ -439,7 +445,7 @@ public class Tiger : Entity
             .JoinCallback(() => { leftHand.ExitAnimation(); })
             .JoinCallback(() => { rightHand.ExitAnimation(); })
             .AppendInterval(2f)
-            .OnComplete(() => { stageSwitchingManager.StageAllClear(); });
+            .OnComplete(() => { stageManager.StageAllClear(); });
     }
 
     private async UniTask SpawnRiceCakePhase2(CancellationToken _cts)

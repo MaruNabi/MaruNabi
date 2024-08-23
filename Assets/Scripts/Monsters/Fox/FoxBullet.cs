@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class FoxBullet : MonoBehaviour
+public class FoxBullet : MonoBehaviour, IMonsterBullet
 {
     Rigidbody2D rb;
     Collider2D col;
@@ -21,10 +21,10 @@ public class FoxBullet : MonoBehaviour
     
     public void Throw()
     {
-        rb.gravityScale = 1;
+        rb.gravityScale = 2;
         col.isTrigger = false;
         var random = Random.Range(0, 2);
-        var randomPower = Random.Range(4, 7);
+        var randomPower = Random.Range(4, 8);
         
         if(random == 0)
             rb.velocity = Vector2.left * randomPower;
@@ -37,7 +37,7 @@ public class FoxBullet : MonoBehaviour
         if (other.gameObject.CompareTag("Ground") || other.gameObject.CompareTag("Wall"))
         {
             if(!isDestroy)
-                Destroy(gameObject);
+                DestroyBullet();
         }
     }
     
@@ -46,10 +46,11 @@ public class FoxBullet : MonoBehaviour
         if(this == null)
             return;
         
+        //tag = "Untagged";
         isDestroy = true;
         Sequence sequence = DOTween.Sequence();
         sequence
-            .Append(spriteRenderer.DOFade(0,0.5f))
+            .Append(spriteRenderer.DOFade(0,0.25f))
             .OnComplete(() => Destroy(gameObject));
     }
 }

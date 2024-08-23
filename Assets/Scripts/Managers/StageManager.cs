@@ -6,7 +6,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class StageSwitchingManager : MonoBehaviour
+public class StageManager : MonoBehaviour
 {
     [Header("SKIP")]
     [SerializeField] private bool skipToStage2;
@@ -202,12 +202,13 @@ public class StageSwitchingManager : MonoBehaviour
 
     public void StageAllClear()
     {
-        Debug.Log("게임 클리어");
+        Debug.Log("게임 클리어 : " + stageClearUI);
         stageClearUI.SetActive(true);
     }
     
     public void HealPlayers()
     {
         players.ForEach(player => player.HealLife());
+        //players.ForEach(player => player.StageExitRevive());
     }
 }

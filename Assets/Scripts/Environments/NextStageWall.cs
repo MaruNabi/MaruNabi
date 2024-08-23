@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 
 public class NextStageWall : MonoBehaviour
 {
-    [SerializeField] StageSwitchingManager switchingManager;
+    [FormerlySerializedAs("switchingManager")] [SerializeField] StageManager manager;
     [SerializeField] CinemachineStoryboard storyboardCamera;
     
     public bool isStage1Clear;
@@ -30,18 +30,18 @@ public class NextStageWall : MonoBehaviour
         if (isStage4Clear)
         {
             wallCollider.isTrigger = true;
-            switchingManager.Stage4Start();
+            manager.Stage4Start();
         }
         else if(isStage3Clear)
         {
             if (collision.gameObject.CompareTag("Player"))
             {
                 wallCollider.isTrigger = true;
-                switchingManager.ForcedMove();
+                manager.ForcedMove();
                 DOTween.To(() => 0, x=> storyboardCamera.m_Alpha = x,1f, 2f)
                     .OnComplete(() =>
                     {
-                        switchingManager.Stage3ClearProduction();
+                        manager.Stage3ClearProduction();
                     });
             }
         }
@@ -50,7 +50,7 @@ public class NextStageWall : MonoBehaviour
             if (collision.gameObject.CompareTag("Player"))
             {
                 wallCollider.isTrigger = true;
-                switchingManager.ForcedMove();
+                manager.ForcedMove();
             }
         }
         else if (isStage1Clear)
@@ -58,7 +58,7 @@ public class NextStageWall : MonoBehaviour
             if (collision.gameObject.CompareTag("Player"))
             {
                 wallCollider.isTrigger = true;
-                switchingManager.ForcedMove();
+                manager.ForcedMove();
                 
                 var playersObjects = GameObject.FindGameObjectsWithTag("Player");
                 var players = playersObjects.Select(player => player.GetComponent<Player>()).ToList();

@@ -65,9 +65,9 @@ public class Fox : Entity
                 isAttackState = true;
                 
                 if (phase == 2)
-                    Attack(9);
+                    Attack(8);
                 else if (phase == 3)
-                    Attack(10);
+                    Attack(9);
 
                 time = 0;
             }
@@ -84,6 +84,9 @@ public class Fox : Entity
             RestartPhase().Forget();
             hahwoiDisapCount = 0;
         }
+        
+        // if(Input.GetKeyDown(KeyCode.Space))
+        //     Attack(9);
     }
 
     public override void OnDamage(float _damage)
@@ -146,42 +149,31 @@ public class Fox : Entity
 
         Vector3 upPosition = transform.position + Vector3.up * 2f;
 
-        Vector3[] startPos = new[] { upPosition + Vector3.left * 3f, upPosition, upPosition + Vector3.right * 3f };
+        Vector3[] startPos = new[] { upPosition + Vector3.left * 3f, upPosition+ Vector3.left *1f, upPosition + Vector3.right * 1f,
+            upPosition + Vector3.right * 3f };
 
         ChangeAnimation(EFoxAnimationType.Attack);
-
-        var randomInt = Random.Range(0, _attackType);
-
-        if (randomInt < 0)
-            randomInt = 0;
-        else if (randomInt > effects.throwObjects.Length - 1)
-            randomInt = effects.throwObjects.Length - 1;
-
+        
         for (int i = 0; i < startPos.Length; i++)
         {
-            GameObject attackObject = Instantiate(effects.throwObjects[Random.Range(0, randomInt)]);
+            GameObject attackObject = Instantiate(effects.throwObjects[Random.Range(0, _attackType)]);
             attackObject.transform.position = transform.position;
             attackObjects.Add(attackObject);
         }
 
         sequence = DOTween.Sequence();
         sequence
-            .Append(attackObjects[0].transform.DOMove(startPos[0], 0.25f))
-            .Append(attackObjects[1].transform.DOMove(startPos[1], 0.25f))
-            .Append(attackObjects[2].transform.DOMove(startPos[2], 0.25f))
+            .Append(attackObjects[0].transform.DOMove(startPos[0], 0.2f))
+            .Append(attackObjects[1].transform.DOMove(startPos[1], 0.2f))
+            .Append(attackObjects[2].transform.DOMove(startPos[2], 0.2f))
+            .Append(attackObjects[3].transform.DOMove(startPos[3], 0.2f))
             .AppendInterval(0.25f)
             .AppendCallback(() =>
             {
                 foreach (var item in attackObjects)
                 {
-                    if (item.TryGetComponent<FoxBullet>(out var foxBullet))
-                    {
+                    if (item.TryGetComponent<IMonsterBullet>(out var foxBullet))
                         foxBullet.Throw();
-                    }
-                    else
-                    {
-                        item.GetComponent<FoxSkullBullet>().Throw();
-                    }
                 }
                 Managers.Sound.PlaySFX("Fox_Throw");
             });
@@ -288,7 +280,7 @@ public class Fox : Entity
                 if(item == null)
                     continue;
                 
-                item.GetComponent<FoxBullet>().DestroyBullet();
+                item.GetComponent<IMonsterBullet>().DestroyBullet();
             }
             
             attackObjects.Clear();
@@ -358,7 +350,7 @@ public class Fox : Entity
                 if(item == null)
                     continue;
                 
-                item?.GetComponent<FoxBullet>().DestroyBullet();
+                item?.GetComponent<IMonsterBullet>().DestroyBullet();
             }
             attackObjects.Clear();
         }

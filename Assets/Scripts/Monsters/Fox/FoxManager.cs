@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Serialization;
 using Random = System.Random;
 
 public class FoxManager : MonoBehaviour
 {
-    [SerializeField] private StageSwitchingManager stageSwitchingManager;
+    [FormerlySerializedAs("stageSwitchingManager")] [SerializeField] private StageManager stageManager;
     [SerializeField] private SoulProduction soul;
     [SerializeField] private NextStageWall nextStageWall;
     [SerializeField] private Fox fox;
@@ -30,7 +31,7 @@ public class FoxManager : MonoBehaviour
     
     public async UniTaskVoid StageStart()
     {
-        stageSwitchingManager.DisableBehavior();
+        stageManager.DisableBehavior();
         await UniTask.Delay(TimeSpan.FromSeconds(2f));
         soul.gameObject.SetActive(true);
         soul.StartProduction();
@@ -40,7 +41,7 @@ public class FoxManager : MonoBehaviour
         Managers.Sound.SetBGMVolume(1f);
         Managers.Sound.PlayBGM("Fox_Stage");
         fox.UseTailPhase1();
-        stageSwitchingManager.EnableBehavior();
+        stageManager.EnableBehavior();
         // TODO: 여우 페이즈1 시작 들어가야 함
     }
 
@@ -55,7 +56,7 @@ public class FoxManager : MonoBehaviour
             {
                 item.GetComponent<Player>().PlayerInputDisable();
             }
-            stageSwitchingManager.ZoomIn(_target,3);
+            stageManager.ZoomIn(_target,3);
             productionEnd = true;
         }
         else
@@ -67,7 +68,7 @@ public class FoxManager : MonoBehaviour
     
     private async UniTaskVoid ZoomOutDelay()
     {
-        stageSwitchingManager.ZoomOut();
+        stageManager.ZoomOut();
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         var list = GameObject.FindGameObjectsWithTag("Player");
         foreach (var item in list)
@@ -79,18 +80,18 @@ public class FoxManager : MonoBehaviour
         clouds.transform.DOMoveY(-47, 2.5f);
         nextStageWall.GetComponent<NextStageWall>().isStage4Clear = true;
         Managers.Sound.StopBGM();
-        stageSwitchingManager.HealPlayers();
+        stageManager.HealPlayers();
     }
 
     public async UniTaskVoid ProductionSkip()
     {
         leftWall.SetActive(true);
-        stageSwitchingManager.DisableBehavior();
+        stageManager.DisableBehavior();
         wallTrigger.gameObject.SetActive(false);
         soul.ProductionSkip();
         fox.ChangeAnimation(EFoxAnimationType.Laugh);
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
-        stageSwitchingManager.EnableBehavior();
+        stageManager.EnableBehavior();
         fox.UseTailPhase1();
         Managers.Sound.StopBGM();
         Managers.Sound.SetBGMVolume(1f);
@@ -101,7 +102,7 @@ public class FoxManager : MonoBehaviour
     public async UniTaskVoid StageSkip()
     {
         leftWall.SetActive(true);
-        stageSwitchingManager.DisableBehavior();
+        stageManager.DisableBehavior();
         wallTrigger.gameObject.SetActive(false);
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
         fox.OnDead();

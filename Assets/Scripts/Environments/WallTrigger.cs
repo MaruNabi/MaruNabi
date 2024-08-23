@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class WallTrigger : MonoBehaviour
 {
     [SerializeField] GameObject wall;
-    [SerializeField] StageSwitchingManager switchingManager;
+    [FormerlySerializedAs("switchingManager")] [SerializeField] StageManager manager;
     [SerializeField] private int stageNumber;
     private Collider2D collider2D;
     private int count;
@@ -41,12 +42,12 @@ public class WallTrigger : MonoBehaviour
                     case 1:
                         wall.SetActive(true);
                         collider2D.enabled = false;
-                        switchingManager.StageStart(2);
+                        manager.StageStart(2);
                         break;
                     case 2:
                         wall.SetActive(true);
                         collider2D.enabled = false;
-                        switchingManager.StageStart(3);
+                        manager.StageStart(3);
                         break;
                     default:
                         break;

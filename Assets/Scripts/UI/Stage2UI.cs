@@ -18,11 +18,11 @@ public class Stage2UI : MonoBehaviour
     [SerializeField] private Image[] phaseBar;
     [SerializeField] private GameObject[] playerProgress;
 
-    //StageSwitchingManager stageSwitchingManager = new StageSwitchingManager();
+    //StageManager stageManager = new StageManager();
     public GameObject s_Manager;
     public GameObject s2_Manager;
     private ScholarManager scholarManager;
-    private StageSwitchingManager stageSwitchingManager;
+    private StageManager _stageManager;
 
     private int[,] playerProcess = new int[2, 2];
 
@@ -43,7 +43,7 @@ public class Stage2UI : MonoBehaviour
         gameOverUI.SetActive(false);
         progressBarUI.SetActive(false);
 
-        stageSwitchingManager = s_Manager.GetComponent<StageSwitchingManager>();
+        _stageManager = s_Manager.GetComponent<StageManager>();
         scholarManager = s2_Manager.GetComponent<ScholarManager>();
 
         mouseScholarData = Utils.GetDictValue(Managers.Data.monsterDict, "MOUSESCHOLAR_MONSTER");
@@ -122,7 +122,7 @@ public class Stage2UI : MonoBehaviour
 
     private void CurrentProgress(int _player)
     {
-        switch (stageSwitchingManager.StageNumber)
+        switch (_stageManager.StageNumber)
         {
             case 1:
                 currentEnemyHp = scholarManager.MouseHp;
@@ -151,11 +151,11 @@ public class Stage2UI : MonoBehaviour
 
     private void PlayerDeadSave(int _player)
     {
-        playerProcess[_player, 0] = stageSwitchingManager.StageNumber;
-        if (stageSwitchingManager.StageNumber == 1)
+        playerProcess[_player, 0] = _stageManager.StageNumber;
+        if (_stageManager.StageNumber == 1)
             playerProcess[_player, 1] = (int)scholarManager.MouseHp;
         else
-            playerProcess[_player, 1] = (int)enemyList[stageSwitchingManager.StageNumber - 1].GetComponent<Entity>().HP;
+            playerProcess[_player, 1] = (int)enemyList[_stageManager.StageNumber - 1].GetComponent<Entity>().HP;
     }
 
     private void DeadProgress(int _player)
