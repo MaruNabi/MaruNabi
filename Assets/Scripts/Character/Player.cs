@@ -613,7 +613,7 @@ public class Player : MonoBehaviour
             Debug.Log("IsNotDeath");
     }
 
-    protected void NabiTraitParticlePlay()
+    public void NabiTraitParticlePlay()
     {
         Instantiate(nabiTraitParticle, this.gameObject.transform);
     }

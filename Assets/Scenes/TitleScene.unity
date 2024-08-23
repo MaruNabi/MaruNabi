@@ -267,6 +267,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 30f01b7a6f511a941a7d079df07284b0, type: 3}
   - name: Tteok_Shot
     clip: {fileID: 8300000, guid: d7337be4fede77f46a8a954491fccce0, type: 3}
+  - name: Player_DamageBuff
+    clip: {fileID: 8300000, guid: 1738c839708c80f4bb723acadd99275d, type: 3}
   array_bgm:
   - name: Title
     clip: {fileID: 8300000, guid: 991b32eeed76f7147a3e4cc75a777b67, type: 3}
