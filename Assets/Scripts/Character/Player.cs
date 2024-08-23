@@ -610,7 +610,7 @@ public class Player : MonoBehaviour
             isPlayerDead = false;
         }
         else
-            Debug.Log("IsNotDeath");
+            HealLife();
     }
 
     public void NabiTraitParticlePlay()

@@ -9,8 +9,8 @@ using Sequence = DG.Tweening.Sequence;
 
 public class CloudPlatform : MonoBehaviour
 {
-    public float bounceAmount = 0.2f; // ³»·Á°¡´Â Á¤µµ
-    public float bounceSpeed = 5f; // ³»·Á°¡´Â ¼Óµµ
+    public float bounceAmount = 0.2f; // ë‚´ë ¤ê°€ëŠ” ì •ë„
+    public float bounceSpeed = 5f; // ë‚´ë ¤ê°€ëŠ” ì†ë„
 
     private Vector3 originalPosition;
     private bool isPlayerOnPlatform = false;
@@ -30,12 +30,12 @@ public class CloudPlatform : MonoBehaviour
     {
         if (isPlayerOnPlatform)
         {
-            // ÇÃ·§ÆûÀÌ ³»·Á°¡´Â ºÎºĞ
+            // í”Œë«í¼ì´ ë‚´ë ¤ê°€ëŠ” ë¶€ë¶„
             transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition - new Vector3(0, bounceAmount, 0), Time.deltaTime * bounceSpeed);
         }
         else
         {
-            // ÇÃ·§ÆûÀÌ ¿ø·¡ À§Ä¡·Î µ¹¾Æ¿À´Â ºÎºĞ
+            // í”Œë«í¼ì´ ì›ë˜ ìœ„ì¹˜ë¡œ ëŒì•„ì˜¤ëŠ” ë¶€ë¶„
             transform.localPosition = Vector3.Lerp(transform.localPosition, originalPosition, Time.deltaTime * bounceSpeed);
         }
     }
