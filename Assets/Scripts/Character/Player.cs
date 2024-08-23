@@ -104,6 +104,8 @@ public class Player : MonoBehaviour
     protected bool isSurfaceEffector;
     protected bool canChangeSkillSet;
 
+    [SerializeField] protected GameObject nabiTraitParticle;
+
     private bool isForcedInputChanged = false;
     private bool isInputChanged = false;
 
@@ -498,7 +500,7 @@ public class Player : MonoBehaviour
 
     protected virtual void OnPlayerSkillChange()
     {
-
+        
     }
 
     protected void DoubleClickDash(bool key) 
@@ -595,6 +597,25 @@ public class Player : MonoBehaviour
             cLife++;
             cLifeUI[cLife - 1].sprite = fullHeart;
         }
+    }
+
+    public void StageExitRevive()
+    {
+        if (isPlayerDead)
+        {
+            Vector2 anotherPlayerVec = FindObjectOfType<Player>().transform.position;
+            this.gameObject.SetActive(true);
+            StartCoroutine("Revive");
+            transform.position = anotherPlayerVec;
+            isPlayerDead = false;
+        }
+        else
+            Debug.Log("IsNotDeath");
+    }
+
+    public void NabiTraitParticlePlay()
+    {
+        Instantiate(nabiTraitParticle, this.gameObject.transform);
     }
 
     protected IEnumerator Ondamaged(Vector2 enemyPos, bool _isKnockBack = true)

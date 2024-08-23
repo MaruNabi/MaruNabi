@@ -137,6 +137,9 @@ public class PlayerMaru : Player
 
         SurfaceEffectorCheck();
 
+        if (Input.GetKeyDown(KeyCode.I))
+            StageExitRevive();
+
         if (InputManager.isNeedInit)
         {
             InputManager.isNeedInit = false;

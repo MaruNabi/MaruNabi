@@ -419,7 +419,7 @@ public class PlayerNabi : Player
 
                 ultimateGauge = 0.0f;
             }
-            if (ultimateGauge >= 1000.0f)
+            if (ultimateGauge >= 1000.0f && !isNabiTraitActivated)
             {
                 StartCoroutine("NabiTraitActive");
                 ultimateGauge -= 1000.0f;
@@ -463,6 +463,9 @@ public class PlayerNabi : Player
 
     private IEnumerator NabiTraitActive()
     {
+        NabiTraitParticlePlay();
+        Managers.Sound.PlaySFX("Player_DamageBuff");
+        playerMaru.NabiTraitParticlePlay();
         isNabiTraitActivated = true;
         NabiTraitScore += 1;
         yield return new WaitForSeconds(1f);
