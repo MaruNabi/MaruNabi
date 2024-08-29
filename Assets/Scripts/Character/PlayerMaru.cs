@@ -446,11 +446,11 @@ public class PlayerMaru : Player
 
                 ultimateGauge = 0.0f;
             }
-            else if (ultimateGauge >= 1000.0f)
+            else if (ultimateGauge >= 700.0f)
             {
                 playerAnimator.SetBool("isDefence", true);
                 StartCoroutine(PlayerShield());
-                ultimateGauge -= 1000.0f;
+                ultimateGauge -= 700.0f;
             }
             else
                 return;

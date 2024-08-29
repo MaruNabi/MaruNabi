@@ -86,8 +86,8 @@ public class Sword : MonoBehaviour
                 currentHit = ray.collider.name;
                 PlayerMaru.ultimateGauge += attackPower;
 
-                if (PlayerMaru.ultimateGauge >= 5000.0f)
-                    PlayerMaru.ultimateGauge = 5000.0f;
+                if (PlayerMaru.ultimateGauge >= 3500.0f)
+                    PlayerMaru.ultimateGauge = 3500.0f;
 
                 totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);
@@ -99,8 +99,8 @@ public class Sword : MonoBehaviour
                 currentHit = ray.collider.name;
                 PlayerMaru.ultimateGauge += attackPower;
 
-                if (PlayerMaru.ultimateGauge >= 5000.0f)
-                    PlayerMaru.ultimateGauge = 5000.0f;
+                if (PlayerMaru.ultimateGauge >= 3500.0f)
+                    PlayerMaru.ultimateGauge = 3500.0f;
 
                 totalDamage += attackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(attackPower);

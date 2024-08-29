@@ -419,10 +419,10 @@ public class PlayerNabi : Player
 
                 ultimateGauge = 0.0f;
             }
-            if (ultimateGauge >= 1000.0f && !isNabiTraitActivated)
+            if (ultimateGauge >= 700.0f && !isNabiTraitActivated)
             {
                 StartCoroutine("NabiTraitActive");
-                ultimateGauge -= 1000.0f;
+                ultimateGauge -= 700.0f;
             }
             else
                 return;

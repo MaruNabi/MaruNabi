@@ -10138,6 +10138,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.18622053
       objectReference: {fileID: 0}
+    - target: {fileID: 6623215530843284676, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6623215531249211568, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: player
       value: 
@@ -10154,6 +10158,14 @@ PrefabInstance:
       propertyPath: reviveBarCanvas
       value: 
       objectReference: {fileID: 1970668619}
+    - target: {fileID: 6623215531419632902, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6623215531621231553, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6623215531993341440, guid: 4d744c79636711e42892b7218367a5b2, type: 3}
       propertyPath: m_Name
       value: Maru_Test

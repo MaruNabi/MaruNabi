@@ -135,9 +135,9 @@ public class Bullet : MonoBehaviour
             {
                 PlayerNabi.ultimateGauge += attackPower;
                 
-                if (PlayerNabi.ultimateGauge >= 5000.0f)
+                if (PlayerNabi.ultimateGauge >= 3500.0f)
                 {
-                    PlayerNabi.ultimateGauge = 5000.0f;
+                    PlayerNabi.ultimateGauge = 3500.0f;
                 }
 
                 totalDamage += attackPower;

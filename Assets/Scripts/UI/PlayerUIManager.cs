@@ -15,7 +15,7 @@ public class PlayerUIManager : MonoBehaviour
 
     private float currentUltimateGuageNabi = 0.0f;
     private float currentUltimateGuageMaru = 0.0f;
-    private float maxUltimateGuage = 5000f;
+    private float maxUltimateGuage = 3500f;
 
     void Start()
     {

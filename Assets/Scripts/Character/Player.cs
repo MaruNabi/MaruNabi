@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] protected Sprite fullHeart, emptyHeart;
     [SerializeField] [Range(0, 10)] protected float cSpeed = 6.0f; //Character Speed
     protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
-    protected const float maxUltimateGauge = 5000.0f;
+    protected const float maxUltimateGauge = 3500.0f;
     public static bool isReviveSuccess = false;
     private bool canHit = true;
     private bool isTimerEnd = false;
@@ -592,10 +592,13 @@ public class Player : MonoBehaviour
     
     public void HealLife()
     {
-        if (cLife < MAX_LIFE)
+        for (int i = 0; i < 2; i++) //최대치를 넘지 않는 한에서 2 회복
         {
-            cLife++;
-            cLifeUI[cLife - 1].sprite = fullHeart;
+            if (cLife < MAX_LIFE)
+            {
+                cLife++;
+                cLifeUI[cLife - 1].sprite = fullHeart;
+            }
         }
     }
 

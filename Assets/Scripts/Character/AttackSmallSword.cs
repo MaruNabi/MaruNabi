@@ -132,8 +132,8 @@ public class AttackSmallSword : Sword
                 DistancePerDamage();
                 PlayerMaru.ultimateGauge += finalAttackPower;
 
-                if (PlayerMaru.ultimateGauge >= 5000.0f)
-                    PlayerMaru.ultimateGauge = 5000.0f;
+                if (PlayerMaru.ultimateGauge >= 3500.0f)
+                    PlayerMaru.ultimateGauge = 3500.0f;
 
                 totalDamage += finalAttackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(finalAttackPower);
@@ -145,8 +145,8 @@ public class AttackSmallSword : Sword
                 DistancePerDamage();
                 PlayerMaru.ultimateGauge += finalAttackPower;
 
-                if (PlayerMaru.ultimateGauge >= 5000.0f)
-                    PlayerMaru.ultimateGauge = 5000.0f;
+                if (PlayerMaru.ultimateGauge >= 3500.0f)
+                    PlayerMaru.ultimateGauge = 3500.0f;
 
                 totalDamage += finalAttackPower;
                 ray.collider.GetComponent<Entity>().OnDamage(finalAttackPower);
