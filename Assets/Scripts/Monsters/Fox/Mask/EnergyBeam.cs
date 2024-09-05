@@ -22,9 +22,8 @@ public class EnergyBeam : MonoBehaviour
                     return;
                 
                 if (isJumpingBeam)
-                {
-                    if (player.IsJumping)
-                        player.PlayerHitSpecial(transform.position);
+                { 
+                    player.PlayerHitSpecial(transform.position);
                 }
                 else
                 {

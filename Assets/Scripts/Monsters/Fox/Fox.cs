@@ -37,7 +37,6 @@ public class Fox : Entity
     private int hahwoiDisapCount;
     private int phase;
     private float time;
-    private bool canAttack;
     private bool isAttackState;
 
     protected override void Init()
@@ -56,23 +55,6 @@ public class Fox : Entity
 
     private void Update()
     {
-        if (canAttack)
-        {
-            time += Time.deltaTime;
-            isAttackState = false;
-            if (time >= 4f)
-            {
-                isAttackState = true;
-                
-                if (phase == 2)
-                    Attack(8);
-                else if (phase == 3)
-                    Attack(9);
-
-                time = 0;
-            }
-        }
-
         if (hahwoiDeathCount >= 2)
         {
             IsPhaseChange();
@@ -141,6 +123,21 @@ public class Fox : Entity
     {
         tag = "Untagged";
         gameObject.layer = 0;
+    }
+
+    private IEnumerator AttackCycle()
+    {
+        isAttackState = true;
+        while (isAttackState)
+        {
+            yield return new WaitForSeconds(4f);
+            if (phase == 2)
+                Attack(8);
+            else if (phase == 3)
+                Attack(9);
+        }
+
+        yield return null;
     }
 
     private void Attack(int _attackType)
@@ -250,7 +247,7 @@ public class Fox : Entity
             SpawnHahwoiMask().Forget();
         }
 
-        canAttack = true;
+        StartCoroutine(AttackCycle());
     }
 
     public async UniTaskVoid UseTailPhase3()
@@ -265,13 +262,13 @@ public class Fox : Entity
         coreLight.SetActive(false);
         
         SpawnOwkwangMask().Forget();
-        canAttack = true;
+        StartCoroutine(AttackCycle());
     }
 
     public async void IsPhaseChange()
     {
-        await UniTask.WaitUntil(()=> isAttackState == false);
-        canAttack = false;
+        StopAllCoroutines();
+        isAttackState = false;
 
         if(attackObjects.Count > 0)
         {
@@ -334,14 +331,16 @@ public class Fox : Entity
         tag = "Enemy";
         gameObject.layer = 7;
         HP = 1500;
-        canAttack = false;
+        StopAllCoroutines();
+
+        isAttackState = false;
         // 하얀 테두리
     }
 
     public async UniTaskVoid RestartPhase()
     {
-        await UniTask.WaitUntil( ()=> isAttackState == false);
-        canAttack = false;
+        StopAllCoroutines();
+        isAttackState = false;
         
         if(attackObjects.Count > 0)
         {

@@ -22,7 +22,7 @@ public class Tiger : Entity
     [SerializeField] private GameObject magnet;
     [SerializeField] private GameObject underWall;
     [SerializeField] private GameObject[] howlingVFXs;
-    [FormerlySerializedAs("stageSwitchingManager")] [SerializeField] private StageManager stageManager;
+    [SerializeField] private StageManager stageManager;
     [SerializeField] private CloudsController cloudsController;
     
     private Animator headAnimator;
@@ -307,9 +307,6 @@ public class Tiger : Entity
             .Join(transform.DOMove(bitePos, 2f))
             .AppendCallback(() =>
             {
-                // boxCollider2D.enabled = true;
-                // boxCollider2D.size = new Vector2(startColliderSize.x * 1.4f, startColliderSize.y * 1.5f);
-                // boxCollider2D.offset = new Vector2(startColliderPos.x, startColliderPos.y - 2.0f);
                 headAnimator.SetTrigger("Attack");
                 Managers.Sound.PlaySFX("Tiger_Bite");
                 cloudsController.DisapCloud((int)gachar);
@@ -320,8 +317,6 @@ public class Tiger : Entity
             .Join(transform.DOScale(0.8f, 0.5f))
             .OnComplete(() =>
             {
-                // boxCollider2D.size = startColliderSize;
-                // boxCollider2D.offset = startColliderPos;
                 CanHit(true);
             });
 
@@ -356,7 +351,7 @@ public class Tiger : Entity
                 headAnimator.SetTrigger("Up");
                 boxCollider2D.size = startColliderSize;
                 boxCollider2D.offset = startColliderPos;
-                boxCollider2D.enabled = false;
+                //boxCollider2D.enabled = false;
             })
             .AppendInterval(1f)
             .OnComplete(() =>

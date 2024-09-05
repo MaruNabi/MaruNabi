@@ -1190,7 +1190,7 @@ GameObject:
   - component: {fileID: 88321120}
   m_Layer: 7
   m_Name: Fox
-  m_TagString: Enemy
+  m_TagString: NoBumpEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5845,7 +5845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skipToStage2: 0
-  skipToStage3: 0
+  skipToStage3: 1
   skipToStage4: 0
   stage2Camera: {fileID: 1706814427}
   stage3Camera: {fileID: 75040047}
@@ -23398,7 +23398,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1548292386}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -37.41171, y: 14.158999, z: -10}
+  m_LocalPosition: {x: -36.448498, y: 14.19718, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

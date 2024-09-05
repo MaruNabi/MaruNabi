@@ -8,10 +8,11 @@ public class Tteok : Entity, IDelete
 {
     [SerializeField] GameObject redBean;
 
-    private Tiger tiger;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Sequence sequence;
+    private Sequence hitSequence;
+    private Sequence beanSequence;
 
     private float time;
     private float attackTime;
@@ -47,7 +48,6 @@ public class Tteok : Entity, IDelete
     {
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
-        tiger = _tiger;
         spriteRenderer.flipX = _set;
                
         Move();
@@ -67,7 +67,7 @@ public class Tteok : Entity, IDelete
 
         var bean = Instantiate(redBean, transform.position, Quaternion.identity);
         beans.Add(bean);
-        var beanSequence = DOTween.Sequence();
+        beanSequence = DOTween.Sequence();
         beanSequence
             .Append(bean.transform.DOMoveX(bean.transform.position.x + x, 2f).SetEase(Ease.Linear))
             .OnComplete(()=> Destroy(bean));
@@ -75,7 +75,7 @@ public class Tteok : Entity, IDelete
 
     private void BeHitEffect()
     {
-        var hitSequence = DOTween.Sequence();
+        hitSequence = DOTween.Sequence();
         hitSequence
             .Append(spriteRenderer.DOFade(0.5f, 0.3f))
             .Append(spriteRenderer.DOFade(1f, 0.3f));
@@ -111,16 +111,19 @@ public class Tteok : Entity, IDelete
     {
         try
         {
-            beans.ForEach(x=> Destroy(x.gameObject));
-            DOTween.Kill(this);
-            sequence = DOTween.Sequence();
-            sequence
-                .Append(spriteRenderer.DOFade(0, 0.5f))
-                .OnComplete(() => Destroy(gameObject));
+            spriteRenderer.DOFade(0, 0.5f).onComplete = () => gameObject.SetActive(false);
         }
         catch (Exception e)
         {
             return;
         }
+    }
+
+    public void OnDisable()
+    { 
+        sequence.Kill();
+        hitSequence.Kill();
+        if (DOTween.Kill(spriteRenderer) >= 0);
+            Destroy(gameObject);
     }
 }

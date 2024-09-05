@@ -118,7 +118,6 @@ public class Mouse : Entity
     public float Rush()
     {
         StopSequence();
-
         sequence = DOTween.Sequence();
         sequence
             .OnStart(() =>
@@ -142,7 +141,6 @@ public class Mouse : Entity
     public float Rush2()
     {
         StopSequence();
-
         sequence = DOTween.Sequence();
         sequence
             .OnStart(() =>
@@ -153,12 +151,13 @@ public class Mouse : Entity
             .AppendInterval(0.25f)
             .AppendCallback(() => BackGroundControl(false))
             .AppendInterval(3.5f)
-            .OnComplete(() =>
+            .AppendCallback(() =>
             {
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.NoRush);
                 mouseStateMachine.ChangeAnimation(EMouseAnimationType.Run);
-                BackGroundControl(true);
-            });
+            })
+            .AppendInterval(0.75f)
+            .OnComplete(() => BackGroundControl(true));
 
         return sequence.Duration();
     }
@@ -195,7 +194,7 @@ public class Mouse : Entity
         }
         else
         {
-            transform.DOMove(startPos, 1f).SetEase(Ease.InCubic);
+            transform.DOMove(startPos, 1.2f).SetEase(Ease.InCubic);
         }
 
         AllowAttack(!rushEvent);

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4519330002865685799}
   - component: {fileID: 7912227768521961263}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Mouse2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7050525683569151437}
   - component: {fileID: 1288785853669968251}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Mouse2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 587421790238839070}
   - component: {fileID: 6564196284765054004}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Mouse3 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7227132717423260164}
   - component: {fileID: 8102331727382483657}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Mouse3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6272102422976220619}
   - component: {fileID: 1410308541479126358}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Mouse3 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -430,7 +430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2912035313554659909}
   - component: {fileID: 8497110901623359003}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Mouse1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +514,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4673670745701845138}
   - component: {fileID: 423993373283559686}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Mouse3 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -598,7 +598,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6592303091078420951}
   - component: {fileID: 7802388553504344912}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Mouse1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -682,7 +682,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3235688189423228591}
   - component: {fileID: 2137824724507574711}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Mouse2 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -766,7 +766,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7562744706801750891}
   - component: {fileID: 4505683088876601456}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Mouse1 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -851,7 +851,7 @@ GameObject:
   - component: {fileID: 6524709245978705334}
   - component: {fileID: 4797035937751962348}
   - component: {fileID: 207851668286137188}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Rats
   m_TagString: NoDeleteEnemyBullet
   m_Icon: {fileID: 0}
@@ -932,7 +932,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3807464699670211300}
   - component: {fileID: 8221267129240640187}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Mouse3 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
