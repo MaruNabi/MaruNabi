@@ -592,6 +592,8 @@ public class Player : MonoBehaviour
     
     public void HealLife()
     {
+        if (playerAnimator.GetBool("isDead"))
+            isReviveSuccess = true;
         for (int i = 0; i < 2; i++) //최대치를 넘지 않는 한에서 2 회복
         {
             if (cLife < MAX_LIFE)
