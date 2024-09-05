@@ -1188,9 +1188,9 @@ GameObject:
   - component: {fileID: 88321119}
   - component: {fileID: 88321121}
   - component: {fileID: 88321120}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Fox
-  m_TagString: NoBumpEnemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

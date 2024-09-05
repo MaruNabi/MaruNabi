@@ -100,7 +100,7 @@ public class Fox : Entity
         }
         else
         {
-            tag = "NoDeleteEnemyBullet";
+            tag = "Untagged";
             gameObject.layer = 0;
         }
     }
@@ -328,7 +328,7 @@ public class Fox : Entity
         Managers.Sound.PlaySFX("Boss_Phase");
         ChangeAnimation(EFoxAnimationType.Shake);
         await UniTask.Delay(TimeSpan.FromSeconds(1f));
-        tag = "Enemy";
+        tag = "NoBumpEnemy";
         gameObject.layer = 7;
         HP = 1500;
         StopAllCoroutines();
@@ -442,7 +442,7 @@ public class Fox : Entity
     
     private async UniTaskVoid OnDeadEffect()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(3f));
+        await UniTask.Delay(TimeSpan.FromSeconds(2f));
         soulVFX.SetActive(true);
         soulVFX.GetComponent<SoulProduction>().ClearProduction();
         Stage3Clear?.Invoke(gameObject);
