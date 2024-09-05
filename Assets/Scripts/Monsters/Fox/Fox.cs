@@ -59,12 +59,17 @@ public class Fox : Entity
         {
             IsPhaseChange();
             hahwoiDeathCount = 0;
-        }
-
-        if (hahwoiDisapCount >= 2)
+        } 
+        else if (hahwoiDisapCount >= 2)
         {
             RestartPhase().Forget();
             hahwoiDisapCount = 0;
+        }
+        else if (hahwoiDisapCount == 1 && hahwoiDeathCount == 1)
+        {
+            RestartPhase().Forget();
+            hahwoiDisapCount = 0;
+            hahwoiDeathCount = 0;
         }
         
         // if(Input.GetKeyDown(KeyCode.Space))
