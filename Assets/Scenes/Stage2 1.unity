@@ -5846,7 +5846,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skipToStage2: 0
   skipToStage3: 0
-  skipToStage4: 0
+  skipToStage4: 1
   stage2Camera: {fileID: 1706814427}
   stage3Camera: {fileID: 75040047}
   stage4Camera: {fileID: 1421947389}
@@ -12235,6 +12235,13 @@ MonoBehaviour:
   nabiStamp: {fileID: 1050419305}
   button: {fileID: 447367682}
   buttonText: {fileID: 431846084}
+  stampSprite:
+  - {fileID: 21300000, guid: 59b8af4202eda3d43b9c27f31f38685b, type: 3}
+  - {fileID: 21300000, guid: 90bd91e774381c541b3fcd9de3bbe46a, type: 3}
+  - {fileID: 21300000, guid: 2fb76b582a80d2343b70731bba037c8a, type: 3}
+  - {fileID: 21300000, guid: 4ab9de41d79bf5345a36d13e68578b1a, type: 3}
+  - {fileID: 21300000, guid: 86060167afbfad74e8a35c9778115e2c, type: 3}
+  - {fileID: 21300000, guid: 05e0c2fc73e031849bad90e926c65de4, type: 3}
 --- !u!1 &824418881
 GameObject:
   m_ObjectHideFlags: 0

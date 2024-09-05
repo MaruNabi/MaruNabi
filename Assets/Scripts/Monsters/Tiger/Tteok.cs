@@ -19,6 +19,7 @@ public class Tteok : Entity, IDelete
     private bool isStart;
     private bool isRight;
     private List<GameObject> beans;
+
     protected override void Init()
     {
         HP = Utils.GetDictValue(Managers.Data.monsterDict, "TTEOK_MONSTER").LIFE;
@@ -29,7 +30,7 @@ public class Tteok : Entity, IDelete
         isStart = true;
         beans = new List<GameObject>();
     }
-    
+
     private void Update()
     {
         if (isStart)
@@ -43,49 +44,61 @@ public class Tteok : Entity, IDelete
             }
         }
     }
-    
+
     public void SetVariables(Tiger _tiger, bool _set)
     {
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.flipX = _set;
-               
+
         Move();
-        // ¾Æ·¡
     }
 
     private void BeanAttack()
     {
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
-        
+        if (spriteRenderer == null) return;
+
         isRight = spriteRenderer.flipX;
         float x = isRight ? 32f : -32f;
-        
+
         animator.SetTrigger("Attack");
         Managers.Sound.PlaySFX("Tteok_Shot");
 
         var bean = Instantiate(redBean, transform.position, Quaternion.identity);
         beans.Add(bean);
+
+        if (beanSequence != null && beanSequence.IsActive())
+            beanSequence.Kill();
         beanSequence = DOTween.Sequence();
         beanSequence
             .Append(bean.transform.DOMoveX(bean.transform.position.x + x, 2f).SetEase(Ease.Linear))
-            .OnComplete(()=> Destroy(bean));
+            .OnComplete(() => Destroy(bean));
     }
 
     private void BeHitEffect()
     {
+        if (hitSequence != null && hitSequence.IsActive())
+            hitSequence.Kill();
+
+        if (spriteRenderer == null)
+            return;
+
+        DOTween.Kill(spriteRenderer);
+
         hitSequence = DOTween.Sequence();
         hitSequence
             .Append(spriteRenderer.DOFade(0.5f, 0.3f))
             .Append(spriteRenderer.DOFade(1f, 0.3f));
     }
-    
+
+
     public override void OnDamage(float _damage)
     {
         BeHitEffect();
         HP -= _damage;
-    
+
         if (HP <= 0)
         {
             HP = 0;
@@ -106,24 +119,26 @@ public class Tteok : Entity, IDelete
     {
         OnDead();
     }
-    
+
     public override void OnDead()
     {
-        try
+        if (spriteRenderer != null)
         {
-            spriteRenderer.DOFade(0, 0.5f).onComplete = () => gameObject.SetActive(false);
+            DOTween.Kill(spriteRenderer);
+            
+            spriteRenderer.DOFade(0, 0.5f).onComplete = () =>
+            {
+                if (gameObject != null)
+                {
+                    DOTween.Kill(gameObject);
+                    Destroy(gameObject);
+                }
+            };
         }
-        catch (Exception e)
+        else
         {
-            return;
-        }
-    }
-
-    public void OnDisable()
-    { 
-        sequence.Kill();
-        hitSequence.Kill();
-        if (DOTween.Kill(spriteRenderer) >= 0);
+            DOTween.Kill(gameObject);
             Destroy(gameObject);
+        }
     }
 }

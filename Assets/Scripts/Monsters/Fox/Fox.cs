@@ -442,7 +442,7 @@ public class Fox : Entity
     
     private async UniTaskVoid OnDeadEffect()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(2f));
+        await UniTask.Delay(TimeSpan.FromSeconds(3f));
         soulVFX.SetActive(true);
         soulVFX.GetComponent<SoulProduction>().ClearProduction();
         Stage3Clear?.Invoke(gameObject);

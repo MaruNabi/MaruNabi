@@ -66,6 +66,8 @@ public class StageManager : MonoBehaviour
 
     private void Start()
     {
+        // 게임 초기화 시에 한 번 호출
+        DOTween.Init(true, true, LogBehaviour.ErrorsOnly);
         players = GameObject.FindGameObjectsWithTag("Player").Select(x => x.GetComponent<Player>()).ToList();
         StageNumber = 1;
 

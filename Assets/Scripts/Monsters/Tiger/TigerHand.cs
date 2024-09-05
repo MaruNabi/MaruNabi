@@ -121,7 +121,7 @@ public class TigerHand : MonoBehaviour
 
     public void DeleteHands()
     {
-        Debug.Log("Delete Hands" + currentHands.Count);
+       // Debug.Log("Delete Hands" + currentHands.Count);
 
         foreach (var hand in currentHands)
         {

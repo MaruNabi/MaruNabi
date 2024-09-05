@@ -46,7 +46,7 @@ public class GameClearUIController : MonoBehaviour
     [SerializeField] private Image button;
     [SerializeField] private TMP_Text buttonText;
 
-    private Sprite[] stampSprite = new Sprite[5];
+    [SerializeField] private Sprite[] stampSprite = new Sprite[6];
 
     //StageClearTimer Timer = new StageClearTimer();
     //SkillShield maruShield = new SkillShield();
@@ -59,9 +59,6 @@ public class GameClearUIController : MonoBehaviour
             selectKey = KeyCode.Joystick1Button0;
         else
             selectKey = KeyCode.Z;
-
-        for (int i = 0; i < stampSprite.Length; i++)
-            stampSprite[i] = Resources.Load<Sprite>("UI/ClearUI/ClearUIFin/UI_StageClear_Stamp_" + i);
 
         Timer.IsEnd = true;
         clearTime = (int)Timer.CurrentTime;

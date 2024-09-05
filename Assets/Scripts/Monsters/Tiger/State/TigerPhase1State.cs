@@ -16,7 +16,7 @@ public class TigerPhase1State : TigerState
         
         cts = new CancellationTokenSource();
         
-        Debug.Log("Phase1");
+        //Debug.Log("Phase1");
         
         IdleWait(cts.Token).Forget();
     }
