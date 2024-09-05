@@ -122,23 +122,27 @@ public class Tteok : Entity, IDelete
 
     public override void OnDead()
     {
-        if (spriteRenderer != null)
+        try
         {
-            DOTween.Kill(spriteRenderer);
-            
-            spriteRenderer.DOFade(0, 0.5f).onComplete = () =>
+            if (spriteRenderer != null)
             {
-                if (gameObject != null)
+                // spriteRenderer와 관련된 모든 트윈 중단
+                DOTween.Kill(spriteRenderer);
+                spriteRenderer.DOFade(0, 0.5f).onComplete = () =>
                 {
-                    DOTween.Kill(gameObject);
-                    Destroy(gameObject);
-                }
-            };
+                    if (gameObject != null && spriteRenderer != null) // 객체가 파괴되었는지 확인
+                    {
+                        Destroy(gameObject);
+                    }
+                };
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
+        catch
         {
-            DOTween.Kill(gameObject);
-            Destroy(gameObject);
         }
     }
 }

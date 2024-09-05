@@ -373,11 +373,8 @@ public class Tiger : Entity
         transform.localScale = Vector3.one;
         transform.position = startPos;
 
-        riceCakes.ForEach(riceCake =>
-        {
-            DOTween.Kill(riceCake);
-            riceCake.Delete();
-        });
+        riceCakes.ForEach(riceCake => riceCake?.Delete());
+        riceCakes.Clear();
 
         sequence = DOTween.Sequence();
         sequence.OnStart(() =>
@@ -423,7 +420,8 @@ public class Tiger : Entity
         
         leftHand.DeleteHands();
         rightHand.DeleteHands();
-        riceCakes.ForEach(riceCake => riceCake.Delete());
+        riceCakes.ForEach(riceCake => riceCake?.Delete());
+        riceCakes.Clear();
         
         SmokeEffect(20).Forget();
         Managers.Sound.PlaySFX("Boss_Death");
