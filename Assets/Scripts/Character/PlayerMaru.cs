@@ -39,7 +39,6 @@ public class PlayerMaru : Player
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
-        //playerCollider = GetComponent<BoxCollider2D>();
         playerCollider = GetComponent<CapsuleCollider2D>();
 
         playerShield.SetActive(false);
@@ -253,7 +252,6 @@ public class PlayerMaru : Player
     {
         playerShield.SetActive(true);
 
-        //PlayerStateTransition(false);
         //Shield on
         yield return new WaitForSeconds(0.25f);
         //Shield Idle
@@ -261,7 +259,6 @@ public class PlayerMaru : Player
         //Shield Off
         playerAnimator.SetBool("isDefence", false);
         yield return new WaitForSeconds(0.25f);
-        //PlayerStateTransition(true);
         playerShield.SetActive(false);
     }
 
@@ -316,9 +313,6 @@ public class PlayerMaru : Player
 
                 PlayerMovement();
             }
-
-            //if (!(Input.GetKey(moveLeftKey)) && !(Input.GetKey(moveRightKey)))
-            //moveHorizontal = 0.0f;
 
             if (Input.GetKey(moveRightKey))
             {
@@ -381,32 +375,13 @@ public class PlayerMaru : Player
         {
             StartCoroutine("PlayerDash");
         }
-        /*if (!isPad)
-        {
-            if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
-            {
-                DoubleClickDash(true);
-            }
-
-            if (Input.GetKeyDown(moveRightKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
-            {
-                DoubleClickDash(false);
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(dashKey) && !isSitting && !isLock && isDashCoolEnd)
-            {
-                StartCoroutine("PlayerDash");
-            }
-        }*/
     }
 
     protected override void OnPlayerAttack()
     {
         base.OnPlayerAttack();
 
-        if (Input.GetKey(normalAtkKey)) //canPlayerState[4]
+        if (Input.GetKey(normalAtkKey))
         {
             playerAnimator.SetBool("isAtk", true);
             if (!attacksNow)
@@ -427,7 +402,7 @@ public class PlayerMaru : Player
             playerAnimator.SetBool("isAtk", false);
         }
 
-        if (Input.GetKeyDown(specialAtkKey)) //canPlayerState[4]
+        if (Input.GetKeyDown(specialAtkKey))
         {
             if (ultimateGauge == maxUltimateGauge)
             {
@@ -495,13 +470,13 @@ public class PlayerMaru : Player
         {
             target1 = transform.position - new Vector3(5, 0, 0);
             target2 = transform.position + new Vector3(10, 0, 0);
-            target3 = transform.position; //- new Vector3(5, 0, 0);
+            target3 = transform.position;
         }
         else
         {
             target1 = transform.position + new Vector3(5, 0, 0);
             target2 = transform.position - new Vector3(10, 0, 0);
-            target3 = transform.position; //+ new Vector3(5, 0, 0);
+            target3 = transform.position;
         }
 
         PlayerStateTransition(false, 0);

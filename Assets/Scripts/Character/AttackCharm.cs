@@ -8,15 +8,18 @@ public class AttackCharm : Bullet
 
     private List<GameObject> enemyList = new List<GameObject>();
     private Transform enemy;
-    float turnSpeed = 5.0f;
-    Vector3 bulletDirection;
+    private float turnSpeed = 5.0f;
+    private Vector3 bulletDirection;
+    private Vector3 currentDirection;
 
     private bool isInitOnce = true;
 
     private float shortDis;
-    private float bulletAngle;
     private float currentZ;
     private float newZ;
+    private float dot;
+    private float angle;
+    private float cross;
 
     void OnEnable()
     {
@@ -75,7 +78,6 @@ public class AttackCharm : Bullet
     {
         isInitOnce = true;
         enemy = null;
-        //attackCharmAnimator.StopPlayback();
     }
 
     protected override void AttackInstantiate()
@@ -85,12 +87,19 @@ public class AttackCharm : Bullet
         if (enemy != null)
         {
             bulletDirection = (enemy.position - transform.position).normalized;
+            currentDirection = transform.right.normalized;
+
+            dot = Vector3.Dot(currentDirection, bulletDirection);
+            angle = Mathf.Acos(dot) * Mathf.Rad2Deg;
+
+            cross = currentDirection.x * bulletDirection.y - currentDirection.y * bulletDirection.x;
+            if (cross < 0)
+                angle = -angle;
 
             bulletRigidbody.velocity = transform.right * speed;
 
-            bulletAngle = Mathf.Atan2(bulletDirection.y, bulletDirection.x) * Mathf.Rad2Deg;
             currentZ = transform.rotation.eulerAngles.z;
-            newZ = Mathf.LerpAngle(currentZ, bulletAngle, turnSpeed * Time.deltaTime);
+            newZ = Mathf.LerpAngle(currentZ, currentZ + angle, turnSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Euler(0, 0, newZ);
         }
 

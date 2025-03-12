@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] protected Image[] cLifeUI;
     [SerializeField] protected Sprite fullHeart, emptyHeart;
     [SerializeField] [Range(0, 10)] protected float cSpeed = 6.0f; //Character Speed
-    protected bool[] canPlayerState = new bool[6]; //move, dash, sit, jump, atk, hit = 사용 끝나면 삭제
+    protected bool[] canPlayerState = new bool[6]; //
     protected const float maxUltimateGauge = 3500.0f;
     public static bool isReviveSuccess = false;
     private bool canHit = true;
@@ -69,11 +69,8 @@ public class Player : MonoBehaviour
     protected Rigidbody2D rigidBody;
     protected SpriteRenderer spriteRenderer;
     protected Animator playerAnimator;
-    //protected BoxCollider2D playerCollider;
     protected CapsuleCollider2D playerCollider;
-    //[SerializeField] protected BoxCollider2D playerStandCollider;
     [SerializeField] protected CapsuleCollider2D playerStandCollider;
-    //[SerializeField] protected BoxCollider2D playerSideFrictionCollider;
     [SerializeField] protected CapsuleCollider2D playerSideFrictionCollider;
 
     [SerializeField] protected Transform atkPosition;
@@ -116,7 +113,7 @@ public class Player : MonoBehaviour
         set => isTargetGround = value;
     }
 
-    public void PlayerStateTransition(bool _set, int _index = 4) //사용 끝나면 삭제
+    public void PlayerStateTransition(bool _set, int _index = 4) //
     {
         for (int i = _index; i < canPlayerState.Length; i++)
         {
@@ -129,12 +126,11 @@ public class Player : MonoBehaviour
         if (isInvincibleTime)
             return;
 
-        if (!canHit) //!canPlayerState[5]
+        if (!canHit)
             return;
 
         Managers.Sound.PlaySFX("Hit");
         isHit = true;
-        //canPlayerState[0] = false;
         PlayerInputControl(false, OnPlayerMove);
 
         if (cLife > 1)
@@ -156,7 +152,6 @@ public class Player : MonoBehaviour
 
         Managers.Sound.PlaySFX("Hit");
         isHit = true;
-        //canPlayerState[0] = false;
         PlayerInputControl(false, OnPlayerMove);
 
         if (cLife > 1)
@@ -273,7 +268,6 @@ public class Player : MonoBehaviour
                 isGround = true;
                 if (isLandingEffectOnce)
                 {
-                    //canPlayerState[3] = true;
                     isLandingEffectOnce = false;
                     isJumpingEnd = true;
                     isJumping = false;
@@ -285,8 +279,7 @@ public class Player : MonoBehaviour
             }
             else if (groundRay.collider.tag == "Ground" && currentGroundName != groundRay.collider.gameObject.name)
             {
-                isGround = true; //false
-                //cJumpCount = 0;
+                isGround = true;
                 playerStandCollider.isTrigger = false;
                 playerSideFrictionCollider.isTrigger = false;
                 canFallDown = groundRay.collider.gameObject.GetComponent<GroundObject>().canFallDown;
@@ -311,7 +304,6 @@ public class Player : MonoBehaviour
                 isJumping = false;
             else
                 isJumping = true;
-            //canPlayerState[3] = false;
         }
     }
 
@@ -329,43 +321,6 @@ public class Player : MonoBehaviour
     protected virtual void OnPlayerMove()
     {
         moveHorizontal = 0.0f;
-
-        /*if (Input.GetKey(moveLeftKey))
-        {
-            if (isSitting || isLock)
-            {
-                moveHorizontal = 0.0f;
-            }
-            else
-            {
-                moveHorizontal = -1.0f;
-            }
-
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            atkPosition.rotation = Quaternion.Euler(0, 0, 0);
-
-            PlayerMovement();
-        }
-
-        //if (!(Input.GetKey(moveLeftKey)) && !(Input.GetKey(moveRightKey)))
-            //moveHorizontal = 0.0f;
-
-        if (Input.GetKey(moveRightKey))
-        {
-            if (isSitting || isLock)
-            {
-                moveHorizontal = 0.0f;
-            }
-            else
-            {
-                moveHorizontal = 1.0f;
-            }
-
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-            atkPosition.rotation = Quaternion.Euler(0, 180, 0);
-
-            PlayerMovement();
-        }*/
     }
 
     protected void PlayerMovement()
@@ -385,7 +340,6 @@ public class Player : MonoBehaviour
                 return;
             else if (moveHorizontal > 0)
             {
-                //rigidBody.AddForce((movement).normalized / 4, ForceMode2D.Impulse);
                 rigidBody.velocity = movement * 0.05f + velocityYOnly;
             }
             else
@@ -424,7 +378,7 @@ public class Player : MonoBehaviour
 
     protected void OnPlayerJump()
     {
-        if (Input.GetKeyDown(jumpKey) && !isJumping && !isSitting && cJumpCount < cMaxJumpCount && !isLock) //canPlayerState[3]
+        if (Input.GetKeyDown(jumpKey) && !isJumping && !isSitting && cJumpCount < cMaxJumpCount && !isLock)
         {
             rigidBody.velocity = Vector2.zero;
             Managers.Sound.PlaySFX("Jump");
@@ -462,28 +416,18 @@ public class Player : MonoBehaviour
 
     protected virtual void OnPlayerDash()
     {
-        /*if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
-        {
-            DoubleClickDash(true);
-        }
-
-        if (Input.GetKeyDown(moveRightKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
-        {
-            DoubleClickDash(false);
-        }*/
+        
     }
 
     protected void OnPlayerSit()
     {
-        if (Input.GetKeyDown(sitKey) && !isJumping) //canPlayerState[2]
+        if (Input.GetKeyDown(sitKey) && !isJumping) 
         {
             StartCoroutine(PlayerSit());
         }
-        else if (!(Input.GetKey(sitKey)) && isSitting) //Input.GetKeyUp(KeyCode.DownArrow)
+        else if (!(Input.GetKey(sitKey)) && isSitting) 
         {
             isSitting = false;
-            //canPlayerState[0] = true;
-            //canPlayerState[1] = true;
             playerAnimator.SetBool("isSit", false);
         }
 
@@ -529,7 +473,7 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", false);
         playerAnimator.SetBool("isDead", true);
         reviveZone.SetActive(true);
-        PlayerForcedInputDisable(); //PlayerStateTransition(false, 0);
+        PlayerForcedInputDisable(); 
         Invoke("InvokeTimer", 10.0f);
 
         while (!isTimerEnd) //wait 10 seconds
@@ -552,8 +496,6 @@ public class Player : MonoBehaviour
 
         if (!isReviveSuccess)
         {
-            //Real Dead
-            //Destroy(gameObject);
             Managers.Sound.PlaySFX("Dead");
             isPlayerDead = true;
             this.gameObject.SetActive(false);
@@ -575,9 +517,8 @@ public class Player : MonoBehaviour
     {
         reviveZone.SetActive(false);
         Managers.Sound.PlaySFX("Revive");
-        //canPlayerState[0] = true;
         cLife = 1;
-        PlayerForcedInputEnable(); //PlayerStateTransition(true, 0);
+        PlayerForcedInputEnable();
         playerAnimator.SetBool("isDead", false);
         Instantiate(reviveEffect, transform);
         StartCoroutine(Invincible(3.0f));
@@ -638,7 +579,7 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", false);
             isHit = false;
             if (!playerAnimator.GetBool("isDead"))
-                PlayerInputControl(true, OnPlayerMove);//canPlayerState[0] = true;
+                PlayerInputControl(true, OnPlayerMove);
             yield return new WaitForSeconds(2.5f);
         }
     }
@@ -650,12 +591,11 @@ public class Player : MonoBehaviour
             playerAnimator.SetBool("isHit", true);
             StartCoroutine(Invincible(3.0f));
             int dir = transform.position.x - enemyPos.x > 0 ? 1 : -1;
-            //rigidBody.AddForce(new Vector2(dir, 1) * 4f, ForceMode2D.Impulse);
             yield return new WaitForSeconds(0.5f);
             playerAnimator.SetBool("isHit", false);
             isHit = false;
             if (!playerAnimator.GetBool("isDead"))
-                PlayerInputControl(true, OnPlayerMove); //canPlayerState[0] = true;
+                PlayerInputControl(true, OnPlayerMove); 
             yield return new WaitForSeconds(2.5f);
         }
     }
@@ -689,14 +629,12 @@ public class Player : MonoBehaviour
         playerAnimator.SetBool("isDash", true);
         Managers.Sound.PlaySFX("Dash");
         PlayerInputControl(false, OnPlayerMove, OnPlayerAttack, OnPlayerDash, OnPlayerJump, OnPlayerSit);
-        //canPlayerState[1] = false;
         isDashing = true;
         moveHorizontal = 0.0f;
         isDashCoolEnd = false;
         float originalGravity = rigidBody.gravityScale;
         dashDirection = 0;
         rigidBody.gravityScale = 0f;
-        //rigidBody.velocity = Vector2.zero;
         if (transform.rotation.y == 0)
         {
             dashDirection = -1;
@@ -708,8 +646,6 @@ public class Player : MonoBehaviour
         if (isSurfaceEffector && dashDirection == 1)
             dashDirection *= 2;
         Instantiate(dashEffect, transform.position, transform.rotation * Quaternion.Euler(0, 0, -90));
-        //dashEffect.transform.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
-        //rigidBody.velocity = new Vector2(dashDirection * 20, 0.0f);
         yield return new WaitForSeconds(cDashTime);
         rigidBody.velocity = Vector2.zero;
         rigidBody.gravityScale = originalGravity;
@@ -720,7 +656,6 @@ public class Player : MonoBehaviour
         isDashCoolEnd = true;
         if (!isSitting)
             PlayerInputControl(true, OnPlayerDash);
-        //canPlayerState[1] = true;
     }
 
     protected IEnumerator PlayerSit(bool isTimeLimit = false, float time = 0.5f)
@@ -728,17 +663,11 @@ public class Player : MonoBehaviour
         isSitting = true;
         playerAnimator.SetBool("isSit", true);
         PlayerInputControl(false, OnPlayerJump, OnPlayerDash);
-        //canPlayerState[1] = false;
-        //canPlayerState[0] = false;
         defaultAtkPosition = atkPosition.transform.localPosition;
         sitAtkPosition = defaultAtkPosition;
         sitAtkPosition.y = defaultAtkPosition.y - 0.7f;
         playerCollider.size = sitPlayerColliderSize;
         atkPosition.transform.localPosition = sitAtkPosition;
-        //if (canPlayerState[1])
-        //{
-            //canPlayerState[1] = false;
-        //}
         if (isDashCoolEnd)
         {
             Managers.Input.keyAction -= OnPlayerDash;
@@ -748,8 +677,6 @@ public class Player : MonoBehaviour
         {
             yield return new WaitForSeconds(time);
             isSitting = false;
-            //canPlayerState[1] = true;
-            //canPlayerState[0] = true;
             playerAnimator.SetBool("isSit", false);
         }
 

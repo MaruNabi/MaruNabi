@@ -38,7 +38,6 @@ public class PlayerNabi : Player
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
-        //playerCollider = GetComponent<BoxCollider2D>();
         playerCollider = GetComponent<CapsuleCollider2D>();
         isNabiTraitActivated = false;
         NabiTraitScore = 0;
@@ -94,8 +93,8 @@ public class PlayerNabi : Player
         }
         else
         {
-            bulletPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 1);
-            skillPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 1);
+            bulletPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 2);
+            skillPrefab_1 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 2);
             bulletPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Bullet_" + 3);
             skillPrefab_2 = Resources.Load<GameObject>("Prefabs/Player/Bullets/NABI_Skill_" + 3);
         }
@@ -139,7 +138,6 @@ public class PlayerNabi : Player
 
         if (InputManager.isNeedInit)
         {
-            //InputManager.isNeedInit = false;
             if (playerMaru.isPlayerDead)
                 InputManager.isNeedInit = false;
             OnPlayerInit();
@@ -296,9 +294,6 @@ public class PlayerNabi : Player
                 PlayerMovement();
             }
 
-            //if (!(Input.GetKey(moveLeftKey)) && !(Input.GetKey(moveRightKey)))
-            //moveHorizontal = 0.0f;
-
             if (Input.GetKey(moveRightKey))
             {
                 if (isSitting || isLock)
@@ -360,33 +355,13 @@ public class PlayerNabi : Player
         {
             StartCoroutine("PlayerDash");
         }
-        /*if (!isPad)
-        {
-            if (Input.GetKeyDown(moveLeftKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
-            {
-                DoubleClickDash(true);
-            }
-
-            if (Input.GetKeyDown(moveRightKey) && !isSitting && !isLock && isDashCoolEnd) //canPlayerState[1]
-            {
-                DoubleClickDash(false);
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(dashKey) && !isSitting && !isLock && isDashCoolEnd)
-            {
-                StartCoroutine("PlayerDash");
-            }
-        }*/
     }
 
     protected override void OnPlayerAttack()
     {
         base.OnPlayerAttack();
 
-        //ToDo : getkey and curtime switch
-        if (curTime <= 0) //canPlayerState[4]
+        if (curTime <= 0) 
         {
             if (Input.GetKey(normalAtkKey) && !isAttacksNow)
             {
@@ -408,11 +383,10 @@ public class PlayerNabi : Player
         }
         curTime -= Time.deltaTime;
 
-        if (Input.GetKeyDown(specialAtkKey)) //canPlayerState[4]
+        if (Input.GetKeyDown(specialAtkKey))
         {
             if (ultimateGauge == maxUltimateGauge)
             {
-                //StartCoroutine(PlayerSit(true));
                 GameObject skillObject = Managers.Pool.Pop(currentSkillPrefab, playerSkills.transform).gameObject;
                 skillObject.transform.position = atkPosition.position;
                 skillObject.transform.rotation = transform.rotation;
@@ -435,7 +409,6 @@ public class PlayerNabi : Player
         {
             Managers.Sound.PlaySFX("Transition");
             canChangeSkillSet = false;
-            //canPlayerState[4] = false;
             skillChangeUI.GetComponent<PlayerSkillChange>().SkillChangeImage();
             currentBulletPrefab = bulletPrefab_2;
             currentSkillPrefab = skillPrefab_2;
